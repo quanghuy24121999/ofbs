@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
 
-import AuthenService from '../services/authenService';
+import AuthenService from '../services/AuthenService';
 
 class login extends Component {
   constructor() {
