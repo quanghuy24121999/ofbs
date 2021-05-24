@@ -12,6 +12,6 @@ public interface UserService extends UserDetailsService{
 	public List<User> findAll();
 	
 	public UserDetails loadUserByUsername(String username);
-	
+	//1
 	public User save(UserDTO user) ;
 }
