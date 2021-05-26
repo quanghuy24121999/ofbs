@@ -33,8 +33,7 @@ class register extends Component {
 
         let phoneNumber = this.state.phoneNumber;
         let recapcha = new firebase.auth.RecaptchaVerifier("recaptcha");
-
-        firebase.auth().signInWithPhoneNumber(phoneNumber, recapcha)
+        firebase.auth().signInWithPhonephoneNumber(phoneNumber, recapcha)
             .then(function (e) {
                 let code = prompt("Nhập mã OTP", "");
                 if (code == null) return;
