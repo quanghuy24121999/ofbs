@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import edu.fpt.ofbs.entities.User;
+import edu.fpt.ofbs.entities.Users;
 import edu.fpt.ofbs.models.UserDTO;
 import edu.fpt.ofbs.repositories.UserRepository;
 import edu.fpt.ofbs.service.UserService;
@@ -23,26 +23,25 @@ public class UserServiceImpl implements UserService{
 	private PasswordEncoder passwordEncoder;
 
 	@Override
-	public List<User> findAll() {
+	public List<Users> findAll() {
 		return userRepository.findAll();
 	}
 
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepository.findByUsername(username);
+	public UserDetails loadUserByUsername(String phoneLogin) throws UsernameNotFoundException {
+		Users user = userRepository.findByPhoneLogin(phoneLogin);
 		if(user == null) {
-			throw new UsernameNotFoundException("User not found with username: " + username);
+			throw new UsernameNotFoundException("User not found with phone number: " + phoneLogin);
 		}
-		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
+		return new org.springframework.security.core.userdetails.User(user.getPhoneLogin(), user.getPassword(),
                 new ArrayList<>());
 	}	
 	
-	public User save(UserDTO user) {
-        User newUser = new User();
-        newUser.setUsername(user.getUsername());
+	public Users save(UserDTO user) {
+        Users newUser = new Users();
+        newUser.setPhoneLogin(user.getPhoneLogin());
         newUser.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(newUser);
     }
-	
 }

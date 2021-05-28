@@ -19,37 +19,37 @@ public class Users {
 	@Column(name = "phone_login")
 	private String phoneLogin;
 
-	@Column
+	@Column(name = "password")
 	private String password;
-
+	
 	@Column(name = "first_name")
 	private String firstName;
-
+	
 	@Column(name = "last_name")
 	private String lastName;
-
+	
 	@Column(name = "phone_number")
 	private String phoneNumber;
-
-	@Column
+	
+	@Column(name = "gender")
 	private boolean gender;
-
+	
 	@Column(name = "date_of_birth")
 	private Date dateOfBirth;
-
-	@Column
+	
+	@Column(name = "address")
 	private String address;
-
-	@Column
+	
+	@Column(name = "email")
 	private String email;
-
+	
 	@Column(name = "status_id")
 	private int statusId;
-
+	
 	@Column(name = "role_id")
 	private int roleId;
-
-	@Column(name = "last_modified")
+	
+	@Column(name = "last_modified_date")
 	private Date lastModified;
 
 	public Users() {
@@ -88,6 +88,14 @@ public class Users {
 
 	public void setPhoneLogin(String phoneLogin) {
 		this.phoneLogin = phoneLogin;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getFirstName() {
@@ -146,12 +154,12 @@ public class Users {
 		this.email = email;
 	}
 
-	public int getStstusId() {
+	public int getStatusId() {
 		return statusId;
 	}
 
-	public void setStstusId(int ststusId) {
-		this.statusId = ststusId;
+	public void setStatusId(int statusId) {
+		this.statusId = statusId;
 	}
 
 	public int getRoleId() {
@@ -170,11 +178,6 @@ public class Users {
 		this.lastModified = lastModified;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
+	
+	
 }
