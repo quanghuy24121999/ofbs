@@ -32,7 +32,7 @@ public class UserController {
 
 	@GetMapping("/findByPhoneNumber/{phoneNumber}")
 	public ResponseEntity<?> findByPhoneNumber(@PathVariable("phoneNumber") String phoneNumber) {
-		UserDTO userDTO = userService.findByPhoneNumberLogin(phoneNumber);
-		return ResponseEntity.status(HttpStatus.OK).body(userDTO);
+		Users users = userService.findByPhoneNumberLogin(phoneNumber);
+		return ResponseEntity.status(HttpStatus.OK).body(users);
 	}
 }
