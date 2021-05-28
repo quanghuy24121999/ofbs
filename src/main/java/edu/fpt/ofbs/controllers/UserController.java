@@ -7,9 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.fpt.ofbs.entities.Users;
@@ -18,18 +17,22 @@ import edu.fpt.ofbs.service.UserService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-public class MyController {
+@RequestMapping("/users")
+public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@GetMapping("/user")
-	public ResponseEntity<?> getAllUser() {
+	@GetMapping("")
+	public ResponseEntity<?> getAllUsers() {
 		List<Users> users = userService.findAll();
+		System.out.println(users);
 		return ResponseEntity.status(HttpStatus.OK).body(users);
 	}
+	
 
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public ResponseEntity<?> saveUser(@RequestBody UserDTO user) throws Exception {
-		return ResponseEntity.ok(userService.save(user));
+	@GetMapping("/findByPhoneNumber/{phoneNumber}")
+	public ResponseEntity<?> findByPhoneNumber(@PathVariable("phoneNumber") String phoneNumber) {
+		Users users = userService.findByPhoneNumberLogin(phoneNumber);
+		return ResponseEntity.status(HttpStatus.OK).body(users);
 	}
 }
