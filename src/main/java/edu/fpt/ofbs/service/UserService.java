@@ -10,6 +10,8 @@ import edu.fpt.ofbs.models.UserDTO;
 
 public interface UserService extends UserDetailsService{
 	public List<Users> findAll();
+	
+	public UserDTO findByPhoneNumberLogin(String phoneNumber);
 
 	public Users save(UserDTO user) ;
 }

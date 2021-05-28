@@ -3,6 +3,9 @@ package edu.fpt.ofbs.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,6 +24,9 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired 
+	private EntityManager entityManager;
 
 	@Override
 	public List<Users> findAll() {
@@ -44,4 +50,14 @@ public class UserServiceImpl implements UserService{
         newUser.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(newUser);
     }
+
+	@Override
+	public UserDTO findByPhoneNumberLogin(String phoneNumber) {
+		String sql = "Select u from users u where u.phone_login like '%:phoneNumber%'";
+		
+		TypedQuery<UserDTO> query = entityManager.createQuery(sql, UserDTO.class);
+		query.setParameter("phoneNumber", phoneNumber);
+		
+		return query.getResultList().get(0);
+	}
 }

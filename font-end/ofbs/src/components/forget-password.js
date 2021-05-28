@@ -41,6 +41,10 @@ export default class forgetPassword extends Component {
         e.preventDefault();
 
         let phoneNumber = this.state.phoneNumber;
+        
+        phoneNumber = '+84' + phoneNumber.substring(1, phoneNumber.length);
+        console.log(phoneNumber);
+
         let recapcha = new firebase.auth.RecaptchaVerifier("recaptcha");
         firebase.auth().signInWithPhoneNumber(phoneNumber, recapcha)
             .then(function (e) {
@@ -48,11 +52,20 @@ export default class forgetPassword extends Component {
                 if (code == null) return;
                 e.confirm(code)
                     .then(function (result) {
-                        document.getElementById('toast-message').style.display = "block";
+                        document.getElementById('toast-message-success').style.display = "block";
+                        window.setTimeout(() =>
+                            document.getElementById('toast-message-success').style.display = "none"
+                            , 5000
+                        );
                         recapcha.clear();
                     })
                     .catch((error) => {
-                        console.log(error);
+                        document.getElementById('toast-message-error').style.display = "block";
+                        window.setTimeout(() =>
+                            document.getElementById('toast-message-error').style.display = "none"
+                            , 5000
+                        );
+                        recapcha.clear();
                     });
             }).catch((error) => {
                 console.log(error)
@@ -66,9 +79,8 @@ export default class forgetPassword extends Component {
 
         return (
             <div className="container">
-                <div className="title-foget-password">Quên mật khẩu</div>
-                <div>Hãy nhập số điện thoại di động và chúng tôi sẽ gửi cho quý khách mã xác minh để đổi mật khẩu.</div>
                 <Form inline className="form-forget-password" onSubmit={this.handleClick}>
+                    <div className="title-foget-password">Quên mật khẩu</div>
                     <FormGroup>
                         <Label for="phone-number" hidden>Số điện thoại:  </Label>
                         <div className="phone-number-input">
@@ -112,13 +124,23 @@ export default class forgetPassword extends Component {
                     <div id="recaptcha"></div>
                     <Input type="submit" value="Gửi mã OTP" className="btn-register btn btn-primary btn-forget-password" />
                 </Form>
-                <div className="p-3 bg-success my-2 rounded" id="toast-message">
+                <div className="p-3 bg-success my-2 rounded" id="toast-message-success">
                     <Toast>
                         <ToastHeader>
                             Thành công
                         </ToastHeader>
                         <ToastBody>
                             Bạn đã đổi mật khẩu thành công
+                        </ToastBody>
+                    </Toast>
+                </div>
+                <div className="p-3 bg-danger my-2 rounded" id="toast-message-error">
+                    <Toast>
+                        <ToastHeader>
+                            Thất bại
+                        </ToastHeader>
+                        <ToastBody>
+                            Bạn đã đổi mật khẩu không thành công
                         </ToastBody>
                     </Toast>
                 </div>

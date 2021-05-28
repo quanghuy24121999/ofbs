@@ -32,12 +32,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
 
-		final String requestTokenHeader = request.getHeader("Authorization");
-
-		String username = null;
-		String jwtToken = null;
-
-		jwtToken = requestTokenHeader;
+//		final String requestTokenHeader = request.getHeader("Authorization");
+//
+//		String username = null;
+//		String jwtToken = null;
+//
+//		jwtToken = requestTokenHeader;
 //		System.out.println(jwtToken);
 //		try {
 //			username = jwtTokenUtil.getUsernameFromToken(jwtToken);
@@ -61,21 +61,21 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 //		}
 //		chain.doFilter(request, response);
 //		
-		if (jwtToken != null) {
-			String credentials = jwtToken.substring("Basic".length()).trim();
-			System.out.println(credentials);
-			if (!credentials.equals("")) {
-				byte[] decoded = DatatypeConverter.parseBase64Binary(credentials);
-				String decodedString = new String(decoded);
-				String[] actualCredentials = decodedString.split(":");
-				if (actualCredentials.length == 2) {
-					String ID = actualCredentials[0];
-					String Password = actualCredentials[1];
-					System.out.println(ID);
-					System.out.println(Password);
+//		if (jwtToken != null) {
+//			String credentials = jwtToken.substring("Basic".length()).trim();
+//			System.out.println(credentials);
+//			if (!credentials.equals("")) {
+//				byte[] decoded = DatatypeConverter.parseBase64Binary(credentials);
+//				String decodedString = new String(decoded);
+//				String[] actualCredentials = decodedString.split(":");
+//				if (actualCredentials.length == 2) {
+//					String ID = actualCredentials[0];
+//					String Password = actualCredentials[1];
+//					System.out.println(ID);
+//					System.out.println(Password);
 					chain.doFilter(request, response);
-				}
-			}
-		}
+//				}
+//			}
+//		}
 	}
 }
