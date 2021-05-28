@@ -9,6 +9,8 @@ import TopMenu from "./components/topMenu";
 import home from "./components/home";
 import login from "./components/login";
 import register from "./components/register";
+import forgetPassword from "./components/forget-password";
+
 class App extends Component {
   render() {
     return (
@@ -19,6 +21,7 @@ class App extends Component {
             <Route path="/" exact component={home} />
             <Route path="/login" component={login} />
             <Route path="/register" component={register} />
+            <Route path="/forget-password" component={forgetPassword} />
           </div>
         </Router>
     );
