@@ -2,6 +2,8 @@ package edu.fpt.ofbs.controllers;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.fpt.ofbs.config.JwtTokenUtil;
-import edu.fpt.ofbs.entities.User;
+import edu.fpt.ofbs.entities.Users;
 import edu.fpt.ofbs.models.JwtRequest;
 import edu.fpt.ofbs.models.JwtResponse;
 import edu.fpt.ofbs.models.UserDTO;
@@ -35,10 +37,10 @@ public class MyController {
 
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
-
+	
 	@GetMapping("/user")
 	public ResponseEntity<?> getAllUser() {
-		List<User> users = userService.findAll();
+		List<Users> users = userService.findAll();
 		return ResponseEntity.status(HttpStatus.OK).body(users);
 	}
 
@@ -47,26 +49,26 @@ public class MyController {
 		return ResponseEntity.ok(userService.save(user));
 	}
 
-	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-
-		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-
-		final UserDetails userDetails = userService.loadUserByUsername(authenticationRequest.getUsername());
-
-		final String token = jwtTokenUtil.generateToken(userDetails);
-		final String username = jwtTokenUtil.getUsernameFromToken(token);
-
-		return ResponseEntity.ok(new JwtResponse(username, token));
-	}
-
-	private void authenticate(String username, String password) throws Exception {
-		try {
-			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-		} catch (DisabledException e) {
-			throw new Exception("USER_DISABLED", e);
-		} catch (BadCredentialsException e) {
-			throw new Exception("INVALID_CREDENTIALS", e);
-		}
-	}
+//	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+//	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+//
+//		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+//
+//		final UserDetails userDetails = userService.loadUserByUsername(authenticationRequest.getUsername());
+//
+//		final String token = jwtTokenUtil.generateToken(userDetails);
+//		final String username = jwtTokenUtil.getUsernameFromToken(token);
+//
+//		return ResponseEntity.ok(new JwtResponse(username, token));
+//	}
+//
+//	private void authenticate(String username, String password) throws Exception  {
+//		try {
+//			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+//		} catch (DisabledException e) {
+//			throw new Exception("USER_DISABLED", e);
+//		} catch (BadCredentialsException e) {
+//			throw new Exception("INVALID_CREDENTIALS", e);
+//		}
+//	}
 }
