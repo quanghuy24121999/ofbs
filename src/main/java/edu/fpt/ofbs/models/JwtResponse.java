@@ -2,10 +2,10 @@ package edu.fpt.ofbs.models;
 
 public class JwtResponse {
 	private final String jwttoken;
-	private String username;
+	private String phoneLogin;
 
-	public JwtResponse(String username, String jwttoken) {
-		this.username = username;
+	public JwtResponse(String phoneLogin, String jwttoken) {
+		this.phoneLogin = phoneLogin;
 		this.jwttoken = jwttoken;
 	}
 
@@ -13,7 +13,7 @@ public class JwtResponse {
 		return this.jwttoken;
 	}
 	
-	public String getUsername() {
-		return this.username;
+	public String getPhoneLogin() {
+		return this.phoneLogin;
 	}
 }
