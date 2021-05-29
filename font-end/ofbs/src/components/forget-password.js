@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
-import { Form, FormGroup, Label, Input, Toast, ToastBody, ToastHeader } from 'reactstrap';
+import { Redirect } from 'react-router';
+import { Form, FormGroup, Label, Input, Toast, ToastBody, ToastHeader, Alert } from 'reactstrap';
 
 import firebase from "../config/firebase";
+
+import userPath from '../services/UserPath';
 
 export default class forgetPassword extends Component {
     constructor() {
@@ -10,13 +13,15 @@ export default class forgetPassword extends Component {
         this.state = {
             phoneNumber: "",
             password: "",
-            rePassword: "",
+            rePassword: ""
         }
 
         this.onchangePhoneNumber = this.onchangePhoneNumber.bind(this);
         this.onchangePassword = this.onchangePassword.bind(this);
         this.onchangeRePassword = this.onchangeRePassword.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.updatePassword = this.updatePassword.bind(this);
+        this.validateConfirmPassword = this.validateConfirmPassword.bind(this);
     }
 
     onchangePhoneNumber(e) {
@@ -37,45 +42,77 @@ export default class forgetPassword extends Component {
         });
     }
 
+    updatePassword() {
+        console.log(this.state.userId);
+        userPath.patch('/update/' + this.state.userId, {
+            "password": this.state.password
+        })
+    }
+
     handleClick(e) {
         e.preventDefault();
 
+        let { password } = this.state;
         let phoneNumber = this.state.phoneNumber;
-        
-        phoneNumber = '+84' + phoneNumber.substring(1, phoneNumber.length);
-        console.log(phoneNumber);
-
-        let recapcha = new firebase.auth.RecaptchaVerifier("recaptcha");
-        firebase.auth().signInWithPhoneNumber(phoneNumber, recapcha)
-            .then(function (e) {
-                let code = prompt("Nhập mã OTP", "");
-                if (code == null) return;
-                e.confirm(code)
-                    .then(function (result) {
-                        document.getElementById('toast-message-success').style.display = "block";
-                        window.setTimeout(() =>
-                            document.getElementById('toast-message-success').style.display = "none"
-                            , 5000
-                        );
-                        recapcha.clear();
-                    })
-                    .catch((error) => {
-                        document.getElementById('toast-message-error').style.display = "block";
-                        window.setTimeout(() =>
-                            document.getElementById('toast-message-error').style.display = "none"
-                            , 5000
-                        );
-                        recapcha.clear();
-                    });
-            }).catch((error) => {
-                console.log(error)
+        userPath.get('/findByPhoneNumber/' + phoneNumber)
+            .then(res => {
+                if (res.data !== null && res.data !== '') {
+                    document.getElementById('error-form1').style.display = "none";
+                    document.getElementById('error-form2').style.display = "none";
+                    if (this.validateConfirmPassword() === true) {
+                        document.getElementById('error-form1').style.display = "none";
+                        document.getElementById('error-form2').style.display = "none";
+                        phoneNumber = '+84' + phoneNumber.substring(1, phoneNumber.length);
+                        let recapcha = new firebase.auth.RecaptchaVerifier("recaptcha");
+                        firebase.auth().signInWithPhoneNumber(phoneNumber, recapcha)
+                            .then(function (e) {
+                                let code = prompt("Nhập mã OTP", "");
+                                if (code == null) return;
+                                e.confirm(code)
+                                    .then(function (result) {
+                                        userPath.patch('/update/' + res.data.id, {
+                                            "password": password
+                                        })
+                                        document.getElementById('toast-message-success').style.display = "block";
+                                        window.setTimeout(() =>
+                                            document.getElementById('toast-message-success').style.display = "none"
+                                            , 5000
+                                        );
+                                        recapcha.clear();
+                                    })
+                                    .catch((error) => {
+                                        console.log(error);
+                                        document.getElementById('toast-message-error').style.display = "block";
+                                        window.setTimeout(() =>
+                                            document.getElementById('toast-message-error').style.display = "none"
+                                            , 5000
+                                        );
+                                        recapcha.clear();
+                                    });
+                            }).catch((error) => {
+                                console.log(error)
+                            });
+                    } else {
+                        document.getElementById('error-form2').style.display = "block";
+                    }
+                } else {
+                    document.getElementById('error-form1').style.display = "block";
+                }
             });
     }
 
+    validateConfirmPassword() {
+        const { password, rePassword } = this.state;
+
+        if (password !== rePassword) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     render() {
-        let { phoneNumber } = this.state;
-        let { password } = this.state;
-        let { rePassword } = this.state;
+        let { phoneNumber, password, rePassword } = this.state;
 
         return (
             <div className="container">
@@ -93,6 +130,7 @@ export default class forgetPassword extends Component {
                                 placeholder="Số điện thoại"
                                 value={phoneNumber}
                                 onChange={this.onchangePhoneNumber}
+                                required="required"
                             />
                         </div>
                     </FormGroup>
@@ -106,6 +144,7 @@ export default class forgetPassword extends Component {
                             placeholder="Mật khẩu mới"
                             value={password}
                             onChange={this.onchangePassword}
+                            required="required"
                         />
                     </FormGroup>
                     {' '}
@@ -118,11 +157,19 @@ export default class forgetPassword extends Component {
                             placeholder="Nhập lại mật khẩu mới"
                             value={rePassword}
                             onChange={this.onchangeRePassword}
+                            required="required"
+                        // onBlur={this.onBlurRePassword(password, rePassword)}
                         />
                     </FormGroup>
                     {' '}
-                    <div id="recaptcha"></div>
-                    <Input type="submit" value="Gửi mã OTP" className="btn-register btn btn-primary btn-forget-password" />
+                    <div id="recaptcha" className="container"></div>
+                    <Alert color="danger" id="error-form1" className="error-form">
+                        Số điện thoại không đúng !
+                    </Alert>
+                    <Alert color="danger" id="error-form2" className="error-form">
+                        Mật khẩu không trùng !
+                    </Alert>
+                    <Input type="submit" value="Gửi mã OTP" className="btn-register btn btn-success btn-forget-password" />
                 </Form>
                 <div className="p-3 bg-success my-2 rounded" id="toast-message-success">
                     <Toast>
@@ -140,7 +187,7 @@ export default class forgetPassword extends Component {
                             Thất bại
                         </ToastHeader>
                         <ToastBody>
-                            Bạn đã đổi mật khẩu không thành công
+                            Bạn đổi mật khẩu không thành công
                         </ToastBody>
                     </Toast>
                 </div>

@@ -1,6 +1,12 @@
 body {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+/*--------- VARIABLES ----------*/
+:root {
+  --color-primary: #198754;
 }
 
 /*--------- TOP MENU ----------*/
@@ -38,11 +44,26 @@ body {
 }
 
 .form-forget-password {
+  position: relative;
   margin-top: 80px;
   width: 350px;
-  padding: 30px 30px 60px 30px;
+  padding: 50px 30px 60px 30px;
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+}
+
+.form-forget-password::before {
+  display: block;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 8px;
+  background-color: var(--color-primary);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
 .phone-number-input {
@@ -56,6 +77,12 @@ body {
 
 .prefix-phone-input {
   margin: 0 10px 0 0;
+}
+
+.error-form {
+  text-align: center;
+  margin-bottom: 0px;
+  display: none;
 }
 
 .btn-forget-password {

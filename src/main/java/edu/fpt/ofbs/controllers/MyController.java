@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.fpt.ofbs.entities.Users;
+import edu.fpt.ofbs.entities.User;
 import edu.fpt.ofbs.models.UserDTO;
 import edu.fpt.ofbs.service.UserService;
 
@@ -24,12 +24,12 @@ public class MyController {
 	
 	@GetMapping("/user")
 	public ResponseEntity<?> getAllUser() {
-		List<Users> users = userService.findAll();
-		return ResponseEntity.status(HttpStatus.OK).body(users);
+		List<User> user = userService.findAll();
+		return ResponseEntity.status(HttpStatus.OK).body(user);
 	}
-
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public ResponseEntity<?> saveUser(@RequestBody UserDTO user) throws Exception {
-		return ResponseEntity.ok(userService.save(user));
-	}
+//
+//	@RequestMapping(value = "/register", method = RequestMethod.POST)
+//	public ResponseEntity<?> saveUser(@RequestBody UserDTO user) throws Exception {
+//		return ResponseEntity.ok(userService.save(user));
+//	}
 }
