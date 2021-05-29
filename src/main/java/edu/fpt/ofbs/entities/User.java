@@ -9,9 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity(name = "users")
+@Entity(name = "user")
 @Table(name = "users")
-public class Users {
+public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -52,10 +52,10 @@ public class Users {
 	@Column(name = "last_modified_date")
 	private Date lastModified;
 
-	public Users() {
+	public User() {
 	}
 
-	public Users(int id, String phoneLogin, String password, String firstName, String lastName, String phoneNumber,
+	public User(int id, String phoneLogin, String password, String firstName, String lastName, String phoneNumber,
 			boolean gender, Date dateOfBirth, String address, String email, int statusId, int roleId,
 			Date lastModified) {
 		super();

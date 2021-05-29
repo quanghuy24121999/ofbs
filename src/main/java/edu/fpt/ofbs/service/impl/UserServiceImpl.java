@@ -1,5 +1,6 @@
 package edu.fpt.ofbs.service.impl;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -7,8 +8,7 @@ import javax.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import edu.fpt.ofbs.entities.Users;
-import edu.fpt.ofbs.models.UserDTO;
+import edu.fpt.ofbs.entities.User;
 import edu.fpt.ofbs.repositories.UserRepository;
 import edu.fpt.ofbs.service.UserService;
 
@@ -21,25 +21,30 @@ public class UserServiceImpl implements UserService{
 	private EntityManager entityManager;
 
 	@Override
-	public List<Users> findAll() {
+	public List<User> findAll() {
 		return userRepository.findAll();
 	}
 
 	
-	public Users save(UserDTO user) {
-        Users newUser = new Users();
-        return userRepository.save(newUser);
+	public User save(User user) {
+        return userRepository.save(user);
     }
 
 	@Override
-	public Users findByPhoneNumberLogin(String phoneNumber) {
-		String sql = "Select u from users u where u.phoneLogin like :phoneNumber";
+	public User findByPhoneNumberLogin(String phoneNumber) {
+		String sql = "Select u from user u where u.phoneLogin = :phoneNumber";
 		
-		TypedQuery<Users> query = entityManager.createQuery(sql, Users.class);
-		query.setParameter("phoneNumber","%" + phoneNumber + "%");
+		TypedQuery<User> query = entityManager.createQuery(sql, User.class);
+		query.setParameter("phoneNumber", phoneNumber);
 		if (query.getResultList().size() > 0) {
 			return query.getResultList().get(0);
 		}
-		return new Users();
+		return null;
+	}
+
+
+	@Override
+	public Optional<User> findById(int id) {
+		return userRepository.findById(id);
 	}
 }

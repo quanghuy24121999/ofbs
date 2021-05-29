@@ -1,14 +1,16 @@
 package edu.fpt.ofbs.service;
 
 import java.util.List;
+import java.util.Optional;
 
-import edu.fpt.ofbs.entities.Users;
-import edu.fpt.ofbs.models.UserDTO;
+import edu.fpt.ofbs.entities.User;
 
 public interface UserService {
-	public List<Users> findAll();
+	public List<User> findAll();
 	
-	public Users findByPhoneNumberLogin(String phoneNumber);
+	public User findByPhoneNumberLogin(String phoneNumber);
+	
+	public Optional<User> findById(int id);
 
-	public Users save(UserDTO user) ;
+	public User save(User user) ;
 }
