@@ -5,8 +5,7 @@ import {
     NavbarToggler,
     NavbarBrand,
     Nav,
-    NavItem,
-    NavLink
+    NavItem
 } from "reactstrap";
 
 import { BrowserRouter as Route, Link } from "react-router-dom";
@@ -18,26 +17,22 @@ const TopMenu = () => {
 
     return (
         <div>
-            <Navbar color="light" light expand="md">
+            <Navbar className="top-menu" color="success" dark expand="md">
                 <NavbarBrand href="/">OFBS</NavbarBrand>
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
-                    <Nav className="mr-auto" navbar>
+                    <Nav className="mr-auto nav" navbar>
                         <NavItem>
-                            <NavLink>
-                                <Link to="/">Trang chủ</Link>
-                            </NavLink>
+                            <Link className="link" to="/">Trang chủ</Link>
                         </NavItem>
-                        <NavItem>
-                            <NavLink>
-                                <Link to="/login/">Đăng nhập</Link>
-                            </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink>
-                                <Link to="/register/">Đăng ký</Link>
-                            </NavLink>
-                        </NavItem>
+                        <div className="authen">
+                            <NavItem>
+                                <Link className="link" to="/login/">Đăng nhập</Link>
+                            </NavItem>
+                            <NavItem>
+                                <Link className="link" to="/register/">Đăng ký</Link>
+                            </NavItem>
+                        </div>
                     </Nav>
                 </Collapse>
             </Navbar>

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router';
 import { Form, FormGroup, Label, Input, Toast, ToastBody, ToastHeader, Alert } from 'reactstrap';
 
 import firebase from "../config/firebase";

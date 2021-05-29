@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +27,8 @@ import edu.fpt.ofbs.service.UserService;
 public class UserController {
 	@Autowired
 	private UserService userService;
+	
+	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@GetMapping("")
 	public ResponseEntity<?> getAllUsers() {
@@ -39,14 +43,12 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.OK).body(user);
 	}
 
-//	@PutMapping("/update/{id}")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.PATCH)
 	public ResponseEntity<?> updateUser(@PathVariable("id") int id, @RequestBody User user) {
 		Optional<User> userOption = userService.findById(id);
-		
 		if(userOption.isPresent()) {
 			User _user = userOption.get();
-			_user.setPassword(user.getPassword());
+			_user.setPassword(passwordEncoder.encode(user.getPassword()));
 			return new ResponseEntity<>(userService.save(_user), HttpStatus.OK);	
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
