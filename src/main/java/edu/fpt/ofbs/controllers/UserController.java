@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,7 +26,7 @@ import edu.fpt.ofbs.service.UserService;
 public class UserController {
 	@Autowired
 	private UserService userService;
-	
+
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@GetMapping("")
@@ -47,21 +45,23 @@ public class UserController {
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.PATCH)
 	public ResponseEntity<?> updateUser(@PathVariable("id") int id, @RequestBody User user) {
 		Optional<User> userOption = userService.findById(id);
-		if(userOption.isPresent()) {
+		if (userOption.isPresent()) {
 			User _user = userOption.get();
 			_user.setPassword(passwordEncoder.encode(user.getPassword()));
-			return new ResponseEntity<>(userService.save(_user), HttpStatus.OK);	
+			return new ResponseEntity<>(userService.save(_user), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		
+
 	}
-	
+
 	@PostMapping("/login")
 	public ResponseEntity<?> findUserLogin(@RequestBody User user) {
-		User userLogin = userService.findUserLogin(user.getPhoneLogin(), user.getPassword());
-		if(userLogin != null) {
-			return ResponseEntity.status(HttpStatus.OK).body(userLogin);
+		User userLogin = userService.findByPhoneNumberLogin(user.getPhoneLogin());
+		if (userLogin != null) {
+			if (passwordEncoder.matches(user.getPassword(), userLogin.getPassword())) {
+				return ResponseEntity.status(HttpStatus.OK).body(userLogin);
+			}
 		}
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}

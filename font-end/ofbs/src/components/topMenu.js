@@ -27,10 +27,10 @@ const TopMenu = () => {
                         </NavItem>
                         <div className="authen">
                             <NavItem>
-                                <Link className="link" to="/login/">Đăng nhập</Link>
+                                <Link className="link" to="/login">Đăng nhập</Link>
                             </NavItem>
                             <NavItem>
-                                <Link className="link" to="/register/">Đăng ký</Link>
+                                <Link className="link" to="/register">Đăng ký</Link>
                             </NavItem>
                         </div>
                     </Nav>

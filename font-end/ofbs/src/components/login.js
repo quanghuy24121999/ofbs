@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { Form, FormGroup, Label, Input, Toast, ToastBody, ToastHeader, Alert } from 'reactstrap';
-import { Link, Redirect} from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 // import AuthenService from '../services/AuthenService';
 
@@ -49,9 +49,9 @@ class login extends Component {
         //   , 5000
         // );
         this.setState({
-          redirect : true
+          redirect: true
         });
-        
+
       }).catch((error) => {
         document.getElementById('toast-message-error').style.display = "block";
         window.setTimeout(() =>
@@ -62,16 +62,16 @@ class login extends Component {
   }
 
   render() {
-    let { phoneLogin, password , redirect} = this.state;
-    if(redirect === true){
+    let { phoneLogin, password, redirect } = this.state;
+    if (redirect === true) {
       return <Redirect to="/" />;
     }
     return <div className="container">
-      <h3 className="login-heading mb-4">Đăng nhập</h3>
       <Form className="form-login" inline
         onSubmit={this.onSubmit}
       >
-        <FormGroup className="mb-2 mr-sm-2 mb-sm-0 mt-4 form-group">
+        <div className="login-heading mb-4">Đăng nhập</div>
+        <FormGroup className="mb-2 mr-sm-2 mb-sm-0 form-group">
           <Label for="phone-number" hidden>Số điện thoại:  </Label>
           <div className="phone-number-input">
             <span className="prefix-phone-input">(+84)</span>
@@ -88,8 +88,8 @@ class login extends Component {
           </div>
         </FormGroup>
         {' '}
-        <FormGroup className="mb-2 mr-sm-2 mb-sm-0 mt-4 form-group">
-          <Label for="examplePassword" className="mr-sm-2 ">Mật khẩu</Label>
+        <FormGroup className="mb-2 mr-sm-2 mb-sm-0 form-group">
+          <Label for="examplePassword" className="mr-sm-2 ">Mật khẩu:</Label>
           <Input
             type="password"
             name="password"
@@ -100,14 +100,14 @@ class login extends Component {
             required="required"
           />
         </FormGroup>
-        <Input type="submit" value="Đăng nhập" className="btn-login btn btn-primary" />
+        <Input type="submit" value="Đăng nhập" className="btn-login btn btn-success" />
+        
+        <div className="link-form">
+          <Link to="/forget-password" className="link-forget-password">Quên mật khẩu ?</Link>
+          <Link to="/register" className="link-register">Đăng kí tài khoản mới</Link>
+        </div>
       </Form>
-      <br />
-      <div>
-        <Link to="/forget-password">Quên mật khẩu ?</Link>
-        <br />
-        <Link to="/register">Đăng kí tài khoản mới</Link>
-      </div>
+
       <div className="p-3 bg-success my-2 rounded" id="toast-message-success">
         <Toast>
           <ToastHeader>

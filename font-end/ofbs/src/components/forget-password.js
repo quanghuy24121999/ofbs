@@ -53,6 +53,7 @@ export default class forgetPassword extends Component {
 
         let { password } = this.state;
         let phoneNumber = this.state.phoneNumber;
+        phoneNumber = '+84' + phoneNumber.substring(1, phoneNumber.length);
         userPath.get('/findByPhoneNumber/' + phoneNumber)
             .then(res => {
                 if (res.data !== null && res.data !== '') {
@@ -61,7 +62,7 @@ export default class forgetPassword extends Component {
                     if (this.validateConfirmPassword() === true) {
                         document.getElementById('error-form1').style.display = "none";
                         document.getElementById('error-form2').style.display = "none";
-                        phoneNumber = '+84' + phoneNumber.substring(1, phoneNumber.length);
+                        
                         let recapcha = new firebase.auth.RecaptchaVerifier("recaptcha");
                         firebase.auth().signInWithPhoneNumber(phoneNumber, recapcha)
                             .then(function (e) {
