@@ -13,4 +13,6 @@ public interface UserService {
 	public Optional<User> findById(int id);
 
 	public User save(User user) ;
+	
+	public User findUserLogin(String phone, String password);
 }

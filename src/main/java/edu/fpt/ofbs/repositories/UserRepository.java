@@ -7,5 +7,5 @@ import edu.fpt.ofbs.entities.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>{
-	User findByPhoneLogin(String phoneLogin);
+
 }

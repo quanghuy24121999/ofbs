@@ -47,4 +47,18 @@ public class UserServiceImpl implements UserService{
 	public Optional<User> findById(int id) {
 		return userRepository.findById(id);
 	}
+
+
+	@Override
+	public User findUserLogin(String phone, String password) {
+		String sql = "Select u from user u where u.phoneLogin = :phone and u.password = :password";
+		
+		TypedQuery<User> query = entityManager.createQuery(sql, User.class);
+		query.setParameter("phone", phone);
+		query.setParameter("password", password);
+		if (query.getResultList().size() > 0) {
+			return query.getResultList().get(0);
+		}
+		return null;
+	}
 }
