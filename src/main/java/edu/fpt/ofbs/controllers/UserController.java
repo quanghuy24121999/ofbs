@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -54,6 +55,15 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		
+	}
+	
+	@PostMapping("/login")
+	public ResponseEntity<?> findUserLogin(@RequestBody User user) {
+		User userLogin = userService.findUserLogin(user.getPhoneLogin(), user.getPassword());
+		if(userLogin != null) {
+			return ResponseEntity.status(HttpStatus.OK).body(userLogin);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
 }
