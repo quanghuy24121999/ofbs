@@ -5,7 +5,8 @@ import {
     NavbarToggler,
     NavbarBrand,
     Nav,
-    NavItem
+    NavItem,
+    CardImg
 } from "reactstrap";
 
 import { BrowserRouter as Route, Link } from "react-router-dom";
@@ -17,8 +18,10 @@ const TopMenu = () => {
 
     return (
         <div>
-            <Navbar className="top-menu" color="success" dark expand="md">
-                <NavbarBrand href="/">OFBS</NavbarBrand>
+            <Navbar className="top-menu" color="success" expand="md">
+                <NavbarBrand className="logo" href="/">
+                    <CardImg src={process.env.PUBLIC_URL + '/images/logo_header.png'} alt="Logo" />
+                </NavbarBrand>
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="mr-auto nav" navbar>
