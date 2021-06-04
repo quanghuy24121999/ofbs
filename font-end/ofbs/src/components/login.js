@@ -1,5 +1,8 @@
 import { Component } from 'react';
-import { Form, FormGroup, Label, Input, Toast, ToastBody, ToastHeader, Alert } from 'reactstrap';
+import {
+  Form, FormGroup, Label, Input, Toast,
+  ToastBody, ToastHeader
+} from 'reactstrap';
 import { Link, Redirect } from "react-router-dom";
 
 // import AuthenService from '../services/AuthenService';
@@ -97,13 +100,13 @@ class login extends Component {
             name="password"
             id="examplePassword"
             placeholder="Mật khẩu"
-            value={this.state.password}
+            value={password}
             onChange={this.onchangePassword}
             required="required"
           />
         </FormGroup>
         <Input type="submit" value="Đăng nhập" className="btn-login btn btn-success" />
-        
+
         <div className="link-form">
           <Link to="/forget-password" className="link-forget-password">Quên mật khẩu ?</Link>
           <Link to="/register" className="link-register">Đăng kí tài khoản mới</Link>
