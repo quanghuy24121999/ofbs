@@ -15,4 +15,6 @@ public interface UserService {
 	public User save(User user) ;
 	
 	public User findUserLogin(String phone, String password);
+	
+//	public User register(User user);
 }

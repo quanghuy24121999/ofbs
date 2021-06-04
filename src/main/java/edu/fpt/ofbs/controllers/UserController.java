@@ -1,5 +1,7 @@
 package edu.fpt.ofbs.controllers;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,4 +68,20 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
+	@PostMapping("/register")
+	public ResponseEntity<?> newUserRegister(@RequestBody User user) {
+		User newUser = new User();
+		if (user != null) {
+			newUser.setPhoneLogin(user.getPhoneLogin());
+			newUser.setFirstName(user.getFirstName());
+			newUser.setLastName(user.getLastName());
+			newUser.setPassword(passwordEncoder.encode(user.getPassword()));
+			newUser.setPhoneNumber(user.getPhoneNumber());
+			newUser.setStatusId(1);
+			newUser.setRoleId(3);
+			newUser.setLastModified(Date.valueOf(LocalDate.now()));
+		}
+		userService.save(newUser);
+		return ResponseEntity.status(HttpStatus.OK).body(newUser);
+	}
 }
