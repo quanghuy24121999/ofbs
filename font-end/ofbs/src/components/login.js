@@ -5,6 +5,7 @@ import { Link, Redirect } from "react-router-dom";
 // import AuthenService from '../services/AuthenService';
 
 import userPath from '../services/UserPath';
+import TopMenu from './topMenu';
 
 class login extends Component {
   constructor() {
@@ -67,6 +68,7 @@ class login extends Component {
       return <Redirect to="/" />;
     }
     return <div className="container">
+      <TopMenu />
       <Form className="form-login" inline
         onSubmit={this.onSubmit}
       >

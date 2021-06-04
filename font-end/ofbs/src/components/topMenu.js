@@ -18,9 +18,9 @@ const TopMenu = () => {
 
     return (
         <div>
-            <Navbar className="top-menu" color="success" expand="md">
+            <Navbar className="top-menu" expand="md">
                 <NavbarBrand className="logo" href="/">
-                    <CardImg src={process.env.PUBLIC_URL + '/images/logo_header.png'} alt="Logo" />
+                    <CardImg src={process.env.PUBLIC_URL + '/images/logo_header-removebg-preview.png'} alt="Logo" />
                 </NavbarBrand>
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>

@@ -4,6 +4,7 @@ import { Form, FormGroup, Label, Input, Toast, ToastBody, ToastHeader, Alert } f
 import firebase from "../config/firebase";
 
 import userPath from '../services/UserPath';
+import TopMenu from './topMenu';
 
 export default class forgetPassword extends Component {
     constructor() {
@@ -116,6 +117,7 @@ export default class forgetPassword extends Component {
 
         return (
             <div className="container">
+            <TopMenu />
                 <Form inline className="form-forget-password" onSubmit={this.handleClick}>
                     <div className="title-foget-password">Quên mật khẩu</div>
                     <FormGroup>
@@ -162,7 +164,7 @@ export default class forgetPassword extends Component {
                         />
                     </FormGroup>
                     {' '}
-                    <div id="recaptcha" className="container"></div>
+                    <div id="recaptcha"></div>
                     <Alert color="danger" id="error-form1" className="error-form">
                         Số điện thoại không đúng !
                     </Alert>
