@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-import { Form, FormGroup, Label, Input, Toast, ToastBody, ToastHeader, Alert } from 'reactstrap';
+import {
+    Form, FormGroup, Label, Input, Toast,
+    ToastBody, ToastHeader, Alert
+} from 'reactstrap';
 
 import firebase from "../config/firebase";
 
@@ -63,7 +66,7 @@ export default class forgetPassword extends Component {
                     if (this.validateConfirmPassword() === true) {
                         document.getElementById('error-form1').style.display = "none";
                         document.getElementById('error-form2').style.display = "none";
-                        
+
                         let recapcha = new firebase.auth.RecaptchaVerifier("recaptcha");
                         firebase.auth().signInWithPhoneNumber(phoneNumber, recapcha)
                             .then(function (e) {
@@ -117,7 +120,7 @@ export default class forgetPassword extends Component {
 
         return (
             <div className="container">
-            <TopMenu />
+                <TopMenu />
                 <Form inline className="form-forget-password" onSubmit={this.handleClick}>
                     <div className="title-foget-password">Quên mật khẩu</div>
                     <FormGroup>

@@ -9,7 +9,7 @@ import {
     CardImg
 } from "reactstrap";
 
-import { BrowserRouter as Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const TopMenu = () => {
     const [isOpen, setIsOpen] = useState(false);

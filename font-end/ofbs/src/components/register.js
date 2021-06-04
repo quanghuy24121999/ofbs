@@ -1,6 +1,8 @@
 import { Component } from "react";
 import firebase from "../config/firebase";
-import { Form, FormGroup, Label, Input, Toast, ToastBody, ToastHeader, Alert } from 'reactstrap';
+import { Form, FormGroup, Label, Input, Toast,
+    ToastBody, ToastHeader, Alert 
+} from 'reactstrap';
 
 import TopMenu from './topMenu';
 import userPath from '../services/UserPath';
@@ -90,7 +92,7 @@ class register extends Component {
                                         userPath.post('/register', {
                                             firstName: firstName,
                                             lastName: lastName,
-                                            phoneNumber: phoneNumber,
+                                            phoneLogin: phoneNumber,
                                             password: password,
                                             phoneNumber: phoneNumber
                                         })
