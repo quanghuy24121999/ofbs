@@ -12,15 +12,13 @@ class register extends Component {
         super();
 
         this.state = {
-            firstName: "",
-            lastName: "",
+            name: "",
             phoneNumber: "",
             password: "",
             rePassword: "",
         }
 
-        this.onchangeFirstName = this.onchangeFirstName.bind(this);
-        this.onchangeLastName = this.onchangeLastName.bind(this);
+        this.onchangeName = this.onchangeName.bind(this);
         this.onchangePhoneNumber = this.onchangePhoneNumber.bind(this);
         this.onchangePassword = this.onchangePassword.bind(this);
         this.onchangeRePassword = this.onchangeRePassword.bind(this);
@@ -28,15 +26,9 @@ class register extends Component {
         this.validateConfirmPassword = this.validateConfirmPassword.bind(this);
     }
 
-    onchangeFirstName(e) {
+    onchangeName(e) {
         this.setState({
-            firstName: e.target.value
-        })
-    }
-
-    onchangeLastName(e) {
-        this.setState({
-            lastName: e.target.value
+            name: e.target.value
         })
     }
 
@@ -71,12 +63,12 @@ class register extends Component {
     handleClick(e) {
         e.preventDefault();
 
-        let { firstName, lastName, phoneNumber, password } = this.state;
+        let { name, password } = this.state;
 
         const phone = '+84' + this.state.phoneNumber.substring(1, this.state.phoneNumber.length);
         userPath.get('/findByPhoneNumber/' + phone)
             .then(res => {
-                if (res.data === null && res.data === '') {
+                if (res.data === null || res.data === '') {
                     document.getElementById('error-form1').style.display = "none";
                     document.getElementById('error-form2').style.display = "none";
                     if (this.validateConfirmPassword() === true) {
@@ -90,11 +82,10 @@ class register extends Component {
                                 e.confirm(code)
                                     .then(function (result) {
                                         userPath.post('/register', {
-                                            firstName: firstName,
-                                            lastName: lastName,
-                                            phoneLogin: phoneNumber,
+                                            name: name,
+                                            phoneLogin: phone,
                                             password: password,
-                                            phoneNumber: phoneNumber
+                                            phoneNumber: phone
                                         })
                                         document.getElementById('toast-message-success').style.display = "block";
                                         window.setTimeout(() =>
@@ -125,7 +116,7 @@ class register extends Component {
     }
 
     render() {
-        let { firstName, lastName, phoneNumber, password, rePassword } = this.state;
+        let { name, phoneNumber, password, rePassword } = this.state;
 
         return (
             <div className="container">
@@ -135,26 +126,14 @@ class register extends Component {
                 >
                     <div className="title-register">Đăng ký</div>
                     <FormGroup>
-                        <Label for="first-name">Họ</Label>
+                        <Label for="name">Họ và tên</Label>
                         <Input
                             type="text"
-                            name="firstName"
-                            id="first-name"
-                            placeholder="Họ"
-                            value={firstName}
-                            onChange={this.onchangeFirstName}
-                            required="required"
-                        />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="last-name">Tên</Label>
-                        <Input
-                            type="text"
-                            name="lastName"
-                            id="last-name"
-                            placeholder="Tên"
-                            value={lastName}
-                            onChange={this.onchangeLastName}
+                            name="Name"
+                            id="name"
+                            placeholder="Họ và tên "
+                            value={name}
+                            onChange={this.onchangeName}
                         />
                     </FormGroup>
                     <FormGroup>
