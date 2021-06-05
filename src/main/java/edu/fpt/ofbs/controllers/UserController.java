@@ -73,8 +73,7 @@ public class UserController {
 		User newUser = new User();
 		if (user != null) {
 			newUser.setPhoneLogin(user.getPhoneLogin());
-			newUser.setFirstName(user.getFirstName());
-			newUser.setLastName(user.getLastName());
+			newUser.setName(user.getName());
 			newUser.setPassword(passwordEncoder.encode(user.getPassword()));
 			newUser.setPhoneNumber(user.getPhoneNumber());
 			newUser.setStatusId(1);
