@@ -6,6 +6,7 @@ import {
 } from 'reactstrap';
 
 import TopMenu from './topMenu';
+import Footer from './footer';
 export default class home extends Component {
     render() {
         return (
@@ -133,6 +134,7 @@ export default class home extends Component {
                         </Container>
                     </div>
                 </div>
+                <Footer />
             </div>
         );
     }

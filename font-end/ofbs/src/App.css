@@ -394,3 +394,53 @@ body {
     opacity: 0;
   }
 }
+
+/*---------- FOOTER ----------*/
+footer {
+  width: 100%;
+  margin-top: 40px;
+}
+
+.footer-content {
+  padding: 50px;
+}
+
+.list-link {
+  font-size: 35px;
+}
+
+.list-link-1,
+.list-link-2 {
+  font-size: 16px;
+  margin-top: 35px;
+}
+
+a {
+  text-decoration: none;
+}
+
+.title-link {
+  color: #00be66;
+}
+
+.i-facebook,
+.i-youtube,
+.i-twitter {
+  color: #ffffff;
+}
+
+.i-facebook:hover {
+  color: #0572e6;
+}
+
+.i-youtube:hover {
+  color: #ff0000;
+}
+
+.i-twitter:hover {
+  color: #00b6f1;
+}
+
+.all-rights {
+  background-color: #000000;
+}
