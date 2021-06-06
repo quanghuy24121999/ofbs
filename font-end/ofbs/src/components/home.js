@@ -5,10 +5,32 @@ import {
     CardSubtitle, CardBody, Container
 } from 'reactstrap';
 
+import subVn from "sub-vn";
+
 import TopMenu from './topMenu';
 import Footer from './footer';
 export default class home extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            provinces: subVn.getProvinces(),
+            districts: []
+        };
+        this.onProvinceClick = this.onProvinceClick.bind(this);
+    }
+
+    onProvinceClick(event) {
+        event.preventDefault();
+        let provinceCode = event.target.value;
+        this.setState({
+            districts: subVn.getDistrictsByProvinceCode(provinceCode)
+        });
+    }
+
     render() {
+        let { provinces, districts } = this.state;
+
         return (
             <div className="home-container">
                 <TopMenu />
@@ -28,20 +50,27 @@ export default class home extends Component {
                         </FormGroup>
                         <div className="search-location">
                             <FormGroup className="citySelect">
-                                <Input type="select" name="citySelect" id="citySelect">
+                                <Input type="select" name="citySelect" id="citySelect" onChange={this.onProvinceClick}>
                                     <option>Tỉnh/ Thành phố</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
+                                    {provinces.map((province) => {
+                                        return (
+                                            <option key={province.code} value={province.code}>
+                                                {province.name}
+                                            </option>
+                                        );
+                                    })}
                                 </Input>
                             </FormGroup>
                             <FormGroup className="districtSelect">
                                 <Input type="select" name="districtSelect" id="districtSelect">
                                     <option>Quận/ Huyện</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
+                                    {districts.map((district) => {
+                                        return (
+                                            <option key={district.code} value={district.code}>
+                                                {district.name}
+                                            </option>
+                                        );
+                                    })}
                                 </Input>
                             </FormGroup>
                         </div>
