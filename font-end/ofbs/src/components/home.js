@@ -50,6 +50,7 @@ export default class home extends Component {
                         </FormGroup>
                         <div className="search-location">
                             <FormGroup className="citySelect">
+                                <Label for="citySelect"><b>Chọn tỉnh/ thành phố:</b></Label>
                                 <Input type="select" name="citySelect" id="citySelect" onChange={this.onProvinceClick}>
                                     <option>Tỉnh/ Thành phố</option>
                                     {provinces.map((province) => {
@@ -62,6 +63,7 @@ export default class home extends Component {
                                 </Input>
                             </FormGroup>
                             <FormGroup className="districtSelect">
+                                <Label for="districtSelect"><b>Chọn quận/ huyện: </b></Label>
                                 <Input type="select" name="districtSelect" id="districtSelect">
                                     <option>Quận/ Huyện</option>
                                     {districts.map((district) => {
@@ -75,6 +77,7 @@ export default class home extends Component {
                             </FormGroup>
                         </div>
                         <div className="search-other">
+                            <Label><b>Chọn ngày:</b></Label>
                             <FormGroup>
                                 <Input
                                     type="date"
