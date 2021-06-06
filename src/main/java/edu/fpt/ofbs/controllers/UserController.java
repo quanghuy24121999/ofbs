@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.fpt.ofbs.entities.User;
+import edu.fpt.ofbs.models.UserDTO;
 import edu.fpt.ofbs.service.UserService;
 
 @RestController
@@ -43,6 +44,11 @@ public class UserController {
 		User user = userService.findByPhoneNumberLogin(phoneNumber);
 		return ResponseEntity.status(HttpStatus.OK).body(user);
 	}
+//	@GetMapping("/findByPhoneNumber/{phoneNumber}")
+//	public ResponseEntity<?> findByPhoneNumber(@PathVariable("phoneNumber") String phoneNumber) {
+//		UserDTO user = userService.findByPhoneNumberLogin1(phoneNumber);
+//		return ResponseEntity.status(HttpStatus.OK).body(user);
+//	}
 
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.PATCH)
 	public ResponseEntity<?> updateUser(@PathVariable("id") int id, @RequestBody User user) {
