@@ -5,7 +5,7 @@ import { Form, FormGroup, Label, Input, Toast,
 } from 'reactstrap';
 
 import TopMenu from './topMenu';
-import userPath from '../services/UserPath';
+import axios from "axios";
 
 class register extends Component {
     constructor() {
@@ -66,7 +66,7 @@ class register extends Component {
         let { name, password } = this.state;
 
         const phone = '+84' + this.state.phoneNumber.substring(1, this.state.phoneNumber.length);
-        userPath.get('/findByPhoneNumber/' + phone)
+        axios.get('http://localhost:8080/users/findByPhoneNumber/' + phone)
             .then(res => {
                 if (res.data === null || res.data === '') {
                     document.getElementById('error-form1').style.display = "none";
@@ -81,7 +81,7 @@ class register extends Component {
                                 if (code == null) return;
                                 e.confirm(code)
                                     .then(function (result) {
-                                        userPath.post('/register', {
+                                        axios.post('http://localhost:8080/users/register', {
                                             name: name,
                                             phoneLogin: phone,
                                             password: password,
