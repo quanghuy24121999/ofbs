@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { Component } from 'react'
 import {
     Form, FormGroup, Label, Input, Toast,
@@ -58,7 +59,7 @@ export default class forgetPassword extends Component {
         let { password } = this.state;
         let phoneNumber = this.state.phoneNumber;
         phoneNumber = '+84' + phoneNumber.substring(1, phoneNumber.length);
-        userPath.get('/findByPhoneNumber/' + phoneNumber)
+        axios.get('http://localhost:8080/users/findByPhoneNumber/' + phoneNumber)
             .then(res => {
                 if (res.data !== null && res.data !== '') {
                     document.getElementById('error-form1').style.display = "none";
@@ -74,7 +75,7 @@ export default class forgetPassword extends Component {
                                 if (code == null) return;
                                 e.confirm(code)
                                     .then(function (result) {
-                                        userPath.patch('/update/' + res.data.id, {
+                                        axios.patch('http://localhost:8080/users/update/' + res.data.id, {
                                             "password": password
                                         })
                                         document.getElementById('toast-message-success').style.display = "block";

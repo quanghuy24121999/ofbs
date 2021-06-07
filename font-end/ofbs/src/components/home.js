@@ -5,17 +5,49 @@ import {
     CardSubtitle, CardBody, Container
 } from 'reactstrap';
 
+import axios from 'axios';
 import subVn from "sub-vn";
+import StarRatings from "react-star-ratings";
+import Carousel from 'react-multi-carousel';
 
 import TopMenu from './topMenu';
 import Footer from './footer';
+
+const responsive = {
+    desktop: {
+        breakpoint: {
+            max: 3000,
+            min: 1024
+        },
+        items: 3,
+        partialVisibilityGutter: 40
+    },
+    mobile: {
+        breakpoint: {
+            max: 464,
+            min: 0
+        },
+        items: 1,
+        partialVisibilityGutter: 30
+    },
+    tablet: {
+        breakpoint: {
+            max: 1024,
+            min: 464
+        },
+        items: 2,
+        partialVisibilityGutter: 30
+    }
+}
 export default class home extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             provinces: subVn.getProvinces(),
-            districts: []
+            districts: [],
+            restaurantsType1: [],
+            restaurantsType2: []
         };
         this.onProvinceClick = this.onProvinceClick.bind(this);
     }
@@ -28,8 +60,19 @@ export default class home extends Component {
         });
     }
 
+    componentDidMount() {
+        axios.get('http://localhost:8080/restaurants/1')
+            .then(res => {
+                this.setState({ restaurantsType1: res.data })
+            })
+        axios.get('http://localhost:8080/restaurants/2')
+            .then(res => {
+                this.setState({ restaurantsType2: res.data })
+            })
+    }
+
     render() {
-        let { provinces, districts } = this.state;
+        let { provinces, districts, restaurantsType1, restaurantsType2 } = this.state;
 
         return (
             <div className="home-container">
@@ -110,58 +153,41 @@ export default class home extends Component {
                         </div>
                         <Container className="content-restaurant-list">
                             <Row className="content-restaurant-row">
-                                <Col lg="3" md="6" sm="12">
-                                    <div className="item">
-                                        <Card>
-                                            <CardImg top width="100%" src="/assets/318x180.svg" alt="Card image cap" />
-                                            <CardBody>
-                                                <CardTitle tag="h5">Card title</CardTitle>
-                                                <CardSubtitle tag="h6" className="mb-2 text-muted">Card subtitle</CardSubtitle>
-                                                <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
-                                                <Button>Button</Button>
-                                            </CardBody>
-                                        </Card>
-                                    </div>
-                                </Col>
-                                <Col lg="3" md="6" sm="12">
-                                    <div className="item">
-                                        <Card>
-                                            <CardImg top width="100%" src="/assets/318x180.svg" alt="Card image cap" />
-                                            <CardBody>
-                                                <CardTitle tag="h5">Card title</CardTitle>
-                                                <CardSubtitle tag="h6" className="mb-2 text-muted">Card subtitle</CardSubtitle>
-                                                <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
-                                                <Button>Button</Button>
-                                            </CardBody>
-                                        </Card>
-                                    </div>
-                                </Col>
-                                <Col lg="3" md="6" sm="12">
-                                    <div className="item">
-                                        <Card>
-                                            <CardImg top width="100%" src="/assets/318x180.svg" alt="Card image cap" />
-                                            <CardBody>
-                                                <CardTitle tag="h5">Card title</CardTitle>
-                                                <CardSubtitle tag="h6" className="mb-2 text-muted">Card subtitle</CardSubtitle>
-                                                <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
-                                                <Button>Button</Button>
-                                            </CardBody>
-                                        </Card>
-                                    </div>
-                                </Col>
-                                <Col lg="3" md="6" sm="12">
-                                    <div className="item">
-                                        <Card>
-                                            <CardImg top width="100%" src="/assets/318x180.svg" alt="Card image cap" />
-                                            <CardBody>
-                                                <CardTitle tag="h5">Card title</CardTitle>
-                                                <CardSubtitle tag="h6" className="mb-2 text-muted">Card subtitle</CardSubtitle>
-                                                <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
-                                                <Button>Button</Button>
-                                            </CardBody>
-                                        </Card>
-                                    </div>
-                                </Col>
+                                <Carousel
+                                    responsive={responsive}
+                                    additionalTransfrom={0}
+                                    autoPlaySpeed={3000}
+                                    centerMode={true}
+                                    containerClass="container"
+                                    focusOnSelect={false}
+                                    // infinite={true}
+                                    slidesToSlide={1}
+                                    containerClass="container-with-dots"
+                                >
+                                    {restaurantsType1.map(restaurant => {
+                                        return <div key={restaurant.restaurantId} className="item">
+                                            <Card>
+                                                <CardImg top width="100%" src={'http://localhost:8080/images/' + restaurant.imageId} alt="Card image cap" />
+                                                <CardBody>
+                                                    <CardTitle tag="h5">{restaurant.restaurantName}</CardTitle>
+                                                    <CardSubtitle tag="h6" className="mb-2 text-muted">{restaurant.province}</CardSubtitle>
+                                                    <CardText>{'>' + restaurant.size + ' người'}</CardText>
+                                                    <StarRatings
+                                                        rating={restaurant.rate}
+                                                        starDimension="40px"
+                                                        starSpacing="15px"
+                                                        starRatedColor="#ffe200"
+                                                        numberOfStars={5}
+                                                        starSpacing="4px"
+                                                        starDimension='40px'
+                                                        className="rating-star"
+                                                    />
+                                                    <Button color="success">Xem thêm</Button>
+                                                </CardBody>
+                                            </Card>
+                                        </div>
+                                    })}
+                                </Carousel>
                             </Row>
                         </Container>
                     </div>

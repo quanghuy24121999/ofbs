@@ -5,9 +5,8 @@ import {
 } from 'reactstrap';
 import { Link, Redirect } from "react-router-dom";
 
-// import AuthenService from '../services/AuthenService';
+import axios from 'axios';
 
-import userPath from '../services/UserPath';
 import TopMenu from './topMenu';
 
 class login extends Component {
@@ -42,7 +41,7 @@ class login extends Component {
 
     const phone = '+84' + this.state.phoneLogin.substring(1, this.state.phoneLogin.length);
 
-    userPath.post('/login', {
+    axios.post('http://localhost:8080/users/login', {
       phoneLogin: phone,
       password: this.state.password
     })
