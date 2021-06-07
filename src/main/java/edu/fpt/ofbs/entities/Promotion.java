@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -22,46 +23,31 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@Entity(name = "user")
-@Table(name = "users")
-public class User {
+@Entity(name = "promotion")
+@Table(name = "promotions")
+public class Promotion {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-
-	@Column(name = "phone_login")
-	private String phoneLogin;
-
-	@Column(name = "password")
-	private String password;
 	
-	@Column(name = "name")
-	private String name;
+	@ManyToOne
+	@JoinColumn(name = "restaurant_id", referencedColumnName = "id")
+	private Restaurant restaurant;
 	
-	@Column(name = "phone_number")
-	private String phoneNumber;
+	private String description;
 	
-	@Column(name = "gender")
-	private boolean gender;
+	@Column(name = "discount_percentage")
+	private float discountPercentage;
 	
-	@Column(name = "date_of_birth")
-	private Date dateOfBirth;
+	private String type;
 	
-	@Column(name = "address")
-	private String address;
+	@Column(name = "start_date")
+	private Date startDate;
 	
-	@Column(name = "email")
-	private String email;
+	@Column(name = "end_date")
+	private Date endDate;
 	
 	@OneToOne
 	@JoinColumn(name = "status_id", referencedColumnName = "id")
 	private Status status;
-	
-	@OneToOne
-	@JoinColumn(name = "role_id", referencedColumnName = "id")
-	private Role role;
-	
-	@Column(name = "last_modified_date")
-	private Date lastModified;
-
 }

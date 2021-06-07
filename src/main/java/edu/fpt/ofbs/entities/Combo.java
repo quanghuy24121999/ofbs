@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -18,9 +21,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@Entity(name = "service")
-@Table(name = "services")
-public class Service {
+@Entity(name = "combo")
+@Table(name = "combos")
+public class Combo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -28,7 +31,15 @@ public class Service {
 	@Column(name = "name")
 	private String name;
 	
-	@Column(name = "description")
 	private String description;
-
+	
+	private float price;
+	
+	@ManyToOne
+	@JoinColumn(name = "restaurant_id", referencedColumnName = "id")
+	private Restaurant restaurant;
+	
+	@OneToOne
+	@JoinColumn(name = "status_id", referencedColumnName = "id")
+	private Status status;
 }

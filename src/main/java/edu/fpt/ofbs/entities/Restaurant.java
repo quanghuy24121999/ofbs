@@ -1,13 +1,12 @@
 package edu.fpt.ofbs.entities;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -22,46 +21,42 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@Entity(name = "user")
-@Table(name = "users")
-public class User {
+@Entity(name = "restaurant")
+@Table(name = "provider_restaurants")
+public class Restaurant {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-
-	@Column(name = "phone_login")
-	private String phoneLogin;
-
-	@Column(name = "password")
-	private String password;
 	
-	@Column(name = "name")
-	private String name;
+	@ManyToOne
+	@JoinColumn(name = "provider_id", referencedColumnName = "id")
+	private User provider;
+	
+	private String province;
+	
+	private String district;
+	
+	private String address;
 	
 	@Column(name = "phone_number")
 	private String phoneNumber;
 	
-	@Column(name = "gender")
-	private boolean gender;
+	@Column(name = "bussiness_license_id")
+	private String bussinessLicenseId;
 	
-	@Column(name = "date_of_birth")
-	private Date dateOfBirth;
-	
-	@Column(name = "address")
-	private String address;
-	
-	@Column(name = "email")
-	private String email;
+	@Column(name = "restaurant_name")
+	private String restaurantName;
 	
 	@OneToOne
 	@JoinColumn(name = "status_id", referencedColumnName = "id")
 	private Status status;
 	
-	@OneToOne
-	@JoinColumn(name = "role_id", referencedColumnName = "id")
-	private Role role;
+	private String description;
 	
-	@Column(name = "last_modified_date")
-	private Date lastModified;
+	private int size;
+	
+	@OneToOne
+	@JoinColumn(name = "provider_type_id", referencedColumnName = "id")
+	private ProviderType providerType;
 
 }

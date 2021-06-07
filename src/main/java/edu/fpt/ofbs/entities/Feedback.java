@@ -1,10 +1,14 @@
 package edu.fpt.ofbs.entities;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -18,17 +22,24 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@Entity(name = "service")
-@Table(name = "services")
-public class Service {
+@Entity(name = "feedback")
+@Table(name = "feedbacks")
+public class Feedback {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name = "name")
-	private String name;
+	@Column(name = "feedback_content")
+	private String feedbackContent;
 	
-	@Column(name = "description")
-	private String description;
+	@Column(name = "feedback_date")
+	private Date feedback_date;
+	
+	@Column(name = "rate")
+	private float rate;
+	
+	@ManyToOne
+	@JoinColumn(name = "restaurant_id", referencedColumnName = "id")
+	private Restaurant restaurant;
 
 }

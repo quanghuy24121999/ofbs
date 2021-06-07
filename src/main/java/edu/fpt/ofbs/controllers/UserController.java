@@ -19,7 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.fpt.ofbs.entities.Role;
+import edu.fpt.ofbs.entities.Status;
 import edu.fpt.ofbs.entities.User;
+import edu.fpt.ofbs.models.UserDTO;
+import edu.fpt.ofbs.service.RoleService;
+import edu.fpt.ofbs.service.StatusService;
 import edu.fpt.ofbs.service.UserService;
 
 @RestController
@@ -28,13 +33,19 @@ import edu.fpt.ofbs.service.UserService;
 public class UserController {
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private StatusService statusService;
+	
+	@Autowired
+	private RoleService roleService;
 
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@GetMapping("")
 	public ResponseEntity<?> getAllUsers() {
 		List<User> user = userService.findAll();
-		System.out.println(user);
+		
 		return ResponseEntity.status(HttpStatus.OK).body(user);
 	}
 
@@ -69,15 +80,20 @@ public class UserController {
 	}
 
 	@PostMapping("/register")
-	public ResponseEntity<?> newUserRegister(@RequestBody User user) {
+	public ResponseEntity<?> newUserRegister(@RequestBody UserDTO user) {
 		User newUser = new User();
 		if (user != null) {
 			newUser.setPhoneLogin(user.getPhoneLogin());
 			newUser.setName(user.getName());
 			newUser.setPassword(passwordEncoder.encode(user.getPassword()));
 			newUser.setPhoneNumber(user.getPhoneNumber());
-			newUser.setStatusId(1);
-			newUser.setRoleId(3);
+			
+			Status status = statusService.findStatusById(1);
+			newUser.setStatus(status);
+			
+			Role role = roleService.findRoleById(3);
+			newUser.setRole(role);
+			
 			newUser.setLastModified(Date.valueOf(LocalDate.now()));
 		}
 		userService.save(newUser);
