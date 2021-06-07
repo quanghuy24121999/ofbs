@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.fpt.ofbs.entities.User;
-import edu.fpt.ofbs.models.UserDTO;
 import edu.fpt.ofbs.repositories.UserRepository;
 
 @Service
