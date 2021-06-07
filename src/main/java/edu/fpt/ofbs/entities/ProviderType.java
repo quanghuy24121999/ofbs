@@ -18,17 +18,14 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@Entity(name = "service")
-@Table(name = "services")
-public class Service {
+@Entity(name = "providerType")
+@Table(name = "provider_types")
+public class ProviderType {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(name = "name")
 	private String name;
-	
-	@Column(name = "description")
-	private String description;
 
 }
