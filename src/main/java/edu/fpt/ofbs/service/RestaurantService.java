@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.fpt.ofbs.entities.Restaurant;
+import edu.fpt.ofbs.models.IRestaurantDTO;
 import edu.fpt.ofbs.models.RestaurantDTO;
 import edu.fpt.ofbs.repositories.RestaurantRepository;
 
@@ -15,8 +16,8 @@ public class RestaurantService {
 	@Autowired
 	private RestaurantRepository restaurantRepository;
 	
-	public List<RestaurantDTO> getRestaurantByType(int type){
-		return restaurantRepository.getRestaurantByType(type);
+	public List<IRestaurantDTO> getRestaurantByType(){
+		return restaurantRepository.getRestaurantByType();
 //		return restaurantRepository.findAll();
 	}
 }

@@ -23,7 +23,7 @@ public class ImageService{
 		
 			String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 			
-		    Image image = new Image(fileName, file.getBytes(), userId, dishId, serviceId, comboId, restaurantId, promotionId, typeId);
+		    Image image = new Image();
 //		    image.setName(fileName);
 //		    image.setValue(file.getBytes());
 //		    image.setUserId(userId);

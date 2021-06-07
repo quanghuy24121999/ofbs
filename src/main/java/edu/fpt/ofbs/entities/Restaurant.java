@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity(name = "restaurant")
@@ -39,8 +41,9 @@ public class Restaurant {
 	
 	private int size;
 	
-	@Column(name = "provider_type_id")
-	private int providerTypeId;
+	@OneToOne
+	@JoinColumn(name = "provider_type_id", referencedColumnName = "id")
+	private ProviderType providerType;
 
 	public Restaurant() {
 		super();
@@ -48,7 +51,7 @@ public class Restaurant {
 
 	public Restaurant(int id, int providerId, String province, String district, String address, String phoneNumber,
 			String bussinessLicenseId, String restaurantName, int statusId, String description, int size,
-			int providerTypeId) {
+			ProviderType providerType) {
 		super();
 		this.id = id;
 		this.providerId = providerId;
@@ -61,7 +64,7 @@ public class Restaurant {
 		this.statusId = statusId;
 		this.description = description;
 		this.size = size;
-		this.providerTypeId = providerTypeId;
+		this.providerType = providerType;
 	}
 
 	public int getId() {
@@ -152,12 +155,12 @@ public class Restaurant {
 		this.size = size;
 	}
 
-	public int getProviderTypeId() {
-		return providerTypeId;
+	public ProviderType getProviderType() {
+		return providerType;
 	}
 
-	public void setProviderTypeId(int providerTypeId) {
-		this.providerTypeId = providerTypeId;
+	public void setProviderType(ProviderType providerType) {
+		this.providerType = providerType;
 	}
 	
 }
