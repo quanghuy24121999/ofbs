@@ -23,18 +23,8 @@ public class ImageService{
 		
 			String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 			
-		    Image image = new Image();
-//		    image.setName(fileName);
-//		    image.setValue(file.getBytes());
-//		    image.setUserId(userId);
-//		    image.setDishId(dishId);
-//		    image.setServiceId(serviceId);
-//		    image.setComboId(comboId);
-//		    image.setRestaurantId(restaurantId);
-//		    image.setPromotionId(promotionId);
-//		    image.setTypeId(typeId);
-//		    insert into images (name, 1, 1, value, id) 
-//		    values (?, ?, ?, ?, ?)
+		    Image image = new Image(fileName, file.getBytes(), userId, dishId, serviceId, comboId, restaurantId, promotionId, typeId);
+		    
 			return imageRepository.save(image);
 	}
 

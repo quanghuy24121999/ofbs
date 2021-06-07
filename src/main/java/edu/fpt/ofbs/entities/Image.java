@@ -4,14 +4,25 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+//import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+//import javax.persistence.ManyToOne;
+//import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+//import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Data
+@NoArgsConstructor
+//@AllArgsConstructor
+@Getter
+@Setter
 @Entity(name = "image")
 @Table(name = "images")
 public class Image {
@@ -26,121 +37,67 @@ public class Image {
 	@Lob
 	private byte[] value;
 
+//	@OneToOne
+//	@JoinColumn(name = "user_id", referencedColumnName = "id")
+//	private User user;
+//
+//	@OneToOne
+//	@JoinColumn(name = "dish_id", referencedColumnName = "id")
+//	private Dish dish;
+//
+//	@OneToOne
+//	@JoinColumn(name = "service_id", referencedColumnName = "id")
+//	private Service service;
+//
+//	@OneToOne
+//	@JoinColumn(name = "combo_id", referencedColumnName = "id")
+//	private Combo combo;
+//
+//	@ManyToOne
+//	@JoinColumn(name = "restaurant_id", referencedColumnName = "id")
+//	private Restaurant restaurant;
+//
+//	@OneToOne
+//	@JoinColumn(name = "promotion_id", referencedColumnName = "id")
+//	private Promotion promotion;
+//
+//	@OneToOne
+//	@JoinColumn(name = "type_id", referencedColumnName = "id")
+//	private ImageType imageType;
+	
 	@Column(name = "user_id")
 	private String userId;
-
+	
 	@Column(name = "dish_id")
-	private String dishId;
-
+	private String dish;
+	
 	@Column(name = "service_id")
 	private String serviceId;
-
+	
 	@Column(name = "combo_id")
 	private String comboId;
-
-	@ManyToOne
-	@JoinColumn(name = "restaurant_id", referencedColumnName = "id")
-	private Restaurant restaurant;
-
+	
+	@Column(name = "restaurant_id")
+	private String restaurantId;
+	
 	@Column(name = "promotion_id")
 	private String promotionId;
+	
+	@Column(name = "type_id")
+	private String typeId;
 
-	@OneToOne
-	@JoinColumn(name = "type_id", referencedColumnName = "id")
-	private ImageType imageType;
-
-	public Image() {
-		super();
-	}
-
-	public Image(String name, byte[] value, String userId, String dishId, String serviceId, String comboId,
-			Restaurant restaurant, String promotionId, ImageType imageType) {
+	public Image(String name, byte[] value, String userId, String dish, String serviceId, String comboId,
+			String restaurantId, String promotionId, String typeId) {
 		super();
 		this.name = name;
 		this.value = value;
 		this.userId = userId;
-		this.dishId = dishId;
+		this.dish = dish;
 		this.serviceId = serviceId;
 		this.comboId = comboId;
-		this.restaurant = restaurant;
+		this.restaurantId = restaurantId;
 		this.promotionId = promotionId;
-		this.imageType = imageType;
+		this.typeId = typeId;
 	}
-
-	public String getId() {
-		return id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public byte[] getValue() {
-		return value;
-	}
-
-	public void setValue(byte[] value) {
-		this.value = value;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-
-	public String getDishId() {
-		return dishId;
-	}
-
-	public void setDishId(String dishId) {
-		this.dishId = dishId;
-	}
-
-	public String getServiceId() {
-		return serviceId;
-	}
-
-	public void setServiceId(String serviceId) {
-		this.serviceId = serviceId;
-	}
-
-	public String getComboId() {
-		return comboId;
-	}
-
-	public void setComboId(String comboId) {
-		this.comboId = comboId;
-	}
-
-	public Restaurant getRestaurant() {
-		return restaurant;
-	}
-
-	public void setRestaurant(Restaurant restaurant) {
-		this.restaurant = restaurant;
-	}
-
-	public String getPromotionId() {
-		return promotionId;
-	}
-
-	public void setPromotionId(String promotionId) {
-		this.promotionId = promotionId;
-	}
-
-	public ImageType getType() {
-		return imageType;
-	}
-
-	public void setType(ImageType typeId) {
-		this.imageType = typeId;
-	}
-
+	
 }

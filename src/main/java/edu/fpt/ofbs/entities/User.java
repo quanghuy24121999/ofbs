@@ -7,8 +7,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @Entity(name = "user")
 @Table(name = "users")
 public class User {
@@ -40,132 +53,15 @@ public class User {
 	@Column(name = "email")
 	private String email;
 	
-	@Column(name = "status_id")
-	private int statusId;
+	@OneToOne
+	@JoinColumn(name = "status_id", referencedColumnName = "id")
+	private Status status;
 	
-	@Column(name = "role_id")
-	private int roleId;
+	@OneToOne
+	@JoinColumn(name = "role_id", referencedColumnName = "id")
+	private Role role;
 	
 	@Column(name = "last_modified_date")
 	private Date lastModified;
 
-	public User() {
-	}
-
-	public User(int id, String phoneLogin, String password, String name, String phoneNumber,
-			boolean gender, Date dateOfBirth, String address, String email, int statusId, int roleId,
-			Date lastModified) {
-		super();
-		this.id = id;
-		this.phoneLogin = phoneLogin;
-		this.password = password;
-		this.name = name;
-		this.phoneNumber = phoneNumber;
-		this.gender = gender;
-		this.dateOfBirth = dateOfBirth;
-		this.address = address;
-		this.email = email;
-		this.statusId = statusId;
-		this.roleId = roleId;
-		this.lastModified = lastModified;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getPhoneLogin() {
-		return phoneLogin;
-	}
-
-	public void setPhoneLogin(String phoneLogin) {
-		this.phoneLogin = phoneLogin;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
-	public boolean isGender() {
-		return gender;
-	}
-
-	public void setGender(boolean gender) {
-		this.gender = gender;
-	}
-
-	public Date getDateOfBirth() {
-		return dateOfBirth;
-	}
-
-	public void setDateOfBirth(Date dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public int getStatusId() {
-		return statusId;
-	}
-
-	public void setStatusId(int statusId) {
-		this.statusId = statusId;
-	}
-
-	public int getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(int roleId) {
-		this.roleId = roleId;
-	}
-
-	public Date getLastModified() {
-		return lastModified;
-	}
-
-	public void setLastModified(Date lastModified) {
-		this.lastModified = lastModified;
-	}
-
-	
-	
 }

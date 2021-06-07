@@ -11,6 +11,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @Entity(name = "feedback")
 @Table(name = "feedbacks")
 public class Feedback {
@@ -30,62 +41,5 @@ public class Feedback {
 	@ManyToOne
 	@JoinColumn(name = "restaurant_id", referencedColumnName = "id")
 	private Restaurant restaurant;
-
-	public Feedback() {
-		super();
-	}
-
-	public Feedback(int id, String feedbackContent, Date feedback_date, float rate, Restaurant restaurant) {
-		super();
-		this.id = id;
-		this.feedbackContent = feedbackContent;
-		this.feedback_date = feedback_date;
-		this.rate = rate;
-		this.restaurant = restaurant;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getFeedbackContent() {
-		return feedbackContent;
-	}
-
-	public void setFeedbackContent(String feedbackContent) {
-		this.feedbackContent = feedbackContent;
-	}
-
-	public Date getFeedback_date() {
-		return feedback_date;
-	}
-
-	public void setFeedback_date(Date feedback_date) {
-		this.feedback_date = feedback_date;
-	}
-
-	public float getRate() {
-		return rate;
-	}
-
-	public void setRate(float rate) {
-		this.rate = rate;
-	}
-
-	public Restaurant getRestaurant() {
-		return restaurant;
-	}
-
-	public void setRestaurant(Restaurant restaurant) {
-		this.restaurant = restaurant;
-	}
-	
-	
-	
-	
 
 }

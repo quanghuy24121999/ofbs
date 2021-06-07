@@ -7,6 +7,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @Entity(name = "imageType")
 @Table(name = "image_types")
 public class ImageType {
@@ -18,30 +29,4 @@ public class ImageType {
 	@Column(name = "image_type")
 	private String imageType;
 
-	public ImageType() {
-		super();
-	}
-
-	public ImageType(int id, String imageType) {
-		super();
-		this.id = id;
-		this.imageType = imageType;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getImageType() {
-		return imageType;
-	}
-
-	public void setImageType(String imageType) {
-		this.imageType = imageType;
-	}
-	
 }

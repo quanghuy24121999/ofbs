@@ -1,31 +1,31 @@
 package edu.fpt.ofbs.models;
 
+import java.util.Date;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class UserDTO {
 	private String phoneLogin;
 
+	private String name;
+	
 	private String password;
+	
+	private String phoneNumber;
+	
+	private int roleId;
+	
+	private int statusId;
+	
+	private Date lastModified;
 
-	public UserDTO() {
-	}
-
-	public UserDTO(String phoneLogin, String password) {
-		this.phoneLogin = phoneLogin;
-		this.password = password;
-	}
-
-	public String getPhoneLogin() {
-		return phoneLogin;
-	}
-
-	public void setPhoneLogin(String name) {
-		this.phoneLogin = name;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 }

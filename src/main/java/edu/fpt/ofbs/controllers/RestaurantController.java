@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.fpt.ofbs.entities.Restaurant;
 import edu.fpt.ofbs.models.IRestaurantDTO;
-import edu.fpt.ofbs.models.RestaurantDTO;
 import edu.fpt.ofbs.service.RestaurantService;
 
 @RestController
@@ -23,12 +21,9 @@ public class RestaurantController {
 	@Autowired
 	private RestaurantService restaurantService;
 	
-	@GetMapping("/")
-//	@GetMapping("")
-	public ResponseEntity<?> getRestaurantByType() {
-//	public ResponseEntity<?> getRestaurantByType() {
-		List<IRestaurantDTO> restaurants = restaurantService.getRestaurantByType();
-//		List<Restaurant> restaurants = restaurantService.getRestaurantByType();
+	@GetMapping("/{type}")
+	public ResponseEntity<?> getRestaurantByType(@PathVariable("type") int type) {
+		List<IRestaurantDTO> restaurants = restaurantService.getRestaurantByType(type);
 		return ResponseEntity.status(HttpStatus.OK).body(restaurants);
 	}
 }
