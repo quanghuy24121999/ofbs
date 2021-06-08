@@ -14,7 +14,11 @@ public class RestaurantService {
 	@Autowired
 	private RestaurantRepository restaurantRepository;
 	
-	public List<IRestaurantDTO> getRestaurantByType(int type){
-		return restaurantRepository.getRestaurantByType(type);
+	public List<IRestaurantDTO> getRestaurantsByType(int type){
+		return restaurantRepository.getRestaurantsByType(type);
+	}
+	
+	public List<IRestaurantDTO> searchRestaurants(int type, String province, String district, String restaurantName){
+		return restaurantRepository.searchRestaurants(type, province, district, restaurantName);
 	}
 }
