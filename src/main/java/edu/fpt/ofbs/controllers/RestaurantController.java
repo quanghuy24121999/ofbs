@@ -2,6 +2,8 @@ package edu.fpt.ofbs.controllers;
 
 import java.util.List;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +24,15 @@ public class RestaurantController {
 	private RestaurantService restaurantService;
 	
 	@GetMapping("/{type}")
-	public ResponseEntity<?> getRestaurantByType(@PathVariable("type") int type) {
-		List<IRestaurantDTO> restaurants = restaurantService.getRestaurantByType(type);
+	public ResponseEntity<?> getRestaurantsByType(@PathVariable("type") int type) {
+		List<IRestaurantDTO> restaurants = restaurantService.getRestaurantsByType(type);
+		return ResponseEntity.status(HttpStatus.OK).body(restaurants);
+	}
+	
+	@GetMapping("")
+	public ResponseEntity<?> searchRestaurants(@PathParam("type") int type, @PathParam("province") String province,
+			@PathParam("district") String district, @PathParam("restaurantName") String restaurantName) {
+		List<IRestaurantDTO> restaurants = restaurantService.searchRestaurants(type, province, district, restaurantName);
 		return ResponseEntity.status(HttpStatus.OK).body(restaurants);
 	}
 }
