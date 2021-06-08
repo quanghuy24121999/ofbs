@@ -7,7 +7,7 @@ import { Link, Redirect } from "react-router-dom";
 
 import axios from 'axios';
 
-import TopMenu from './topMenu';
+import TopMenu from '../components/topMenu';
 
 class login extends Component {
   constructor() {

@@ -1,31 +1,35 @@
-import axios from 'axios';
-import React, { Component } from 'react'
-import {
-    Form, FormGroup, Label, Input, Toast,
-    ToastBody, ToastHeader, Alert
+import { Component } from "react";
+import firebase from "../config/firebase";
+import { Form, FormGroup, Label, Input, Toast,
+    ToastBody, ToastHeader, Alert 
 } from 'reactstrap';
 
-import firebase from "../config/firebase";
+import TopMenu from '../components/topMenu';
+import axios from "axios";
 
-import userPath from '../services/UserPath';
-import TopMenu from './topMenu';
-
-export default class forgetPassword extends Component {
+class register extends Component {
     constructor() {
         super();
 
         this.state = {
+            name: "",
             phoneNumber: "",
             password: "",
-            rePassword: ""
+            rePassword: "",
         }
 
+        this.onchangeName = this.onchangeName.bind(this);
         this.onchangePhoneNumber = this.onchangePhoneNumber.bind(this);
         this.onchangePassword = this.onchangePassword.bind(this);
         this.onchangeRePassword = this.onchangeRePassword.bind(this);
         this.handleClick = this.handleClick.bind(this);
-        this.updatePassword = this.updatePassword.bind(this);
         this.validateConfirmPassword = this.validateConfirmPassword.bind(this);
+    }
+
+    onchangeName(e) {
+        this.setState({
+            name: e.target.value
+        })
     }
 
     onchangePhoneNumber(e) {
@@ -46,37 +50,42 @@ export default class forgetPassword extends Component {
         });
     }
 
-    updatePassword() {
-        console.log(this.state.userId);
-        userPath.patch('/update/' + this.state.userId, {
-            "password": this.state.password
-        })
+    validateConfirmPassword() {
+        const { password, rePassword } = this.state;
+
+        if (password !== rePassword) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     handleClick(e) {
         e.preventDefault();
 
-        let { password } = this.state;
-        let phoneNumber = this.state.phoneNumber;
-        phoneNumber = '+84' + phoneNumber.substring(1, phoneNumber.length);
-        axios.get('http://localhost:8080/users/findByPhoneNumber/' + phoneNumber)
+        let { name, password } = this.state;
+
+        const phone = '+84' + this.state.phoneNumber.substring(1, this.state.phoneNumber.length);
+        axios.get('http://localhost:8080/users/findByPhoneNumber/' + phone)
             .then(res => {
-                if (res.data !== null && res.data !== '') {
+                if (res.data === null || res.data === '') {
                     document.getElementById('error-form1').style.display = "none";
                     document.getElementById('error-form2').style.display = "none";
                     if (this.validateConfirmPassword() === true) {
                         document.getElementById('error-form1').style.display = "none";
                         document.getElementById('error-form2').style.display = "none";
-
                         let recapcha = new firebase.auth.RecaptchaVerifier("recaptcha");
-                        firebase.auth().signInWithPhoneNumber(phoneNumber, recapcha)
+                        firebase.auth().signInWithPhoneNumber(phone, recapcha)
                             .then(function (e) {
                                 let code = prompt("Nhập mã OTP", "");
                                 if (code == null) return;
                                 e.confirm(code)
                                     .then(function (result) {
-                                        axios.patch('http://localhost:8080/users/update/' + res.data.id, {
-                                            "password": password
+                                        axios.post('http://localhost:8080/users/register', {
+                                            name: name,
+                                            phoneLogin: phone,
+                                            password: password,
+                                            phoneNumber: phone
                                         })
                                         document.getElementById('toast-message-success').style.display = "block";
                                         window.setTimeout(() =>
@@ -106,24 +115,27 @@ export default class forgetPassword extends Component {
             });
     }
 
-    validateConfirmPassword() {
-        const { password, rePassword } = this.state;
-
-        if (password !== rePassword) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
     render() {
-        let { phoneNumber, password, rePassword } = this.state;
+        let { name, phoneNumber, password, rePassword } = this.state;
 
         return (
             <div className="container">
                 <TopMenu />
-                <Form inline className="form-forget-password" onSubmit={this.handleClick}>
-                    <div className="title-foget-password">Quên mật khẩu</div>
+                <Form className="form-register" inline
+                    onSubmit={this.handleClick}
+                >
+                    <div className="title-register">Đăng ký</div>
+                    <FormGroup>
+                        <Label for="name">Họ và tên</Label>
+                        <Input
+                            type="text"
+                            name="Name"
+                            id="name"
+                            placeholder="Họ và tên "
+                            value={name}
+                            onChange={this.onchangeName}
+                        />
+                    </FormGroup>
                     <FormGroup>
                         <Label for="phone-number" hidden>Số điện thoại:  </Label>
                         <div className="phone-number-input">
@@ -142,12 +154,12 @@ export default class forgetPassword extends Component {
                     </FormGroup>
                     {' '}
                     <FormGroup>
-                        <Label for="new-password" hidden>Mật khẩu mới:</Label>
+                        <Label for="password" hidden>Mật khẩu :</Label>
                         <Input
                             type="password"
-                            name="newPassword"
-                            id="new-password"
-                            placeholder="Mật khẩu mới"
+                            name="password"
+                            id="password"
+                            placeholder="Mật khẩu"
                             value={password}
                             onChange={this.onchangePassword}
                             required="required"
@@ -155,12 +167,12 @@ export default class forgetPassword extends Component {
                     </FormGroup>
                     {' '}
                     <FormGroup>
-                        <Label for="re-new-password" hidden>Nhập lại mật khẩu mới:</Label>
+                        <Label for="re-password" hidden>Nhập lại mật khẩu:</Label>
                         <Input
                             type="password"
-                            name="reNewPassword"
-                            id="re-new-password"
-                            placeholder="Nhập lại mật khẩu mới"
+                            name="rePassword"
+                            id="re-password"
+                            placeholder="Nhập lại mật khẩu"
                             value={rePassword}
                             onChange={this.onchangeRePassword}
                             required="required"
@@ -170,12 +182,12 @@ export default class forgetPassword extends Component {
                     {' '}
                     <div id="recaptcha"></div>
                     <Alert color="danger" id="error-form1" className="error-form">
-                        Số điện thoại không đúng !
+                        Số điện thoại đã tồn tại !
                     </Alert>
                     <Alert color="danger" id="error-form2" className="error-form">
-                        Mật khẩu không trùng !
+                        Mật khẩu không khớp !
                     </Alert>
-                    <Input type="submit" value="Gửi mã OTP" className="btn-register btn btn-success btn-forget-password" />
+                    <Input type="submit" value="Đăng ký" className="btn-register btn btn-success btn-forget-password" />
                 </Form>
                 <div className="p-3 bg-success my-2 rounded" id="toast-message-success">
                     <Toast>
@@ -183,7 +195,7 @@ export default class forgetPassword extends Component {
                             Thành công
                         </ToastHeader>
                         <ToastBody>
-                            Bạn đã đổi mật khẩu thành công
+                            Bạn đã đăng ký thành công
                         </ToastBody>
                     </Toast>
                 </div>
@@ -193,11 +205,13 @@ export default class forgetPassword extends Component {
                             Thất bại
                         </ToastHeader>
                         <ToastBody>
-                            Bạn đổi mật khẩu không thành công
+                            Bạn đăng ký không thành công
                         </ToastBody>
                     </Toast>
                 </div>
             </div>
-        )
+        );
     }
 }
+
+export default register;

@@ -4,10 +4,11 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import './App.css';
-import home from "./components/home";
-import login from "./components/login";
-import register from "./components/register";
-import forgetPassword from "./components/forget-password";
+import home from "./screens/home";
+import login from "./screens/login";
+import register from "./screens/register";
+import forgetPassword from "./screens/forget-password";
+import searchResult from "./screens/searchResult";
 
 class App extends Component {
   render() {
@@ -18,6 +19,7 @@ class App extends Component {
             <Route path="/login" component={login} />
             <Route path="/register" component={register} />
             <Route path="/forget-password" component={forgetPassword} />
+            <Route path="/search-result" component={searchResult} />
           </div>
         </Router>
     );

@@ -53,7 +53,7 @@ body {
   display: flex;
 }
 
-/*--------- HOME ----------*/
+/*===================================================== HOME =============================================*/
 .home-container {
   margin-top: 70px;
   width: 100%;
@@ -143,6 +143,7 @@ body {
 }
 
 .search-other {
+  margin-top: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -169,11 +170,21 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-top: 200px;
+  margin-top: 240px;
 }
 
 .content-title {
   font-size: 30px;
+  border-bottom: 3px solid var(--color-primary);
+  padding: 0 20px 8px;
+}
+
+.heading-title,
+.heading-see-all {
+  font-size: 20px;
+  font-weight: 500;
+  padding-left: 10px;
+  border-left: 4px solid var(--color-primary);
 }
 
 .content-restaurant {
@@ -202,19 +213,33 @@ body {
 
 .content-restaurant-row {
   width: 100%;
+  padding: 5px 0px;
+}
+
+.section-1,
+.section-2 {
+  margin-bottom: 75px;
 }
 
 .item {
-  margin: 10px 10px;
+  margin: 10px 5px 10px -5px;
 }
 
-.list-item {
-  /* margin: 0 10px; */
+.item:hover {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  transition: 200ms linear;
 }
 
-/*---------- LOGIN ----------*/
+.content-restaurant-list {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  border-radius: 5px;
+}
+
+/*================================================ LOGIN ================================================*/
 .container {
-  margin-top: 50px;
+  margin-top: 20px;
   flex-direction: column;
   display: flex;
   align-items: center;
@@ -401,7 +426,19 @@ body {
   }
 }
 
-/*---------- FOOTER ----------*/
+/*=============================================== SEARCH RESULT ===========================================*/
+.search-content {
+  margin-top: 240px;
+}
+
+.pagination {
+  margin-top: 30px;
+}
+
+.pagination-last {
+}
+
+/*=============================================== FOOTER ===========================================*/
 footer {
   width: 100%;
   margin-top: 40px;
@@ -437,14 +474,17 @@ a {
 
 .i-facebook:hover {
   color: #0572e6;
+  transition: 500ms linear;
 }
 
 .i-youtube:hover {
   color: #ff0000;
+  transition: 500ms linear;
 }
 
 .i-twitter:hover {
   color: #00b6f1;
+  transition: 500ms linear;
 }
 
 .all-rights {
