@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import {
-    CardImg, Row, Col, Form, FormGroup,
+    CardImg, Row, Form, FormGroup,
     Input, Label, Button, Card, CardTitle, CardText,
     CardSubtitle, CardBody, Container
 } from 'reactstrap';
@@ -50,25 +50,26 @@ export default class home extends Component {
             restaurantsType1: [],
             restaurantsType2: [],
             searchObject: {
-                textInput: '',
+                restaurantName: '',
                 province: '',
                 district: '',
                 type: 0
             },
-            restaurantSearch: []
+            isSubmit: false
         };
         this.onProvinceClick = this.onProvinceClick.bind(this);
-        this.onChangeTextInput = this.onChangeTextInput.bind(this);
+        this.onChangeRestaurantName = this.onChangeRestaurantName.bind(this);
         this.onDistrictClick = this.onDistrictClick.bind(this);
         this.onChangeCheckboxTypeOne = this.onChangeCheckboxTypeOne.bind(this);
         this.onChangeCheckboxTypeTwo = this.onChangeCheckboxTypeTwo.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
-    onChangeTextInput(event) {
+    onChangeRestaurantName(event) {
         event.preventDefault();
         this.setState(prevState => {
             let searchObject = { ...prevState.searchObject };
-            searchObject.textInput = event.target.value;
+            searchObject.restaurantName = event.target.value;
             return { searchObject };
         })
     }
@@ -157,6 +158,10 @@ export default class home extends Component {
         }
     }
 
+    onSubmit(e) {
+        this.setState({ isSubmit: true })
+    }
+
     componentDidMount() {
         axios.get('http://localhost:8080/restaurants/1')
             .then(res => {
@@ -169,10 +174,10 @@ export default class home extends Component {
     }
 
     render() {
-        let { provinces, districts, restaurantsType1, restaurantsType2,
-            restaurantSearch, searchObject
+        let { provinces, districts, restaurantsType1, 
+            restaurantsType2, searchObject, isSubmit
         } = this.state;
-        console.log(searchObject)
+
         return (
             <div className="home-container">
                 <TopMenu />
@@ -188,8 +193,8 @@ export default class home extends Component {
                                 name="text"
                                 id="text-search"
                                 placeholder="Tìm kiếm"
-                                value={searchObject.textInput}
-                                onChange={this.onChangeTextInput}
+                                value={searchObject.restaurantName}
+                                onChange={this.onChangeRestaurantName}
                             />
                         </FormGroup>
                         <div className="search-location">
@@ -232,7 +237,7 @@ export default class home extends Component {
                             </Label>
                             </FormGroup>
                         </div>
-                        <Input type="submit" className="btn btn-success btn-search" value="Tìm kiếm" />
+                        <Input onClick={this.onSubmit} type="submit" className="btn btn-success btn-search" value="Tìm kiếm" />
                     </Form>
 
                 </div>
@@ -325,10 +330,10 @@ export default class home extends Component {
                 </div>
                 <Footer />
                 {
-                    restaurantSearch.length > 0 &&
+                    isSubmit &&
                     <Redirect to={{
                         pathname: '/search-result',
-                        state: { searchResult: restaurantSearch }
+                        state: { searchResult: searchObject }
                     }} />
                 }
             </div>
