@@ -41,5 +41,9 @@ public class Feedback {
 	@ManyToOne
 	@JoinColumn(name = "restaurant_id", referencedColumnName = "id")
 	private Restaurant restaurant;
+	
+	@ManyToOne
+	@JoinColumn(name = "customer_id", referencedColumnName = "id")
+	private User user;
 
 }
