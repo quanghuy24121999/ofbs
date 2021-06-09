@@ -1,10 +1,13 @@
 import axios from 'axios';
 import React, { Component } from 'react'
 import {
-    Container, Row, CardImg, Button, Card, CardTitle, CardText,
-    CardSubtitle, CardBody, Pagination, PaginationItem, PaginationLink, Col
+    Container, Row, CardImg, Form, FormGroup,
+    Input, Label, Button, Card, CardTitle, CardText,
+    CardSubtitle, CardBody, Col
 } from 'reactstrap';
+import { Redirect } from 'react-router';
 
+import subVn from "sub-vn";
 import StarRatings from "react-star-ratings";
 import ReactPaginate from 'react-paginate';
 
@@ -16,13 +19,126 @@ export default class searchResult extends Component {
         super(props);
 
         this.state = {
+            provinces: subVn.getProvinces(),
+            districts: [],
             restaurantSearch: [],
+            searchObject: {
+                restaurantName: '',
+                province: '',
+                district: '',
+                type: 0
+            },
+            isSubmit: false,
             offset: 0,
             perPage: 12,
             currentPage: 0
         }
 
         this.handlePageClick = this.handlePageClick.bind(this);
+        this.onProvinceClick = this.onProvinceClick.bind(this);
+        this.onChangeRestaurantName = this.onChangeRestaurantName.bind(this);
+        this.onDistrictClick = this.onDistrictClick.bind(this);
+        this.onChangeCheckboxTypeOne = this.onChangeCheckboxTypeOne.bind(this);
+        this.onChangeCheckboxTypeTwo = this.onChangeCheckboxTypeTwo.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+    }
+
+    onChangeRestaurantName(event) {
+        event.preventDefault();
+        this.setState(prevState => {
+            let searchObject = { ...prevState.searchObject };
+            searchObject.restaurantName = event.target.value;
+            return { searchObject };
+        })
+    }
+
+    onProvinceClick(event) {
+        event.preventDefault();
+        let provinceCode = event.target.value;
+        this.setState({
+            districts: subVn.getDistrictsByProvinceCode(provinceCode)
+        });
+
+        this.setState(prevState => {
+            let searchObject = { ...prevState.searchObject };
+            let index = event.nativeEvent.target.selectedIndex;
+            let provinceName = event.nativeEvent.target[index].text;
+
+            searchObject.province = provinceName;
+            return { searchObject };
+        })
+    }
+
+    onDistrictClick(event) {
+        event.preventDefault();
+        this.setState(prevState => {
+            let searchObject = { ...prevState.searchObject };
+            let index = event.nativeEvent.target.selectedIndex;
+            let districtName = event.nativeEvent.target[index].text;
+
+            searchObject.district = districtName;
+            return { searchObject };
+        })
+    }
+
+    onChangeCheckboxTypeOne(event) {
+        let check = event.target.checked;
+        let cbTypeTwo = document.getElementById('cbTypeTwo');
+
+        if (check) {
+            this.setState(prevState => {
+                let searchObject = { ...prevState.searchObject };
+                searchObject.type = 1;
+                return { searchObject };
+            })
+        } if ((check && cbTypeTwo.checked) || (!check && !cbTypeTwo.checked)) {
+            this.setState(prevState => {
+                let searchObject = { ...prevState.searchObject };
+                searchObject.type = 0;
+                return { searchObject };
+            })
+        }
+
+        if (!check && cbTypeTwo.checked) {
+            this.setState(prevState => {
+                let searchObject = { ...prevState.searchObject };
+                searchObject.type = 2;
+                return { searchObject };
+            })
+        }
+    }
+
+    onChangeCheckboxTypeTwo(event) {
+        let check = event.target.checked;
+        let cbTypeOne = document.getElementById('cbTypeOne');
+
+        if (check) {
+            this.setState(prevState => {
+                let searchObject = { ...prevState.searchObject };
+                searchObject.type = 2;
+                return { searchObject };
+            })
+        }
+        if ((check && cbTypeOne.checked) || (!check && !cbTypeOne.checked)) {
+            this.setState(prevState => {
+                let searchObject = { ...prevState.searchObject };
+                searchObject.type = 0;
+                return { searchObject };
+            })
+        }
+
+        if (!check && cbTypeOne.checked) {
+            this.setState(prevState => {
+                let searchObject = { ...prevState.searchObject };
+                searchObject.type = 1;
+                return { searchObject };
+            })
+        }
+    }
+
+    onSubmit(e) {
+        e.preventDefault();
+        this.receivedData();
     }
 
     handlePageClick = (e) => {
@@ -40,7 +156,18 @@ export default class searchResult extends Component {
 
     receivedData() {
         const { state } = this.props.location;
-        let restaurant = state.searchResult;
+        if (state !== undefined && state !== null) {
+            this.setState({
+                searchObject: state.searchResult
+            });
+        }
+
+        let restaurant = this.state.searchObject;
+
+        if (restaurant.province === "Tỉnh/ Thành phố") {
+            restaurant.province = "";
+        }
+
         axios.get(`http://localhost:8080/restaurants?type=${restaurant.type}&province=${restaurant.province}&district=${restaurant.district}&restaurantName=${restaurant.restaurantName}`)
             .then(res => {
                 const data = res.data;
@@ -75,20 +202,70 @@ export default class searchResult extends Component {
     }
 
     componentDidMount() {
-        const { state } = this.props.location;
-        let restaurant = state.searchResult;
-        console.log(state.searchResult);
-
         this.receivedData();
-        this.setState({
-            restaurantSearch: restaurant
-        })
     }
 
     render() {
+        let { provinces, districts, searchObject, isSubmit } = this.state;
+
         return (
             <div>
                 <TopMenu />
+                <div className="home-search">
+                    <Form className="search-form">
+                        <FormGroup>
+                            <Input
+                                type="text"
+                                name="text"
+                                id="text-search"
+                                placeholder="Tìm kiếm"
+                                value={searchObject.restaurantName}
+                                onChange={this.onChangeRestaurantName}
+                            />
+                        </FormGroup>
+                        <div className="search-location">
+                            <FormGroup className="citySelect">
+                                <Label for="citySelect"><b>Chọn tỉnh/ thành phố:</b></Label>
+                                <Input type="select" name="citySelect" id="citySelect" onChange={this.onProvinceClick}>
+                                    <option>Tỉnh/ Thành phố</option>
+                                    {provinces.map((province) => {
+                                        return (
+                                            <option key={province.code} value={province.code}>
+                                                {province.name}
+                                            </option>
+                                        );
+                                    })}
+                                </Input>
+                            </FormGroup>
+                            <FormGroup className="districtSelect">
+                                <Label for="districtSelect"><b>Chọn quận/ huyện: </b></Label>
+                                <Input type="select" name="districtSelect" id="districtSelect" onChange={this.onDistrictClick}>
+                                    <option>Quận/ Huyện</option>
+                                    {districts.map((district) => {
+                                        return (
+                                            <option key={district.code} value={district.code}>
+                                                {district.name}
+                                            </option>
+                                        );
+                                    })}
+                                </Input>
+                            </FormGroup>
+                        </div>
+                        <div className="search-other">
+                            <FormGroup className="search-other-cb1" check>
+                                <Label check>
+                                    <Input id="cbTypeOne" type="checkbox" onChange={this.onChangeCheckboxTypeOne} /> Tiệc lưu động
+                            </Label>
+                            </FormGroup>
+                            <FormGroup check>
+                                <Label check>
+                                    <Input id="cbTypeTwo" type="checkbox" onChange={this.onChangeCheckboxTypeTwo} /> Tiệc tại trung tâm
+                            </Label>
+                            </FormGroup>
+                        </div>
+                        <Input onClick={this.onSubmit} type="submit" className="btn btn-success btn-search" value="Tìm kiếm" />
+                    </Form>
+                </div>
                 <Container className="search-content">
                     <Row>
                         {this.state.restaurants}
