@@ -4,14 +4,14 @@ body {
   box-sizing: border-box;
 }
 
-/*--------- VARIABLES ----------*/
+/*================================================== VARIABLES ================================================== */
 :root {
   --color-primary: #198754;
   --text-color: #fff;
   --text-hover: #e7e7e7;
 }
 
-/*--------- TOP MENU ----------*/
+/*================================================== TOP MENU ================================================== */
 .top-menu {
   position: fixed;
   background-color: #000000;
@@ -446,11 +446,77 @@ body {
 
 /*=============================================== SEARCH RESULT ===========================================*/
 .search-content {
-  margin-top: 240px;
+  margin-top: 180px;
 }
 
 .search-item {
   margin: 15px 0;
+}
+
+.result-search {
+  position: fixed;
+  margin-top: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  top: 0;
+  background: white;
+}
+
+.result-search-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0 30px;;
+}
+
+.result-search-location,
+.result-search-citySelect,
+.result-search-districtSelect,
+.result-search-other {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.result-search-text,
+.result-search-location,
+.result-search-other,
+.btn-result-search {
+  width: 50px;
+}
+
+.result-search-text {
+  flex-grow: 2;
+}
+
+.result-search-location {
+  flex-grow: 6;
+}
+
+.result-search-citySelect,
+.result-search-districtSelect {
+  width: 100%;
+  margin: 10px 10px 10px 0;
+}
+
+.result-search-other {
+  flex-grow: 2;
+}
+
+.result-search-other-cb1,
+.result-search-other-cb2 {
+  width: 100%;
+}
+
+.btn-result-search {
+  flex-grow: 0.5;
 }
 
 .pagination {

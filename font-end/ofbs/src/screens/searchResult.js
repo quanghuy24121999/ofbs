@@ -211,9 +211,9 @@ export default class searchResult extends Component {
         return (
             <div>
                 <TopMenu />
-                <div className="home-search">
-                    <Form className="search-form">
-                        <FormGroup>
+                <div className="result-search">
+                    <Form className="result-search-form">
+                        <FormGroup className="result-search-text">
                             <Input
                                 type="text"
                                 name="text"
@@ -223,8 +223,8 @@ export default class searchResult extends Component {
                                 onChange={this.onChangeRestaurantName}
                             />
                         </FormGroup>
-                        <div className="search-location">
-                            <FormGroup className="citySelect">
+                        <div className="result-search-location">
+                            <FormGroup className="result-search-citySelect">
                                 <Label for="citySelect"><b>Chọn tỉnh/ thành phố:</b></Label>
                                 <Input type="select" name="citySelect" id="citySelect" onChange={this.onProvinceClick}>
                                     <option>Tỉnh/ Thành phố</option>
@@ -237,7 +237,7 @@ export default class searchResult extends Component {
                                     })}
                                 </Input>
                             </FormGroup>
-                            <FormGroup className="districtSelect">
+                            <FormGroup className="result-search-districtSelect">
                                 <Label for="districtSelect"><b>Chọn quận/ huyện: </b></Label>
                                 <Input type="select" name="districtSelect" id="districtSelect" onChange={this.onDistrictClick}>
                                     <option>Quận/ Huyện</option>
@@ -251,19 +251,19 @@ export default class searchResult extends Component {
                                 </Input>
                             </FormGroup>
                         </div>
-                        <div className="search-other">
-                            <FormGroup className="search-other-cb1" check>
+                        <div className="result-search-other">
+                            <FormGroup className="result-search-other-cb1" check>
                                 <Label check>
-                                    <Input id="cbTypeOne" type="checkbox" onChange={this.onChangeCheckboxTypeOne} /> Tiệc lưu động
-                            </Label>
+                                    <Input id="cbTypeOne" type="checkbox" onChange={this.onChangeCheckboxTypeOne} /><b>Tiệc lưu động</b>
+                                </Label>
                             </FormGroup>
-                            <FormGroup check>
+                            <FormGroup className="result-search-other-cb2" check>
                                 <Label check>
-                                    <Input id="cbTypeTwo" type="checkbox" onChange={this.onChangeCheckboxTypeTwo} /> Tiệc tại trung tâm
-                            </Label>
+                                    <Input id="cbTypeTwo" type="checkbox" onChange={this.onChangeCheckboxTypeTwo} /><b> Tiệc tại trung tâm</b>
+                                </Label>
                             </FormGroup>
                         </div>
-                        <Input onClick={this.onSubmit} type="submit" className="btn btn-success btn-search" value="Tìm kiếm" />
+                        <Input onClick={this.onSubmit} type="submit" className="btn btn-success btn-result-search" value="Tìm kiếm" />
                     </Form>
                 </div>
                 <Container className="search-content">
