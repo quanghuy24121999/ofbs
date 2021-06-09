@@ -9,4 +9,5 @@ public interface IRestaurantDTO {
 	String getProvince();
 	int getSize();
 	float getRate();
+	String getDescription();
 }
