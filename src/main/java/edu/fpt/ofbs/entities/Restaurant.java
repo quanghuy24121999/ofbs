@@ -41,7 +41,7 @@ public class Restaurant {
 	@Column(name = "phone_number")
 	private String phoneNumber;
 	
-	@Column(name = "bussiness_license_id")
+	@Column(name = "business_license_id")
 	private String bussinessLicenseId;
 	
 	@Column(name = "restaurant_name")
