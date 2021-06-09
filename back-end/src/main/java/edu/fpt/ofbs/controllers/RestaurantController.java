@@ -17,7 +17,7 @@ import edu.fpt.ofbs.models.IRestaurantDTO;
 import edu.fpt.ofbs.service.RestaurantService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin("http://localhost:3000")
 @RequestMapping("/restaurants")
 public class RestaurantController {
 	@Autowired
