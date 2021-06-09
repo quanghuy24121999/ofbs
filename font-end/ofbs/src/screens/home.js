@@ -174,7 +174,7 @@ export default class home extends Component {
     }
 
     render() {
-        let { provinces, districts, restaurantsType1, 
+        let { provinces, districts, restaurantsType1,
             restaurantsType2, searchObject, isSubmit
         } = this.state;
 
@@ -254,25 +254,26 @@ export default class home extends Component {
                                     <Carousel
                                         responsive={responsive}
                                         additionalTransfrom={0}
+                                        autoPlay={this.props.deviceType !== "desktop" ? true : false}
                                         autoPlaySpeed={3000}
                                         centerMode={true}
                                         containerClass="container"
                                         focusOnSelect={false}
-                                        // infinite={true}
+                                        infinite={true}
                                         slidesToSlide={1}
                                         containerClass="container-with-dots"
                                     >
                                         {restaurantsType1.map(restaurant => {
                                             return <Card key={restaurant.restaurantId} className="item">
-                                                <CardImg top width="100%" src={'http://localhost:8080/images/' + restaurant.imageId} alt="Card image cap" />
-                                                <CardBody>
+                                                <CardImg className="restaurant-img" top width="100%" src={'http://localhost:8080/images/' + restaurant.imageId} alt="Nhà hàng" />
+                                                <CardBody className="restaurant-content">
                                                     <CardTitle tag="h5">{restaurant.restaurantName}</CardTitle>
-                                                    <CardSubtitle tag="h6" className="mb-2 text-muted">{restaurant.province}</CardSubtitle>
-                                                    <CardText>{'>' + restaurant.size + ' người'}</CardText>
+                                                    <CardSubtitle className="restaurant-location" tag="h6" className="mb-2 text-muted">{restaurant.province}</CardSubtitle>
+                                                    <CardText className="restaurant-size">{'Khoảng ' + restaurant.size + ' người'}</CardText>
                                                     <StarRatings
                                                         rating={restaurant.rate}
-                                                        starDimension="25px"
-                                                        starSpacing="5px"
+                                                        starDimension="20px"
+                                                        starSpacing="4px"
                                                         starRatedColor="#ffe200"
                                                         numberOfStars={5}
                                                         className="rating-star"
@@ -295,25 +296,26 @@ export default class home extends Component {
                                     <Carousel
                                         responsive={responsive}
                                         additionalTransfrom={0}
+                                        autoPlay={this.props.deviceType !== "desktop" ? true : false}
                                         autoPlaySpeed={3000}
                                         centerMode={true}
                                         containerClass="container"
                                         focusOnSelect={false}
-                                        // infinite={true}
+                                        infinite={true}
                                         slidesToSlide={1}
                                         containerClass="container-with-dots"
                                     >
-                                        {restaurantsType1.map(restaurant => {
+                                        {restaurantsType2.map(restaurant => {
                                             return <Card key={restaurant.restaurantId} className="item">
-                                                <CardImg top width="100%" src={'http://localhost:8080/images/' + restaurant.imageId} alt="Card image cap" />
-                                                <CardBody>
+                                                <CardImg className="restaurant-img" top width="100%" src={'http://localhost:8080/images/' + restaurant.imageId} alt="Nhà hàng" />
+                                                <CardBody className="restaurant-content">
                                                     <CardTitle tag="h5">{restaurant.restaurantName}</CardTitle>
                                                     <CardSubtitle tag="h6" className="mb-2 text-muted">{restaurant.province}</CardSubtitle>
-                                                    <CardText>{'>' + restaurant.size + ' người'}</CardText>
+                                                    <CardText className="restaurant-size">{'Khoảng ' + restaurant.size + ' người'}</CardText>
                                                     <StarRatings
                                                         rating={restaurant.rate}
-                                                        starDimension="25px"
-                                                        starSpacing="5px"
+                                                        starDimension="20px"
+                                                        starSpacing="4px"
                                                         starRatedColor="#ffe200"
                                                         numberOfStars={5}
                                                         className="rating-star"

@@ -6,13 +6,10 @@ import {
 } from 'reactstrap';
 
 import StarRatings from "react-star-ratings";
-import Paginations from "react-paginating";
+import ReactPaginate from 'react-paginate';
 
 import TopMenu from '../components/topMenu';
 import Footer from '../components/footer';
-
-
-// const total = fruits.length * limit;
 
 export default class searchResult extends Component {
     constructor(props) {
@@ -20,172 +17,94 @@ export default class searchResult extends Component {
 
         this.state = {
             restaurantSearch: [],
-            currentPage: 1,
-            limit: 2,
-            pageCount: 3
+            offset: 0,
+            perPage: 12,
+            currentPage: 0
         }
 
-        this.handlePageChange = this.handlePageChange.bind(this);
+        this.handlePageClick = this.handlePageClick.bind(this);
     }
 
-    handlePageChange = (page, e) => {
+    handlePageClick = (e) => {
+        const selectedPage = e.selected;
+        const offset = selectedPage * this.state.perPage;
+
         this.setState({
-            currentPage: page
+            currentPage: selectedPage,
+            offset: offset
+        }, () => {
+            this.receivedData();
         });
+
     };
+
+    receivedData() {
+        const { state } = this.props.location;
+        let restaurant = state.searchResult;
+        axios.get(`http://localhost:8080/restaurants?type=${restaurant.type}&province=${restaurant.province}&district=${restaurant.district}&restaurantName=${restaurant.restaurantName}`)
+            .then(res => {
+                const data = res.data;
+                const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
+                const restaurants = slice.map((restaurant) => {
+                    return <Col key={restaurant.restaurantId} className="search-item" lg="3" md="6" sm="12">
+                        <Card key={restaurant.restaurantId} className="item">
+                            <CardImg className="restaurant-img" top width="100%" src={'http://localhost:8080/images/' + restaurant.imageId} alt="Nhà hàng" />
+                            <CardBody className="restaurant-content">
+                                <CardTitle tag="h5">{restaurant.restaurantName}</CardTitle>
+                                <CardSubtitle tag="h6" className="mb-2 text-muted">{restaurant.province}</CardSubtitle>
+                                <CardText className="restaurant-size">{'Khoảng ' + restaurant.size + ' người'}</CardText>
+                                <StarRatings
+                                    rating={restaurant.rate}
+                                    starDimension="20px"
+                                    starSpacing="4px"
+                                    starRatedColor="#ffe200"
+                                    numberOfStars={5}
+                                    className="rating-star"
+                                />
+                                <Button color="success">Xem thêm</Button>
+                            </CardBody>
+                        </Card>
+                    </Col>
+                })
+
+                this.setState({
+                    pageCount: Math.ceil(data.length / this.state.perPage),
+                    restaurants
+                })
+            });
+    }
 
     componentDidMount() {
         const { state } = this.props.location;
         let restaurant = state.searchResult;
         console.log(state.searchResult);
 
-        axios.get(`http://localhost:8080/restaurants?type=${restaurant.type}&province=${restaurant.province}&district=${restaurant.district}&restaurantName=${restaurant.restaurantName}`)
-            .then(res => {
-                console.log(res.data)
-                this.setState({
-                    restaurantSearch: res.data
-                })
-            })
+        this.receivedData();
+        this.setState({
+            restaurantSearch: restaurant
+        })
     }
 
     render() {
-        const { restaurantSearch, currentPage, limit, pageCount } = this.state;
-
         return (
             <div>
                 <TopMenu />
                 <Container className="search-content">
                     <Row>
-                        {restaurantSearch.map(restaurant => {
-                            return <Col key={restaurant.restaurantId} className="item" lg="3" md="6" sm="12">
-                                <Card>
-                                    <CardImg top width="100%" src={'http://localhost:8080/images/' + restaurant.imageId} alt="Card image cap" />
-                                    <CardBody>
-                                        <CardTitle tag="h5">{restaurant.restaurantName}</CardTitle>
-                                        <CardSubtitle tag="h6" className="mb-2 text-muted">{restaurant.province}</CardSubtitle>
-                                        <CardText>{'>' + restaurant.size + ' người'}</CardText>
-                                        <StarRatings
-                                            rating={restaurant.rate}
-                                            starDimension="25px"
-                                            starSpacing="5px"
-                                            starRatedColor="#ffe200"
-                                            numberOfStars={5}
-                                            className="rating-star"
-                                        />
-                                        <Button color="success">Xem thêm</Button>
-                                    </CardBody>
-                                </Card>
-                            </Col>
-                        })}
+                        {this.state.restaurants}
                     </Row>
-                    <Paginations
-                        total={restaurantSearch.length}
-                        limit={limit}
-                        pageCount={pageCount}
-                        currentPage={currentPage}
-                        className="pagination"
-                    >
-                        {({
-                            pages,
-                            currentPage,
-                            hasNextPage,
-                            hasPreviousPage,
-                            previousPage,
-                            nextPage,
-                            totalPages,
-                            getPageItemProps
-                        }) => (
-                            <Pagination>
-                                <PaginationItem>
-                                    <PaginationLink
-                                        {...getPageItemProps({
-                                            pageValue: 1,
-                                            onPageChange: this.handlePageChange,
-                                            style: {
-                                                background: "var(--color-primary)",
-                                                color: "#ffffff",
-                                                fontWeight: "500",
-                                                borderRadius: "50%",
-                                                width: "40px",
-                                                height: "40px",
-                                                paddingLeft: "9px",
-                                                margin: "0 10px"
-                                            }
-                                        })}
-                                    >
-                                        {"<<"}
-                                    </PaginationLink>
-                                </PaginationItem>
-                                <PaginationItem>
-                                    {hasPreviousPage && (
-                                        <PaginationLink
-                                            {...getPageItemProps({
-                                                pageValue: previousPage,
-                                                onPageChange: this.handlePageChange
-                                            })}
-                                        >
-                                            {"<"}
-                                        </PaginationLink>
-                                    )}
-                                </PaginationItem>
-
-                                {pages.map((page) => {
-                                    let activePage = null;
-                                    if (currentPage === page) {
-                                        activePage = { backgroundColor: "var(--color-primary)", color: "white" };
-                                    }
-                                    return (
-                                        <PaginationItem key={page}>
-                                            <PaginationLink
-                                                {...getPageItemProps({
-                                                    pageValue: page,
-                                                    key: page,
-                                                    style: activePage,
-                                                    onPageChange: this.handlePageChange
-                                                })}
-                                            >
-                                                {page}
-                                            </PaginationLink>
-                                        </PaginationItem>
-                                    );
-                                })}
-
-                                {hasNextPage && (
-                                    <PaginationItem>
-                                        <PaginationLink
-                                            {...getPageItemProps({
-                                                pageValue: nextPage,
-                                                onPageChange: this.handlePageChange
-                                            })}
-                                        >
-                                            {">"}
-                                        </PaginationLink>
-                                    </PaginationItem>
-                                )}
-
-                                <PaginationItem>
-                                    <PaginationLink className="pagination-last"
-                                        {...getPageItemProps({
-                                            pageValue: totalPages,
-                                            onPageChange: this.handlePageChange,
-                                            style: {
-                                                background: "var(--color-primary)",
-                                                color: "#ffffff",
-                                                fontWeight: "500",
-                                                borderRadius: "50%",
-                                                width: "40px",
-                                                height: "40px",
-                                                paddingLeft: "9px",
-                                                margin: "0 10px"
-                                            }
-                                        })}
-                                    >
-                                        {">>"}
-                                    </PaginationLink>
-                                </PaginationItem>
-                            </Pagination>
-                        )}
-                    </Paginations>
+                    <ReactPaginate
+                        previousLabel={"Trang trước"}
+                        nextLabel={"Trang sau"}
+                        breakLabel={"..."}
+                        breakClassName={"break-me"}
+                        pageCount={this.state.pageCount}
+                        marginPagesDisplayed={5}
+                        pageRangeDisplayed={5}
+                        onPageChange={this.handlePageClick}
+                        containerClassName={"pagination"}
+                        subContainerClassName={"pages pagination"}
+                        activeClassName={"active"} />
                 </Container>
                 <Footer />
             </div>
