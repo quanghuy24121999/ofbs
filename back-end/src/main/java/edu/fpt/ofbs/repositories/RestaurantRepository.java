@@ -18,5 +18,5 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
 	List<IRestaurantDTO> searchRestaurants(int type, String province, String district, String restaurantName);
 	
 	@Query(value = "exec sp_getRestaurantById @restaurant_id = ?1", nativeQuery = true)
-	IRestaurantDTO getRestaurantById(int id);
+	List<IRestaurantDTO> getRestaurantById(int id);
 }
