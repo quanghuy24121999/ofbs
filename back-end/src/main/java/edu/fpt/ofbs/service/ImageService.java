@@ -1,6 +1,7 @@
 package edu.fpt.ofbs.service;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import edu.fpt.ofbs.entities.Image;
+import edu.fpt.ofbs.models.IImageDTO;
 import edu.fpt.ofbs.repositories.ImageRepository;
-//import edu.fpt.ofbs.service.ImageService;
 
 @Service
 public class ImageService{
@@ -35,5 +36,8 @@ public class ImageService{
 	public Stream<Image> getAllImages() {
 		return imageRepository.findAll().stream();
 	}
-
+	
+	public List<IImageDTO> getImagesByRestaurantId(int restaurantId){
+		return imageRepository.getImagesByRestaurantId(restaurantId);
+	}
 }

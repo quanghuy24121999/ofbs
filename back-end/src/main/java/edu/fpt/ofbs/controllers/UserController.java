@@ -28,7 +28,7 @@ import edu.fpt.ofbs.service.StatusService;
 import edu.fpt.ofbs.service.UserService;
 
 @RestController
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/users")
 public class UserController {
 	@Autowired

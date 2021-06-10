@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import edu.fpt.ofbs.entities.Restaurant;
 import edu.fpt.ofbs.models.IRestaurantDTO;
 import edu.fpt.ofbs.repositories.RestaurantRepository;
 
@@ -20,5 +21,13 @@ public class RestaurantService {
 	
 	public List<IRestaurantDTO> searchRestaurants(int type, String province, String district, String restaurantName){
 		return restaurantRepository.searchRestaurants(type, province, district, restaurantName);
+	}
+	
+	public IRestaurantDTO getRestaurantById(int id){
+		return restaurantRepository.getRestaurantById(id).get(0);
+	}
+	
+	public Restaurant findRestaurantById(int id) {
+		return restaurantRepository.findById(id).get();
 	}
 }
