@@ -64,8 +64,8 @@ public class RestaurantController {
 	}
 
 	@GetMapping("/feedbacks")
-	public ResponseEntity<?> getFeedbackByRestaurantId(@PathParam("restaurantId") int restaurantId) {
-		List<IFeedbackDTO> feedbacks = feedbackService.getFeedbackByRestaurantId(restaurantId);
+	public ResponseEntity<?> getFeedbackByRestaurantId(@PathParam("restaurantId") int restaurantId, @PathParam("rate") float rate) {
+		List<IFeedbackDTO> feedbacks = feedbackService.getFeedbackByRestaurantId(restaurantId, rate);
 		return ResponseEntity.status(HttpStatus.OK).body(feedbacks);
 	}
 

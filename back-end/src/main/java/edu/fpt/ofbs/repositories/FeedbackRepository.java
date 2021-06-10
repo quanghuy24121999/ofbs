@@ -11,6 +11,6 @@ import edu.fpt.ofbs.models.IFeedbackDTO;
 
 @Repository
 public interface FeedbackRepository extends JpaRepository<Feedback, Integer>{
-	@Query(value = "exec sp_getFeedbackByRestaurantId @restaurant_id = ?1", nativeQuery = true)
-	List<IFeedbackDTO> getFeedbackByRestaurantId(int restaurantId);
+	@Query(value = "exec sp_getFeedbackByRestaurantId @restaurant_id = ?1, @rate = ?2", nativeQuery = true)
+	List<IFeedbackDTO> getFeedbackByRestaurantId(int restaurantId, float rate);
 }

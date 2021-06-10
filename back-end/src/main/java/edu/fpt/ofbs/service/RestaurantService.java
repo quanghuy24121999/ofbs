@@ -24,7 +24,7 @@ public class RestaurantService {
 	}
 	
 	public IRestaurantDTO getRestaurantById(int id){
-		return restaurantRepository.getRestaurantById(id);
+		return restaurantRepository.getRestaurantById(id).get(0);
 	}
 	
 	public Restaurant findRestaurantById(int id) {
