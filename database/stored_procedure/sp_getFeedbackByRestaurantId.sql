@@ -1,10 +1,17 @@
 CREATE PROCEDURE sp_getFeedbackByRestaurantId
-	@restaurant_id int
+	@restaurant_id int, @rating float
 AS
+DECLARE @sql_select nvarchar(MAX), @sql_feedback nvarchar(MAX), @sql_order_by nvarchar(MAX)
 BEGIN
-	SELECT users.id as user_id, users.name as user_name, img.id as image_user_id, fb.rate, fb.feedback_content, fb.feedback_date, fb.restaurant_id
+	SET @sql_select = 'SELECT users.id as user_id, users.name as user_name, img.id as image_user_id, fb.rate, fb.feedback_content, fb.feedback_date, fb.restaurant_id
 	FROM feedbacks fb
 		join users on fb.customer_id = users.id
 		join images img on img.user_id = fb.customer_id
-	WHERE fb.restaurant_id =  @restaurant_id
+	WHERE fb.restaurant_id = ' + CAST(@restaurant_id as nvarchar(10)) 
+	IF (@rating <> 0 )
+	BEGIN 
+		SET @sql_feedback = ' and fb.rate = ' + CAST((@rating + 1) as nvarchar(10)) 
+	END
+	SET @sql_order_by = ' ORDER BY fb.feedback_date desc'
+	EXEC (@sql_select + @sql_feedback + @sql_order_by)
 END
