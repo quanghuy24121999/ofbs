@@ -20,7 +20,7 @@ body {
   left: 0;
   width: 100%;
   padding: 5px;
-  z-index: 2;
+  z-index: 5;
 }
 
 .link {
@@ -472,7 +472,7 @@ body {
   justify-content: center;
   align-items: center;
   width: 100%;
-  padding: 0 30px;;
+  padding: 0 30px;
 }
 
 .result-search-location,
@@ -586,6 +586,223 @@ body {
 .pagination > li:first-child > a:hover,
 .pagination > li:last-child > a:hover {
   color: white;
+}
+
+/*=============================================== RESTAURANT DETAIL ===========================================*/
+.restaurant-detail-nav {
+  margin-top: 80px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 20px;
+}
+
+.restaurant-detail-nav > .nav-item > a {
+  color: black;
+}
+
+.nav-item > .active {
+  background-color: var(--color-primary) !important;
+}
+
+.image-slide {
+  display: block;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;  padding: 10px;
+  border-radius: 3px;
+}
+
+.restaurant-detail-content {
+  display: block;
+  padding: 0;
+}
+
+.restauran-detail-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.restauran-detail-name {
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.restauran-detail-location {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.restauran-detail-rate {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.restauran-detail-rate > .star-ratings {
+  margin: 5px 10px;
+}
+
+.combo-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.combo-header-text,
+.combo-header-menu {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.combo-content {
+  width: 100%;
+}
+
+.combo-card {
+  margin: 20px 0;
+  padding: 15px;
+  border: none;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.combo-card:hover {
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px,
+    rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
+}
+
+.combo-name {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 500;
+  padding-bottom: 15px;
+}
+
+.dish-lists {
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: -70px;
+}
+
+.dish-item {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.btn-order {
+  margin-top: 20px;
+}
+
+.feedback {
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  margin-top: 55px;
+  border-radius: 10px;
+}
+
+.feedback-item {
+  margin: 20px 0;
+}
+
+.feedback-title {
+  font-size: 1.5rem;
+  padding: 20px 0;
+  font-weight: 500;
+}
+
+.feedback-sub-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feedback-sub-title > .star-ratings {
+  margin: 0;
+  text-align: right;
+  margin: 0 5px;
+}
+
+.feedback-description {
+  width: 100%;
+  margin: 0 5px;
+}
+
+.send-feedback {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.send-feedback-title,
+.feedback-comment,
+.feedback-star,
+.btn-feedback {
+  width: 1px;
+}
+
+.feedback-star > .star-ratings {
+  margin: 0;
+  text-align: center;
+}
+
+.send-feedback-title {
+  flex-grow: 1;
+}
+
+.feedback-comment {
+  flex-grow: 3;
+}
+
+.feedback-star {
+  flex-grow: 3;
+}
+
+.btn-feedback {
+  flex-grow: 1;
+}
+
+.star-rating-nav {
+}
+
+.nav-link {
+  color: #000000;
+  cursor: pointer;
+}
+
+.feedback-user {
+  display: flex;
+  justify-self: start;
+  align-items: center;
+}
+
+.feedback-user > img {
+  width: 30px;
+  height: 30px;
+  margin-right: 6px;
+}
+
+.username {
+  font-size: 18px;
+}
+
+.user-rating > .star-ratings {
+  margin: 5px 0;
+}
+
+.user-content {
+  padding: 5px 0;
+}
+
+.user-comment {
+  font-size: 1.1rem;
+  margin: 3px 0;
 }
 
 /*=============================================== FOOTER ===========================================*/

@@ -14,6 +14,7 @@ import TopMenu from '../components/topMenu';
 import Footer from '../components/footer';
 import { Redirect } from 'react-router';
 import wallpaper from '../images/wallpaper.png';
+import { Link } from 'react-router-dom';
 
 const responsive = {
     desktop: {
@@ -56,7 +57,8 @@ export default class home extends Component {
                 district: '',
                 type: 0
             },
-            isSubmit: false
+            isSubmit: false,
+            restaurantId: ''
         };
         this.onProvinceClick = this.onProvinceClick.bind(this);
         this.onChangeRestaurantName = this.onChangeRestaurantName.bind(this);
@@ -176,7 +178,7 @@ export default class home extends Component {
 
     render() {
         let { provinces, districts, restaurantsType1,
-            restaurantsType2, searchObject, isSubmit
+            restaurantsType2, searchObject, isSubmit, restaurantId
         } = this.state;
 
         return (
@@ -279,7 +281,7 @@ export default class home extends Component {
                                                         numberOfStars={5}
                                                         className="rating-star"
                                                     />
-                                                    <Button color="success">Xem thêm</Button>
+                                                    <Link to={"/restaurant-detail/" + restaurant.restaurantId} className="btn btn-success">Xem thêm</Link>
                                                 </CardBody>
                                             </Card>
                                         })}
@@ -321,7 +323,7 @@ export default class home extends Component {
                                                         numberOfStars={5}
                                                         className="rating-star"
                                                     />
-                                                    <Button color="success">Xem thêm</Button>
+                                                    <Link to={"/restaurant-detail/" + restaurant.restaurantId} className="btn btn-success">Xem thêm</Link>
                                                 </CardBody>
                                             </Card>
                                         })}
