@@ -22,6 +22,7 @@ export default class restaurantDetail extends Component {
             images: [],
             restaurant: {},
             combos: [],
+            dishes: [],
             feedbacks: [],
             rating: 0,
             offset: 0,
@@ -61,6 +62,15 @@ export default class restaurantDetail extends Component {
 
         axios.get(`/restaurants/combos?restaurantId=${restaurantId}`)
             .then(res => {
+                let combos = [];
+                combos = res.data;
+                combos.map(combo => {
+                    axios.get(`/restaurants/combos/dishes?comboId=${combo.combo_id}`)
+                        .then(res => {
+                            this.setState({ dishes: res.data })
+                        })
+                })
+
                 this.setState({ combos: res.data })
             })
 
@@ -164,7 +174,7 @@ export default class restaurantDetail extends Component {
     }
 
     render() {
-        const { images, restaurant, combos, feedbacks } = this.state;
+        const { images, restaurant, combos, feedbacks, dishes } = this.state;
 
         return (
             <div>
@@ -213,12 +223,18 @@ export default class restaurantDetail extends Component {
                     <div className="combo-content">
                         <Row>
                             {combos.map(combo => {
-                                return <Col lg="3" md="6" sm="12">
-                                    <div key={combo.combi_id} className="combo-name">{combo.combo_name}</div>
-                                    <Card className="dish">
-                                        <CardBody>
-
-                                        </CardBody>
+                                return <Col className="combo-item" lg="3" md="6" sm="12">
+                                    <Card className="combo-card">
+                                        <div key={combo.combo_id} className="combo-name">{combo.combo_name}</div>
+                                        <CardImg className="combo-image" top width="100%" src={'/images/' + combo.image_combo_id} />
+                                        <div className="dish-lists">
+                                            {dishes.map(dish => {
+                                                return <div key={dish.dish_id} className="dish-item">
+                                                    {dish.dish_name}
+                                                </div>
+                                            })}
+                                        </div>
+                                        <Button className="btn-order" color="success">Đặt ngay</Button>
                                     </Card>
                                 </Col>
                             })}

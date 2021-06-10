@@ -607,10 +607,8 @@ body {
 
 .image-slide {
   display: block;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
-    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
-    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
-  padding: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;  padding: 10px;
+  border-radius: 3px;
 }
 
 .restaurant-detail-content {
@@ -658,6 +656,47 @@ body {
 .combo-header-menu {
   font-size: 18px;
   font-weight: 500;
+}
+
+.combo-content {
+  width: 100%;
+}
+
+.combo-card {
+  margin: 20px 0;
+  padding: 15px;
+  border: none;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.combo-card:hover {
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px,
+    rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
+}
+
+.combo-name {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 500;
+  padding-bottom: 15px;
+}
+
+.dish-lists {
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: -70px;
+}
+
+.dish-item {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.btn-order {
+  margin-top: 20px;
 }
 
 .feedback {
@@ -730,7 +769,6 @@ body {
 }
 
 .star-rating-nav {
-
 }
 
 .nav-link {
