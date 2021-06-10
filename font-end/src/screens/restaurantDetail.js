@@ -25,19 +25,14 @@ export default class restaurantDetail extends Component {
             feedbacks: [],
             rating: 0,
             offset: 0,
-            perPage: 1,
+            perPage: 2,
             currentPage: 0,
             rate: 0
         }
 
         this.changeRating = this.changeRating.bind(this);
         this.handlePageClick = this.handlePageClick.bind(this);
-        this.onChangeRateAll = this.onChangeRateAll.bind(this);
-        this.onChangeRateFive = this.onChangeRateFive.bind(this);
-        this.onChangeRateFour = this.onChangeRateFour.bind(this);
-        this.onChangeRateThree = this.onChangeRateThree.bind(this);
-        this.onChangeRateTwo = this.onChangeRateAll.bind(this);
-        this.onChangeRateOne = this.onChangeRateAll.bind(this);
+        this.onChangeRate = this.onChangeRate.bind(this);
     }
 
     componentDidMount() {
@@ -87,7 +82,7 @@ export default class restaurantDetail extends Component {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
                 const feedbackPaging = slice.map((feedback) => {
-                    return <div key={feedback.user_id}>
+                    return <div className="feedback-item" key={feedback.user_id}>
                         <div className="feedback-user">
                             <CardImg className="user-image" top width="100%" src={'/images/' + feedback.image_user_id} />
                             <div className="username">{feedback.user_name}</div>
@@ -103,7 +98,7 @@ export default class restaurantDetail extends Component {
                             />
                         </div>
                         <div className="user-content">
-                            <div className="user-comment">{feedback.feedback_content}</div>
+                            <div className="user-comment"><i>"{feedback.feedback_content}"</i></div>
                             <div className="feedback-date">{feedback.feedback_date}</div>
                         </div>
                     </div>
@@ -129,34 +124,43 @@ export default class restaurantDetail extends Component {
 
     };
 
-    onChangeRateAll() {
-        this.setState({ rate: 0 })
-        this.receivedData();
-    }
-
-    onChangeRateFive() {
-        this.setState({ rate: 5 })
-        this.receivedData();
-    }
-
-    onChangeRateFour() {
-        this.setState({ rate: 4 })
-        this.receivedData();
-    }
-
-    onChangeRateThree() {
-        this.setState({ rate: 3 })
-        this.receivedData();
-    }
-
-    onChangeRateTwo() {
-        this.setState({ rate: 2 })
-        this.receivedData();
-    }
-
-    onChangeRateOne() {
-        this.setState({ rate: 1 })
-        this.receivedData();
+    onChangeRate(rate) {
+        // const element = document.getElementById("all");
+        // element.classList.add("active");
+        this.setState({ rate: rate })
+        const restaurantId = this.props.match.params.restaurantId;
+        axios.get(`/restaurants/feedbacks?restaurantId=${restaurantId}&rate=${rate}`)
+            .then(res => {
+                const data = res.data;
+                const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
+                const feedbackPaging = slice.map((feedback) => {
+                    return <div className="feedback-item" key={feedback.user_id}>
+                        <div className="feedback-user">
+                            <CardImg className="user-image" top width="100%" src={'/images/' + feedback.image_user_id} />
+                            <div className="username">{feedback.user_name}</div>
+                        </div>
+                        <div className="user-rating">
+                            <StarRatings
+                                rating={feedback.rate}
+                                starDimension="20px"
+                                starSpacing="4px"
+                                starRatedColor="#ffe200"
+                                numberOfStars={5}
+                                className="rating-star"
+                            />
+                        </div>
+                        <div className="user-content">
+                            <div className="user-comment"><i>"{feedback.feedback_content}"</i></div>
+                            <div className="feedback-date">{feedback.feedback_date}</div>
+                        </div>
+                    </div>
+                })
+                this.setState({
+                    pageCount: Math.ceil(data.length / this.state.perPage),
+                    feedbacks: data,
+                    feedbackPaging
+                })
+            })
     }
 
     render() {
@@ -232,57 +236,61 @@ export default class restaurantDetail extends Component {
                             numberOfStars={5}
                             className="rating-star"
                         />
-                        <span>{restaurant.rate}/5 dựa trên {feedbacks.length} đánh giá</span>
-                        <div className="send-feedback">
-                            <Label for="feedback"><b>Đánh giá: </b></Label>
-                            <Input type="text" id="feedback" name="feedback" className="feedback-comment" />
+                        <div className="feedback-description"><b>{restaurant.rate}/5</b> dựa trên {feedbacks.length} đánh giá</div>
+                    </div>
+                    <div className="send-feedback">
+                        <Label className="send-feedback-title" for="feedback"><b>Đánh giá: </b></Label>
+                        <Input type="text" id="feedback" placeholder="Nhập đánh giá của bạn" name="feedback" className="feedback-comment" />
+                        <div className="feedback-star">
                             <StarRatings
                                 rating={this.state.rating}
+                                starDimension="30px"
+                                starSpacing="4px"
                                 starRatedColor="#ffe200"
                                 changeRating={this.changeRating}
                                 numberOfStars={5}
                                 name="rating"
                                 starHoverColor="#ffe200"
                             />
-                            <Button color="success">Đánh giá</Button>
                         </div>
-                        <div className="feedback-content">
-                            <Nav pills className="star-rating-nav">
-                                <NavItem>
-                                    <NavLink onClick={this.onChangeRateAll} active>Tất cả</NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink onClick={this.onChangeRateFive}>5 sao</NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink onClick={this.onChangeRateFour}>4 sao</NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink onClick={this.onChangeRateThree}>3 sao</NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink onClick={this.onChangeRateTwo}>2 sao</NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink onClick={this.onChangeRateOne}>1 sao</NavLink>
-                                </NavItem>
-                            </Nav>
-                            <div className="feedback-list">
-                                {this.state.feedbackPaging}
-                            </div>
-                            <ReactPaginate
-                                previousLabel={"Trang trước"}
-                                nextLabel={"Trang sau"}
-                                breakLabel={"..."}
-                                breakClassName={"break-me"}
-                                pageCount={this.state.pageCount}
-                                marginPagesDisplayed={5}
-                                pageRangeDisplayed={5}
-                                onPageChange={this.handlePageClick}
-                                containerClassName={"pagination"}
-                                subContainerClassName={"pages pagination"}
-                                activeClassName={"active"} />
+                        <Button className="btn-feedback" color="success">Đánh giá</Button>
+                    </div>
+                    <div className="feedback-content">
+                        <Nav pills className="star-rating-nav">
+                            <NavItem onClick={() => this.onChangeRate(0)}>
+                                <NavLink active id="all" >Tất cả</NavLink>
+                            </NavItem>
+                            <NavItem onClick={() => this.onChangeRate(5)}>
+                                <NavLink id="5" >5 sao</NavLink>
+                            </NavItem>
+                            <NavItem onClick={() => this.onChangeRate(4)}>
+                                <NavLink id="4" >4 sao</NavLink>
+                            </NavItem>
+                            <NavItem onClick={() => this.onChangeRate(3)}>
+                                <NavLink id="3" >3 sao</NavLink>
+                            </NavItem>
+                            <NavItem onClick={() => this.onChangeRate(2)}>
+                                <NavLink id="2" >2 sao</NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink id="1" onClick={() => this.onChangeRate(1)}>1 sao</NavLink>
+                            </NavItem>
+                        </Nav>
+                        <div className="feedback-list">
+                            {this.state.feedbackPaging}
                         </div>
+                        <ReactPaginate
+                            previousLabel={"Trang trước"}
+                            nextLabel={"Trang sau"}
+                            breakLabel={"..."}
+                            breakClassName={"break-me"}
+                            pageCount={this.state.pageCount}
+                            marginPagesDisplayed={5}
+                            pageRangeDisplayed={5}
+                            onPageChange={this.handlePageClick}
+                            containerClassName={"pagination"}
+                            subContainerClassName={"pages pagination"}
+                            activeClassName={"active"} />
                     </div>
                 </Container>
                 <Footer />

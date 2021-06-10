@@ -632,8 +632,8 @@ body {
 .restauran-detail-location {
   font-size: 20px;
   display: flex;
-    align-items: center;
-    justify-content: flex-start;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .restauran-detail-rate {
@@ -658,6 +658,113 @@ body {
 .combo-header-menu {
   font-size: 18px;
   font-weight: 500;
+}
+
+.feedback {
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  margin-top: 55px;
+  border-radius: 10px;
+}
+
+.feedback-item {
+  margin: 20px 0;
+}
+
+.feedback-title {
+  font-size: 1.5rem;
+  padding: 20px 0;
+  font-weight: 500;
+}
+
+.feedback-sub-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feedback-sub-title > .star-ratings {
+  margin: 0;
+  text-align: right;
+  margin: 0 5px;
+}
+
+.feedback-description {
+  width: 100%;
+  margin: 0 5px;
+}
+
+.send-feedback {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.send-feedback-title,
+.feedback-comment,
+.feedback-star,
+.btn-feedback {
+  width: 1px;
+}
+
+.feedback-star > .star-ratings {
+  margin: 0;
+  text-align: center;
+}
+
+.send-feedback-title {
+  flex-grow: 1;
+}
+
+.feedback-comment {
+  flex-grow: 3;
+}
+
+.feedback-star {
+  flex-grow: 3;
+}
+
+.btn-feedback {
+  flex-grow: 1;
+}
+
+.star-rating-nav {
+
+}
+
+.nav-link {
+  color: #000000;
+  cursor: pointer;
+}
+
+.feedback-user {
+  display: flex;
+  justify-self: start;
+  align-items: center;
+}
+
+.feedback-user > img {
+  width: 30px;
+  height: 30px;
+  margin-right: 6px;
+}
+
+.username {
+  font-size: 18px;
+}
+
+.user-rating > .star-ratings {
+  margin: 5px 0;
+}
+
+.user-content {
+  padding: 5px 0;
+}
+
+.user-comment {
+  font-size: 1.1rem;
+  margin: 3px 0;
 }
 
 /*=============================================== FOOTER ===========================================*/
