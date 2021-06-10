@@ -601,7 +601,7 @@ body {
   color: black;
 }
 
-.active {
+.nav-item > .active {
   background-color: var(--color-primary) !important;
 }
 
@@ -644,6 +644,20 @@ body {
 
 .restauran-detail-rate > .star-ratings {
   margin: 5px 10px;
+}
+
+.combo-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.combo-header-text,
+.combo-header-menu {
+  font-size: 18px;
+  font-weight: 500;
 }
 
 /*=============================================== FOOTER ===========================================*/

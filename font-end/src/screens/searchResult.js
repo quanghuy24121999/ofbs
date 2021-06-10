@@ -13,6 +13,7 @@ import ReactPaginate from 'react-paginate';
 
 import TopMenu from '../components/topMenu';
 import Footer from '../components/footer';
+import { Link } from 'react-router-dom';
 
 export default class searchResult extends Component {
     constructor(props) {
@@ -174,7 +175,7 @@ export default class searchResult extends Component {
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
                 const restaurants = slice.map((restaurant) => {
                     return <Col key={restaurant.restaurantId} className="search-item" lg="3" md="6" sm="12">
-                        <Card key={restaurant.restaurantId} className="item">
+                        <Card className="item">
                             <CardImg className="restaurant-img" top width="100%" src={'/images/' + restaurant.imageId} alt="Nhà hàng" />
                             <CardBody className="restaurant-content">
                                 <CardTitle tag="h5">{restaurant.restaurantName}</CardTitle>
@@ -188,7 +189,7 @@ export default class searchResult extends Component {
                                     numberOfStars={5}
                                     className="rating-star"
                                 />
-                                <Button color="success">Xem thêm</Button>
+                                <Link to={"/restaurant-detail/" + restaurant.restaurantId} className="btn btn-success">Xem thêm</Link>
                             </CardBody>
                         </Card>
                     </Col>
