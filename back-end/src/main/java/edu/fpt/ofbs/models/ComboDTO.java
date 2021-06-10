@@ -18,11 +18,5 @@ public class ComboDTO {
 	
 	private String combo_name;
 	
-	private int dish_id;
-	
-	private String dish_name;
-	
-	private int menu_category_id;
-	
 	private float combo_price;
 }

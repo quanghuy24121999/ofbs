@@ -20,7 +20,7 @@ body {
   left: 0;
   width: 100%;
   padding: 5px;
-  z-index: 2;
+  z-index: 5;
 }
 
 .link {
@@ -472,7 +472,7 @@ body {
   justify-content: center;
   align-items: center;
   width: 100%;
-  padding: 0 30px;;
+  padding: 0 30px;
 }
 
 .result-search-location,
@@ -586,6 +586,64 @@ body {
 .pagination > li:first-child > a:hover,
 .pagination > li:last-child > a:hover {
   color: white;
+}
+
+/*=============================================== RESTAURANT DETAIL ===========================================*/
+.restaurant-detail-nav {
+  margin-top: 80px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 20px;
+}
+
+.restaurant-detail-nav > .nav-item > a {
+  color: black;
+}
+
+.active {
+  background-color: var(--color-primary) !important;
+}
+
+.image-slide {
+  display: block;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+  padding: 10px;
+}
+
+.restaurant-detail-content {
+  display: block;
+  padding: 0;
+}
+
+.restauran-detail-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.restauran-detail-name {
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.restauran-detail-location {
+  font-size: 20px;
+  display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.restauran-detail-rate {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.restauran-detail-rate > .star-ratings {
+  margin: 5px 10px;
 }
 
 /*=============================================== FOOTER ===========================================*/
