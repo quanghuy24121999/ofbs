@@ -46,11 +46,7 @@ class login extends Component {
       password: this.state.password
     })
       .then(res => {
-        // document.getElementById('toast-message-success').style.display = "block";
-        // window.setTimeout(() =>
-        //   document.getElementById('toast-message-success').style.display = "none"
-        //   , 5000
-        // );
+        localStorage.setItem('currentUser', phone);
         this.setState({
           redirect: true
         });

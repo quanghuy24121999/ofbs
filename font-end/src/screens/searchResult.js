@@ -23,6 +23,10 @@ export default class searchResult extends Component {
             provinces: subVn.getProvinces(),
             districts: [],
             restaurantSearch: [],
+            restaurantName: '',
+            provinceName: '',
+            districtName: '',
+            type: 0,
             searchObject: {
                 restaurantName: '',
                 province: '',
@@ -46,11 +50,8 @@ export default class searchResult extends Component {
 
     onChangeRestaurantName(event) {
         event.preventDefault();
-        this.setState(prevState => {
-            let searchObject = { ...prevState.searchObject };
-            searchObject.restaurantName = event.target.value;
-            return { searchObject };
-        })
+        localStorage.setItem("restaurantText", event.target.value);
+        this.setState({ restaurantName: event.target.value })
     }
 
     onProvinceClick(event) {
@@ -60,26 +61,18 @@ export default class searchResult extends Component {
             districts: subVn.getDistrictsByProvinceCode(provinceCode)
         });
 
-        this.setState(prevState => {
-            let searchObject = { ...prevState.searchObject };
-            let index = event.nativeEvent.target.selectedIndex;
-            let provinceName = event.nativeEvent.target[index].text;
-
-            searchObject.province = provinceName;
-            return { searchObject };
-        })
+        let index = event.nativeEvent.target.selectedIndex;
+        let provinceName = event.nativeEvent.target[index].text;
+        localStorage.setItem("provinceName", provinceName);
+        this.setState({ provinceName: event.target.value });
     }
 
     onDistrictClick(event) {
         event.preventDefault();
-        this.setState(prevState => {
-            let searchObject = { ...prevState.searchObject };
-            let index = event.nativeEvent.target.selectedIndex;
-            let districtName = event.nativeEvent.target[index].text;
-
-            searchObject.district = districtName;
-            return { searchObject };
-        })
+        let index = event.nativeEvent.target.selectedIndex;
+        let districtName = event.nativeEvent.target[index].text;
+        localStorage.setItem("districtName", districtName);
+        this.setState(this.setState({ districtName: event.target.value }));
     }
 
     onChangeCheckboxTypeOne(event) {
@@ -87,25 +80,16 @@ export default class searchResult extends Component {
         let cbTypeTwo = document.getElementById('cbTypeTwo');
 
         if (check) {
-            this.setState(prevState => {
-                let searchObject = { ...prevState.searchObject };
-                searchObject.type = 1;
-                return { searchObject };
-            })
+            localStorage.setItem("type", 1);
+            this.setState({ type: 1 })
         } if ((check && cbTypeTwo.checked) || (!check && !cbTypeTwo.checked)) {
-            this.setState(prevState => {
-                let searchObject = { ...prevState.searchObject };
-                searchObject.type = 0;
-                return { searchObject };
-            })
+            localStorage.setItem("type", 0);
+            this.setState({ type: 0 })
         }
 
         if (!check && cbTypeTwo.checked) {
-            this.setState(prevState => {
-                let searchObject = { ...prevState.searchObject };
-                searchObject.type = 2;
-                return { searchObject };
-            })
+            localStorage.setItem("type", 2);
+            this.setState({ type: 2 })
         }
     }
 
@@ -114,26 +98,17 @@ export default class searchResult extends Component {
         let cbTypeOne = document.getElementById('cbTypeOne');
 
         if (check) {
-            this.setState(prevState => {
-                let searchObject = { ...prevState.searchObject };
-                searchObject.type = 2;
-                return { searchObject };
-            })
+            localStorage.setItem("type", 2);
+            this.setState({ type: 2 })
         }
         if ((check && cbTypeOne.checked) || (!check && !cbTypeOne.checked)) {
-            this.setState(prevState => {
-                let searchObject = { ...prevState.searchObject };
-                searchObject.type = 0;
-                return { searchObject };
-            })
+            localStorage.setItem("type", 0);
+            this.setState({ type: 0 })
         }
 
         if (!check && cbTypeOne.checked) {
-            this.setState(prevState => {
-                let searchObject = { ...prevState.searchObject };
-                searchObject.type = 1;
-                return { searchObject };
-            })
+            localStorage.setItem("type", 1);
+            this.setState({ type: 1 })
         }
     }
 
@@ -156,20 +131,33 @@ export default class searchResult extends Component {
     };
 
     receivedData() {
-        const { state } = this.props.location;
-        if (state !== undefined && state !== null) {
-            this.setState({
-                searchObject: state.searchResult
-            });
+        let restaurantText = '';
+        restaurantText = localStorage.getItem("restaurantText");
+        if (restaurantText === null || restaurantText === undefined) {
+            restaurantText = '';
         }
 
-        let restaurant = this.state.searchObject;
-
-        if (restaurant.province === "Tỉnh/ Thành phố") {
-            restaurant.province = "";
+        let type = 0;
+        type = localStorage.getItem("type");
+        if (type === null || type === undefined) {
+            type = 0;
         }
 
-        axios.get(`/restaurants?type=${restaurant.type}&province=${restaurant.province}&district=${restaurant.district}&restaurantName=${restaurant.restaurantName}`)
+        let provinceName = '';
+        provinceName = localStorage.getItem("provinceName");
+        if (provinceName === null || provinceName === undefined
+            || provinceName === "Tỉnh/ Thành phố") {
+            provinceName = '';
+        }
+
+        let districtName = '';
+        districtName = localStorage.getItem("districtName");
+        if (districtName === null || districtName === undefined
+            || districtName === "Quận/ Huyện") {
+            districtName = '';
+        }
+
+        axios.get(`/restaurants?type=${type}&province=${provinceName}&district=${districtName}&restaurantName=${restaurantText}`)
             .then(res => {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
@@ -207,7 +195,7 @@ export default class searchResult extends Component {
     }
 
     render() {
-        let { provinces, districts, searchObject, isSubmit } = this.state;
+        let { provinces, districts } = this.state;
 
         return (
             <div>
@@ -220,14 +208,20 @@ export default class searchResult extends Component {
                                 name="text"
                                 id="text-search"
                                 placeholder="Tìm kiếm"
-                                value={searchObject.restaurantName}
+                                value={localStorage.getItem("restaurantText")}
                                 onChange={this.onChangeRestaurantName}
                             />
                         </FormGroup>
                         <div className="result-search-location">
                             <FormGroup className="result-search-citySelect">
                                 <Label for="citySelect"><b>Chọn tỉnh/ thành phố:</b></Label>
-                                <Input type="select" name="citySelect" id="citySelect" onChange={this.onProvinceClick}>
+                                <Input 
+                                    type="select" 
+                                    name="citySelect" 
+                                    id="citySelect" 
+                                    onChange={this.onProvinceClick}
+                                    value={localStorage.getItem("provinceCode")}
+                                >
                                     <option>Tỉnh/ Thành phố</option>
                                     {provinces.map((province) => {
                                         return (

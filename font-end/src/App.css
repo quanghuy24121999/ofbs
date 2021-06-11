@@ -685,7 +685,7 @@ body {
   height: auto;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   flex-direction: column;
   margin-top: -70px;
 }
@@ -693,6 +693,7 @@ body {
 .dish-item {
   font-size: 1.1rem;
   font-weight: 500;
+  margin: 3px 0;
 }
 
 .btn-order {
@@ -786,6 +787,7 @@ body {
   width: 30px;
   height: 30px;
   margin-right: 6px;
+  border-radius: 50%;
 }
 
 .username {
