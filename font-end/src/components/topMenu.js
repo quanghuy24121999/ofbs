@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Collapse,
     Navbar,
@@ -9,13 +9,31 @@ import {
     CardImg
 } from "reactstrap";
 
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import image from '../images/logo_header-removebg-preview.png';
+import axios from "axios";
 
 const TopMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
 
+    const [currentUser, setCurrentUser] = useState();
+
+    const [isLogout, setIsLogout] = useState(false);
+
     const toggle = () => setIsOpen(!isOpen);
+
+    useEffect(() => {
+        axios.get(`/users/findByPhoneNumber/${localStorage.getItem('currentUser')}`)
+            .then(res => {
+                setCurrentUser(res.data);
+            });
+    }, [])
+
+    const logout = (e) => {
+        e.preventDefault();
+        localStorage.removeItem('currentUser');
+        setIsLogout(true);
+    }
 
     return (
         <div>
@@ -29,17 +47,32 @@ const TopMenu = () => {
                         <NavItem>
                             <Link className="link" to="/">Trang chủ</Link>
                         </NavItem>
-                        <div className="authen">
-                            <NavItem>
-                                <Link className="link" to="/login">Đăng nhập</Link>
-                            </NavItem>
-                            <NavItem>
-                                <Link className="link" to="/register">Đăng ký</Link>
-                            </NavItem>
-                        </div>
+                        {currentUser ? (
+                            <div className="authen">
+                                <NavItem>
+                                    <Link className="link" to="/user">{currentUser.phoneNumber}</Link>
+                                </NavItem>
+                                <NavItem>
+                                    <Link className="link" onClick={logout} to="/">Đăng xuất</Link>
+                                </NavItem>
+                            </div>
+                        ) : (
+                            <div className="authen">
+                                <NavItem>
+                                    <Link className="link" to="/login">Đăng nhập</Link>
+                                </NavItem>
+                                <NavItem>
+                                    <Link className="link" to="/register">Đăng ký</Link>
+                                </NavItem>
+                            </div>)}
                     </Nav>
                 </Collapse>
             </Navbar>
+            {
+                isLogout && <Redirect to={{
+                    pathname: "/login"
+                }} />
+            }
         </div>
     );
 };

@@ -134,6 +134,7 @@ class register extends Component {
                             placeholder="Họ và tên "
                             value={name}
                             onChange={this.onchangeName}
+                            required="required"
                         />
                     </FormGroup>
                     <FormGroup>

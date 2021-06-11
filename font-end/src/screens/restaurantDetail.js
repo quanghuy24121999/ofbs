@@ -13,6 +13,7 @@ import ReactPaginate from 'react-paginate';
 import TopMenu from '../components/topMenu';
 import Footer from '../components/footer';
 import axios from 'axios';
+import imageUser from '../images/default-avatar-user.png';
 
 export default class restaurantDetail extends Component {
     constructor(props) {
@@ -24,16 +25,19 @@ export default class restaurantDetail extends Component {
             combos: [],
             dishes: [],
             feedbacks: [],
-            rating: 0,
+            rating: 1,
             offset: 0,
             perPage: 2,
             currentPage: 0,
-            rate: 0
+            rate: 0,
+            textFeedback: '',
         }
 
         this.changeRating = this.changeRating.bind(this);
         this.handlePageClick = this.handlePageClick.bind(this);
         this.onChangeRate = this.onChangeRate.bind(this);
+        this.onChangeTextFeedback = this.onChangeTextFeedback.bind(this);
+        this.onSubmitFeedback = this.onSubmitFeedback.bind(this);
     }
 
     componentDidMount() {
@@ -81,20 +85,22 @@ export default class restaurantDetail extends Component {
         this.setState({
             rating: newRating
         });
-        console.log(newRating);
     }
 
     receivedData() {
-        const rate = this.state.rate;
         const restaurantId = this.props.match.params.restaurantId;
-        axios.get(`/restaurants/feedbacks?restaurantId=${restaurantId}&rate=${rate}`)
+        axios.get(`/restaurants/feedbacks?restaurantId=${restaurantId}&rate=${this.state.rate}`)
             .then(res => {
                 const data = res.data;
-                const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
+                const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
                 const feedbackPaging = slice.map((feedback) => {
-                    return <div className="feedback-item" key={feedback.user_id}>
+                    return <div key={feedback.feedback_date} className="feedback-item">
                         <div className="feedback-user">
-                            <CardImg className="user-image" top width="100%" src={'/images/' + feedback.image_user_id} />
+                            {feedback.image_user_id ? (
+                                <CardImg className="user-image" top width="100%" src={'/images/' + feedback.image_user_id} />
+                            ) : (
+                                <CardImg className="user-image" top width="100%" src={imageUser} />
+                            )}
                             <div className="username">{feedback.user_name}</div>
                         </div>
                         <div className="user-rating">
@@ -118,6 +124,33 @@ export default class restaurantDetail extends Component {
                     feedbacks: data,
                     feedbackPaging
                 })
+            })
+    }
+
+    onChangeTextFeedback(e) {
+        this.setState({
+            textFeedback: e.target.value
+        });
+    }
+
+    onSubmitFeedback(e) {
+        e.preventDefault();
+        axios.get(`/users/findByPhoneNumber/${localStorage.getItem('currentUser')}`)
+            .then(res => {
+                const currentUser = res.data;
+                const { textFeedback, rating } = this.state;
+                axios({
+                    method: 'post',
+                    url: `/restaurants/insertFeedback`,
+                    data: {
+                        "feedback_content": textFeedback,
+                        "user_id": currentUser.id,
+                        "rate": rating,
+                        "restaurant_id": this.props.match.params.restaurantId
+                    }
+                }).then(res => {
+                    console.log(res.data)
+                });
             })
     }
 
@@ -135,46 +168,53 @@ export default class restaurantDetail extends Component {
     };
 
     onChangeRate(rate) {
-        // const element = document.getElementById("all");
-        // element.classList.add("active");
-        this.setState({ rate: rate })
-        const restaurantId = this.props.match.params.restaurantId;
-        axios.get(`/restaurants/feedbacks?restaurantId=${restaurantId}&rate=${rate}`)
-            .then(res => {
-                const data = res.data;
-                const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
-                const feedbackPaging = slice.map((feedback) => {
-                    return <div className="feedback-item" key={feedback.user_id}>
-                        <div className="feedback-user">
-                            <CardImg className="user-image" top width="100%" src={'/images/' + feedback.image_user_id} />
-                            <div className="username">{feedback.user_name}</div>
+
+        this.setState({
+            offset: 0,
+            rate: rate
+        }, () => {
+            const restaurantId = this.props.match.params.restaurantId;
+            axios.get(`/restaurants/feedbacks?restaurantId=${restaurantId}&rate=${rate}`)
+                .then(res => {
+                    const data = res.data;
+                    const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
+                    const feedbackPaging = slice.map((feedback) => {
+                        return <div className="feedback-item" key={feedback.feedback_date}>
+                            <div className="feedback-user">
+                                {feedback.image_user_id ? (
+                                    <CardImg className="user-image" top width="100%" src={'/images/' + feedback.image_user_id} />
+                                ) : (
+                                    <CardImg className="user-image" top width="100%" src={imageUser} />
+                                )}
+                                <div className="username">{feedback.user_name}</div>
+                            </div>
+                            <div className="user-rating">
+                                <StarRatings
+                                    rating={feedback.rate}
+                                    starDimension="20px"
+                                    starSpacing="4px"
+                                    starRatedColor="#ffe200"
+                                    numberOfStars={5}
+                                    className="rating-star"
+                                />
+                            </div>
+                            <div className="user-content">
+                                <div className="user-comment"><i>"{feedback.feedback_content}"</i></div>
+                                <div className="feedback-date">{feedback.feedback_date}</div>
+                            </div>
                         </div>
-                        <div className="user-rating">
-                            <StarRatings
-                                rating={feedback.rate}
-                                starDimension="20px"
-                                starSpacing="4px"
-                                starRatedColor="#ffe200"
-                                numberOfStars={5}
-                                className="rating-star"
-                            />
-                        </div>
-                        <div className="user-content">
-                            <div className="user-comment"><i>"{feedback.feedback_content}"</i></div>
-                            <div className="feedback-date">{feedback.feedback_date}</div>
-                        </div>
-                    </div>
+                    })
+                    this.setState({
+                        pageCount: Math.ceil(data.length / this.state.perPage),
+                        feedbacks: data,
+                        feedbackPaging
+                    })
                 })
-                this.setState({
-                    pageCount: Math.ceil(data.length / this.state.perPage),
-                    feedbacks: data,
-                    feedbackPaging
-                })
-            })
+        });
     }
 
     render() {
-        const { images, restaurant, combos, feedbacks, dishes } = this.state;
+        const { images, restaurant, combos, feedbacks, dishes, textFeedback, rating } = this.state;
 
         return (
             <div>
@@ -223,9 +263,9 @@ export default class restaurantDetail extends Component {
                     <div className="combo-content">
                         <Row>
                             {combos.map(combo => {
-                                return <Col className="combo-item" lg="3" md="6" sm="12">
+                                return <Col key={combo.combo_id} className="combo-item" lg="3" md="6" sm="12">
                                     <Card className="combo-card">
-                                        <div key={combo.combo_id} className="combo-name">{combo.combo_name}</div>
+                                        <div className="combo-name">{combo.combo_name}</div>
                                         <CardImg className="combo-image" top width="100%" src={'/images/' + combo.image_combo_id} />
                                         <div className="dish-lists">
                                             {dishes.map(dish => {
@@ -255,11 +295,25 @@ export default class restaurantDetail extends Component {
                         <div className="feedback-description"><b>{restaurant.rate}/5</b> dựa trên {feedbacks.length} đánh giá</div>
                     </div>
                     <div className="send-feedback">
-                        <Label className="send-feedback-title" for="feedback"><b>Đánh giá: </b></Label>
-                        <Input type="text" id="feedback" placeholder="Nhập đánh giá của bạn" name="feedback" className="feedback-comment" />
+                        <Label
+                            className="send-feedback-title"
+                            for="feedback"
+                            onChange={this.onChangeTextFeedback}
+                        >
+                            <b>Đánh giá: </b>
+                        </Label>
+                        <Input
+                            type="textarea"
+                            id="feedback"
+                            placeholder="Nhập đánh giá của bạn"
+                            name="feedback"
+                            className="feedback-comment"
+                            onChange={this.onChangeTextFeedback}
+                            value={textFeedback}
+                        />
                         <div className="feedback-star">
                             <StarRatings
-                                rating={this.state.rating}
+                                rating={rating}
                                 starDimension="30px"
                                 starSpacing="4px"
                                 starRatedColor="#ffe200"
@@ -269,7 +323,7 @@ export default class restaurantDetail extends Component {
                                 starHoverColor="#ffe200"
                             />
                         </div>
-                        <Button className="btn-feedback" color="success">Đánh giá</Button>
+                        <Button className="btn-feedback" onClick={this.onSubmitFeedback} color="success">Đánh giá</Button>
                     </div>
                     <div className="feedback-content">
                         <Nav pills className="star-rating-nav">
@@ -288,8 +342,8 @@ export default class restaurantDetail extends Component {
                             <NavItem onClick={() => this.onChangeRate(2)}>
                                 <NavLink id="2" >2 sao</NavLink>
                             </NavItem>
-                            <NavItem>
-                                <NavLink id="1" onClick={() => this.onChangeRate(1)}>1 sao</NavLink>
+                            <NavItem onClick={() => this.onChangeRate(1)}>
+                                <NavLink id="1" >1 sao</NavLink>
                             </NavItem>
                         </Nav>
                         <div className="feedback-list">

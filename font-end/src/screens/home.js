@@ -51,6 +51,10 @@ export default class home extends Component {
             districts: [],
             restaurantsType1: [],
             restaurantsType2: [],
+            restaurantName: '',
+            provinceName: '',
+            districtName: '',
+            type: 0,
             searchObject: {
                 restaurantName: '',
                 province: '',
@@ -70,11 +74,9 @@ export default class home extends Component {
 
     onChangeRestaurantName(event) {
         event.preventDefault();
-        this.setState(prevState => {
-            let searchObject = { ...prevState.searchObject };
-            searchObject.restaurantName = event.target.value;
-            return { searchObject };
-        })
+        event.preventDefault();
+        localStorage.setItem("restaurantText", event.target.value);
+        this.setState({ restaurantName: event.target.value })
     }
 
     onProvinceClick(event) {
@@ -84,26 +86,19 @@ export default class home extends Component {
             districts: subVn.getDistrictsByProvinceCode(provinceCode)
         });
 
-        this.setState(prevState => {
-            let searchObject = { ...prevState.searchObject };
-            let index = event.nativeEvent.target.selectedIndex;
-            let provinceName = event.nativeEvent.target[index].text;
-
-            searchObject.province = provinceName;
-            return { searchObject };
-        })
+        let index = event.nativeEvent.target.selectedIndex;
+        let provinceName = event.nativeEvent.target[index].text;
+        localStorage.setItem("provinceCode", provinceCode);
+        localStorage.setItem("provinceName", provinceName);
+        this.setState({ provinceName: event.target.value })
     }
 
     onDistrictClick(event) {
         event.preventDefault();
-        this.setState(prevState => {
-            let searchObject = { ...prevState.searchObject };
-            let index = event.nativeEvent.target.selectedIndex;
-            let districtName = event.nativeEvent.target[index].text;
-
-            searchObject.district = districtName;
-            return { searchObject };
-        })
+        let index = event.nativeEvent.target.selectedIndex;
+        let districtName = event.nativeEvent.target[index].text;
+        localStorage.setItem("districtName", districtName);
+        this.setState(this.setState({ districtName: event.target.value }));
     }
 
     onChangeCheckboxTypeOne(event) {
@@ -111,25 +106,16 @@ export default class home extends Component {
         let cbTypeTwo = document.getElementById('cbTypeTwo');
 
         if (check) {
-            this.setState(prevState => {
-                let searchObject = { ...prevState.searchObject };
-                searchObject.type = 1;
-                return { searchObject };
-            })
+            localStorage.setItem("type", 1);
+            this.setState({ type: 1 })
         } if ((check && cbTypeTwo.checked) || (!check && !cbTypeTwo.checked)) {
-            this.setState(prevState => {
-                let searchObject = { ...prevState.searchObject };
-                searchObject.type = 0;
-                return { searchObject };
-            })
+            localStorage.setItem("type", 0);
+            this.setState({ type: 0 })
         }
 
         if (!check && cbTypeTwo.checked) {
-            this.setState(prevState => {
-                let searchObject = { ...prevState.searchObject };
-                searchObject.type = 2;
-                return { searchObject };
-            })
+            localStorage.setItem("type", 2);
+            this.setState({ type: 2 })
         }
     }
 
@@ -138,26 +124,17 @@ export default class home extends Component {
         let cbTypeOne = document.getElementById('cbTypeOne');
 
         if (check) {
-            this.setState(prevState => {
-                let searchObject = { ...prevState.searchObject };
-                searchObject.type = 2;
-                return { searchObject };
-            })
+            localStorage.setItem("type", 2);
+            this.setState({ type: 2 })
         }
         if ((check && cbTypeOne.checked) || (!check && !cbTypeOne.checked)) {
-            this.setState(prevState => {
-                let searchObject = { ...prevState.searchObject };
-                searchObject.type = 0;
-                return { searchObject };
-            })
+            localStorage.setItem("type", 0);
+            this.setState({ type: 0 })
         }
 
         if (!check && cbTypeOne.checked) {
-            this.setState(prevState => {
-                let searchObject = { ...prevState.searchObject };
-                searchObject.type = 1;
-                return { searchObject };
-            })
+            localStorage.setItem("type", 1);
+            this.setState({ type: 1 })
         }
     }
 
@@ -178,7 +155,8 @@ export default class home extends Component {
 
     render() {
         let { provinces, districts, restaurantsType1,
-            restaurantsType2, searchObject, isSubmit, restaurantId
+            restaurantsType2, searchObject, isSubmit,
+            restaurantName
         } = this.state;
 
         return (
@@ -196,14 +174,20 @@ export default class home extends Component {
                                 name="text"
                                 id="text-search"
                                 placeholder="Tìm kiếm"
-                                value={searchObject.restaurantName}
+                                value={localStorage.getItem("restaurantText")}
                                 onChange={this.onChangeRestaurantName}
                             />
                         </FormGroup>
                         <div className="search-location">
                             <FormGroup className="citySelect">
                                 <Label for="citySelect"><b>Chọn tỉnh/ thành phố:</b></Label>
-                                <Input type="select" name="citySelect" id="citySelect" onChange={this.onProvinceClick}>
+                                <Input
+                                    type="select"
+                                    name="citySelect"
+                                    id="citySelect"
+                                    value={localStorage.getItem("provinceCode")}
+                                    onChange={this.onProvinceClick}
+                                >
                                     <option>Tỉnh/ Thành phố</option>
                                     {provinces.map((province) => {
                                         return (
@@ -216,7 +200,13 @@ export default class home extends Component {
                             </FormGroup>
                             <FormGroup className="districtSelect">
                                 <Label for="districtSelect"><b>Chọn quận/ huyện: </b></Label>
-                                <Input type="select" name="districtSelect" id="districtSelect" onChange={this.onDistrictClick}>
+                                <Input
+                                    type="select"
+                                    name="districtSelect"
+                                    id="districtSelect"
+                                    // value={localStorage.getItem("districtIndex")}
+                                    onChange={this.onDistrictClick}
+                                >
                                     <option>Quận/ Huyện</option>
                                     {districts.map((district) => {
                                         return (
@@ -231,12 +221,20 @@ export default class home extends Component {
                         <div className="search-other">
                             <FormGroup className="search-other-cb1" check>
                                 <Label check>
-                                    <Input id="cbTypeOne" type="checkbox" onChange={this.onChangeCheckboxTypeOne} /> Tiệc lưu động
+                                    <Input
+                                        id="cbTypeOne"
+                                        type="checkbox"
+                                        onChange={this.onChangeCheckboxTypeOne}
+                                    /> Tiệc lưu động
                             </Label>
                             </FormGroup>
                             <FormGroup check>
                                 <Label check>
-                                    <Input id="cbTypeTwo" type="checkbox" onChange={this.onChangeCheckboxTypeTwo} /> Tiệc tại trung tâm
+                                    <Input
+                                        id="cbTypeTwo"
+                                        type="checkbox"
+                                        onChange={this.onChangeCheckboxTypeTwo}
+                                    /> Tiệc tại trung tâm
                             </Label>
                             </FormGroup>
                         </div>
@@ -337,8 +335,7 @@ export default class home extends Component {
                 {
                     isSubmit &&
                     <Redirect to={{
-                        pathname: '/search-result',
-                        state: { searchResult: searchObject }
+                        pathname: '/search-result'
                     }} />
                 }
             </div>
