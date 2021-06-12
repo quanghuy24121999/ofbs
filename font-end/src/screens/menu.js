@@ -141,7 +141,7 @@ export default class menu extends Component {
         return (
             <div>
                 <TopMenu />
-                <Nav pills className="restaurant-detail-nav">
+                <Nav pills className="restaurant-detail-nav container">
                     <NavItem>
                         <NavLink><Link to={`/restaurant-detail/${restaurantId}`}  >Nhà hàng</Link></NavLink>
                     </NavItem>
@@ -149,10 +149,7 @@ export default class menu extends Component {
                         <NavLink href="#" active><Link>Thực đơn</Link></NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href="#"><Link>Dịch vụ</Link></NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink href="#"><Link>Đánh giá</Link></NavLink>
+                        <NavLink href="#"><Link to={`/restaurant-detail/${restaurantId}/service`}>Dịch vụ</Link></NavLink>
                     </NavItem>
                 </Nav>
 
@@ -188,7 +185,7 @@ export default class menu extends Component {
                             activeClassName={"active"} />
                     </Container>
                 ) : (
-                    <div className="list-dishes">
+                    <div className="list">
                         <div className="list-dishes">
                             <Container className="list-dishes-title">Món khai vị: </Container>
                             <Container className="content-restaurant-list">

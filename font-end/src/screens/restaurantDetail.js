@@ -270,7 +270,7 @@ export default class restaurantDetail extends Component {
                     </ModalFooter>
                 </Modal>
                 <TopMenu />
-                <Nav pills className="restaurant-detail-nav">
+                <Nav pills className="restaurant-detail-nav container">
                     <NavItem>
                         <NavLink href="#" active><Link>Nhà hàng</Link></NavLink>
                     </NavItem>
@@ -278,10 +278,7 @@ export default class restaurantDetail extends Component {
                         <NavLink><Link to={`/restaurant-detail/${restaurantId}/menu`}  >Thực đơn</Link></NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href="#"><Link>Dịch vụ</Link></NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink href="#"><Link>Đánh giá</Link></NavLink>
+                        <NavLink href="#"><Link to={`/restaurant-detail/${restaurantId}/service`}>Dịch vụ</Link></NavLink>
                     </NavItem>
                 </Nav>
                 <Container className="image-slide">
