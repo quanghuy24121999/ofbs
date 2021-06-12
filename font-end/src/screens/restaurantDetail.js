@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 import {
     Card, Col, Container, Input, Label,
     Nav, NavItem, NavLink, Row, Button, CardImg,
-    Alert,
     Modal,
     ModalHeader,
     ModalBody,
@@ -14,7 +13,7 @@ import ImageGallery from "react-image-gallery";
 import StarRatings from "react-star-ratings";
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import ReactPaginate from 'react-paginate';
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 import TopMenu from '../components/topMenu';
 import Footer from '../components/footer';
@@ -256,6 +255,7 @@ export default class restaurantDetail extends Component {
         const { images, restaurant, combos, feedbacks, dishes, textFeedback,
             rating, displayModal, moveToLogin
         } = this.state;
+        const restaurantId = this.props.match.params.restaurantId;
 
         return (
             <div>
@@ -272,16 +272,16 @@ export default class restaurantDetail extends Component {
                 <TopMenu />
                 <Nav pills className="restaurant-detail-nav">
                     <NavItem>
-                        <NavLink href="#" active>Nhà hàng</NavLink>
+                        <NavLink href="#" active><Link>Nhà hàng</Link></NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href="#">Thực đơn</NavLink>
+                        <NavLink><Link to={`/restaurant-detail/${restaurantId}/menu`}  >Thực đơn</Link></NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href="#">Dịch vụ</NavLink>
+                        <NavLink href="#"><Link>Dịch vụ</Link></NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href="#">Đánh giá</NavLink>
+                        <NavLink href="#"><Link>Đánh giá</Link></NavLink>
                     </NavItem>
                 </Nav>
                 <Container className="image-slide">

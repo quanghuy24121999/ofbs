@@ -2,10 +2,9 @@ import axios from 'axios';
 import React, { Component } from 'react'
 import {
     Container, Row, CardImg, Form, FormGroup,
-    Input, Label, Button, Card, CardTitle, CardText,
+    Input, Label, Card, CardTitle, CardText,
     CardSubtitle, CardBody, Col
 } from 'reactstrap';
-import { Redirect } from 'react-router';
 
 import subVn from "sub-vn";
 import StarRatings from "react-star-ratings";
@@ -63,8 +62,9 @@ export default class searchResult extends Component {
 
         let index = event.nativeEvent.target.selectedIndex;
         let provinceName = event.nativeEvent.target[index].text;
+        localStorage.setItem("provinceCode", provinceCode);
         localStorage.setItem("provinceName", provinceName);
-        this.setState({ provinceName: event.target.value });
+        this.setState({ provinceName: event.target.value })
     }
 
     onDistrictClick(event) {
