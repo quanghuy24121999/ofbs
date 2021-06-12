@@ -1,14 +1,19 @@
 import React, { Component } from 'react'
 
 import {
-    Card, CardBody, Col, Container, Input, Label,
-    Nav, NavItem, NavLink, Row, Button, CardImg
+    Card, Col, Container, Input, Label,
+    Nav, NavItem, NavLink, Row, Button, CardImg,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter
 } from 'reactstrap';
 import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from "react-image-gallery";
 import StarRatings from "react-star-ratings";
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import ReactPaginate from 'react-paginate';
+import { Redirect, Link } from "react-router-dom";
 
 import TopMenu from '../components/topMenu';
 import Footer from '../components/footer';
@@ -31,6 +36,8 @@ export default class restaurantDetail extends Component {
             currentPage: 0,
             rate: 0,
             textFeedback: '',
+            displayModal: false,
+            moveToLogin: false
         }
 
         this.changeRating = this.changeRating.bind(this);
@@ -38,6 +45,7 @@ export default class restaurantDetail extends Component {
         this.onChangeRate = this.onChangeRate.bind(this);
         this.onChangeTextFeedback = this.onChangeTextFeedback.bind(this);
         this.onSubmitFeedback = this.onSubmitFeedback.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
     }
 
     componentDidMount() {
@@ -127,6 +135,12 @@ export default class restaurantDetail extends Component {
             })
     }
 
+    toggleModal() {
+        this.setState({
+            displayModal: !this.state.displayModal
+        })
+    }
+
     onChangeTextFeedback(e) {
         this.setState({
             textFeedback: e.target.value
@@ -135,23 +149,31 @@ export default class restaurantDetail extends Component {
 
     onSubmitFeedback(e) {
         e.preventDefault();
-        axios.get(`/users/findByPhoneNumber/${localStorage.getItem('currentUser')}`)
-            .then(res => {
-                const currentUser = res.data;
-                const { textFeedback, rating } = this.state;
-                axios({
-                    method: 'post',
-                    url: `/restaurants/insertFeedback`,
-                    data: {
-                        "feedback_content": textFeedback,
-                        "user_id": currentUser.id,
-                        "rate": rating,
-                        "restaurant_id": this.props.match.params.restaurantId
-                    }
-                }).then(res => {
-                    console.log(res.data)
-                });
-            })
+        let isAuthen = this.isAuthentication();
+
+
+        if (!isAuthen) {
+            this.toggleModal();
+
+        } else {
+            axios.get(`/users/findByPhoneNumber/${localStorage.getItem('currentUser')}`)
+                .then(res => {
+                    const currentUser = res.data;
+                    const { textFeedback, rating } = this.state;
+                    axios({
+                        method: 'post',
+                        url: `/restaurants/insertFeedback`,
+                        data: {
+                            "feedback_content": textFeedback,
+                            "user_id": currentUser.id,
+                            "rate": rating,
+                            "restaurant_id": this.props.match.params.restaurantId
+                        }
+                    }).then(res => {
+                        console.log(res.data)
+                    });
+                })
+        }
     }
 
     handlePageClick = (e) => {
@@ -213,24 +235,53 @@ export default class restaurantDetail extends Component {
         });
     }
 
+    isAuthentication() {
+        const currentUser = localStorage.getItem("currentUser");
+        if (currentUser !== null && currentUser !== undefined) {
+            return true
+        } else {
+            return false;
+        }
+    }
+
+    moveToLogin = (e) => {
+        e.preventDefault();
+        this.setState({
+            moveToLogin: true
+        });
+    }
+
     render() {
-        const { images, restaurant, combos, feedbacks, dishes, textFeedback, rating } = this.state;
+        const { images, restaurant, combos, feedbacks, dishes, textFeedback,
+            rating, displayModal, moveToLogin
+        } = this.state;
+        const restaurantId = this.props.match.params.restaurantId;
 
         return (
             <div>
+                <Modal isOpen={displayModal} toggle={this.toggleModal} className="">
+                    <ModalHeader toggle={this.toggleModal}>Thông báo</ModalHeader>
+                    <ModalBody>
+                        Bạn phải đăng nhập để thực hiện chức năng này
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="success" onClick={this.moveToLogin}>Đăng nhập</Button>{' '}
+                        <Button color="secondary" onClick={this.toggleModal}>Quay lại</Button>
+                    </ModalFooter>
+                </Modal>
                 <TopMenu />
                 <Nav pills className="restaurant-detail-nav">
                     <NavItem>
-                        <NavLink href="#" active>Nhà hàng</NavLink>
+                        <NavLink href="#" active><Link>Nhà hàng</Link></NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href="#">Thực đơn</NavLink>
+                        <NavLink><Link to={`/restaurant-detail/${restaurantId}/menu`}  >Thực đơn</Link></NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href="#">Dịch vụ</NavLink>
+                        <NavLink href="#"><Link>Dịch vụ</Link></NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href="#">Đánh giá</NavLink>
+                        <NavLink href="#"><Link>Đánh giá</Link></NavLink>
                     </NavItem>
                 </Nav>
                 <Container className="image-slide">
@@ -364,6 +415,11 @@ export default class restaurantDetail extends Component {
                     </div>
                 </Container>
                 <Footer />
+                {
+                    moveToLogin && <Redirect to={{
+                        pathname: "/login"
+                    }} />
+                }
             </div>
         )
     }

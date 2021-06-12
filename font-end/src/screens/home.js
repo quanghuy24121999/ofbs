@@ -155,8 +155,7 @@ export default class home extends Component {
 
     render() {
         let { provinces, districts, restaurantsType1,
-            restaurantsType2, searchObject, isSubmit,
-            restaurantName
+            restaurantsType2, isSubmit
         } = this.state;
 
         return (

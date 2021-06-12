@@ -255,6 +255,46 @@ body {
   border-radius: 5px;
 }
 
+/*================================================ MENU ==================================================*/
+.menu-search-dish {
+  display: flex;
+  flex-direction: row !important;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  width: 40%;
+}
+
+.search-dish-title,
+.input-dish-name,
+.btn-search-dish {
+  width: 20px;
+}
+
+.search-dish-title {
+  font-weight: 500;
+  font-size: 1.1rem;
+  flex-grow: 2;
+}
+
+.input-dish-name {
+  flex-grow: 3;
+  margin: 0 9px;
+}
+
+.btn-search-dish {
+  flex-grow: 1;
+}
+
+.list-dishes {
+  margin-bottom: 90px;
+}
+
+.list-dishes-title {
+  align-items: flex-start !important;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
 /*================================================ LOGIN ================================================*/
 .container {
   margin-top: 20px;
@@ -597,17 +637,25 @@ body {
   padding: 20px;
 }
 
-.restaurant-detail-nav > .nav-item > a {
+.restaurant-detail-nav > .nav-item > a > a {
   color: black;
+  font-size: 1.1rem;
+  font-weight: 500;
 }
 
 .nav-item > .active {
   background-color: var(--color-primary) !important;
 }
 
+.nav-item > .active > a {
+  color: #fff !important;
+}
+
 .image-slide {
   display: block;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;  padding: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  padding: 10px;
   border-radius: 3px;
 }
 
