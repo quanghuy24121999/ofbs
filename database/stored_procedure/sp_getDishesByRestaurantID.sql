@@ -23,5 +23,5 @@ BEGIN
 	FROM dishes d 
 		join images img on img.dish_id = d.id
 		join menu_categories cat on d.menu_category_id = cat.id
-		WHERE d.restaurant_id = @restaurant_id and cat.name like @menu_category
+		WHERE d.restaurant_id = @restaurant_id and d.menu_category_id = @category_id
 END
