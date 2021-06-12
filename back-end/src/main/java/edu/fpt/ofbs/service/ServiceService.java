@@ -3,26 +3,27 @@ package edu.fpt.ofbs.service;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.EntityManager;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import edu.fpt.ofbs.entities.Service;
+import edu.fpt.ofbs.entities.Services;
+import edu.fpt.ofbs.models.IServiceDTO;
 import edu.fpt.ofbs.repositories.ServiceRepository;
-//import edu.fpt.ofbs.service.ServiceService;/
 
+@Service
 public class ServiceService{
 	@Autowired
 	private ServiceRepository serviceRepository;
 
-//	@Override
-	public List<Service> findAll() {
+	public List<Services> findAll() {
 		return serviceRepository.findAll();
 	}
 
-//	@Override
-	public Optional<Service> findServiceById(int id) {
+	public Optional<Services> findServiceById(int id) {
 		return serviceRepository.findById(id);
 	}
 
+	public List<IServiceDTO> getServicesByRestaurantId(int restaurant_id, int category_id){
+		return serviceRepository.getServicesByRestaurantId(restaurant_id, category_id);
+	}
 }

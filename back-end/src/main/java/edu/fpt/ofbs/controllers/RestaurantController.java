@@ -21,10 +21,12 @@ import edu.fpt.ofbs.models.IComboDTO;
 import edu.fpt.ofbs.models.IDishDTO;
 import edu.fpt.ofbs.models.IFeedbackDTO;
 import edu.fpt.ofbs.models.IRestaurantDTO;
+import edu.fpt.ofbs.models.IServiceDTO;
 import edu.fpt.ofbs.service.ComboService;
 import edu.fpt.ofbs.service.DishService;
 import edu.fpt.ofbs.service.FeedbackService;
 import edu.fpt.ofbs.service.RestaurantService;
+import edu.fpt.ofbs.service.ServiceService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -41,6 +43,9 @@ public class RestaurantController {
 	
 	@Autowired
 	private DishService dishService;
+	
+	@Autowired
+	private ServiceService serviceService;
 
 	@GetMapping("/{type}")
 	public ResponseEntity<?> getRestaurantsByType(@PathVariable("type") int type) {
@@ -104,5 +109,11 @@ public class RestaurantController {
 	public ResponseEntity<?> searchDishesByName(@PathParam("restaurantId") int restaurantId, @PathParam("name") String name) {
 		List<IDishDTO> dishes = dishService.searchDishesByName(restaurantId, name);
 		return ResponseEntity.status(HttpStatus.OK).body(dishes);
+	}
+	
+	@GetMapping("/services")
+	public ResponseEntity<?> getServicesByRestaurantId(@PathParam("restaurantId") int restaurantId, @PathParam("categoryId") int categoryId) {
+		List<IServiceDTO> services = serviceService.getServicesByRestaurantId(restaurantId, categoryId);
+		return ResponseEntity.status(HttpStatus.OK).body(services);
 	}
 }
