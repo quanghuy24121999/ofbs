@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.fpt.ofbs.entities.User;
+import edu.fpt.ofbs.models.IUserDTO;
 import edu.fpt.ofbs.repositories.UserRepository;
 
 @Service
@@ -30,4 +31,7 @@ public class UserService {
 		return userRepository.findById(id);
 	}
 
+	public IUserDTO getUserProfileById(int userId) {
+		return userRepository.getUserProfileById(userId);
+	}
 }
