@@ -1,7 +1,6 @@
 package edu.fpt.ofbs.controllers;
 
-import java.sql.Date;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -98,7 +97,7 @@ public class UserController {
 			Role role = roleService.findRoleById(3);
 			newUser.setRole(role);
 			
-			newUser.setLastModified(Date.valueOf(LocalDate.now()));
+			newUser.setLastModified(new Date());
 		}
 		userService.save(newUser);
 		return ResponseEntity.status(HttpStatus.OK).body(newUser);
@@ -119,10 +118,15 @@ public class UserController {
 			_user.setPassword(passwordEncoder.encode(user.getPassword()));
 			_user.setName(user.getName());
 			_user.setEmail(user.getEmail());
-			_user.setPhoneNumber(user.getPhoneNumber());
+			
+			if(user.getPhoneNumber() != null) {
+				_user.setPhoneNumber(user.getPhoneNumber());
+			}
+			
 			_user.setGender(user.isGender());
 			_user.setDateOfBirth(user.getDateOfBirth());
 			_user.setAddress(user.getAddress());
+			_user.setLastModified(new Date());
 			return new ResponseEntity<>(userService.save(_user), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
