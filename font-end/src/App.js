@@ -12,6 +12,7 @@ import searchResult from "./screens/searchResult";
 import restaurantDetail from './screens/restaurantDetail';
 import menu from './screens/menu';
 import service from './screens/service';
+import userProfile from './screens/userProfile';
 
 class App extends Component {
   render() {
@@ -26,6 +27,7 @@ class App extends Component {
           <Route exact path="/restaurant-detail/:restaurantId" component={restaurantDetail} />
           <Route exact path="/restaurant-detail/:restaurantId/menu" component={menu} />
           <Route exact path="/restaurant-detail/:restaurantId/service" component={service} />
+          <Route exact path="/users/profile/:userId" component={userProfile} />
         </div>
       </Router>
     );

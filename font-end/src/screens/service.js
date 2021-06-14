@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import TopMenu from '../components/topMenu';
 import Footer from '../components/footer';
 import axios from 'axios'; import {
-    Nav, NavItem, NavLink, Input, Label,
-    Button, Container, Card, CardImg, CardBody,
-    CardTitle, CardText, Row, Col
+    Nav, NavItem, NavLink, Container, 
+    Card, CardImg, CardBody,
+    CardTitle, CardText, Row
 } from 'reactstrap';
 import Carousel from 'react-multi-carousel';
 import { Link } from 'react-router-dom';

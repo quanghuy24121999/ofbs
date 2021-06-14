@@ -7,7 +7,6 @@ import {
 
 import firebase from "../config/firebase";
 
-import userPath from '../services/UserPath';
 import TopMenu from '../components/topMenu';
 
 export default class forgetPassword extends Component {
@@ -48,7 +47,7 @@ export default class forgetPassword extends Component {
 
     updatePassword() {
         console.log(this.state.userId);
-        userPath.patch('/update/' + this.state.userId, {
+        axios.patch('/update/' + this.state.userId, {
             "password": this.state.password
         })
     }
