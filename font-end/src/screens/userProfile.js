@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios'; import {
     Nav, NavItem, NavLink, Container,
     Row, Col, CardImg, Button, Modal,
-    ModalHeader, ModalBody, ModalFooter, Input, Label
+    ModalHeader, ModalBody, ModalFooter,
+    Input, Label, Alert
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
@@ -25,7 +26,9 @@ export default class userProfile extends Component {
             closeAll: false,
             closeAllChange: false,
             username: '',
-            password: '',
+            oldPassword: '',
+            newPassword: '',
+            reNewPassword: '',
             phone: '',
             email: '',
             address: '',
@@ -40,13 +43,17 @@ export default class userProfile extends Component {
         this.toggleAll = this.toggleAll.bind(this);
         this.toggleAllChange = this.toggleAllChange.bind(this);
         this.onChangeUsername = this.onChangeUsername.bind(this);
-        this.onChangePassword = this.onChangePassword.bind(this);
+        this.onChangeOldPassword = this.onChangeOldPassword.bind(this);
+        this.onChangeNewPassword = this.onChangeNewPassword.bind(this);
+        this.onChangeReNewPassword = this.onChangeReNewPassword.bind(this);
         this.onChangeAddress = this.onChangeAddress.bind(this);
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onChangePhonenumber = this.onChangePhonenumber.bind(this);
         this.onChangeGender = this.onChangeGender.bind(this);
         this.onChangeDob = this.onChangeDob.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.onSubmitChangePassword = this.onSubmitChangePassword.bind(this);
+        this.validateConfirmPassword = this.validateConfirmPassword.bind(this);
     }
 
     componentDidMount() {
@@ -90,7 +97,6 @@ export default class userProfile extends Component {
     }
 
     toggleAllChange() {
-        this.onSubmit();
         this.setState({ nestedModalChange: !this.state.nestedModalChange, closeAllChange: true })
     }
 
@@ -98,8 +104,16 @@ export default class userProfile extends Component {
         this.setState({ username: e.target.value })
     }
 
-    onChangePassword(e) {
-        this.setState({ password: e.target.value })
+    onChangeOldPassword(e) {
+        this.setState({ oldPassword: e.target.value })
+    }
+
+    onChangeNewPassword(e) {
+        this.setState({ newPassword: e.target.value })
+    }
+
+    onChangeReNewPassword(e) {
+        this.setState({ reNewPassword: e.target.value })
     }
 
     onChangeEmail(e) {
@@ -126,7 +140,7 @@ export default class userProfile extends Component {
 
     onSubmit() {
         const userId = this.props.match.params.userId;
-        let { address, password, email, phone_number, username,
+        let { address, email, phone_number, username,
             gender, dob
         } = this.state;
         axios.patch(`/users/profile/update?userId=${userId}`, {
@@ -155,10 +169,46 @@ export default class userProfile extends Component {
         })
     }
 
+    validateConfirmPassword() {
+        const { oldPassword, newPassword, reNewPassword } = this.state;
+        let phoneNumber = localStorage.getItem("currentUser");
+
+        document.getElementById('error-form1').style.display = "none";
+        document.getElementById('error-form2').style.display = "none";
+        document.getElementById('error-form3').style.display = "none";
+
+        if (newPassword === reNewPassword) {
+            if (oldPassword !== '' && newPassword !== ''
+                && reNewPassword !== '') {
+                axios.post(`/users/login`, {
+                    phoneLogin: phoneNumber,
+                    password: oldPassword
+                }).then(res => {
+                    this.toggleNestedChange();
+                }).catch(err => {
+                    document.getElementById('error-form1').style.display = "block";
+                })
+            } else {
+                document.getElementById('error-form3').style.display = "block";
+            }
+        } else {
+            document.getElementById('error-form2').style.display = "block";
+        }
+    }
+
+    onSubmitChangePassword() {
+        const userId = this.props.match.params.userId;
+        axios.patch('/users/update/' + userId, {
+            "password": this.state.newPassword
+        })
+        this.toggleAllChange();
+    }
+
     render() {
         const { user, userImage, modal, nestedModal, closeAll,
-            username, password, email, phone, address, gender, dob,
-            modalChange, nestedModalChange, closeAllChange,
+            username, oldPassword, newPassword, reNewPassword,
+            email, phone, address, gender, dob, modalChange,
+            nestedModalChange, closeAllChange,
         } = this.state;
 
         let image, genderValue;
@@ -269,6 +319,7 @@ export default class userProfile extends Component {
                     <Row className="user-profile">
                         <Col lg="4" md="4" sm="12" className="user-section-1">
                             {image}
+                            <div className="btn-change-image">Thay đổi ảnh</div>
                             <div className="username">{user.user_name}</div>
                             <div className="user-phone-number">{user.phone_number}</div>
                         </Col>
@@ -303,42 +354,51 @@ export default class userProfile extends Component {
                                 <Modal isOpen={modalChange} toggle={this.toggleChange} className="">
                                     <ModalHeader toggle={this.toggleChange}>Thay đổi mật khẩu</ModalHeader>
                                     <ModalBody>
-                                        <Label for="pasword"><b>Mật khẩu cũ:</b></Label>
+                                        <Label for="oldPassword"><b>Mật khẩu cũ:</b></Label>
                                         <Input
                                             type="password"
-                                            name="pasword"
-                                            id="pasword"
+                                            name="oldPassword"
+                                            id="oldPassword"
                                             placeholder="Nhập mật khẩu cũ"
-                                            onChange={this.onChangePassword}
-                                            value={password}
+                                            onChange={this.onChangeOldPassword}
+                                            value={oldPassword}
                                         />
-                                        <Label for="pasword"><b>Mật khẩu mới:</b></Label>
+                                        <Label for="newPassword"><b>Mật khẩu mới:</b></Label>
                                         <Input
                                             type="password"
-                                            name="pasword"
-                                            id="pasword"
+                                            name="newPassword"
+                                            id="newPassword"
                                             placeholder="Nhập mật khẩu mới"
-                                            onChange={this.onChangePassword}
-                                            value={password}
+                                            onChange={this.onChangeNewPassword}
+                                            value={newPassword}
                                         />
-                                        <Label for="pasword"><b>Mật khẩu mới:</b></Label>
+                                        <Label for="reNewPassword"><b>Mật khẩu mới:</b></Label>
                                         <Input
                                             type="password"
-                                            name="pasword"
-                                            id="pasword"
+                                            name="reNewPassword"
+                                            id="reNewPassword"
                                             placeholder="Nhập lại mật khẩu mới"
-                                            onChange={this.onChangePassword}
-                                            value={password}
+                                            onChange={this.onChangeReNewPassword}
+                                            value={reNewPassword}
                                         />
+                                        <Alert color="danger" id="error-form1" className="error-form">
+                                            Mật khẩu cũ không đúng !
+                                        </Alert>
+                                        <Alert color="danger" id="error-form2" className="error-form">
+                                            Mật khẩu không khớp !
+                                        </Alert>
+                                        <Alert color="danger" id="error-form3" className="error-form">
+                                            Vui lòng nhập đủ 3 thông tin
+                                        </Alert>
                                     </ModalBody>
                                     <ModalFooter>
-                                        <Button color="success" onClick={this.toggleNestedChange}>Lưu lại</Button>
+                                        <Button color="success" onClick={this.validateConfirmPassword}>Lưu lại</Button>
                                         <Modal isOpen={nestedModalChange} toggle={this.toggleNestedChange} onClosed={closeAllChange ? this.toggleChange : undefined}>
                                             <ModalHeader>Thông báo</ModalHeader>
                                             <ModalBody>Lưu thay đổi ?</ModalBody>
                                             <ModalFooter>
                                                 <Button color="secondary" onClick={this.toggleNestedChange}>Hủy</Button>{' '}
-                                                <Button color="success" onClick={this.toggleAllChange}>Lưu</Button>
+                                                <Button color="success" onClick={this.onSubmitChangePassword}>Lưu</Button>
                                             </ModalFooter>
                                         </Modal>
                                     </ModalFooter>
