@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,6 +15,7 @@ import edu.fpt.ofbs.models.IImageDTO;
 import edu.fpt.ofbs.repositories.ImageRepository;
 
 @Service
+@Transactional
 public class ImageService{
 
 	@Autowired
@@ -27,6 +29,10 @@ public class ImageService{
 		    Image image = new Image(fileName, file.getBytes(), userId, dishId, serviceId, comboId, restaurantId, promotionId, typeId);
 		    
 			return imageRepository.save(image);
+	}
+	
+	public void delete(int userId){
+		imageRepository.deleteByUserId(userId);
 	}
 
 	public Image getImage(String id) {

@@ -5,13 +5,11 @@ import java.util.Date;
 public interface IUserDTO {
 	String getUser_name();
 
-	String getIimage_id();
+	String getImage_id();
 
 	String getEmail();
 
 	String getPhone_number();
-
-	String getPassword();
 
 	boolean getGender();
 
