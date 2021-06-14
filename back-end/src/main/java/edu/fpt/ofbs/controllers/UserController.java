@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.fpt.ofbs.entities.Role;
 import edu.fpt.ofbs.entities.Status;
 import edu.fpt.ofbs.entities.User;
-import edu.fpt.ofbs.models.UserDTO;
+import edu.fpt.ofbs.models.IUserDTO;
+import edu.fpt.ofbs.models.RegisterUserDTO;
 import edu.fpt.ofbs.service.RoleService;
 import edu.fpt.ofbs.service.StatusService;
 import edu.fpt.ofbs.service.UserService;
@@ -80,7 +84,7 @@ public class UserController {
 	}
 
 	@PostMapping("/register")
-	public ResponseEntity<?> newUserRegister(@RequestBody UserDTO user) {
+	public ResponseEntity<?> newUserRegister(@RequestBody RegisterUserDTO user) {
 		User newUser = new User();
 		if (user != null) {
 			newUser.setPhoneLogin(user.getPhoneLogin());
@@ -98,5 +102,30 @@ public class UserController {
 		}
 		userService.save(newUser);
 		return ResponseEntity.status(HttpStatus.OK).body(newUser);
+	}
+	
+	@GetMapping("/profile")
+	public ResponseEntity<?> getUserProfileById(@PathParam("userId") int userId) {
+		IUserDTO user = userService.getUserProfileById(userId);
+		return ResponseEntity.status(HttpStatus.OK).body(user);
+	}
+	
+	@PatchMapping("/profile/update")
+	public ResponseEntity<?> findUserLogin(@PathParam("userId") int userId, @RequestBody User user) {
+		Optional<User> userOption = userService.findById(userId);
+		if (userOption.isPresent()) {
+			User _user = userOption.get();
+			
+			_user.setPassword(passwordEncoder.encode(user.getPassword()));
+			_user.setName(user.getName());
+			_user.setEmail(user.getEmail());
+			_user.setPhoneNumber(user.getPhoneNumber());
+			_user.setGender(user.isGender());
+			_user.setDateOfBirth(user.getDateOfBirth());
+			_user.setAddress(user.getAddress());
+			return new ResponseEntity<>(userService.save(_user), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 }

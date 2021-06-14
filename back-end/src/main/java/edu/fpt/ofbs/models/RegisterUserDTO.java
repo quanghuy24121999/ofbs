@@ -13,20 +13,19 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class UserDTO {
-	private String user_name;
-	
-	private String image_id;
-	
-	private String email;
-	
-	private String phone_number;
+public class RegisterUserDTO {
+	private String phoneLogin;
+
+	private String name;
 	
 	private String password;
 	
-	private boolean gender;
+	private String phoneNumber;
 	
-	private Date date_of_birth;
+	private int roleId;
 	
-	private String address;
+	private int statusId;
+	
+	private Date lastModified;
+
 }
