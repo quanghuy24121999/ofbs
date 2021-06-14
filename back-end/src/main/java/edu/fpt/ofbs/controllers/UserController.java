@@ -88,7 +88,6 @@ public class UserController {
 		if (user != null) {
 			newUser.setPhoneLogin(user.getPhoneLogin());
 			newUser.setName(user.getName());
-			newUser.setPassword(passwordEncoder.encode(user.getPassword()));
 			newUser.setPhoneNumber(user.getPhoneNumber());
 			
 			Status status = statusService.findStatusById(1);
@@ -110,12 +109,11 @@ public class UserController {
 	}
 	
 	@PatchMapping("/profile/update")
-	public ResponseEntity<?> findUserLogin(@PathParam("userId") int userId, @RequestBody User user) {
+	public ResponseEntity<?> findUser(@PathParam("userId") int userId, @RequestBody User user) {
 		Optional<User> userOption = userService.findById(userId);
 		if (userOption.isPresent()) {
 			User _user = userOption.get();
 			
-			_user.setPassword(passwordEncoder.encode(user.getPassword()));
 			_user.setName(user.getName());
 			_user.setEmail(user.getEmail());
 			
