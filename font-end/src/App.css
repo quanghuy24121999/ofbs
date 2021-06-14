@@ -296,6 +296,68 @@ body {
   font-size: 1.2rem;
   font-weight: 500;
 }
+/*================================================ USER PROFILE ================================================*/
+.user-profile {
+  width: 100%;
+  margin: 0;
+}
+
+label {
+  margin: 15px 0 5px 0;
+}
+
+.user-profile-image {
+  width: 60%;
+}
+
+.user-section-1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.user-section-2 {
+  padding-left: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.username {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.user-username,
+.user-phone-number,
+.user-email,
+.user-address,
+.user-gender,
+.user-dob {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+  font-size: 1.1rem;
+}
+
+.user-username > div:nth-child(1),
+.user-phone-number > div:nth-child(1),
+.user-email > div:nth-child(1),
+.user-address > div:nth-child(1),
+.user-gender > div:nth-child(1),
+.user-dob > div:nth-child(1) {
+  margin: 5px 5px 5px 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.btn-edit,
+.btn-user-change-password {
+  width: 20%;
+  margin: 10px;
+}
+
 /*================================================ LOGIN ================================================*/
 .container {
   margin-top: 20px;

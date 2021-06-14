@@ -50,7 +50,7 @@ const TopMenu = () => {
                         {currentUser ? (
                             <div className="authen">
                                 <NavItem>
-                                    <Link className="link" to="/user">{currentUser.phoneNumber}</Link>
+                                    <Link className="link" to={`/users/profile/${currentUser.id}`}>{currentUser.phoneNumber}</Link>
                                 </NavItem>
                                 <NavItem>
                                     <Link className="link" onClick={logout} to="/">Đăng xuất</Link>
