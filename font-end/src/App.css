@@ -403,7 +403,85 @@ label {
   margin: 10px;
 }
 
+/*================================================ CART ================================================*/
+
+.cart {
+  width: 100%;
+  margin: 15px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart > img {
+  width: 60px;
+  height: 60px;
+}
+
+.cart-dish-name,
+.cart-dish-price,
+.cart-total-quantity {
+  font-size: 1.06rem;
+  font-weight: 500;
+}
+
+.cart-total-price {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.cart-detail {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 100%;
+  padding-left: 20px;
+}
+
+.cart-group-btn {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+}
+
+.cart-dish-quantity,
+.btn-add,
+.btn-sub {
+  margin: 0 5px;
+}
+
+.cart-total-item {
+  color: #ffffff;
+  font-size: 1rem;
+  position: absolute;
+  top: -44px !important;
+  right: -20px;
+  z-index: 1;
+  background-color: #0d6efd;
+  border-radius: 50%;
+  border: 1px solid #ffffff;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cart-display {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  right: 100px;
+  top: 110px;
+  box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+  border-radius: 50%;
+  padding-top: 10px;
+}
+
 /*================================================ LOGIN ================================================*/
+
 .container {
   margin-top: 20px;
   flex-direction: column;
