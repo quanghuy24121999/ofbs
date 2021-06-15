@@ -225,7 +225,7 @@ export default class home extends Component {
                                         type="checkbox"
                                         onChange={this.onChangeCheckboxTypeOne}
                                     /> Tiệc lưu động
-                            </Label>
+                                </Label>
                             </FormGroup>
                             <FormGroup check>
                                 <Label check>
@@ -234,7 +234,7 @@ export default class home extends Component {
                                         type="checkbox"
                                         onChange={this.onChangeCheckboxTypeTwo}
                                     /> Tiệc tại trung tâm
-                            </Label>
+                                </Label>
                             </FormGroup>
                         </div>
                         <Input onClick={this.onSubmit} type="submit" className="btn btn-success btn-search" value="Tìm kiếm" />
@@ -337,6 +337,16 @@ export default class home extends Component {
                         pathname: '/search-result'
                     }} />
                 }
+                <div className="p-3 bg-danger my-2 rounded" id="toast-message-error">
+                    {/* <Toast>
+                        <ToastHeader>
+                            Thất bại
+                        </ToastHeader>
+                        <ToastBody>
+                            Số điện thoại hoặc Mật khẩu không chính xác
+                        </ToastBody>
+                    </Toast> */}
+                </div>
             </div>
         );
     }
