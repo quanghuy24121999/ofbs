@@ -30,6 +30,8 @@ public class Promotion {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
+	private String name;
+	
 	@ManyToOne
 	@JoinColumn(name = "restaurant_id", referencedColumnName = "id")
 	private Restaurant restaurant;
