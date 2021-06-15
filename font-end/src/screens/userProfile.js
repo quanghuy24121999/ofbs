@@ -6,6 +6,7 @@ import axios from 'axios'; import {
     Input, Label, Alert
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import ImageUploading from "react-images-uploading";
 
 import TopMenu from '../components/topMenu';
 import Footer from '../components/footer';
@@ -33,7 +34,8 @@ export default class userProfile extends Component {
             email: '',
             address: '',
             gender: '',
-            dob: ''
+            dob: '',
+            images: []
         }
 
         this.toggle = this.toggle.bind(this);
@@ -54,6 +56,8 @@ export default class userProfile extends Component {
         this.onSubmit = this.onSubmit.bind(this);
         this.onSubmitChangePassword = this.onSubmitChangePassword.bind(this);
         this.validateConfirmPassword = this.validateConfirmPassword.bind(this);
+        this.onChange = this.onChange.bind(this);
+        this.updateImage = this.updateImage.bind(this);
     }
 
     componentDidMount() {
@@ -69,8 +73,10 @@ export default class userProfile extends Component {
                     gender: res.data.gender,
                     dob: res.data.date_of_birth
                 });
-                if (res.data.iimage_id === null) {
+                if (res.data.image_id === null) {
                     this.setState({ userImage: '' });
+                } else {
+                    this.setState({ userImage: res.data.image_id })
                 }
             })
     }
@@ -162,7 +168,7 @@ export default class userProfile extends Component {
                         gender: res.data.gender,
                         dob: res.data.date_of_birth
                     });
-                    if (res.data.iimage_id === null) {
+                    if (res.data.image_id === null) {
                         this.setState({ userImage: '' });
                     }
                 })
@@ -204,18 +210,43 @@ export default class userProfile extends Component {
         this.toggleAllChange();
     }
 
+    onChange = (imageList, addUpdateIndex) => {
+        this.setState({ images: imageList });
+    };
+
+    displayImage() {
+        document.getElementById("user-image").style.display = "block";
+    }
+
+    updateImage() {
+        const userId = this.props.match.params.userId;
+        document.getElementById('error-form4').style.display = "none";
+        axios.delete(`/images/delete?userId=${userId}`)
+            .then(res => {
+                let formData = new FormData();
+                formData.append('file', this.state.images[0].file);
+                axios.post(`/images/upload?userId=${userId}&dishId=0&serviceId=0&comboId=0&restaurantId=0&promotionId=0&typeId=1`,
+                    formData, {
+                }).then(res => {
+                    window.location.reload();
+                }).catch(err => {
+                    document.getElementById('error-form4').style.display = "block";
+                })
+            })
+    }
+
     render() {
         const { user, userImage, modal, nestedModal, closeAll,
             username, oldPassword, newPassword, reNewPassword,
             email, phone, address, gender, dob, modalChange,
-            nestedModalChange, closeAllChange,
+            nestedModalChange, closeAllChange, images
         } = this.state;
 
         let image, genderValue;
         if (userImage === '') {
-            image = <CardImg className="user-profile-image" top src={imageUser} />
+            image = <CardImg id="user-image" className="user-profile-image" top src={imageUser} />
         } else {
-            image = <CardImg className="user-profile-image" top src={'/images/' + user.image_id} />
+            image = <CardImg id="user-image" className="user-profile-image" top src={'/images/' + user.image_id} />
         }
 
         if (gender === true || gender === "1") {
@@ -318,8 +349,46 @@ export default class userProfile extends Component {
                 <Container>
                     <Row className="user-profile">
                         <Col lg="4" md="4" sm="12" className="user-section-1">
-                            {image}
-                            <div className="btn-change-image">Thay đổi ảnh</div>
+                            <ImageUploading
+                                value={images}
+                                onChange={this.onChange}
+                                dataURLKey="data_url"
+                            >
+                                {({
+                                    imageList,
+                                    // onImageUpload,
+                                    onImageUpdate,
+                                    onImageRemove,
+                                }) => (
+                                    <div className="upload__image-wrapper">
+                                        {image}
+                                        {imageList.map(
+                                            (image, index) => (
+                                                (document.getElementById("user-image").style.display = "none"),
+                                                (
+                                                    <div key={index} className="image-item">
+                                                        <CardImg className="user-profile-image" top src={image.data_url} />
+                                                        <Alert color="danger" id="error-form4" className="error-form">
+                                                            Không thể tải ảnh lên, vui lòng chọn một ảnh khác !
+                                                        </Alert>
+                                                        <div className="image-item__btn-wrapper">
+                                                            <Button color="success" onClick={() => this.updateImage()}>Lưu</Button>
+                                                            <Button onClick={() => {
+                                                                onImageRemove(index); this.displayImage();
+                                                            }}
+                                                            >
+                                                                Hủy
+                                                            </Button>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            )
+                                        )}
+
+                                        <div className="btn-change-image" onClick={onImageUpdate}>Thay đổi ảnh</div>
+                                    </div>
+                                )}
+                            </ImageUploading>
                             <div className="username">{user.user_name}</div>
                             <div className="user-phone-number">{user.phone_number}</div>
                         </Col>
