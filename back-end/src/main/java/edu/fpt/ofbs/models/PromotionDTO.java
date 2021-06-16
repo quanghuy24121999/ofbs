@@ -16,6 +16,8 @@ import lombok.Setter;
 public class PromotionDTO {
 	private int promotion_id;
 	
+	private int restaurant_id;
+	
 	private String promotion_name;
 	
 	private String description;

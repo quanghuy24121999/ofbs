@@ -7,14 +7,13 @@ import {
 
 import axios from 'axios';
 import subVn from "sub-vn";
-import StarRatings from "react-star-ratings";
 import Carousel from 'react-multi-carousel';
 
 import TopMenu from '../components/topMenu';
 import Footer from '../components/footer';
 import { Redirect } from 'react-router';
 import wallpaper from '../images/wallpaper.png';
-import { Link } from 'react-router-dom';
+import RestaurantItem from '../components/restaurantItem';
 
 const responsive = {
     desktop: {
@@ -264,23 +263,7 @@ export default class home extends Component {
                                         containerClass="container-with-dots"
                                     >
                                         {restaurantsType1.map(restaurant => {
-                                            return <Card key={restaurant.restaurantId} className="item">
-                                                <CardImg className="restaurant-img" top width="100%" src={'/images/' + restaurant.imageId} alt="Nhà hàng" />
-                                                <CardBody className="restaurant-content">
-                                                    <CardTitle tag="h5">{restaurant.restaurantName}</CardTitle>
-                                                    <CardSubtitle className="restaurant-location" tag="h6" className="mb-2 text-muted">{restaurant.province}</CardSubtitle>
-                                                    <CardText className="restaurant-size">{'Khoảng ' + restaurant.size + ' người'}</CardText>
-                                                    <StarRatings
-                                                        rating={restaurant.rate}
-                                                        starDimension="20px"
-                                                        starSpacing="4px"
-                                                        starRatedColor="#ffe200"
-                                                        numberOfStars={5}
-                                                        className="rating-star"
-                                                    />
-                                                    <Link to={"/restaurant-detail/" + restaurant.restaurantId} className="btn btn-success">Xem thêm</Link>
-                                                </CardBody>
-                                            </Card>
+                                            return <RestaurantItem restaurant={restaurant} />
                                         })}
                                     </Carousel>
                                 </Row>
@@ -306,23 +289,7 @@ export default class home extends Component {
                                         containerClass="container-with-dots"
                                     >
                                         {restaurantsType2.map(restaurant => {
-                                            return <Card key={restaurant.restaurantId} className="item">
-                                                <CardImg className="restaurant-img" top width="100%" src={'/images/' + restaurant.imageId} alt="Nhà hàng" />
-                                                <CardBody className="restaurant-content">
-                                                    <CardTitle tag="h5">{restaurant.restaurantName}</CardTitle>
-                                                    <CardSubtitle tag="h6" className="mb-2 text-muted">{restaurant.province}</CardSubtitle>
-                                                    <CardText className="restaurant-size">{'Khoảng ' + restaurant.size + ' người'}</CardText>
-                                                    <StarRatings
-                                                        rating={restaurant.rate}
-                                                        starDimension="20px"
-                                                        starSpacing="4px"
-                                                        starRatedColor="#ffe200"
-                                                        numberOfStars={5}
-                                                        className="rating-star"
-                                                    />
-                                                    <Link to={"/restaurant-detail/" + restaurant.restaurantId} className="btn btn-success">Xem thêm</Link>
-                                                </CardBody>
-                                            </Card>
+                                            return <RestaurantItem restaurant={restaurant} />
                                         })}
                                     </Carousel>
                                 </Row>
@@ -338,14 +305,6 @@ export default class home extends Component {
                     }} />
                 }
                 <div className="p-3 bg-danger my-2 rounded" id="toast-message-error">
-                    {/* <Toast>
-                        <ToastHeader>
-                            Thất bại
-                        </ToastHeader>
-                        <ToastBody>
-                            Số điện thoại hoặc Mật khẩu không chính xác
-                        </ToastBody>
-                    </Toast> */}
                 </div>
             </div>
         );

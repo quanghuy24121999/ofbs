@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import {
-    Card, Col, Container, Input, Label,
+    Container, Input, Label,
     Nav, NavItem, NavLink, Row, Button, CardImg,
     Modal,
     ModalHeader,
@@ -18,7 +18,11 @@ import { Redirect, Link } from "react-router-dom";
 import TopMenu from '../components/topMenu';
 import Footer from '../components/footer';
 import axios from 'axios';
-import imageUser from '../images/default-avatar-user.png';
+
+import ComboItem from '../components/comboItem';
+import Cart from '../components/cart';
+import StarRating from '../components/starRating';
+import FeedbackItem from '../components/feedbackItem';
 
 export default class restaurantDetail extends Component {
     constructor(props) {
@@ -74,19 +78,36 @@ export default class restaurantDetail extends Component {
 
         axios.get(`/restaurants/combos?restaurantId=${restaurantId}`)
             .then(res => {
-                let combos = [];
-                combos = res.data;
-                combos.map(combo => {
-                    axios.get(`/restaurants/combos/dishes?comboId=${combo.combo_id}`)
+                let combosTemp = res.data;
+
+                this.modifiedCombo(combosTemp);
+
+                combosTemp.map(combo => {
+                    axios.get(`/restaurants/combos/dishes?comboId=${combo.id}`)
                         .then(res => {
                             this.setState({ dishes: res.data })
                         })
                 })
-
-                this.setState({ combos: res.data })
+                this.setState({ combos: combosTemp })
             })
 
         this.receivedData();
+    }
+
+    modifiedCombo(combos) {
+        for (let i = 0; i < combos.length; i++) {
+            combos[i].id = combos[i]['combo_id'];
+            delete combos[i].combo_id;
+
+            combos[i].dish_name = combos[i]['combo_name'];
+            delete combos[i].combo_name;
+
+            combos[i].price = combos[i]['combo_price'];
+            delete combos[i].combo_price;
+
+            combos[i].image_dish_id = combos[i]['image_combo_id'];
+            delete combos[i].image_combo_id;
+        }
     }
 
     changeRating(newRating) {
@@ -102,30 +123,7 @@ export default class restaurantDetail extends Component {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
                 const feedbackPaging = slice.map((feedback) => {
-                    return <div key={feedback.feedback_date} className="feedback-item">
-                        <div className="feedback-user">
-                            {feedback.image_user_id ? (
-                                <CardImg className="user-image" top width="100%" src={'/images/' + feedback.image_user_id} />
-                            ) : (
-                                <CardImg className="user-image" top width="100%" src={imageUser} />
-                            )}
-                            <div className="username">{feedback.user_name}</div>
-                        </div>
-                        <div className="user-rating">
-                            <StarRatings
-                                rating={feedback.rate}
-                                starDimension="20px"
-                                starSpacing="4px"
-                                starRatedColor="#ffe200"
-                                numberOfStars={5}
-                                className="rating-star"
-                            />
-                        </div>
-                        <div className="user-content">
-                            <div className="user-comment"><i>"{feedback.feedback_content}"</i></div>
-                            <div className="feedback-date">{feedback.feedback_date}</div>
-                        </div>
-                    </div>
+                    return <FeedbackItem feedback={feedback} />
                 })
                 this.setState({
                     pageCount: Math.ceil(data.length / this.state.perPage),
@@ -170,8 +168,9 @@ export default class restaurantDetail extends Component {
                             "restaurant_id": this.props.match.params.restaurantId
                         }
                     }).then(res => {
-                        console.log(res.data)
-                    });
+                        this.receivedData()
+                    }
+                    );
                 })
         }
     }
@@ -201,30 +200,7 @@ export default class restaurantDetail extends Component {
                     const data = res.data;
                     const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
                     const feedbackPaging = slice.map((feedback) => {
-                        return <div className="feedback-item" key={feedback.feedback_date}>
-                            <div className="feedback-user">
-                                {feedback.image_user_id ? (
-                                    <CardImg className="user-image" top width="100%" src={'/images/' + feedback.image_user_id} />
-                                ) : (
-                                    <CardImg className="user-image" top width="100%" src={imageUser} />
-                                )}
-                                <div className="username">{feedback.user_name}</div>
-                            </div>
-                            <div className="user-rating">
-                                <StarRatings
-                                    rating={feedback.rate}
-                                    starDimension="20px"
-                                    starSpacing="4px"
-                                    starRatedColor="#ffe200"
-                                    numberOfStars={5}
-                                    className="rating-star"
-                                />
-                            </div>
-                            <div className="user-content">
-                                <div className="user-comment"><i>"{feedback.feedback_content}"</i></div>
-                                <div className="feedback-date">{feedback.feedback_date}</div>
-                            </div>
-                        </div>
+                        return <FeedbackItem feedback={feedback} />
                     })
                     this.setState({
                         pageCount: Math.ceil(data.length / this.state.perPage),
@@ -281,6 +257,7 @@ export default class restaurantDetail extends Component {
                         <NavLink href="#"><Link to={`/restaurant-detail/${restaurantId}/service`}>Dịch vụ</Link></NavLink>
                     </NavItem>
                 </Nav>
+                <Cart />
                 <Container className="image-slide">
                     <ImageGallery items={images} />
                 </Container>
@@ -288,14 +265,7 @@ export default class restaurantDetail extends Component {
                     <div className="restauran-detail-header">
                         <div className="restauran-detail-name">{restaurant.restaurantName}</div>
                         <div className="restauran-detail-rate">
-                            <StarRatings
-                                rating={restaurant.rate}
-                                starDimension="30px"
-                                starSpacing="4px"
-                                starRatedColor="#ffe200"
-                                numberOfStars={5}
-                                className="rating-star"
-                            />
+                            <StarRating rate={restaurant.rate} starDimension="30" starSpacing="4" />
                         </div>
                     </div>
                     <div className="restauran-detail-location">
@@ -310,21 +280,8 @@ export default class restaurantDetail extends Component {
                     </div>
                     <div className="combo-content">
                         <Row>
-                            {combos.map(combo => {
-                                return <Col key={combo.combo_id} className="combo-item" lg="3" md="6" sm="12">
-                                    <Card className="combo-card">
-                                        <div className="combo-name">{combo.combo_name}</div>
-                                        <CardImg className="combo-image" top width="100%" src={'/images/' + combo.image_combo_id} />
-                                        <div className="dish-lists">
-                                            {dishes.map(dish => {
-                                                return <div key={dish.dish_id} className="dish-item">
-                                                    {dish.dish_name}
-                                                </div>
-                                            })}
-                                        </div>
-                                        <Button className="btn-order" color="success">Đặt ngay</Button>
-                                    </Card>
-                                </Col>
+                            {combos.map((combo, index) => {
+                                return <ComboItem combo={combo} dishes={dishes} index={index} />
                             })}
                         </Row>
                     </div>
@@ -332,14 +289,7 @@ export default class restaurantDetail extends Component {
                 <Container className="feedback">
                     <div className="feedback-title">Bài đánh giá {restaurant.restaurantName} từ khách hàng</div>
                     <div className="feedback-sub-title">
-                        <StarRatings
-                            rating={restaurant.rate}
-                            starDimension="30px"
-                            starSpacing="4px"
-                            starRatedColor="#ffe200"
-                            numberOfStars={5}
-                            className="rating-star"
-                        />
+                        <StarRating rate={restaurant.rate} starDimension="30" starSpacing="4" />
                         <div className="feedback-description"><b>{restaurant.rate}/5</b> dựa trên {feedbacks.length} đánh giá</div>
                     </div>
                     <div className="send-feedback">

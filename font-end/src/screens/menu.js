@@ -5,12 +5,15 @@ import Footer from '../components/footer';
 import {
     Nav, NavItem, NavLink, Input, Label,
     Button, Container, Card, CardImg, CardBody,
-    CardTitle, CardText, Row, Col
+    CardTitle, CardText, Row, Col,
 } from 'reactstrap';
 import Carousel from 'react-multi-carousel';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 import { Link } from 'react-router-dom';
+
+import DishItem from '../components/dishItem';
+import Cart from '../components/cart';
 
 const responsive = {
     desktop: {
@@ -103,15 +106,9 @@ export default class menu extends Component {
             .then(res => {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
-                const dishSearch = slice.map(dish => {
-                    return <Col key={dish.id} className="search-item" lg="3" md="6" sm="12">
-                        <Card key={dish.id} className="item">
-                            <CardImg className="dish-img" top width="150px" height="200px" src={'/images/' + dish.image_dish_id} alt="Nhà hàng" />
-                            <CardBody className="dish-content">
-                                <CardTitle tag="h5">{dish.dish_name}</CardTitle>
-                                <CardText className="dish-price">{dish.price + ' VNĐ'}</CardText>
-                            </CardBody>
-                        </Card>
+                const dishSearch = slice.map((dish, index) => {
+                    return <Col key={index} className="search-item" lg="3" md="6" sm="12">
+                        <DishItem dish={dish} />
                     </Col>
                 })
                 this.setState({
@@ -153,6 +150,7 @@ export default class menu extends Component {
                     </NavItem>
                 </Nav>
 
+                <Cart />
                 <Container className="menu-search-dish">
                     <Label for="dishName" className="search-dish-title"> Tìm món ăn theo tên: </Label>
                     <Input
@@ -203,13 +201,7 @@ export default class menu extends Component {
                                         containerClass="container-with-dots"
                                     >
                                         {dishType1.map(dish => {
-                                            return <Card key={dish.id} className="item">
-                                                <CardImg className="dish-img" top width="150px" height="200px" src={'/images/' + dish.image_dish_id} alt="Nhà hàng" />
-                                                <CardBody className="dish-content">
-                                                    <CardTitle tag="h5">{dish.dish_name}</CardTitle>
-                                                    <CardText className="dish-price">{dish.price + ' VNĐ'}</CardText>
-                                                </CardBody>
-                                            </Card>
+                                            return <DishItem dish={dish} />
                                         })}
                                     </Carousel>
                                 </Row>
@@ -233,13 +225,7 @@ export default class menu extends Component {
                                         containerClass="container-with-dots"
                                     >
                                         {dishType2.map(dish => {
-                                            return <Card key={dish.id} className="item">
-                                                <CardImg className="dish-img" top width="150px" height="200px" src={'/images/' + dish.image_dish_id} alt="Nhà hàng" />
-                                                <CardBody className="dish-content">
-                                                    <CardTitle tag="h5">{dish.dish_name}</CardTitle>
-                                                    <CardText className="dish-price">{dish.price + ' VNĐ'}</CardText>
-                                                </CardBody>
-                                            </Card>
+                                            return <DishItem dish={dish} />
                                         })}
                                     </Carousel>
                                 </Row>
@@ -263,13 +249,7 @@ export default class menu extends Component {
                                         containerClass="container-with-dots"
                                     >
                                         {dishType3.map(dish => {
-                                            return <Card key={dish.id} className="item">
-                                                <CardImg className="dish-img" top width="150px" height="200px" src={'/images/' + dish.image_dish_id} alt="Nhà hàng" />
-                                                <CardBody className="dish-content">
-                                                    <CardTitle tag="h5">{dish.dish_name}</CardTitle>
-                                                    <CardText className="dish-price">{dish.price + ' VNĐ'}</CardText>
-                                                </CardBody>
-                                            </Card>
+                                            return <DishItem dish={dish} />
                                         })}
                                     </Carousel>
                                 </Row>
@@ -293,13 +273,7 @@ export default class menu extends Component {
                                         containerClass="container-with-dots"
                                     >
                                         {dishType4.map(dish => {
-                                            return <Card key={dish.id} className="item">
-                                                <CardImg className="dish-img" top width="150px" height="200px" src={'/images/' + dish.image_dish_id} alt="Nhà hàng" />
-                                                <CardBody className="dish-content">
-                                                    <CardTitle tag="h5">{dish.dish_name}</CardTitle>
-                                                    <CardText className="dish-price">{dish.price + ' VNĐ'}</CardText>
-                                                </CardBody>
-                                            </Card>
+                                            return <DishItem dish={dish} />
                                         })}
                                     </Carousel>
                                 </Row>

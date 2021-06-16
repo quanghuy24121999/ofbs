@@ -3,12 +3,13 @@ import React, { Component } from 'react';
 import TopMenu from '../components/topMenu';
 import Footer from '../components/footer';
 import axios from 'axios'; import {
-    Nav, NavItem, NavLink, Container, 
-    Card, CardImg, CardBody,
-    CardTitle, CardText, Row
+    Nav, NavItem, NavLink, Container, Row
 } from 'reactstrap';
 import Carousel from 'react-multi-carousel';
 import { Link } from 'react-router-dom';
+import ServiceItem from '../components/serviceItem';
+
+import Cart from '../components/cart';
 
 const responsive = {
     desktop: {
@@ -52,40 +53,64 @@ export default class service extends Component {
         }
     }
 
+    modifiedService(services) {
+        for (let i = 0; i < services.length; i++) {
+            services[i].dish_name = services[i]['service_name'];
+            delete services[i].service_name;
+
+            services[i].image_dish_id = services[i]['image_service_id'];
+            delete services[i].image_service_id;
+        }
+    }
+
     componentDidMount() {
         const restaurantId = this.props.match.params.restaurantId;
         axios.get(`/restaurants/services?restaurantId=${restaurantId}&categoryId=1`)
             .then(res => {
-                this.setState({ serviceType1: res.data })
+                let services = res.data;
+                this.modifiedService(services);
+                this.setState({ serviceType1: services })
             })
 
         axios.get(`/restaurants/services?restaurantId=${restaurantId}&categoryId=2`)
             .then(res => {
-                this.setState({ serviceType2: res.data })
+                let services = res.data;
+                this.modifiedService(services);
+                this.setState({ serviceType2: services })
             })
 
         axios.get(`/restaurants/services?restaurantId=${restaurantId}&categoryId=3`)
             .then(res => {
-                this.setState({ serviceType3: res.data })
+                let services = res.data;
+                this.modifiedService(services);
+                this.setState({ serviceType3: services })
             })
 
         axios.get(`/restaurants/services?restaurantId=${restaurantId}&categoryId=4`)
             .then(res => {
-                this.setState({ serviceType4: res.data })
+                let services = res.data;
+                this.modifiedService(services);
+                this.setState({ serviceType4: services })
             })
         axios.get(`/restaurants/services?restaurantId=${restaurantId}&categoryId=5`)
             .then(res => {
-                this.setState({ serviceType5: res.data })
+                let services = res.data;
+                this.modifiedService(services);
+                this.setState({ serviceType5: services })
             })
 
         axios.get(`/restaurants/services?restaurantId=${restaurantId}&categoryId=6`)
             .then(res => {
-                this.setState({ serviceType6: res.data })
+                let services = res.data;
+                this.modifiedService(services);
+                this.setState({ serviceType6: services })
             })
 
         axios.get(`/restaurants/services?restaurantId=${restaurantId}&categoryId=7`)
             .then(res => {
-                this.setState({ serviceType7: res.data })
+                let services = res.data;
+                this.modifiedService(services);
+                this.setState({ serviceType7: services })
             })
     }
 
@@ -109,6 +134,7 @@ export default class service extends Component {
                         <NavLink active><Link >Dịch vụ</Link></NavLink>
                     </NavItem>
                 </Nav>
+                <Cart />
                 <div className="services">
                     <div className="list-services">
                         <Container className="list-dishes-title">Trang trí: </Container>
@@ -126,14 +152,8 @@ export default class service extends Component {
                                     slidesToSlide={1}
                                     containerClass="container-with-dots"
                                 >
-                                    {serviceType1.map(service => {
-                                        return <Card key={service.id} className="item">
-                                            <CardImg className="service-img" top width="150px" height="200px" src={'/images/' + service.image_service_id} alt="Dịch vụ" />
-                                            <CardBody className="service-content">
-                                                <CardTitle tag="h5">{service.service_name}</CardTitle>
-                                                <CardText className="service-price">{service.price + ' VNĐ'}</CardText>
-                                            </CardBody>
-                                        </Card>
+                                    {serviceType1.map((service, index) => {
+                                        return <ServiceItem service={service} index={index} />
                                     })}
                                 </Carousel>
                             </Row>
@@ -156,14 +176,8 @@ export default class service extends Component {
                                     slidesToSlide={1}
                                     containerClass="container-with-dots"
                                 >
-                                    {serviceType2.map(service => {
-                                        return <Card key={service.id} className="item">
-                                            <CardImg className="service-img" top width="150px" height="200px" src={'/images/' + service.image_service_id} alt="Dịch vụ" />
-                                            <CardBody className="service-content">
-                                                <CardTitle tag="h5">{service.service_name}</CardTitle>
-                                                <CardText className="service-price">{service.price + ' VNĐ'}</CardText>
-                                            </CardBody>
-                                        </Card>
+                                    {serviceType2.map((service, index) => {
+                                        return <ServiceItem service={service} index={index} />
                                     })}
                                 </Carousel>
                             </Row>
@@ -186,14 +200,8 @@ export default class service extends Component {
                                     slidesToSlide={1}
                                     containerClass="container-with-dots"
                                 >
-                                    {serviceType3.map(service => {
-                                        return <Card key={service.id} className="item">
-                                            <CardImg className="service-img" top width="150px" height="200px" src={'/images/' + service.image_service_id} alt="Dịch vụ" />
-                                            <CardBody className="service-content">
-                                                <CardTitle tag="h5">{service.service_name}</CardTitle>
-                                                <CardText className="service-price">{service.price + ' VNĐ'}</CardText>
-                                            </CardBody>
-                                        </Card>
+                                    {serviceType3.map((service, index) => {
+                                        return <ServiceItem service={service} index={index} />
                                     })}
                                 </Carousel>
                             </Row>
@@ -216,14 +224,8 @@ export default class service extends Component {
                                     slidesToSlide={1}
                                     containerClass="container-with-dots"
                                 >
-                                    {serviceType4.map(service => {
-                                        return <Card key={service.id} className="item">
-                                            <CardImg className="service-img" top width="150px" height="200px" src={'/images/' + service.image_service_id} alt="Dịch vụ" />
-                                            <CardBody className="service-content">
-                                                <CardTitle tag="h5">{service.service_name}</CardTitle>
-                                                <CardText className="service-price">{service.price + ' VNĐ'}</CardText>
-                                            </CardBody>
-                                        </Card>
+                                    {serviceType4.map((service, index) => {
+                                        return <ServiceItem service={service} index={index} />
                                     })}
                                 </Carousel>
                             </Row>
@@ -246,14 +248,8 @@ export default class service extends Component {
                                     slidesToSlide={1}
                                     containerClass="container-with-dots"
                                 >
-                                    {serviceType5.map(service => {
-                                        return <Card key={service.id} className="item">
-                                            <CardImg className="service-img" top width="150px" height="200px" src={'/images/' + service.image_service_id} alt="Dịch vụ" />
-                                            <CardBody className="service-content">
-                                                <CardTitle tag="h5">{service.service_name}</CardTitle>
-                                                <CardText className="service-price">{service.price + ' VNĐ'}</CardText>
-                                            </CardBody>
-                                        </Card>
+                                    {serviceType5.map((service, index) => {
+                                        return <ServiceItem service={service} index={index} />
                                     })}
                                 </Carousel>
                             </Row>
@@ -276,14 +272,8 @@ export default class service extends Component {
                                     slidesToSlide={1}
                                     containerClass="container-with-dots"
                                 >
-                                    {serviceType6.map(service => {
-                                        return <Card key={service.id} className="item">
-                                            <CardImg className="service-img" top width="150px" height="200px" src={'/images/' + service.image_service_id} alt="Dịch vụ" />
-                                            <CardBody className="service-content">
-                                                <CardTitle tag="h5">{service.service_name}</CardTitle>
-                                                <CardText className="service-price">{service.price + ' VNĐ'}</CardText>
-                                            </CardBody>
-                                        </Card>
+                                    {serviceType6.map((service, index) => {
+                                        return <ServiceItem service={service} index={index} />
                                     })}
                                 </Carousel>
                             </Row>
@@ -306,14 +296,8 @@ export default class service extends Component {
                                     slidesToSlide={1}
                                     containerClass="container-with-dots"
                                 >
-                                    {serviceType7.map(service => {
-                                        return <Card key={service.id} className="item">
-                                            <CardImg className="service-img" top width="150px" height="200px" src={'/images/' + service.image_service_id} alt="Dịch vụ" />
-                                            <CardBody className="service-content">
-                                                <CardTitle tag="h5">{service.service_name}</CardTitle>
-                                                <CardText className="service-price">{service.price + ' VNĐ'}</CardText>
-                                            </CardBody>
-                                        </Card>
+                                    {serviceType7.map((service, index) => {
+                                        return <ServiceItem service={service} index={index} />
                                     })}
                                 </Carousel>
                             </Row>
