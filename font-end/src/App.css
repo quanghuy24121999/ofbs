@@ -916,6 +916,13 @@ label {
   padding-bottom: 15px;
 }
 
+.combo-price {
+  font-size: 1.2rem;
+  font-weight: 500;
+  border-top: 2px solid #000000;
+  color: #0572e6;
+}
+
 .dish-lists {
   height: auto;
   display: flex;

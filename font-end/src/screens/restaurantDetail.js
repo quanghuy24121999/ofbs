@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import {
-    Card, Col, Container, Input, Label,
+    Container, Input, Label,
     Nav, NavItem, NavLink, Row, Button, CardImg,
     Modal,
     ModalHeader,
@@ -18,7 +18,10 @@ import { Redirect, Link } from "react-router-dom";
 import TopMenu from '../components/topMenu';
 import Footer from '../components/footer';
 import axios from 'axios';
+
 import imageUser from '../images/default-avatar-user.png';
+import ComboItem from '../components/comboItem';
+import Cart from '../components/cart';
 
 export default class restaurantDetail extends Component {
     constructor(props) {
@@ -74,19 +77,36 @@ export default class restaurantDetail extends Component {
 
         axios.get(`/restaurants/combos?restaurantId=${restaurantId}`)
             .then(res => {
-                let combos = [];
-                combos = res.data;
-                combos.map(combo => {
-                    axios.get(`/restaurants/combos/dishes?comboId=${combo.combo_id}`)
+                let combosTemp = res.data;
+
+                this.modifiedCombo(combosTemp);
+
+                combosTemp.map(combo => {
+                    axios.get(`/restaurants/combos/dishes?comboId=${combo.id}`)
                         .then(res => {
                             this.setState({ dishes: res.data })
                         })
                 })
-
-                this.setState({ combos: res.data })
+                this.setState({ combos: combosTemp })
             })
 
         this.receivedData();
+    }
+
+    modifiedCombo(combos) {
+        for (let i = 0; i < combos.length; i++) {
+            combos[i].id = combos[i]['combo_id'];
+            delete combos[i].combo_id;
+
+            combos[i].dish_name = combos[i]['combo_name'];
+            delete combos[i].combo_name;
+
+            combos[i].price = combos[i]['combo_price'];
+            delete combos[i].combo_price;
+
+            combos[i].image_dish_id = combos[i]['image_combo_id'];
+            delete combos[i].image_combo_id;
+        }
     }
 
     changeRating(newRating) {
@@ -281,6 +301,7 @@ export default class restaurantDetail extends Component {
                         <NavLink href="#"><Link to={`/restaurant-detail/${restaurantId}/service`}>Dịch vụ</Link></NavLink>
                     </NavItem>
                 </Nav>
+                <Cart />
                 <Container className="image-slide">
                     <ImageGallery items={images} />
                 </Container>
@@ -310,21 +331,8 @@ export default class restaurantDetail extends Component {
                     </div>
                     <div className="combo-content">
                         <Row>
-                            {combos.map(combo => {
-                                return <Col key={combo.combo_id} className="combo-item" lg="3" md="6" sm="12">
-                                    <Card className="combo-card">
-                                        <div className="combo-name">{combo.combo_name}</div>
-                                        <CardImg className="combo-image" top width="100%" src={'/images/' + combo.image_combo_id} />
-                                        <div className="dish-lists">
-                                            {dishes.map(dish => {
-                                                return <div key={dish.dish_id} className="dish-item">
-                                                    {dish.dish_name}
-                                                </div>
-                                            })}
-                                        </div>
-                                        <Button className="btn-order" color="success">Đặt ngay</Button>
-                                    </Card>
-                                </Col>
+                            {combos.map((combo, index) => {
+                                return <ComboItem combo={combo} dishes={dishes} index={index} />
                             })}
                         </Row>
                     </div>

@@ -12,7 +12,7 @@ import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 import { Link } from 'react-router-dom';
 
-import DishItem from '../components/dish';
+import DishItem from '../components/dishItem';
 import Cart from '../components/cart';
 
 const responsive = {
@@ -106,8 +106,8 @@ export default class menu extends Component {
             .then(res => {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
-                const dishSearch = slice.map(dish => {
-                    return <Col key={dish.id} className="search-item" lg="3" md="6" sm="12">
+                const dishSearch = slice.map((dish, index) => {
+                    return <Col key={index} className="search-item" lg="3" md="6" sm="12">
                         <DishItem dish={dish} />
                     </Col>
                 })

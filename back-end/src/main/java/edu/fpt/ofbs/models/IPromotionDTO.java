@@ -4,6 +4,8 @@ import java.util.Date;
 
 public interface IPromotionDTO {
 	int getPromotion_id();
+	
+	int getRestaurant_id();
 
 	String getPromotion_name();
 
