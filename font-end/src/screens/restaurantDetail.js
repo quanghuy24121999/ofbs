@@ -2,10 +2,8 @@ import React, { Component } from 'react'
 
 import {
     Container, Input, Label,
-    Nav, NavItem, NavLink, Row, Button, CardImg,
-    Modal,
-    ModalHeader,
-    ModalBody,
+    Nav, NavItem, NavLink, Button,
+    Modal, ModalHeader, ModalBody,
     ModalFooter
 } from 'reactstrap';
 import "react-image-gallery/styles/css/image-gallery.css";
@@ -19,7 +17,6 @@ import TopMenu from '../components/topMenu';
 import Footer from '../components/footer';
 import axios from 'axios';
 
-import ComboItem from '../components/comboItem';
 import Cart from '../components/cart';
 import StarRating from '../components/starRating';
 import FeedbackItem from '../components/feedbackItem';
@@ -31,8 +28,6 @@ export default class restaurantDetail extends Component {
         this.state = {
             images: [],
             restaurant: {},
-            combos: [],
-            dishes: [],
             feedbacks: [],
             rating: 1,
             offset: 0,
@@ -64,7 +59,7 @@ export default class restaurantDetail extends Component {
                         original: '/images/' + image.image_id,
                         thumbnail: '/images/' + image.image_id
                     }
-                    imageArr.push(imageObject);
+                    return imageArr.push(imageObject);
                 })
                 this.setState({
                     images: imageArr
@@ -76,38 +71,7 @@ export default class restaurantDetail extends Component {
                 this.setState({ restaurant: res.data })
             })
 
-        axios.get(`/restaurants/combos?restaurantId=${restaurantId}`)
-            .then(res => {
-                let combosTemp = res.data;
-
-                this.modifiedCombo(combosTemp);
-
-                combosTemp.map(combo => {
-                    axios.get(`/restaurants/combos/dishes?comboId=${combo.id}`)
-                        .then(res => {
-                            this.setState({ dishes: res.data })
-                        })
-                })
-                this.setState({ combos: combosTemp })
-            })
-
         this.receivedData();
-    }
-
-    modifiedCombo(combos) {
-        for (let i = 0; i < combos.length; i++) {
-            combos[i].id = combos[i]['combo_id'];
-            delete combos[i].combo_id;
-
-            combos[i].dish_name = combos[i]['combo_name'];
-            delete combos[i].combo_name;
-
-            combos[i].price = combos[i]['combo_price'];
-            delete combos[i].combo_price;
-
-            combos[i].image_dish_id = combos[i]['image_combo_id'];
-            delete combos[i].image_combo_id;
-        }
     }
 
     changeRating(newRating) {
@@ -122,8 +86,10 @@ export default class restaurantDetail extends Component {
             .then(res => {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
-                const feedbackPaging = slice.map((feedback) => {
-                    return <FeedbackItem feedback={feedback} />
+                const feedbackPaging = slice.map((feedback, index) => {
+                    return <div key={index}>
+                        <FeedbackItem feedback={feedback} />
+                    </div>
                 })
                 this.setState({
                     pageCount: Math.ceil(data.length / this.state.perPage),
@@ -199,8 +165,10 @@ export default class restaurantDetail extends Component {
                 .then(res => {
                     const data = res.data;
                     const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
-                    const feedbackPaging = slice.map((feedback) => {
-                        return <FeedbackItem feedback={feedback} />
+                    const feedbackPaging = slice.map((feedback, index) => {
+                        return <div key={index}>
+                            <FeedbackItem feedback={feedback} />
+                        </div>
                     })
                     this.setState({
                         pageCount: Math.ceil(data.length / this.state.perPage),
@@ -228,7 +196,7 @@ export default class restaurantDetail extends Component {
     }
 
     render() {
-        const { images, restaurant, combos, feedbacks, dishes, textFeedback,
+        const { images, restaurant, feedbacks, textFeedback,
             rating, displayModal, moveToLogin
         } = this.state;
         const restaurantId = this.props.match.params.restaurantId;
@@ -247,14 +215,17 @@ export default class restaurantDetail extends Component {
                 </Modal>
                 <TopMenu />
                 <Nav pills className="restaurant-detail-nav container">
-                    <NavItem>
-                        <NavLink href="#" active><Link>Nhà hàng</Link></NavLink>
+                    <NavItem className="active">
+                        <Link to={`/restaurant-detail/${restaurantId}`}>Nhà hàng</Link>
                     </NavItem>
                     <NavItem>
-                        <NavLink><Link to={`/restaurant-detail/${restaurantId}/menu`}  >Thực đơn</Link></NavLink>
+                        <Link to={`/restaurant-detail/${restaurantId}/menu`}  >Thực đơn</Link>
                     </NavItem>
                     <NavItem>
-                        <NavLink href="#"><Link to={`/restaurant-detail/${restaurantId}/service`}>Dịch vụ</Link></NavLink>
+                        <Link to={`/restaurant-detail/${restaurantId}/combo`}  >Combo</Link>
+                    </NavItem>
+                    <NavItem>
+                        <Link to={`/restaurant-detail/${restaurantId}/service`}>Dịch vụ</Link>
                     </NavItem>
                 </Nav>
                 <Cart />
@@ -273,19 +244,7 @@ export default class restaurantDetail extends Component {
                     </div>
                     <div className="restauran-detail-description">{restaurant.description}</div>
                 </Container>
-                <Container className="restaurant-detail-combo">
-                    <div className="combo-header">
-                        <div className="combo-header-text">Chọn combo để được giảm giá</div>
-                        <div className="combo-header-menu">Tự chọn Menu</div>
-                    </div>
-                    <div className="combo-content">
-                        <Row>
-                            {combos.map((combo, index) => {
-                                return <ComboItem combo={combo} dishes={dishes} index={index} />
-                            })}
-                        </Row>
-                    </div>
-                </Container>
+
                 <Container className="feedback">
                     <div className="feedback-title">Bài đánh giá {restaurant.restaurantName} từ khách hàng</div>
                     <div className="feedback-sub-title">

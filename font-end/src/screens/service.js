@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import TopMenu from '../components/topMenu';
 import Footer from '../components/footer';
 import axios from 'axios'; import {
-    Nav, NavItem, NavLink, Container, Row
+    Nav, NavItem, Container, Row
 } from 'reactstrap';
 import Carousel from 'react-multi-carousel';
 import { Link } from 'react-router-dom';
@@ -125,13 +125,16 @@ export default class service extends Component {
                 <TopMenu />
                 <Nav pills className="restaurant-detail-nav container">
                     <NavItem>
-                        <NavLink><Link to={`/restaurant-detail/${restaurantId}`}  >Nhà hàng</Link></NavLink>
+                        <Link to={`/restaurant-detail/${restaurantId}`}  >Nhà hàng</Link>
                     </NavItem>
                     <NavItem>
-                        <NavLink><Link to={`/restaurant-detail/${restaurantId}/menu`}  >Thực đơn</Link></NavLink>
+                        <Link to={`/restaurant-detail/${restaurantId}/menu`}  >Thực đơn</Link>
                     </NavItem>
                     <NavItem>
-                        <NavLink active><Link >Dịch vụ</Link></NavLink>
+                        <Link to={`/restaurant-detail/${restaurantId}/combo`}  >Combo</Link>
+                    </NavItem>
+                    <NavItem className="active">
+                        <Link to={`/restaurant-detail/${restaurantId}/service`}>Dịch vụ</Link>
                     </NavItem>
                 </Nav>
                 <Cart />
@@ -150,10 +153,11 @@ export default class service extends Component {
                                     focusOnSelect={false}
                                     infinite={true}
                                     slidesToSlide={1}
-                                    containerClass="container-with-dots"
                                 >
                                     {serviceType1.map((service, index) => {
-                                        return <ServiceItem service={service} index={index} />
+                                        return <div key={index}>
+                                            <ServiceItem service={service} index={index} />
+                                        </div>
                                     })}
                                 </Carousel>
                             </Row>
@@ -174,10 +178,11 @@ export default class service extends Component {
                                     focusOnSelect={false}
                                     infinite={true}
                                     slidesToSlide={1}
-                                    containerClass="container-with-dots"
                                 >
                                     {serviceType2.map((service, index) => {
-                                        return <ServiceItem service={service} index={index} />
+                                        return <div key={index}>
+                                            <ServiceItem service={service} index={index} />
+                                        </div>
                                     })}
                                 </Carousel>
                             </Row>
@@ -198,10 +203,11 @@ export default class service extends Component {
                                     focusOnSelect={false}
                                     infinite={true}
                                     slidesToSlide={1}
-                                    containerClass="container-with-dots"
                                 >
                                     {serviceType3.map((service, index) => {
-                                        return <ServiceItem service={service} index={index} />
+                                        return <div key={index}>
+                                            <ServiceItem service={service} index={index} />
+                                        </div>
                                     })}
                                 </Carousel>
                             </Row>
@@ -222,10 +228,11 @@ export default class service extends Component {
                                     focusOnSelect={false}
                                     infinite={true}
                                     slidesToSlide={1}
-                                    containerClass="container-with-dots"
                                 >
                                     {serviceType4.map((service, index) => {
-                                        return <ServiceItem service={service} index={index} />
+                                        return <div key={index}>
+                                            <ServiceItem service={service} index={index} />
+                                        </div>
                                     })}
                                 </Carousel>
                             </Row>
@@ -246,10 +253,11 @@ export default class service extends Component {
                                     focusOnSelect={false}
                                     infinite={true}
                                     slidesToSlide={1}
-                                    containerClass="container-with-dots"
                                 >
                                     {serviceType5.map((service, index) => {
-                                        return <ServiceItem service={service} index={index} />
+                                        return <div key={index}>
+                                            <ServiceItem service={service} index={index} />
+                                        </div>
                                     })}
                                 </Carousel>
                             </Row>
@@ -270,10 +278,11 @@ export default class service extends Component {
                                     focusOnSelect={false}
                                     infinite={true}
                                     slidesToSlide={1}
-                                    containerClass="container-with-dots"
                                 >
                                     {serviceType6.map((service, index) => {
-                                        return <ServiceItem service={service} index={index} />
+                                        return <div key={index}>
+                                            <ServiceItem service={service} index={index} />
+                                        </div>
                                     })}
                                 </Carousel>
                             </Row>
@@ -294,10 +303,11 @@ export default class service extends Component {
                                     focusOnSelect={false}
                                     infinite={true}
                                     slidesToSlide={1}
-                                    containerClass="container-with-dots"
                                 >
                                     {serviceType7.map((service, index) => {
-                                        return <ServiceItem service={service} index={index} />
+                                        return <div key={index}>
+                                            <ServiceItem service={service} index={index} />
+                                        </div>
                                     })}
                                 </Carousel>
                             </Row>

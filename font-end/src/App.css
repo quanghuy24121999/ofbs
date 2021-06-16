@@ -892,17 +892,24 @@ label {
   flex-direction: row;
 }
 
-.restaurant-detail-nav > .nav-item > a > a {
+.restaurant-detail-nav > .nav-item > a {
   color: black;
   font-size: 1.1rem;
   font-weight: 500;
 }
 
-.nav-item > .active {
-  background-color: var(--color-primary) !important;
+.restaurant-detail-nav > .nav-item {
+  padding: 10px 10px;
 }
 
-.nav-item > .active > a {
+.restaurant-detail-nav > .active {
+  padding: 7px 15px;
+  margin: 0 10px;
+  background-color: var(--color-primary) !important;
+  border-radius: 5px;
+}
+
+.restaurant-detail-nav > .active > a {
   color: #fff !important;
 }
 
@@ -1079,7 +1086,8 @@ label {
   flex-grow: 1;
 }
 
-.star-rating-nav {
+.star-rating-nav > .nav-item > .active{
+  background-color: var(--color-primary);
 }
 
 .nav-link {

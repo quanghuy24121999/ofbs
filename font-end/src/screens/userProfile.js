@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios'; import {
-    Nav, NavItem, NavLink, Container,
+    Nav, NavItem, Container,
     Row, Col, CardImg, Button, Modal,
     ModalHeader, ModalBody, ModalFooter,
     Input, Label, Alert
@@ -261,14 +261,14 @@ export default class userProfile extends Component {
             <div>
                 <TopMenu />
                 <Nav pills className="restaurant-detail-nav container">
-                    <NavItem>
-                        <NavLink active><Link>Hồ sơ</Link></NavLink>
+                    <NavItem className="active">
+                        <Link to={''}>Hồ sơ</Link>
                     </NavItem>
                     <NavItem>
-                        <NavLink><Link to={``}>Đơn của tôi</Link></NavLink>
+                        <Link to={``}>Đơn của tôi</Link>
                     </NavItem>
                     <NavItem>
-                        <NavLink><Link to={``}>Ví FBS</Link></NavLink>
+                        <Link to={``}>Ví FBS</Link>
                     </NavItem>
                 </Nav>
                 <div>
@@ -356,33 +356,31 @@ export default class userProfile extends Component {
                             >
                                 {({
                                     imageList,
-                                    // onImageUpload,
                                     onImageUpdate,
                                     onImageRemove,
                                 }) => (
                                     <div className="upload__image-wrapper">
                                         {image}
-                                        {imageList.map(
-                                            (image, index) => (
-                                                (document.getElementById("user-image").style.display = "none"),
-                                                (
-                                                    <div key={index} className="image-item">
-                                                        <CardImg className="user-profile-image" top src={image.data_url} />
-                                                        <Alert color="danger" id="error-form4" className="error-form">
-                                                            Không thể tải ảnh lên, vui lòng chọn một ảnh khác !
-                                                        </Alert>
-                                                        <div className="image-item__btn-wrapper">
-                                                            <Button color="success" onClick={() => this.updateImage()}>Lưu</Button>
-                                                            <Button onClick={() => {
-                                                                onImageRemove(index); this.displayImage();
-                                                            }}
-                                                            >
-                                                                Hủy
-                                                            </Button>
-                                                        </div>
+                                        {imageList.map((image, index) => (
+                                            (document.getElementById("user-image").style.display = "none"),
+                                            (
+                                                <div key={index} className="image-item">
+                                                    <CardImg className="user-profile-image" top src={image.data_url} />
+                                                    <Alert color="danger" id="error-form4" className="error-form">
+                                                        Không thể tải ảnh lên, vui lòng chọn một ảnh khác !
+                                                    </Alert>
+                                                    <div className="image-item__btn-wrapper">
+                                                        <Button color="success" onClick={() => this.updateImage()}>Lưu</Button>
+                                                        <Button onClick={() => {
+                                                            onImageRemove(index); this.displayImage();
+                                                        }}
+                                                        >
+                                                            Hủy
+                                                        </Button>
                                                     </div>
-                                                )
+                                                </div>
                                             )
+                                        )
                                         )}
 
                                         <div className="btn-change-image" onClick={onImageUpdate}>Thay đổi ảnh</div>
