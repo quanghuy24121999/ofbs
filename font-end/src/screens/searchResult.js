@@ -13,6 +13,7 @@ import ReactPaginate from 'react-paginate';
 import TopMenu from '../components/topMenu';
 import Footer from '../components/footer';
 import { Link } from 'react-router-dom';
+import RestaurantItem from '../components/restaurantItem';
 
 export default class searchResult extends Component {
     constructor(props) {
@@ -163,23 +164,7 @@ export default class searchResult extends Component {
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
                 const restaurants = slice.map((restaurant) => {
                     return <Col key={restaurant.restaurantId} className="search-item" lg="3" md="6" sm="12">
-                        <Card className="item">
-                            <CardImg className="restaurant-img" top width="100%" src={'/images/' + restaurant.imageId} alt="Nhà hàng" />
-                            <CardBody className="restaurant-content">
-                                <CardTitle tag="h5">{restaurant.restaurantName}</CardTitle>
-                                <CardSubtitle tag="h6" className="mb-2 text-muted">{restaurant.province}</CardSubtitle>
-                                <CardText className="restaurant-size">{'Khoảng ' + restaurant.size + ' người'}</CardText>
-                                <StarRatings
-                                    rating={restaurant.rate}
-                                    starDimension="20px"
-                                    starSpacing="4px"
-                                    starRatedColor="#ffe200"
-                                    numberOfStars={5}
-                                    className="rating-star"
-                                />
-                                <Link to={"/restaurant-detail/" + restaurant.restaurantId} className="btn btn-success">Xem thêm</Link>
-                            </CardBody>
-                        </Card>
+                        <RestaurantItem restaurant={restaurant} />
                     </Col>
                 })
 
@@ -215,10 +200,10 @@ export default class searchResult extends Component {
                         <div className="result-search-location">
                             <FormGroup className="result-search-citySelect">
                                 <Label for="citySelect"><b>Chọn tỉnh/ thành phố:</b></Label>
-                                <Input 
-                                    type="select" 
-                                    name="citySelect" 
-                                    id="citySelect" 
+                                <Input
+                                    type="select"
+                                    name="citySelect"
+                                    id="citySelect"
                                     onChange={this.onProvinceClick}
                                     value={localStorage.getItem("provinceCode")}
                                 >
