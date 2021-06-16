@@ -12,6 +12,8 @@ import restaurantDetail from './screens/restaurantDetail';
 import menu from './screens/menu';
 import service from './screens/service';
 import userProfile from './screens/userProfile';
+import promotion from './screens/promotion';
+
 import { CartProvider } from "react-use-cart";
 
 class App extends Component {
@@ -29,6 +31,7 @@ class App extends Component {
             <Route exact path="/restaurant-detail/:restaurantId/menu" component={menu} />
             <Route exact path="/restaurant-detail/:restaurantId/service" component={service} />
             <Route exact path="/users/profile/:userId" component={userProfile} />
+            <Route exact path="/promotion" component={promotion} />
           </div>
         </Router>
       </CartProvider>
