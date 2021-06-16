@@ -3,9 +3,8 @@ import React, { Component } from 'react'
 import TopMenu from '../components/topMenu';
 import Footer from '../components/footer';
 import {
-    Nav, NavItem, NavLink, Input, Label,
-    Button, Container, Card, CardImg, CardBody,
-    CardTitle, CardText, Row, Col,
+    Nav, NavItem, Input, Label,
+    Button, Container, Row, Col
 } from 'reactstrap';
 import Carousel from 'react-multi-carousel';
 import axios from 'axios';
@@ -140,13 +139,16 @@ export default class menu extends Component {
                 <TopMenu />
                 <Nav pills className="restaurant-detail-nav container">
                     <NavItem>
-                        <NavLink><Link to={`/restaurant-detail/${restaurantId}`}  >Nhà hàng</Link></NavLink>
+                        <Link to={`/restaurant-detail/${restaurantId}`}  >Nhà hàng</Link>
+                    </NavItem>
+                    <NavItem className="active">
+                        <Link to={`/restaurant-detail/${restaurantId}/menu`} >Thực đơn</Link>
                     </NavItem>
                     <NavItem>
-                        <NavLink href="#" active><Link>Thực đơn</Link></NavLink>
+                        <Link to={`/restaurant-detail/${restaurantId}/combo`}  >Combo</Link>
                     </NavItem>
                     <NavItem>
-                        <NavLink href="#"><Link to={`/restaurant-detail/${restaurantId}/service`}>Dịch vụ</Link></NavLink>
+                        <Link to={`/restaurant-detail/${restaurantId}/service`}>Dịch vụ</Link>
                     </NavItem>
                 </Nav>
 
@@ -198,10 +200,12 @@ export default class menu extends Component {
                                         focusOnSelect={false}
                                         infinite={true}
                                         slidesToSlide={1}
-                                        containerClass="container-with-dots"
+                                    // containerClass="container-with-dots"
                                     >
-                                        {dishType1.map(dish => {
-                                            return <DishItem dish={dish} />
+                                        {dishType1.map((dish, index) => {
+                                            return <div key={index}>
+                                                <DishItem dish={dish} />
+                                            </div>
                                         })}
                                     </Carousel>
                                 </Row>
@@ -222,10 +226,12 @@ export default class menu extends Component {
                                         focusOnSelect={false}
                                         infinite={true}
                                         slidesToSlide={1}
-                                        containerClass="container-with-dots"
+                                    // containerClass="container-with-dots"
                                     >
-                                        {dishType2.map(dish => {
-                                            return <DishItem dish={dish} />
+                                        {dishType2.map((dish, index) => {
+                                            return <div key={index}>
+                                                <DishItem dish={dish} />
+                                            </div>
                                         })}
                                     </Carousel>
                                 </Row>
@@ -246,10 +252,12 @@ export default class menu extends Component {
                                         focusOnSelect={false}
                                         infinite={true}
                                         slidesToSlide={1}
-                                        containerClass="container-with-dots"
+                                    // containerClass="container-with-dots"
                                     >
-                                        {dishType3.map(dish => {
-                                            return <DishItem dish={dish} />
+                                        {dishType3.map((dish, index) => {
+                                            return <div key={index}>
+                                                <DishItem dish={dish} />
+                                            </div>
                                         })}
                                     </Carousel>
                                 </Row>
@@ -270,10 +278,12 @@ export default class menu extends Component {
                                         focusOnSelect={false}
                                         infinite={true}
                                         slidesToSlide={1}
-                                        containerClass="container-with-dots"
+                                    // containerClass="container-with-dots"
                                     >
-                                        {dishType4.map(dish => {
-                                            return <DishItem dish={dish} />
+                                        {dishType4.map((dish, index) => {
+                                            return <div key={index}>
+                                                <DishItem dish={dish} />
+                                            </div>
                                         })}
                                     </Carousel>
                                 </Row>

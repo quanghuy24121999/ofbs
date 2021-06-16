@@ -10,6 +10,7 @@ import forgetPassword from "./screens/forget-password";
 import searchResult from "./screens/searchResult";
 import restaurantDetail from './screens/restaurantDetail';
 import menu from './screens/menu';
+import combo from './screens/combo';
 import service from './screens/service';
 import userProfile from './screens/userProfile';
 import promotion from './screens/promotion';
@@ -29,6 +30,7 @@ class App extends Component {
             <Route path="/search-result" component={searchResult} />
             <Route exact path="/restaurant-detail/:restaurantId" component={restaurantDetail} />
             <Route exact path="/restaurant-detail/:restaurantId/menu" component={menu} />
+            <Route exact path="/restaurant-detail/:restaurantId/combo" component={combo} />
             <Route exact path="/restaurant-detail/:restaurantId/service" component={service} />
             <Route exact path="/users/profile/:userId" component={userProfile} />
             <Route exact path="/promotion" component={promotion} />

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Container } from 'reactstrap';
 import ReactPaginate from 'react-paginate';
+import axios from 'axios';
 
 import TopMenu from '../components/topMenu';
 import Footer from '../components/footer';
-import axios from 'axios';
 import PromotionItem from '../components/promotionItem';
 
 export default class promotion extends Component {
@@ -22,7 +22,6 @@ export default class promotion extends Component {
 
     componentDidMount() {
         this.receivedData();
-
     }
 
     handlePageClick = (e) => {

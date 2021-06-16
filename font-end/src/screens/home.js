@@ -1,8 +1,7 @@
 import { Component } from 'react';
 import {
     CardImg, Row, Form, FormGroup,
-    Input, Label, Card, CardTitle, CardText,
-    CardSubtitle, CardBody, Container
+    Input, Label, Container
 } from 'reactstrap';
 
 import axios from 'axios';
@@ -260,10 +259,12 @@ export default class home extends Component {
                                         focusOnSelect={false}
                                         infinite={true}
                                         slidesToSlide={1}
-                                        containerClass="container-with-dots"
+                                    // containerClass="container-with-dots"
                                     >
-                                        {restaurantsType1.map(restaurant => {
-                                            return <RestaurantItem restaurant={restaurant} />
+                                        {restaurantsType1.map((restaurant, index) => {
+                                            return <div key={index}>
+                                                <RestaurantItem restaurant={restaurant} />
+                                            </div>
                                         })}
                                     </Carousel>
                                 </Row>
@@ -286,10 +287,12 @@ export default class home extends Component {
                                         focusOnSelect={false}
                                         infinite={true}
                                         slidesToSlide={1}
-                                        containerClass="container-with-dots"
+                                    // containerClass="container-with-dots"
                                     >
-                                        {restaurantsType2.map(restaurant => {
-                                            return <RestaurantItem restaurant={restaurant} />
+                                        {restaurantsType2.map((restaurant, index) => {
+                                            return <div key={index}>
+                                                <RestaurantItem restaurant={restaurant} />
+                                            </div>
                                         })}
                                     </Carousel>
                                 </Row>
