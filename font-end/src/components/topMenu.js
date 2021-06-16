@@ -44,9 +44,14 @@ const TopMenu = () => {
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="mr-auto nav" navbar>
-                        <NavItem>
-                            <Link className="link" to="/">Trang chủ</Link>
-                        </NavItem>
+                        <div>
+                            <NavItem>
+                                <Link className="link" to="/">Trang chủ</Link>
+                            </NavItem>
+                            <NavItem>
+                                <Link className="link" to="/promotion">Ưu đãi hôm nay</Link>
+                            </NavItem>
+                        </div>
                         {currentUser ? (
                             <div className="authen">
                                 <NavItem>

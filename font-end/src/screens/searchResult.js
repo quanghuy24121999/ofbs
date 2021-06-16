@@ -1,18 +1,15 @@
 import axios from 'axios';
 import React, { Component } from 'react'
 import {
-    Container, Row, CardImg, Form, FormGroup,
-    Input, Label, Card, CardTitle, CardText,
-    CardSubtitle, CardBody, Col
+    Container, Row, Form, FormGroup,
+    Input, Label, Col
 } from 'reactstrap';
 
 import subVn from "sub-vn";
-import StarRatings from "react-star-ratings";
 import ReactPaginate from 'react-paginate';
 
 import TopMenu from '../components/topMenu';
 import Footer from '../components/footer';
-import { Link } from 'react-router-dom';
 import RestaurantItem from '../components/restaurantItem';
 
 export default class searchResult extends Component {
