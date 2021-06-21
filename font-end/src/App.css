@@ -548,6 +548,11 @@ label {
   padding-top: 10px;
 }
 
+hr {
+  width: 70%;
+  margin: 0 auto;
+}
+
 /*================================================ LOGIN ================================================*/
 
 .container {
@@ -1135,6 +1140,7 @@ label {
 
 .order-row {
   width: 100%;
+  margin-top: 20px;
 }
 
 .order-item {

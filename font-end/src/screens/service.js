@@ -68,7 +68,7 @@ export default class service extends Component {
         axios.get(`/restaurants/services?restaurantId=${restaurantId}&categoryId=1`)
             .then(res => {
                 let services = res.data;
-                this.modifiedService(services);
+                // this.modifiedService(services);
                 this.setState({ serviceType1: services })
             })
 

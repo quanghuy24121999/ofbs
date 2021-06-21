@@ -12,9 +12,9 @@ export default function ServiceItem(props) {
     return (
         <div>
             <Card key={index} className="item">
-                <CardImg className="service-img" top width="150px" height="200px" src={'/images/' + service.image_dish_id} alt="Dịch vụ" />
+                <CardImg className="service-img" top width="150px" height="200px" src={'/images/' + service.image_service_id} alt="Dịch vụ" />
                 <CardBody className="service-content">
-                    <CardTitle tag="h5">{service.dish_name}</CardTitle>
+                    <CardTitle tag="h5">{service.service_name}</CardTitle>
                     <CardText className="service-price">{service.price + ' VNĐ'}</CardText>
                     <Button color="success" onClick={() => addItem(service)}>
                         Thêm vào giỏ
