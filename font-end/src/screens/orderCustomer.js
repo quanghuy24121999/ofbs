@@ -19,7 +19,7 @@ export default class orderCustomer extends Component {
             offset: 0,
             perPage: 2,
             currentPage: 0,
-            status: ''
+            status: 1
         }
 
         this.handlePageClick = this.handlePageClick.bind(this);
@@ -32,7 +32,7 @@ export default class orderCustomer extends Component {
 
     receivedData() {
         const userId = this.props.match.params.userId;
-        axios.get(`/order?customerId=${userId}&statusId=${this.state.status}`)
+        axios.get(`/orders/customer?customerId=${userId}&statusId=${this.state.status}`)
             .then(res => {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
@@ -68,7 +68,7 @@ export default class orderCustomer extends Component {
             status: status
         }, () => {
             const userId = this.props.match.params.userId;
-            axios.get(`/order?customerId=${userId}&statusId=${this.state.status}`)
+            axios.get(`/orders/customer?customerId=${userId}&statusId=${this.state.status}`)
                 .then(res => {
                     const data = res.data;
                     const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
@@ -104,17 +104,17 @@ export default class orderCustomer extends Component {
                 </Nav>
                 <Container className="order">
                     <Nav pills className="order-nav-status">
-                        <NavItem onClick={() => this.onChangeStatus(0)}>
-                            <NavLink active id="0">Chờ duyệt</NavLink>
-                        </NavItem>
                         <NavItem onClick={() => this.onChangeStatus(1)}>
-                            <NavLink id="1">Chưa diễn ra</NavLink>
+                            <NavLink active id="1">Chờ duyệt</NavLink>
                         </NavItem>
                         <NavItem onClick={() => this.onChangeStatus(2)}>
-                            <NavLink id="2">Đã diễn ra</NavLink>
+                            <NavLink id="2">Chưa diễn ra</NavLink>
                         </NavItem>
                         <NavItem onClick={() => this.onChangeStatus(3)}>
-                            <NavLink id="3">Đã hủy</NavLink>
+                            <NavLink id="3">Đã diễn ra</NavLink>
+                        </NavItem>
+                        <NavItem onClick={() => this.onChangeStatus(4)}>
+                            <NavLink id="4">Đã hủy</NavLink>
                         </NavItem>
                     </Nav>
                     <Row className="order-row">
