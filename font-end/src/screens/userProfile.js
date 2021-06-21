@@ -146,13 +146,14 @@ export default class userProfile extends Component {
 
     onSubmit() {
         const userId = this.props.match.params.userId;
-        let { address, email, phone_number, username,
+        let { address, email, phone, username,
             gender, dob
         } = this.state;
+
         axios.patch(`/users/profile/update?userId=${userId}`, {
             "address": address,
             "email": email,
-            "phoneNumber": phone_number,
+            "phoneNumber": phone,
             "name": username,
             "gender": gender,
             "dateOfBirth": dob
@@ -242,30 +243,32 @@ export default class userProfile extends Component {
             nestedModalChange, closeAllChange, images
         } = this.state;
 
-        let image, genderValue;
+        const userId = this.props.match.params.userId;
+
+        let image;
         if (userImage === '') {
             image = <CardImg id="user-image" className="user-profile-image" top src={imageUser} />
         } else {
             image = <CardImg id="user-image" className="user-profile-image" top src={'/images/' + user.image_id} />
         }
 
-        if (gender === true || gender === "1") {
-            genderValue = "1"
-        } else if (gender === false || gender === "0") {
-            genderValue = "0"
-        } else {
-            genderValue = "2"
-        }
+        // if (gender === true || gender === "1") {
+        //     genderValue = "1"
+        // } else if (gender === false || gender === "0") {
+        //     genderValue = "0"
+        // } else {
+        //     genderValue = "2"
+        // }
 
         return (
             <div>
                 <TopMenu />
                 <Nav pills className="restaurant-detail-nav container">
                     <NavItem className="active">
-                        <Link to={''}>Hồ sơ</Link>
+                        <Link to={`/users/profile/${userId}`}>Hồ sơ</Link>
                     </NavItem>
                     <NavItem>
-                        <Link to={``}>Đơn của tôi</Link>
+                        <Link to={`/users/profile/${userId}/order`}>Đơn của tôi</Link>
                     </NavItem>
                     <NavItem>
                         <Link to={``}>Ví FBS</Link>
@@ -317,11 +320,11 @@ export default class userProfile extends Component {
                                 name="gender"
                                 id="gender"
                                 onChange={this.onChangeGender}
-                                value={genderValue}
+                                value={gender}
                             >
-                                <option value="1">Nam</option>
-                                <option value="0">Nữ</option>
-                                <option value="2">Khác</option>
+                                <option value={true}>Nam</option>
+                                <option value={false}>Nữ</option>
+                                <option value="">Khác</option>
                             </Input>
 
                             <Label for="dateOfBirth"><b>Ngày sinh: </b></Label>
