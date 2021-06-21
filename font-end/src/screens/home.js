@@ -255,11 +255,11 @@ export default class home extends Component {
                                         autoPlay={this.props.deviceType !== "desktop" ? true : false}
                                         autoPlaySpeed={3000}
                                         centerMode={true}
-                                        containerClass="container"
+                                        // containerClass="container"
                                         focusOnSelect={false}
                                         infinite={true}
                                         slidesToSlide={1}
-                                    // containerClass="container-with-dots"
+                                        containerClass="container-with-dots"
                                     >
                                         {restaurantsType1.map((restaurant, index) => {
                                             return <div key={index}>
@@ -283,11 +283,11 @@ export default class home extends Component {
                                         autoPlay={this.props.deviceType !== "desktop" ? true : false}
                                         autoPlaySpeed={3000}
                                         centerMode={true}
-                                        containerClass="container"
+                                        // containerClass="container"
                                         focusOnSelect={false}
                                         infinite={true}
                                         slidesToSlide={1}
-                                    // containerClass="container-with-dots"
+                                        containerClass="container-with-dots"
                                     >
                                         {restaurantsType2.map((restaurant, index) => {
                                             return <div key={index}>

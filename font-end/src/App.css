@@ -1086,7 +1086,8 @@ label {
   flex-grow: 1;
 }
 
-.star-rating-nav > .nav-item > .active{
+.star-rating-nav > .nav-item > .active,
+.order-nav-status > .nav-item > .active {
   background-color: var(--color-primary);
 }
 
@@ -1123,6 +1124,43 @@ label {
 .user-comment {
   font-size: 1.1rem;
   margin: 3px 0;
+}
+
+/*=============================================== ORDER ===========================================*/
+.order-nav-status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.order-row {
+  width: 100%;
+}
+
+.order-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px;
+  margin: 10px 0;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+
+.order-img {
+  max-width: 300px;
+  max-height: 300px;
+}
+
+.order-content {
+  padding-left: 20px;
+}
+
+.order-content > div {
+  font-size: 1.07rem;
+  font-weight: 500;
+  margin: 5px 0;
 }
 
 /*=============================================== FOOTER ===========================================*/

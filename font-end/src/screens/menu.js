@@ -196,11 +196,11 @@ export default class menu extends Component {
                                         autoPlay={this.props.deviceType !== "desktop" ? true : false}
                                         autoPlaySpeed={3000}
                                         centerMode={true}
-                                        containerClass="container"
+                                        // containerClass="container"
                                         focusOnSelect={false}
                                         infinite={true}
                                         slidesToSlide={1}
-                                    // containerClass="container-with-dots"
+                                        containerClass="container-with-dots"
                                     >
                                         {dishType1.map((dish, index) => {
                                             return <div key={index}>
@@ -222,11 +222,11 @@ export default class menu extends Component {
                                         autoPlay={this.props.deviceType !== "desktop" ? true : false}
                                         autoPlaySpeed={3000}
                                         centerMode={true}
-                                        containerClass="container"
+                                        // containerClass="container"
                                         focusOnSelect={false}
                                         infinite={true}
                                         slidesToSlide={1}
-                                    // containerClass="container-with-dots"
+                                        containerClass="container-with-dots"
                                     >
                                         {dishType2.map((dish, index) => {
                                             return <div key={index}>
@@ -248,11 +248,11 @@ export default class menu extends Component {
                                         autoPlay={this.props.deviceType !== "desktop" ? true : false}
                                         autoPlaySpeed={3000}
                                         centerMode={true}
-                                        containerClass="container"
+                                        // containerClass="container"
                                         focusOnSelect={false}
                                         infinite={true}
                                         slidesToSlide={1}
-                                    // containerClass="container-with-dots"
+                                        containerClass="container-with-dots"
                                     >
                                         {dishType3.map((dish, index) => {
                                             return <div key={index}>
@@ -274,11 +274,11 @@ export default class menu extends Component {
                                         autoPlay={this.props.deviceType !== "desktop" ? true : false}
                                         autoPlaySpeed={3000}
                                         centerMode={true}
-                                        containerClass="container"
+                                        // containerClass="container"
                                         focusOnSelect={false}
                                         infinite={true}
                                         slidesToSlide={1}
-                                    // containerClass="container-with-dots"
+                                        containerClass="container-with-dots"
                                     >
                                         {dishType4.map((dish, index) => {
                                             return <div key={index}>

@@ -20,6 +20,7 @@ import axios from 'axios';
 import Cart from '../components/cart';
 import StarRating from '../components/starRating';
 import FeedbackItem from '../components/feedbackItem';
+import { onChangeRate } from '../common/changeLink';
 
 export default class restaurantDetail extends Component {
     constructor(props) {
@@ -155,7 +156,7 @@ export default class restaurantDetail extends Component {
     };
 
     onChangeRate(rate) {
-
+        onChangeRate(rate);
         this.setState({
             offset: 0,
             rate: rate

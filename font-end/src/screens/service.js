@@ -149,10 +149,11 @@ export default class service extends Component {
                                     autoPlay={this.props.deviceType !== "desktop" ? true : false}
                                     autoPlaySpeed={3000}
                                     centerMode={true}
-                                    containerClass="container"
+                                    // containerClass="container"
                                     focusOnSelect={false}
                                     infinite={true}
                                     slidesToSlide={1}
+                                    containerClass="container-with-dots"
                                 >
                                     {serviceType1.map((service, index) => {
                                         return <div key={index}>
@@ -174,10 +175,11 @@ export default class service extends Component {
                                     autoPlay={this.props.deviceType !== "desktop" ? true : false}
                                     autoPlaySpeed={3000}
                                     centerMode={true}
-                                    containerClass="container"
+                                    // containerClass="container"
                                     focusOnSelect={false}
                                     infinite={true}
                                     slidesToSlide={1}
+                                    containerClass="container-with-dots"
                                 >
                                     {serviceType2.map((service, index) => {
                                         return <div key={index}>
@@ -199,10 +201,11 @@ export default class service extends Component {
                                     autoPlay={this.props.deviceType !== "desktop" ? true : false}
                                     autoPlaySpeed={3000}
                                     centerMode={true}
-                                    containerClass="container"
+                                    // containerClass="container"
                                     focusOnSelect={false}
                                     infinite={true}
                                     slidesToSlide={1}
+                                    containerClass="container-with-dots"
                                 >
                                     {serviceType3.map((service, index) => {
                                         return <div key={index}>
@@ -224,10 +227,11 @@ export default class service extends Component {
                                     autoPlay={this.props.deviceType !== "desktop" ? true : false}
                                     autoPlaySpeed={3000}
                                     centerMode={true}
-                                    containerClass="container"
+                                    // containerClass="container"
                                     focusOnSelect={false}
                                     infinite={true}
                                     slidesToSlide={1}
+                                    containerClass="container-with-dots"
                                 >
                                     {serviceType4.map((service, index) => {
                                         return <div key={index}>
@@ -249,10 +253,11 @@ export default class service extends Component {
                                     autoPlay={this.props.deviceType !== "desktop" ? true : false}
                                     autoPlaySpeed={3000}
                                     centerMode={true}
-                                    containerClass="container"
+                                    // containerClass="container"
                                     focusOnSelect={false}
                                     infinite={true}
                                     slidesToSlide={1}
+                                    containerClass="container-with-dots"
                                 >
                                     {serviceType5.map((service, index) => {
                                         return <div key={index}>
@@ -274,10 +279,11 @@ export default class service extends Component {
                                     autoPlay={this.props.deviceType !== "desktop" ? true : false}
                                     autoPlaySpeed={3000}
                                     centerMode={true}
-                                    containerClass="container"
+                                    // containerClass="container"
                                     focusOnSelect={false}
                                     infinite={true}
                                     slidesToSlide={1}
+                                    containerClass="container-with-dots"
                                 >
                                     {serviceType6.map((service, index) => {
                                         return <div key={index}>
@@ -299,10 +305,11 @@ export default class service extends Component {
                                     autoPlay={this.props.deviceType !== "desktop" ? true : false}
                                     autoPlaySpeed={3000}
                                     centerMode={true}
-                                    containerClass="container"
+                                    // containerClass="container"
                                     focusOnSelect={false}
                                     infinite={true}
                                     slidesToSlide={1}
+                                    containerClass="container-with-dots"
                                 >
                                     {serviceType7.map((service, index) => {
                                         return <div key={index}>
