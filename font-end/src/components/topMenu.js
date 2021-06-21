@@ -37,11 +37,11 @@ const TopMenu = () => {
 
     return (
         <div>
-            <Navbar className="top-menu" expand="md">
+            <Navbar dark className="top-menu" expand="md">
                 <NavbarBrand className="logo" href="/">
                     <CardImg src={image} alt="Logo" />
                 </NavbarBrand>
-                <NavbarToggler onClick={toggle} />
+                <NavbarToggler onClick={toggle} color="success"/>
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="mr-auto nav" navbar>
                         <div>
