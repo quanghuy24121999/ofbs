@@ -1,5 +1,5 @@
 CREATE PROCEDURE sp_getDishesByComboId
-	@combo_id int
+	@combo_id bigint
 AS
 BEGIN
 	SELECT d.id, d.name as dish_name, img.id as image_dish_id, d.price

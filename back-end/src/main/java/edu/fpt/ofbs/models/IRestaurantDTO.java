@@ -1,13 +1,21 @@
 package edu.fpt.ofbs.models;
 
 public interface IRestaurantDTO {
-	int getRestaurantId();
+	long getRestaurantId();
+
 	String getImageType();
+
 	String getName();
+
 	String getRestaurantName();
+
 	String getImageId();
+
 	String getProvince();
-	int getSize();
+
+	long getSize();
+
 	float getRate();
+
 	String getDescription();
 }

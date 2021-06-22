@@ -7,7 +7,7 @@ public interface IOrderDTO {
 
 	String getImage_restaurant_id();
 
-	int getOrder_id();
+	long getOrder_id();
 
 	Date getOrder_date();
 

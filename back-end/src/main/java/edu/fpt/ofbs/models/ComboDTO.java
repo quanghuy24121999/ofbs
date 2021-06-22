@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ComboDTO {
-	private int combo_id;
+	private long combo_id;
 	
 	private String image_combo_id;
 	

@@ -12,13 +12,21 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RestaurantDTO {
-	private int restaurant_id;
+	private long restaurant_id;
+	
 	private String image_type;
+	
 	private String name;
+	
 	private String restaurantName;
+	
 	private String image_id;
+	
 	private String province;
+	
 	private int size;
+	
 	private float rate;
+	
 	private String description;
 }

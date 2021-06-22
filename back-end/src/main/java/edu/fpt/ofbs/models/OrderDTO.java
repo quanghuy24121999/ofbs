@@ -18,7 +18,7 @@ public class OrderDTO {
 	
 	private String image_restaurant_id;
 	
-	private int order_id;
+	private long order_id;
 	
 	private Date order_date;
 	

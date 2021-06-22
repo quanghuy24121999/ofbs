@@ -14,9 +14,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PromotionDTO {
-	private int promotion_id;
+	private long promotion_id;
 	
-	private int restaurant_id;
+	private long restaurant_id;
 	
 	private String promotion_name;
 	

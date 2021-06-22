@@ -1,6 +1,5 @@
-﻿
-CREATE PROCEDURE sp_getRestaurantsByType
-	@restaurant_type int
+﻿CREATE PROCEDURE sp_getRestaurantsByType
+	@restaurant_type bigint
 AS
 BEGIN
 	declare @_type nvarchar(255);

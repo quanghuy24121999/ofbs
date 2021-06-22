@@ -31,7 +31,7 @@ public class ImageService{
 			return imageRepository.save(image);
 	}
 	
-	public void delete(int userId){
+	public void delete(long userId){
 		imageRepository.deleteByUserId(userId);
 	}
 
@@ -43,7 +43,7 @@ public class ImageService{
 		return imageRepository.findAll().stream();
 	}
 	
-	public List<IImageDTO> getImagesByRestaurantId(int restaurantId){
+	public List<IImageDTO> getImagesByRestaurantId(long restaurantId){
 		return imageRepository.getImagesByRestaurantId(restaurantId);
 	}
 }

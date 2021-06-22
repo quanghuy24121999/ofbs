@@ -26,7 +26,7 @@ import lombok.Setter;
 public class Restaurant {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private long id;
 	
 	@ManyToOne
 	@JoinColumn(name = "provider_id", referencedColumnName = "id")

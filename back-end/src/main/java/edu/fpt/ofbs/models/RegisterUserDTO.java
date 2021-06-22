@@ -22,9 +22,9 @@ public class RegisterUserDTO {
 	
 	private String phoneNumber;
 	
-	private int roleId;
+	private long roleId;
 	
-	private int statusId;
+	private long statusId;
 	
 	private Date lastModified;
 

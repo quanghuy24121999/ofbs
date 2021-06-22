@@ -12,8 +12,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ServiceDTO {
-	private int id;
+	private long id;
+	
 	private String service_name;
+	
 	private String image_service_id;
+	
 	private float price;
 }

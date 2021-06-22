@@ -24,7 +24,7 @@ public class ImageType {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private long id;
 	
 	@Column(name = "image_type")
 	private String imageType;

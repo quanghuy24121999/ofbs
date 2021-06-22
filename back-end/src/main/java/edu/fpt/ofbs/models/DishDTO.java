@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DishDTO {
-	private int id;
+	private long id;
 	
 	private String dish_name;
 	

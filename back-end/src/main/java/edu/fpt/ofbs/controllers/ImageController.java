@@ -53,7 +53,7 @@ public class ImageController {
 	}
 	
 	@DeleteMapping("/delete")
-	public ResponseEntity<ResponseMessage> deleteImage(@RequestParam("userId") int userId) {
+	public ResponseEntity<ResponseMessage> deleteImage(@RequestParam("userId") long userId) {
 		String message = "";
 		try {
 			imageService.delete(userId);
@@ -85,7 +85,7 @@ public class ImageController {
 	}
 	
 	@GetMapping("/getRestaurantImages")
-	public ResponseEntity<?> getImagesByRestaurantId(@PathParam("restaurantId") int restaurantId) {
+	public ResponseEntity<?> getImagesByRestaurantId(@PathParam("restaurantId") long restaurantId) {
 		List<IImageDTO> images = imageService.getImagesByRestaurantId(restaurantId);
 		return ResponseEntity.status(HttpStatus.OK).body(images);
 	}

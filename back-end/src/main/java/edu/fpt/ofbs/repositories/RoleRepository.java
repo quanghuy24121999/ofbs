@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import edu.fpt.ofbs.entities.Role;
 
 @Repository
-public interface RoleRepository extends JpaRepository<Role, Integer>{
+public interface RoleRepository extends JpaRepository<Role, Long>{
 
 }

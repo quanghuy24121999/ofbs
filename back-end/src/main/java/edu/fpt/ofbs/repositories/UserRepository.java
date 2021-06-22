@@ -8,10 +8,10 @@ import edu.fpt.ofbs.entities.User;
 import edu.fpt.ofbs.models.IUserDTO;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer>{
+public interface UserRepository extends JpaRepository<User, Long>{
 	@Query(value = "exec sp_findByPhoneNumber @phone_number= ?1", nativeQuery = true)
 	User findByPhoneNumberLogin(String phoneNumber);
 	
 	@Query(value = "exec sp_getUserProfileById @user_id = ?1", nativeQuery = true)
-	IUserDTO getUserProfileById(int userId);
+	IUserDTO getUserProfileById(long userId);
 }

@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE sp_getServicesByRestaurantId
-	@restaurant_id int, @category_id int 
+	@restaurant_id bigint, @category_id bigint 
 AS
 DECLARE @service_category nvarchar(50)
 IF (@category_id = 1)
@@ -18,15 +18,15 @@ IF (@category_id = 4)
 	BEGIN
 		SET @service_category = N'Ca sĩ'
 	END
-IF (@category_id = 4) 
+IF (@category_id = 5) 
 	BEGIN
 		SET @service_category = N'MC'
 	END
-IF (@category_id = 4) 
+IF (@category_id = 6) 
 	BEGIN
 		SET @service_category = N'Quay phim - chụp ảnh'
 	END
-IF (@category_id = 4) 
+IF (@category_id = 7) 
 	BEGIN
 		SET @service_category = N'Xe cưới'
 	END

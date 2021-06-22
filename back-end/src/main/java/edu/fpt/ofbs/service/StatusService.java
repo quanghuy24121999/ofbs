@@ -11,7 +11,7 @@ public class StatusService {
 	@Autowired
 	private StatusRepository statusRepository;
 	
-	public Status findStatusById(int id) {
+	public Status findStatusById(long id) {
 		return statusRepository.findById(id).get();
 	}
 }
