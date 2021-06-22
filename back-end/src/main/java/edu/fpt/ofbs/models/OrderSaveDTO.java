@@ -16,8 +16,6 @@ import lombok.Setter;
 public class OrderSaveDTO {
 	private String time;
 	
-	private Date timeDate;
-	
 	private long customerId;
 	
 	private long restaurantId;
@@ -27,4 +25,6 @@ public class OrderSaveDTO {
 	private int numberOfGuests;
 	
 	private String note;
+	
+	private Date organizeDate;
 }

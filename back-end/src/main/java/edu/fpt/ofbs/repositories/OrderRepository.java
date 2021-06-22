@@ -1,5 +1,6 @@
 package edu.fpt.ofbs.repositories;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,6 +20,6 @@ public interface OrderRepository extends JpaRepository<Order, Long>{
 	List<IOrderDTO> getOrderByProviderId (long providerId);
 	
 	@Modifying
-	@Query(value = "exec sp_insertOrder @time = ?1, @customer_id = ?2, @restaurant_id = ?3, @table_type = ?4, @number_of_guests = ?5, @note = ?6", nativeQuery = true)
-	void insertOrder(String time, long customerId, long restaurantId, int tableType, int NumberOfGuests, String note);
+	@Query(value = "exec sp_insertOrder @time = ?1, @customer_id = ?2, @restaurant_id = ?3, @table_type = ?4, @number_of_guests = ?5, @note = ?6, @organize_date = ?7", nativeQuery = true)
+	void insertOrder(String time, long customerId, long restaurantId, int tableType, int NumberOfGuests, String note, Date organizeDate);
 }
