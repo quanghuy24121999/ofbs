@@ -29,4 +29,6 @@ public class OrderDTO {
 	private float amount;
 	
 	private String order_status;
+	
+	private Date organize_date;
 }

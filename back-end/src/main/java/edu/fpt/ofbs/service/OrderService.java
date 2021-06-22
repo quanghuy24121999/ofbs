@@ -1,6 +1,5 @@
 package edu.fpt.ofbs.service;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -27,9 +26,6 @@ public class OrderService {
 	}
 	
 	public void insertOrder(OrderSaveDTO order) {
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-		String time = order.getTime() + " " + formatter.format(order.getTimeDate());
-		
-		orderRepository.insertOrder(time, order.getCustomerId(), order.getRestaurantId(), order.getTableType(), order.getNumberOfGuests(), order.getNote());
+		orderRepository.insertOrder(order.getTime(), order.getCustomerId(), order.getRestaurantId(), order.getTableType(), order.getNumberOfGuests(), order.getNote(), order.getOrganizeDate());
 	}
 }
