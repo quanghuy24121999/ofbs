@@ -1,4 +1,4 @@
-﻿CREATE PROC sp_searchRestaurant @restaurant_type int, 
+﻿CREATE PROC sp_searchRestaurant @restaurant_type bigint, 
 							   @restaurant_province nvarchar(50), 
 							   @restaurant_district nvarchar(50), 
 							   @restaurant_name nvarchar(255)

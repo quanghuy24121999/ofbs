@@ -1,5 +1,5 @@
 CREATE PROCEDURE sp_getOrderByProviderId
-	@provider_id int
+	@provider_id bigint
 AS
 BEGIN
 	SELECT res.restaurant_name, img.id as image_restaurant_id, ord.id as order_id, ord.order_date, 

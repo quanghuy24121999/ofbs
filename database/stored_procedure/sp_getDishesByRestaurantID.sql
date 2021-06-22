@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE sp_getDishesByRestaurantId
-	@restaurant_id int, @category_id int 
+	@restaurant_id bigint, @category_id bigint 
 AS
 DECLARE @menu_category nvarchar(50)
 IF (@category_id = 1)
@@ -23,5 +23,5 @@ BEGIN
 	FROM dishes d 
 		join images img on img.dish_id = d.id
 		join menu_categories cat on d.menu_category_id = cat.id
-		WHERE d.restaurant_id = @restaurant_id and cat.name like @menu_category
+		WHERE d.restaurant_id = @restaurant_id and d.menu_category_id = @category_id
 END

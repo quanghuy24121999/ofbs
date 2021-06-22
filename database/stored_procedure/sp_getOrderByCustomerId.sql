@@ -1,5 +1,5 @@
 CREATE PROCEDURE sp_getOrderByCustomerId
-	@customer_id int, @status_id int 
+	@customer_id bigint, @status_id bigint 
 AS
 DECLARE @order_status nvarchar(50)
 IF (@status_id = 1)

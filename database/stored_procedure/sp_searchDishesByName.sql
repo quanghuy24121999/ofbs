@@ -1,4 +1,4 @@
-CREATE PROC sp_searchDishesByName @restaurant_id int, 
+CREATE PROC sp_searchDishesByName @restaurant_id bigint, 
 							      @dish_name nvarchar(255)
 AS
 DECLARE @sql_select nvarchar(MAX), @sql_dish_name nvarchar(MAX)
