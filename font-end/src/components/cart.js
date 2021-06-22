@@ -95,7 +95,7 @@ export default function Cart() {
                         {items.map((item, index) => {
                             return <div key={index} >
                                 {
-                                    item.dish_name ?
+                                    item.dish_name &&
                                     (<div className="cart">
                                         <CardImg
                                             className="cart-dish-img"
@@ -115,8 +115,35 @@ export default function Cart() {
                                             <Button className="btn-add" onClick={() => updateItemQuantity(item.id, item.quantity + 1)} color="success">+</Button>
                                             <Button onClick={() => removeItem(item.id)} color="danger">Xoá</Button>
                                         </div>
-                                    </div>) : (<div>
-                                        <h5>Bạn chưa chọn món ăn nào !</h5>
+                                    </div>)
+                                }
+                            </div>
+                        })}
+                        <hr></hr>
+                        <h3>Combo món ăn</h3>
+                        {items.map((item, index) => {
+                            return <div key={index} >
+                                {
+                                    item.combo_name &&
+                                    (<div className="cart">
+                                        <CardImg
+                                            className="cart-dish-img"
+                                            top
+                                            src={'/images/' + item.image_dish_id}
+                                            alt=""
+                                        />
+                                        <div className="cart-detail">
+                                            <div className="cart-dish-name">{item.combo_name}</div>
+                                            <div className="cart-dish-price">{item.price + ' VNĐ'}</div>
+                                        </div>
+                                        <div className="cart-group-btn">
+                                            <Button className="btn-sub" onClick={() => { updateItemQuantity(item.id, item.quantity - 1) }}>-</Button>
+                                            <div className="cart-dish-quantity">
+                                                {item.quantity}
+                                            </div>
+                                            <Button className="btn-add" onClick={() => updateItemQuantity(item.id, item.quantity + 1)} color="success">+</Button>
+                                            <Button onClick={() => removeItem(item.id)} color="danger">Xoá</Button>
+                                        </div>
                                     </div>)
                                 }
                             </div>
@@ -126,7 +153,7 @@ export default function Cart() {
                         {items.map((item, index) => {
                             return <div key={index} >
                                 {
-                                    item.service_name ?
+                                    item.service_name &&
                                     (<div className="cart">
                                         <CardImg
                                             className="cart-dish-img"
@@ -144,8 +171,6 @@ export default function Cart() {
                                             <Button className="btn-add" onClick={() => updateItemQuantity(item.id, item.quantity + 1)} color="success">+</Button>
                                             <Button onClick={() => removeItem(item.id)} color="danger">Xoá</Button>
                                         </div>
-                                    </div>) : (<div>
-                                        <h5>Bạn chưa đặt dịch vụ nào !</h5>
                                     </div>)
                                 }
                             </div>

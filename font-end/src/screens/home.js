@@ -182,10 +182,10 @@ export default class home extends Component {
                                     type="select"
                                     name="citySelect"
                                     id="citySelect"
-                                    value={localStorage.getItem("provinceCode")}
+                                    value={localStorage.getItem("provinceCode") || ''}
                                     onChange={this.onProvinceClick}
                                 >
-                                    <option>Tỉnh/ Thành phố</option>
+                                    <option value={''}>Tỉnh/ Thành phố</option>
                                     {provinces.map((province) => {
                                         return (
                                             <option key={province.code} value={province.code}>
@@ -204,7 +204,7 @@ export default class home extends Component {
                                     // value={localStorage.getItem("districtIndex")}
                                     onChange={this.onDistrictClick}
                                 >
-                                    <option>Quận/ Huyện</option>
+                                    <option value={''}>Quận/ Huyện</option>
                                     {districts.map((district) => {
                                         return (
                                             <option key={district.code} value={district.code}>

@@ -18,10 +18,10 @@ export default function ComboItem(props) {
             .then(res => {
                 setDishes(res.data);
             })
-    })
+    }, [comboId])
 
     return <Card className="combo-card">
-        <div className="combo-name">{combo.dish_name}</div>
+        <div className="combo-name">{combo.combo_name}</div>
         <CardImg className="combo-image" top width="100%" src={'/images/' + combo.image_dish_id} />
         <div className="dish-lists">
             {

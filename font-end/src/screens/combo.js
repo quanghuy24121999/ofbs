@@ -66,8 +66,8 @@ export default class combo extends Component {
             combos[i].id = combos[i]['combo_id'];
             delete combos[i].combo_id;
 
-            combos[i].dish_name = combos[i]['combo_name'];
-            delete combos[i].combo_name;
+            // combos[i].dish_name = combos[i]['combo_name'];
+            // delete combos[i].combo_name;
 
             combos[i].price = combos[i]['combo_price'];
             delete combos[i].combo_price;
