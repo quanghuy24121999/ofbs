@@ -18,4 +18,6 @@ public interface IOrderDTO {
 	float getAmount();
 
 	String getOrder_status();
+	
+	Date getOrganize_date();
 }
