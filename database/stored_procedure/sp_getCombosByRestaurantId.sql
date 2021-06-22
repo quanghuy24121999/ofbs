@@ -1,5 +1,5 @@
 CREATE PROCEDURE sp_getCombosByRestaurantId
-	@restaurant_id int
+	@restaurant_id bigint
 AS
 BEGIN
 	SELECT cb.id as combo_id, img.id as image_combo_id, cb.name as combo_name, cb.price as combo_price

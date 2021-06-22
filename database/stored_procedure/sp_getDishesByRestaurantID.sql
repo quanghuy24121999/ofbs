@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE sp_getDishesByRestaurantId
-	@restaurant_id int, @category_id int 
+	@restaurant_id bigint, @category_id bigint 
 AS
 DECLARE @menu_category nvarchar(50)
 IF (@category_id = 1)

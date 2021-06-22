@@ -1,5 +1,5 @@
 CREATE PROCEDURE sp_getFeedbackByRestaurantId
-	@restaurant_id int, @rate float
+	@restaurant_id bigint, @rate float
 AS
 DECLARE @sql_select nvarchar(MAX), @sql_feedback nvarchar(MAX), @sql_order_by nvarchar(MAX)
 BEGIN

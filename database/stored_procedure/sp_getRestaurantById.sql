@@ -1,5 +1,5 @@
 CREATE PROCEDURE sp_getRestaurantById
-	@restaurant_id int
+	@restaurant_id bigint
 AS
 BEGIN
 	SELECT res.id as restaurantId, img_tp.image_type as imageType, pr_tp.name, res.restaurant_name as restaurantName, 
