@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { useCart } from 'react-use-cart';
 import {
-    Button, CardImg, Modal, Badge,
+    Button, CardImg, Modal, Badge, Input,
     ModalHeader, ModalBody, ModalFooter,
+    Label
 } from 'reactstrap';
 import { FaShoppingCart } from 'react-icons/fa'
 
 export default function Cart() {
     const [modal, setModal] = useState(false);
+    const [typeTable, setTypeTable] = useState(0);
+    const [customerQuantity, setCustomerQuantity] = useState(1);
     const toggle = () => setModal(!modal);
 
     const {
@@ -18,6 +21,16 @@ export default function Cart() {
         updateItemQuantity,
         removeItem,
     } = useCart();
+
+    const onchangeTypeTable = (e) => {
+        e.preventDefault();
+        setTypeTable(e.target.value);
+    }
+
+    const onChangeCustomerQuantity = (e) => {
+        e.preventDefault();
+        setCustomerQuantity(e.target.value);
+    }
 
     if (isEmpty) return (
         <div>
@@ -53,11 +66,36 @@ export default function Cart() {
                 <Modal isOpen={modal} toggle={toggle} className="cart-modal">
                     <ModalHeader toggle={toggle}>Giỏ hàng</ModalHeader>
                     <ModalBody>
+                        <div className="cart-option">
+                            <h3>Tùy chọn</h3>
+                            <Input
+                                type="select"
+                                name="type"
+                                id="type"
+                                onChange={onchangeTypeTable}
+                                value={typeTable}
+                            >
+                                <option value={0}>Chọn loại bàn</option>
+                                <option value={6}>Bàn 6</option>
+                                <option value={8}>Bàn 8</option>
+                            </Input>
+
+                            <Label for="customer-quantity"><b>Số lượng khách:</b></Label>
+                            <Input
+                                type="number"
+                                name="customer-quantity"
+                                id="customer-quantity"
+                                min="1"
+                                onChange={onChangeCustomerQuantity}
+                                value={customerQuantity}
+                            />
+                        </div>
+                        <hr></hr>
                         <h3>Món ăn</h3>
                         {items.map((item, index) => {
                             return <div key={index} >
                                 {
-                                    item.dish_name &&
+                                    item.dish_name ?
                                     (<div className="cart">
                                         <CardImg
                                             className="cart-dish-img"
@@ -77,6 +115,8 @@ export default function Cart() {
                                             <Button className="btn-add" onClick={() => updateItemQuantity(item.id, item.quantity + 1)} color="success">+</Button>
                                             <Button onClick={() => removeItem(item.id)} color="danger">Xoá</Button>
                                         </div>
+                                    </div>) : (<div>
+                                        <h5>Bạn chưa chọn món ăn nào !</h5>
                                     </div>)
                                 }
                             </div>
@@ -86,7 +126,7 @@ export default function Cart() {
                         {items.map((item, index) => {
                             return <div key={index} >
                                 {
-                                    item.service_name &&
+                                    item.service_name ?
                                     (<div className="cart">
                                         <CardImg
                                             className="cart-dish-img"
@@ -104,10 +144,13 @@ export default function Cart() {
                                             <Button className="btn-add" onClick={() => updateItemQuantity(item.id, item.quantity + 1)} color="success">+</Button>
                                             <Button onClick={() => removeItem(item.id)} color="danger">Xoá</Button>
                                         </div>
+                                    </div>) : (<div>
+                                        <h5>Bạn chưa đặt dịch vụ nào !</h5>
                                     </div>)
                                 }
                             </div>
                         })}
+                        <hr></hr>
                         <div className="cart-total-price">Tổng tiền: {cartTotal + "  VNĐ"}</div>
                     </ModalBody>
                     <ModalFooter>
