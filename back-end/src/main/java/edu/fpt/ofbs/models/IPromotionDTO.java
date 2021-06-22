@@ -3,9 +3,9 @@ package edu.fpt.ofbs.models;
 import java.util.Date;
 
 public interface IPromotionDTO {
-	int getPromotion_id();
+	long getPromotion_id();
 	
-	int getRestaurant_id();
+	long getRestaurant_id();
 
 	String getPromotion_name();
 

@@ -11,7 +11,7 @@ public class RoleService {
 	@Autowired
 	private RoleRepository roleRepository;
 	
-	public Role findRoleById(int id) {
+	public Role findRoleById(long id) {
 		return roleRepository.findById(id).get();
 	}
 }

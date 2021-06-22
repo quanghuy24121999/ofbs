@@ -13,9 +13,9 @@ import edu.fpt.ofbs.models.IImageDTO;
 @Repository
 public interface ImageRepository extends JpaRepository<Image, String>{
 	@Query(value = "exec sp_getImagesByRestaurantId @restaurant_id = ?1", nativeQuery = true)
-	List<IImageDTO> getImagesByRestaurantId(int restaurantId);
+	List<IImageDTO> getImagesByRestaurantId(long restaurantId);
 	
 	@Modifying
 	@Query(value = "delete from Images where user_id = ?1", nativeQuery = true)
-	void deleteByUserId(int userId);
+	void deleteByUserId(long userId);
 }

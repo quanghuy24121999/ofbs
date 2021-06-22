@@ -13,15 +13,15 @@ public class DishService {
 	@Autowired
 	private DishRepository dishRepository;
 	
-	public List<IDishDTO> getDishesByComboId(int comboId){
+	public List<IDishDTO> getDishesByComboId(long comboId){
 		return dishRepository.getDishesByComboId(comboId);
 	}
 	
-	public List<IDishDTO> getDishesByRestaurantId(int restaurantId, int categoryId){
+	public List<IDishDTO> getDishesByRestaurantId(long restaurantId, long categoryId){
 		return dishRepository.getDishesByRestaurantId(restaurantId, categoryId);
 	}
 	
-	public List<IDishDTO> searchDishesByName(int restaurantId, String dishName){
+	public List<IDishDTO> searchDishesByName(long restaurantId, String dishName){
 		return dishRepository.searchDishesByName(restaurantId, dishName);
 	}
 }

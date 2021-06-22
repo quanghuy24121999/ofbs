@@ -27,7 +27,7 @@ import lombok.Setter;
 public class Feedback {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private long id;
 	
 	@Column(name = "feedback_content")
 	private String feedbackContent;

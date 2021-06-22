@@ -3,7 +3,7 @@ package edu.fpt.ofbs.models;
 import java.util.Date;
 
 public interface IFeedbackDTO {
-	int getUser_id();
+	long getUser_id();
 
 	String getUser_name();
 
@@ -13,7 +13,7 @@ public interface IFeedbackDTO {
 
 	Date getFeedback_date();
 	
-	int getRestaurant_id();
+	long getRestaurant_id();
 	
 	String getImage_user_id();
 }

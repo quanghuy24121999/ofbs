@@ -62,25 +62,25 @@ public class RestaurantController {
 	}
 
 	@GetMapping("/detail")
-	public ResponseEntity<?> getRestaurantById(@PathParam("restaurantId") int restaurantId) {
+	public ResponseEntity<?> getRestaurantById(@PathParam("restaurantId") long restaurantId) {
 		IRestaurantDTO restaurant = restaurantService.getRestaurantById(restaurantId);
 		return ResponseEntity.status(HttpStatus.OK).body(restaurant);
 	}
 
 	@GetMapping("/combos")
-	public ResponseEntity<?> getCombosByRestaurantId(@PathParam("restaurantId") int restaurantId) {
+	public ResponseEntity<?> getCombosByRestaurantId(@PathParam("restaurantId") long restaurantId) {
 		List<IComboDTO> combos = comboService.getCombosByRestaurantId(restaurantId);
 		return ResponseEntity.status(HttpStatus.OK).body(combos);
 	}
 	
 	@GetMapping("/combos/dishes")
-	public ResponseEntity<?> getDishesByComboId(@PathParam("comboId") int comboId) {
+	public ResponseEntity<?> getDishesByComboId(@PathParam("comboId") long comboId) {
 		List<IDishDTO> dishes = dishService.getDishesByComboId(comboId);
 		return ResponseEntity.status(HttpStatus.OK).body(dishes);
 	}
 
 	@GetMapping("/feedbacks")
-	public ResponseEntity<?> getFeedbackByRestaurantId(@PathParam("restaurantId") int restaurantId, @PathParam("rate") float rate) {
+	public ResponseEntity<?> getFeedbackByRestaurantId(@PathParam("restaurantId") long restaurantId, @PathParam("rate") float rate) {
 		List<IFeedbackDTO> feedbacks = feedbackService.getFeedbackByRestaurantId(restaurantId, rate);
 		return ResponseEntity.status(HttpStatus.OK).body(feedbacks);
 	}
@@ -100,19 +100,19 @@ public class RestaurantController {
 	}
 	
 	@GetMapping("/menu")
-	public ResponseEntity<?> getDishesByRestaurantId(@PathParam("restaurantId") int restaurantId, @PathParam("categoryId") int categoryId) {
+	public ResponseEntity<?> getDishesByRestaurantId(@PathParam("restaurantId") long restaurantId, @PathParam("categoryId") long categoryId) {
 		List<IDishDTO> dishes = dishService.getDishesByRestaurantId(restaurantId, categoryId);
 		return ResponseEntity.status(HttpStatus.OK).body(dishes);
 	}
 	
 	@GetMapping("/menu/searchDishes")
-	public ResponseEntity<?> searchDishesByName(@PathParam("restaurantId") int restaurantId, @PathParam("name") String name) {
+	public ResponseEntity<?> searchDishesByName(@PathParam("restaurantId") long restaurantId, @PathParam("name") String name) {
 		List<IDishDTO> dishes = dishService.searchDishesByName(restaurantId, name);
 		return ResponseEntity.status(HttpStatus.OK).body(dishes);
 	}
 	
 	@GetMapping("/services")
-	public ResponseEntity<?> getServicesByRestaurantId(@PathParam("restaurantId") int restaurantId, @PathParam("categoryId") int categoryId) {
+	public ResponseEntity<?> getServicesByRestaurantId(@PathParam("restaurantId") long restaurantId, @PathParam("categoryId") long categoryId) {
 		List<IServiceDTO> services = serviceService.getServicesByRestaurantId(restaurantId, categoryId);
 		return ResponseEntity.status(HttpStatus.OK).body(services);
 	}
