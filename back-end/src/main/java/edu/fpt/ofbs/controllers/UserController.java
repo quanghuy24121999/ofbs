@@ -59,7 +59,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.PATCH)
-	public ResponseEntity<?> updateUser(@PathVariable("id") int id, @RequestBody User user) {
+	public ResponseEntity<?> updateUser(@PathVariable("id") long id, @RequestBody User user) {
 		Optional<User> userOption = userService.findById(id);
 		if (userOption.isPresent()) {
 			User _user = userOption.get();
@@ -103,13 +103,13 @@ public class UserController {
 	}
 	
 	@GetMapping("/profile")
-	public ResponseEntity<?> getUserProfileById(@PathParam("userId") int userId) {
+	public ResponseEntity<?> getUserProfileById(@PathParam("userId") long userId) {
 		IUserDTO user = userService.getUserProfileById(userId);
 		return ResponseEntity.status(HttpStatus.OK).body(user);
 	}
 	
 	@PatchMapping("/profile/update")
-	public ResponseEntity<?> findUser(@PathParam("userId") int userId, @RequestBody User user) {
+	public ResponseEntity<?> findUser(@PathParam("userId") long userId, @RequestBody User user) {
 		Optional<User> userOption = userService.findById(userId);
 		if (userOption.isPresent()) {
 			User _user = userOption.get();

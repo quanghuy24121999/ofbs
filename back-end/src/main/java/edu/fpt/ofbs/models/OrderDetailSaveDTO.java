@@ -11,12 +11,16 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class DishDTO {
-	private long id;
+public class OrderDetailSaveDTO {
+	private int quantity;
 	
-	private String dish_name;
+	private long dishId;
 	
-	private String image_dish_id;
+	private long comboId;
 	
-	private float price;
+	private long serviceId;
+	
+	private long customerId;
+	
+	private long restaurantId;
 }

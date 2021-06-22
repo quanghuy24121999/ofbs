@@ -19,11 +19,11 @@ public class ServiceService{
 		return serviceRepository.findAll();
 	}
 
-	public Optional<Services> findServiceById(int id) {
+	public Optional<Services> findServiceById(long id) {
 		return serviceRepository.findById(id);
 	}
 
-	public List<IServiceDTO> getServicesByRestaurantId(int restaurant_id, int category_id){
+	public List<IServiceDTO> getServicesByRestaurantId(long restaurant_id, long category_id){
 		return serviceRepository.getServicesByRestaurantId(restaurant_id, category_id);
 	}
 }

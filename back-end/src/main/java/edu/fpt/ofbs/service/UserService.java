@@ -27,11 +27,11 @@ public class UserService {
 		return userRepository.findByPhoneNumberLogin(phoneNumber);
 	}
 	
-	public Optional<User> findById(int id) {
+	public Optional<User> findById(long id) {
 		return userRepository.findById(id);
 	}
 
-	public IUserDTO getUserProfileById(int userId) {
+	public IUserDTO getUserProfileById(long userId) {
 		return userRepository.getUserProfileById(userId);
 	}
 }

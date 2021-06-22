@@ -13,18 +13,18 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class PromotionDTO {
-	private long promotion_id;
+public class OrderSaveDTO {
+	private String time;
 	
-	private long restaurant_id;
+	private Date timeDate;
 	
-	private String promotion_name;
+	private long customerId;
 	
-	private String description;
+	private long restaurantId;
 	
-	private String image_id;
+	private int tableType;
 	
-	private Date start_date;
+	private int numberOfGuests;
 	
-	private Date end_date;
+	private String note;
 }

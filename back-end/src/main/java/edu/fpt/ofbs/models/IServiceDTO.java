@@ -1,7 +1,7 @@
 package edu.fpt.ofbs.models;
 
 public interface IServiceDTO {
-	int getId();
+	long getId();
 
 	String getService_name();
 

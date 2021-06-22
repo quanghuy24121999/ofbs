@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class FeedbackDTO {
-	private int user_id;
+	private long user_id;
 	
 	private String user_name;
 	
@@ -24,7 +24,7 @@ public class FeedbackDTO {
 	
 	private Date feedback_date;
 	
-	private int restaurant_id;
+	private long restaurant_id;
 	
 	private String image_user_id;
 }

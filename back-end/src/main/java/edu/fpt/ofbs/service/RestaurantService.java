@@ -23,11 +23,11 @@ public class RestaurantService {
 		return restaurantRepository.searchRestaurants(type, province, district, restaurantName);
 	}
 	
-	public IRestaurantDTO getRestaurantById(int id){
+	public IRestaurantDTO getRestaurantById(long id){
 		return restaurantRepository.getRestaurantById(id).get(0);
 	}
 	
-	public Restaurant findRestaurantById(int id) {
+	public Restaurant findRestaurantById(long id) {
 		return restaurantRepository.findById(id).get();
 	}
 }

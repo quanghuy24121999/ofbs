@@ -22,7 +22,7 @@ public class FeedbackService {
 	@Autowired
 	private UserService userService;
 	
-	public List<IFeedbackDTO> getFeedbackByRestaurantId(int restaurantId, float rate){
+	public List<IFeedbackDTO> getFeedbackByRestaurantId(long restaurantId, float rate){
 		return feedbackRepository.getFeedbackByRestaurantId(restaurantId, rate);
 	}
 	
