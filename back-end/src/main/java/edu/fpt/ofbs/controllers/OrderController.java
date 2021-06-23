@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import edu.fpt.ofbs.message.ResponseMessage;
 import edu.fpt.ofbs.models.IOrderDTO;
+import edu.fpt.ofbs.models.IOrderDetailDTO;
 import edu.fpt.ofbs.models.OrderDetailSaveDTO;
 import edu.fpt.ofbs.models.OrderSaveDTO;
 import edu.fpt.ofbs.service.OrderDetailService;
@@ -59,17 +62,68 @@ public class OrderController {
 	}
 	
 	@PostMapping("/insertOrderDetail")
-	public ResponseEntity<?> insertOrderDetail(@RequestBody OrderDetailSaveDTO order) {
+	public ResponseEntity<?> insertOrderDetail(@RequestBody List<OrderDetailSaveDTO> orders) {
 		String message = "";
 		
 		try {
-			orderDetailService.insertOrderDetail(order);
+			orderDetailService.insertOrderDetail(orders);
 
 			message = "Insert the order detail successfully !";
 			return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
 		} catch (Exception e) {
-			message = "Could not insert detail order !";
+			message = "Could not insert order detail !";
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
 		}
+	}
+	
+	@DeleteMapping("/deleteOrder")
+	public ResponseEntity<?> deleteOrder(@PathParam("orderId") long orderId) {
+		String message = "";
+		
+		try {
+			orderService.deleteOrder(orderId);
+
+			message = "Delete the order successfully !";
+			return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+		} catch (Exception e) {
+			message = "Could not delete order !";
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+		}
+	}
+	
+	@DeleteMapping("/deleteOrderDetail")
+	public ResponseEntity<?> deleteOrderDetail(@PathParam("orderId") long orderId) {
+		String message = "";
+		
+		try {
+			orderDetailService.deleteOrderDetail(orderId);
+
+			message = "Delete the order detail successfully !";
+			return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+		} catch (Exception e) {
+			message = "Could not delete order detail !";
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+		}
+	}
+	
+	@PatchMapping("/updateStatus")
+	public ResponseEntity<?> updateOrderStatus(@PathParam("customerId") long customerId, @PathParam("restaurantId") long restaurantId) {
+		String message = "";
+		
+		try {
+			orderService.updateOrderStatus(customerId, restaurantId);
+			
+			message = "Update order status successfully !";
+			return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+		} catch (Exception e) {
+			message = "Could not update order status !";
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+		}
+	}
+	
+	@GetMapping("/orderDetail/infor")
+	public ResponseEntity<?> getOrderDetailByOrderId(@PathParam("orderId") long orderId) {
+		List<IOrderDetailDTO> orders = orderDetailService.getOrderDetailByOrderId(orderId);
+		return ResponseEntity.status(HttpStatus.OK).body(orders);
 	}
 }
