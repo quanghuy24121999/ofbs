@@ -38,7 +38,7 @@ export default class orderCustomer extends Component {
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
                 const orderPaging = slice.map((order, index) => {
                     return <div key={index}>
-                        <OrderItem order={order} />
+                        <OrderItem order={order} userId={userId} />
                     </div>
                 })
                 this.setState({

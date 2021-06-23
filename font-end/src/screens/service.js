@@ -75,41 +75,41 @@ export default class service extends Component {
         axios.get(`/restaurants/services?restaurantId=${restaurantId}&categoryId=2`)
             .then(res => {
                 let services = res.data;
-                this.modifiedService(services);
+                // this.modifiedService(services);
                 this.setState({ serviceType2: services })
             })
 
         axios.get(`/restaurants/services?restaurantId=${restaurantId}&categoryId=3`)
             .then(res => {
                 let services = res.data;
-                this.modifiedService(services);
+                // this.modifiedService(services);
                 this.setState({ serviceType3: services })
             })
 
         axios.get(`/restaurants/services?restaurantId=${restaurantId}&categoryId=4`)
             .then(res => {
                 let services = res.data;
-                this.modifiedService(services);
+                // this.modifiedService(services);
                 this.setState({ serviceType4: services })
             })
         axios.get(`/restaurants/services?restaurantId=${restaurantId}&categoryId=5`)
             .then(res => {
                 let services = res.data;
-                this.modifiedService(services);
+                // this.modifiedService(services);
                 this.setState({ serviceType5: services })
             })
 
         axios.get(`/restaurants/services?restaurantId=${restaurantId}&categoryId=6`)
             .then(res => {
                 let services = res.data;
-                this.modifiedService(services);
+                // this.modifiedService(services);
                 this.setState({ serviceType6: services })
             })
 
         axios.get(`/restaurants/services?restaurantId=${restaurantId}&categoryId=7`)
             .then(res => {
                 let services = res.data;
-                this.modifiedService(services);
+                // this.modifiedService(services);
                 this.setState({ serviceType7: services })
             })
     }
@@ -137,7 +137,7 @@ export default class service extends Component {
                         <Link to={`/restaurant-detail/${restaurantId}/service`}>Dịch vụ</Link>
                     </NavItem>
                 </Nav>
-                <Cart />
+                <Cart restaurantId={this.props.match.params.restaurantId}/>
                 <div className="services">
                     <div className="list-services">
                         <Container className="list-dishes-title">Trang trí: </Container>

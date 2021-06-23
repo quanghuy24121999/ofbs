@@ -152,7 +152,7 @@ export default class menu extends Component {
                     </NavItem>
                 </Nav>
 
-                <Cart />
+                <Cart restaurantId={this.props.match.params.restaurantId}/>
                 <Container className="menu-search-dish">
                     <Label for="dishName" className="search-dish-title"> Tìm món ăn theo tên: </Label>
                     <Input

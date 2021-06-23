@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 export default function OrderItem(props) {
     const order = props.order;
+    const userId = props.userId;
 
     return (
         <Col className="order-col" lg="6" md="12" sm="12">
@@ -15,7 +16,7 @@ export default function OrderItem(props) {
                     <div className="order-type">{order.restaurant_type}</div>
                     <div className="order-order-date">Ngày đặt: {order.order_date}</div>
                     <div className="order-date">Ngày diễn ra: {order.time}</div>
-                    <Link to={``}>Xem chi tiết</Link>
+                    <Link to={`/users/profile/${userId}/orderDetail`}>Xem chi tiết</Link>
                 </div>
             </div>
         </Col>

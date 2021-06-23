@@ -493,6 +493,22 @@ label {
   align-items: center;
 }
 
+.cart-select,
+.cart-other-option {
+  display: flex;
+  flex-direction: row;
+}
+
+.cart-select > select {
+  margin: 0 10px;
+}
+
+.cart-other-option > div {
+  display: flex;
+  flex-direction: column;
+  margin: 0 10px;
+}
+
 .cart > img {
   width: 60px;
   height: 60px;
@@ -564,6 +580,9 @@ label {
 hr {
   width: 70%;
   margin: 20px auto;
+}
+
+.cart-footer {
 }
 
 /*================================================ LOGIN ================================================*/
@@ -1337,10 +1356,46 @@ a {
   .btn-user-change-password {
     width: 30%;
   }
+
+  /*============================ SEARCH RESULT =============================*/
+
+  .result-search-form {
+    padding: 5px 2px;
+    flex-wrap: wrap;
+  }
+
+  .result-search-citySelect > label,
+  .result-search-districtSelect > label {
+    display: none;
+  }
+
+  .result-search-text,
+  .result-search-location,
+  .result-search-other,
+  .btn-result-search {
+    min-width: 200px;
+    flex-grow: 1;
+  }
+
+  .result-search-location,
+  .result-search-other {
+    padding-left: 12px;
+  }
+
+  .btn-result-search {
+    flex-grow: 0;
+  }
+
+  .search-content {
+    margin-top: 280px;
+  }
+
+  .search-item > .item {
+    margin: 0;
+  }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1199.98px) {
-
   /*============================ USER PROFILE =============================*/
 
   .btn-edit,
@@ -1350,5 +1405,11 @@ a {
 
   .user-section-2 {
     padding-left: 50px;
+  }
+
+  /*============================ SEARCH RESULT =============================*/
+
+  .search-content {
+    margin-top: 220px;
   }
 }
