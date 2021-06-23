@@ -28,4 +28,12 @@ public class OrderService {
 	public void insertOrder(OrderSaveDTO order) {
 		orderRepository.insertOrder(order.getTime(), order.getCustomerId(), order.getRestaurantId(), order.getTableType(), order.getNumberOfGuests(), order.getNote(), order.getOrganizeDate());
 	}
+	
+	public void deleteOrder(long orderId) {
+		orderRepository.deleteById(orderId);
+	}
+	
+	public void updateOrderStatus(long customerId, long restaurantId) {
+		orderRepository.updateOrderStatus(customerId, restaurantId);
+	}
 }

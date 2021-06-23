@@ -22,4 +22,8 @@ public interface OrderRepository extends JpaRepository<Order, Long>{
 	@Modifying
 	@Query(value = "exec sp_insertOrder @time = ?1, @customer_id = ?2, @restaurant_id = ?3, @table_type = ?4, @number_of_guests = ?5, @note = ?6, @organize_date = ?7", nativeQuery = true)
 	void insertOrder(String time, long customerId, long restaurantId, int tableType, int NumberOfGuests, String note, Date organizeDate);
+	
+	@Modifying
+	@Query(value = "exec sp_updateOrderStatus ?1, ?2", nativeQuery = true)
+	void updateOrderStatus(long customerId, long restaurantId);
 }
