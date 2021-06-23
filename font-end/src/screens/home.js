@@ -18,14 +18,14 @@ const responsive = {
     desktop: {
         breakpoint: {
             max: 3000,
-            min: 1024
+            min: 1200
         },
         items: 4,
         partialVisibilityGutter: 40
     },
     mobile: {
         breakpoint: {
-            max: 464,
+            max: 767.98,
             min: 0
         },
         items: 1,
@@ -33,8 +33,8 @@ const responsive = {
     },
     tablet: {
         breakpoint: {
-            max: 1024,
-            min: 464
+            max: 1199.98,
+            min: 768
         },
         items: 2,
         partialVisibilityGutter: 30
@@ -182,10 +182,10 @@ export default class home extends Component {
                                     type="select"
                                     name="citySelect"
                                     id="citySelect"
-                                    value={localStorage.getItem("provinceCode")}
+                                    value={localStorage.getItem("provinceCode") || ''}
                                     onChange={this.onProvinceClick}
                                 >
-                                    <option>Tỉnh/ Thành phố</option>
+                                    <option value={''}>Tỉnh/ Thành phố</option>
                                     {provinces.map((province) => {
                                         return (
                                             <option key={province.code} value={province.code}>
@@ -204,7 +204,7 @@ export default class home extends Component {
                                     // value={localStorage.getItem("districtIndex")}
                                     onChange={this.onDistrictClick}
                                 >
-                                    <option>Quận/ Huyện</option>
+                                    <option value={''}>Quận/ Huyện</option>
                                     {districts.map((district) => {
                                         return (
                                             <option key={district.code} value={district.code}>

@@ -44,7 +44,7 @@ const TopMenu = () => {
                 <NavbarToggler onClick={toggle} color="success"/>
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="mr-auto nav" navbar>
-                        <div>
+                        <div className="nav-section">
                             <NavItem>
                                 <Link className="link" to="/">Trang chủ</Link>
                             </NavItem>

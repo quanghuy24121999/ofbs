@@ -233,6 +233,11 @@ body {
   transform: translateX(138px) translateY(30px);
 }
 
+.home-title {
+  letter-spacing: 0;
+  font-size: 100px;
+}
+
 .home-content {
   display: flex;
   justify-content: center;
@@ -245,6 +250,7 @@ body {
   font-size: 30px;
   border-bottom: 3px solid var(--color-primary);
   padding: 0 20px 8px;
+  text-align: center;
 }
 
 .heading-title,
@@ -473,12 +479,34 @@ label {
 
 /*================================================ CART ================================================*/
 
+.cart-option {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
 .cart {
   width: 100%;
   margin: 15px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.cart-select,
+.cart-other-option {
+  display: flex;
+  flex-direction: row;
+}
+
+.cart-select > select {
+  margin: 0 10px;
+}
+
+.cart-other-option > div {
+  display: flex;
+  flex-direction: column;
+  margin: 0 10px;
 }
 
 .cart > img {
@@ -494,6 +522,7 @@ label {
 }
 
 .cart-total-price {
+  margin-top: 20px;
   font-size: 1.2rem;
   font-weight: 600;
 }
@@ -550,7 +579,10 @@ label {
 
 hr {
   width: 70%;
-  margin: 0 auto;
+  margin: 20px auto;
+}
+
+.cart-footer {
 }
 
 /*================================================ LOGIN ================================================*/
@@ -1220,4 +1252,164 @@ a {
 
 .all-rights {
   background-color: #000000;
+}
+
+/*=============================================== RESPONSIVE ===========================================*/
+@media only screen and (max-width: 767.98px) {
+  /*============================ HOME =============================*/
+  .content-restaurant-list {
+    max-width: 100%;
+  }
+
+  .search-form {
+    width: 70%;
+  }
+
+  .search-location {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .citySelect,
+  .districtSelect {
+    width: 100%;
+  }
+
+  .btn-search {
+    transform: translateX(40%) translateY(30px);
+  }
+
+  .home-title {
+    font-size: 50px;
+  }
+
+  .home-content {
+    margin-top: 265px;
+  }
+
+  .heading-title,
+  .heading-see-all {
+    font-size: 16px;
+    border-left-width: 2px;
+  }
+
+  .card-title {
+    font-size: 16px;
+  }
+
+  .card-subtitle {
+    font-size: 14px;
+  }
+
+  .restaurant-size {
+    display: none;
+  }
+
+  .btn-success {
+    font-size: 14px;
+  }
+
+  .restaurant-content {
+    height: auto;
+  }
+
+  /*============================ TOPMENU =============================*/
+  .nav-section,
+  .authen {
+    flex-direction: column;
+  }
+
+  .nav-section > .nav-item,
+  .authen > .nav-item {
+    margin: 5px 0;
+  }
+
+  /*============================ USER PROFILE =============================*/
+  .restaurant-detail-nav {
+    justify-content: center;
+  }
+
+  .user-section-2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    border-top: 1px solid #b5b5b5;
+    padding-top: 10px;
+  }
+
+  .user-section-2 > .row {
+    display: flex;
+    justify-content: center;
+  }
+
+  .user-username,
+  .user-phone-number,
+  .user-email,
+  .user-address,
+  .user-gender,
+  .user-dob {
+    justify-content: center;
+  }
+
+  .btn-edit,
+  .btn-user-change-password {
+    width: 30%;
+  }
+
+  /*============================ SEARCH RESULT =============================*/
+
+  .result-search-form {
+    padding: 5px 2px;
+    flex-wrap: wrap;
+  }
+
+  .result-search-citySelect > label,
+  .result-search-districtSelect > label {
+    display: none;
+  }
+
+  .result-search-text,
+  .result-search-location,
+  .result-search-other,
+  .btn-result-search {
+    min-width: 200px;
+    flex-grow: 1;
+  }
+
+  .result-search-location,
+  .result-search-other {
+    padding-left: 12px;
+  }
+
+  .btn-result-search {
+    flex-grow: 0;
+  }
+
+  .search-content {
+    margin-top: 280px;
+  }
+
+  .search-item > .item {
+    margin: 0;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1199.98px) {
+  /*============================ USER PROFILE =============================*/
+
+  .btn-edit,
+  .btn-user-change-password {
+    width: 40%;
+  }
+
+  .user-section-2 {
+    padding-left: 50px;
+  }
+
+  /*============================ SEARCH RESULT =============================*/
+
+  .search-content {
+    margin-top: 220px;
+  }
 }

@@ -9,10 +9,11 @@ export default function ServiceItem(props) {
     const { addItem } = useCart();
     const service = props.service;
     const index = props.index;
+    
     return (
         <div>
             <Card key={index} className="item">
-                <CardImg className="service-img" top width="150px" height="200px" src={'/images/' + service.image_service_id} alt="Dịch vụ" />
+                <CardImg className="service-img" top width="150px" height="200px" src={`/images/${service.image_service_id}`} alt="Dịch vụ" />
                 <CardBody className="service-content">
                     <CardTitle tag="h5">{service.service_name}</CardTitle>
                     <CardText className="service-price">{service.price + ' VNĐ'}</CardText>

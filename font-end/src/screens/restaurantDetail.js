@@ -32,7 +32,7 @@ export default class restaurantDetail extends Component {
             feedbacks: [],
             rating: 1,
             offset: 0,
-            perPage: 2,
+            perPage: 4,
             currentPage: 0,
             rate: 0,
             textFeedback: '',
@@ -229,9 +229,9 @@ export default class restaurantDetail extends Component {
                         <Link to={`/restaurant-detail/${restaurantId}/service`}>Dịch vụ</Link>
                     </NavItem>
                 </Nav>
-                <Cart />
+                <Cart restaurantId={this.props.match.params.restaurantId}/>
                 <Container className="image-slide">
-                    <ImageGallery items={images} />
+                    <ImageGallery items={images}/>
                 </Container>
                 <Container className="restaurant-detail-content">
                     <div className="restauran-detail-header">

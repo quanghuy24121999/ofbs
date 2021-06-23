@@ -51,7 +51,7 @@ export default class combo extends Component {
                 const slice = combosTemp.slice(this.state.offset, this.state.offset + this.state.perPage);
                 const combos = slice.map((combo, index) => {
                     return <Col key={index} className="combo-item" lg="3" md="6" sm="12">
-                        <ComboItem combo={combo} comboId={combo.id}/>
+                        <ComboItem combo={combo} comboId={combo.id} />
                     </Col>
                 })
                 this.setState({
@@ -66,8 +66,8 @@ export default class combo extends Component {
             combos[i].id = combos[i]['combo_id'];
             delete combos[i].combo_id;
 
-            combos[i].dish_name = combos[i]['combo_name'];
-            delete combos[i].combo_name;
+            // combos[i].dish_name = combos[i]['combo_name'];
+            // delete combos[i].combo_name;
 
             combos[i].price = combos[i]['combo_price'];
             delete combos[i].combo_price;
@@ -97,11 +97,15 @@ export default class combo extends Component {
                         <Link to={`/restaurant-detail/${restaurantId}/service`}>Dịch vụ</Link>
                     </NavItem>
                 </Nav>
-                <Cart />
+                <Cart restaurantId={this.props.match.params.restaurantId} />
                 <Container className="restaurant-detail-combo">
                     <div className="combo-header">
-                        <div className="combo-header-text">Chọn combo để được giảm giá</div>
-                        <div className="combo-header-menu">Tự chọn Menu</div>
+                        <div className="combo-header-text">Chọn combo để được giá tốt hơn</div>
+                        <div className="combo-header-menu">
+                            <Link to={`/restaurant-detail/${restaurantId}/menu`}>
+                                Tự chọn Menu
+                            </Link>
+                        </div>
                     </div>
                     <div className="combo-content">
                         <Row>
