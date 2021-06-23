@@ -62,11 +62,11 @@ public class OrderController {
 	}
 	
 	@PostMapping("/insertOrderDetail")
-	public ResponseEntity<?> insertOrderDetail(@RequestBody OrderDetailSaveDTO order) {
+	public ResponseEntity<?> insertOrderDetail(@RequestBody List<OrderDetailSaveDTO> orders) {
 		String message = "";
 		
 		try {
-			orderDetailService.insertOrderDetail(order);
+			orderDetailService.insertOrderDetail(orders);
 
 			message = "Insert the order detail successfully !";
 			return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
