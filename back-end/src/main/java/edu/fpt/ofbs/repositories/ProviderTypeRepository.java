@@ -3,11 +3,9 @@ package edu.fpt.ofbs.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import edu.fpt.ofbs.entities.Status;
+import edu.fpt.ofbs.entities.ProviderType;
 
 @Repository
-public interface StatusRepository extends JpaRepository<Status, Long>{
-
-	Status findByName(String name);
+public interface ProviderTypeRepository extends JpaRepository<ProviderType, Long>{
 
 }
