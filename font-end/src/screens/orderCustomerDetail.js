@@ -12,6 +12,7 @@ import OrderDetailDishItem from '../components/orderDetailDishItem';
 import OrderDetailComboItem from '../components/orderDetailComboItem';
 import OrderDetailServiceItem from '../components/orderDetailServiceItem';
 import { formatDate } from '../common/formatDate';
+import { formatCurrency } from '../common/formatCurrency';
 export default class orderCustomerDetail extends Component {
     constructor(props) {
         super(props);
@@ -109,8 +110,8 @@ export default class orderCustomerDetail extends Component {
                     </Row>
                     <div className="order-detail-footer">
                         <div className="order-detail-amount">
-                            <h4>Tổng tiền: {orderDetailInfo.total_amount} VNĐ</h4>
-                            <h4 >Tiền đặt cọc (10%): {orderDetailInfo.total_amount * 10 / 100} VNĐ</h4>
+                            <h4>Tổng tiền: {formatCurrency(orderDetailInfo.total_amount)} VNĐ</h4>
+                            <h4 >Tiền đặt cọc (10%): {formatCurrency(orderDetailInfo.total_amount * 10 / 100)} VNĐ</h4>
                         </div>
                         <Button color="danger">Hủy đặt</Button>
                     </div>

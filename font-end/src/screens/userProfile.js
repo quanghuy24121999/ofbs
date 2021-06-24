@@ -12,6 +12,7 @@ import TopMenu from '../components/topMenu';
 import Footer from '../components/footer';
 
 import imageUser from '../images/default-avatar-user.png';
+import { formatDate } from '../common/formatDate';
 
 export default class userProfile extends Component {
     constructor(props) {
@@ -417,7 +418,7 @@ export default class userProfile extends Component {
                                 </div>
                                 <div className="user-dob">
                                     <div>Ngày sinh:</div>
-                                    <div>{user.date_of_birth}</div>
+                                    <div>{formatDate(user.date_of_birth)}</div>
                                 </div>
                                 <Button className="btn-edit" color="success" onClick={this.toggle}>Chỉnh sửa</Button>
                                 <Button className="btn-user-change-password" color="success" onClick={this.toggleChange}>Thay đổi mật khẩu</Button>

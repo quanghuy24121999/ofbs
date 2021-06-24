@@ -2,6 +2,8 @@ import React from 'react';
 import { CardImg, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
+import { formatDate } from '../common/formatDate';
+
 export default function OrderItem(props) {
     const order = props.order;
     const userId = props.userId;
@@ -14,7 +16,7 @@ export default function OrderItem(props) {
                     <div className="order-code">Mã số đơn hàng: {order.order_id} </div>
                     <div className="order-restaurant-name">Tên nhà hàng: {order.restaurant_name}</div>
                     <div className="order-type">{order.restaurant_type}</div>
-                    <div className="order-order-date">Ngày đặt: {order.order_date}</div>
+                    <div className="order-order-date">Ngày đặt: {formatDate(order.order_date)}</div>
                     <div className="order-date">Ngày diễn ra: {order.time}</div>
                     <Link to={`/users/profile/${userId}/orderDetail/${order.order_id}`}>Xem chi tiết</Link>
                 </div>
