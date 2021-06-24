@@ -37,7 +37,7 @@ class App extends Component {
             <Route exact path="/restaurant-detail/:restaurantId/service" component={service} />
             <Route exact path="/users/profile/:userId" component={userProfile} />
             <Route exact path="/users/profile/:userId/order" component={orderCustomer} />
-            <Route exact path="/users/profile/:userId/orderDetail" component={orderDetailCustomer} />
+            <Route exact path="/users/profile/:userId/orderDetail/:orderId" component={orderDetailCustomer} />
             <Route exact path="/promotion" component={promotion} />
           </div>
         </Router>
