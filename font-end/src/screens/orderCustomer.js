@@ -17,7 +17,7 @@ export default class orderCustomer extends Component {
 
         this.state = {
             offset: 0,
-            perPage: 2,
+            perPage: 4,
             currentPage: 0,
             status: 1
         }
@@ -37,9 +37,7 @@ export default class orderCustomer extends Component {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
                 const orderPaging = slice.map((order, index) => {
-                    return <div key={index}>
-                        <OrderItem order={order} userId={userId} />
-                    </div>
+                    return <OrderItem key={index} order={order} userId={userId} />
                 })
                 this.setState({
                     pageCount: Math.ceil(data.length / this.state.perPage),

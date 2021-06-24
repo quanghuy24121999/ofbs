@@ -582,9 +582,6 @@ hr {
   margin: 20px auto;
 }
 
-.cart-footer {
-}
-
 /*================================================ LOGIN ================================================*/
 
 .container {
@@ -1177,19 +1174,19 @@ hr {
 
 .order-item {
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
   padding: 10px;
   margin: 10px 0;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
     rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
-
+/* 
 .order-img {
   max-width: 300px;
   max-height: 300px;
-}
+} */
 
 .order-content {
   padding-left: 20px;
@@ -1199,6 +1196,77 @@ hr {
   font-size: 1.07rem;
   font-weight: 500;
   margin: 5px 0;
+}
+
+
+/*=============================================== ORDER DETAIL ===========================================*/
+.od-restaurant-img {
+  height: auto;
+}
+
+.od-info,
+.od-restaurant-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 1.1rem;
+}
+
+.order-detail-restaurant {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.order-detail-dish {
+  margin: 20px;
+}
+
+.od-info-status {
+  color: #0572e6;
+}
+
+tr > th:nth-child(3),
+tr > th:nth-child(4),
+tr > td:nth-child(3),
+tr > td:nth-child(4) {
+  text-align: center;
+}
+
+tr > td:nth-child(2),
+tr > td:nth-child(3),
+tr > td:nth-child(4) {
+  font-weight: 500;
+}
+
+/* .od-dish-item > td:nth-child(3),
+.od-combo-item > td:nth-child(3),
+.od-service-item > td:nth-child(3) {
+  text-align: center;
+} */
+
+.od-dish-item-total,
+.od-combo-item-total,
+.od-service-item-total {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+.order-detail-footer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.order-detail-amount {
+  margin: 30px 0 0;
+  color: #0572e6;
 }
 
 /*=============================================== FOOTER ===========================================*/

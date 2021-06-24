@@ -71,9 +71,6 @@ export default function Cart(props) {
         })
     }
 
-    
-    console.log(time);
-
     const onSubmitCart = (e) => {
         e.preventDefault();
         let customerId;
@@ -95,7 +92,7 @@ export default function Cart(props) {
                 customerId = res.data.id
                 axios.post(`/orders/insertOrder`, {
                     "time": period,
-                    "timeDate": time,
+                    "organizeDate": time,
                     "customerId": parseInt(customerId),
                     "restaurantId": parseInt(restaurantId),
                     "tableType": parseInt(typeTable),
