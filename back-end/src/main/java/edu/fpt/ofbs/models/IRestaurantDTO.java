@@ -18,4 +18,6 @@ public interface IRestaurantDTO {
 	float getRate();
 
 	String getDescription();
+	
+	String getRestaurant_status();
 }

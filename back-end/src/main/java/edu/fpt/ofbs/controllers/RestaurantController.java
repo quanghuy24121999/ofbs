@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.fpt.ofbs.entities.ProviderType;
+import edu.fpt.ofbs.entities.Restaurant;
+import edu.fpt.ofbs.entities.Status;
 import edu.fpt.ofbs.message.ResponseMessage;
 import edu.fpt.ofbs.models.FeedbackDTO;
 import edu.fpt.ofbs.models.IComboDTO;
@@ -27,6 +30,7 @@ import edu.fpt.ofbs.service.DishService;
 import edu.fpt.ofbs.service.FeedbackService;
 import edu.fpt.ofbs.service.RestaurantService;
 import edu.fpt.ofbs.service.ServiceService;
+import edu.fpt.ofbs.service.StatusService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -46,6 +50,9 @@ public class RestaurantController {
 	
 	@Autowired
 	private ServiceService serviceService;
+	
+	@Autowired
+	private StatusService statusService;
 
 	@GetMapping("/{type}")
 	public ResponseEntity<?> getRestaurantsByType(@PathVariable("type") int type) {
@@ -116,4 +123,19 @@ public class RestaurantController {
 		List<IServiceDTO> services = serviceService.getServicesByRestaurantId(restaurantId, categoryId);
 		return ResponseEntity.status(HttpStatus.OK).body(services);
 	}
+	
+	@GetMapping("/providerTypes")
+	public ResponseEntity<?> getProviderTypes() {
+		List<ProviderType> providerTypes = restaurantService.getProviderType();
+		return ResponseEntity.status(HttpStatus.OK).body(providerTypes);
+	}
+	
+	@PostMapping("/registerRestaurant")
+	public ResponseEntity<?> addRestaurant(@RequestBody Restaurant restaurant){
+		restaurant.setStatus(statusService.findStatusByName("inactive"));
+		restaurantService.addRestaurant(restaurant);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(restaurant);
+	}
+	
 }
