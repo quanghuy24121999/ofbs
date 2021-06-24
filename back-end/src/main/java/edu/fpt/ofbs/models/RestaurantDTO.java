@@ -29,4 +29,6 @@ public class RestaurantDTO {
 	private float rate;
 	
 	private String description;
+	
+	private String restaurant_status;
 }
