@@ -6,5 +6,6 @@ BEGIN
 	FROM  combos cb 
 		join images img on img.combo_id = cb.id 
 	WHERE cb.restaurant_id =  @restaurant_id
+		and cb.status_id = 1
 	ORDER BY cb.id asc
 END

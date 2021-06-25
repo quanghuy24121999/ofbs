@@ -8,6 +8,6 @@ BEGIN
 		join status on orders.status_id = status.id
     WHERE customer_id = @customer_id 
 		and restaurant_id = @restaurant_id
-		and status.name like N'order_draft'
+		and status.name like N'draft'
     RETURN @order_id
 END

@@ -35,6 +35,8 @@ BEGIN
 	FROM services sv
 		left join images img on img.service_id = sv.id
 		left join service_categories cat on sv.service_category_id = cat.id
-	WHERE sv.restaurant_id = 30 and sv.service_category_id = @category_id
+	WHERE sv.restaurant_id = 30 
+		and sv.service_category_id = @category_id
+		and sv.status_id = 1
 	ORDER BY sv.id asc
 END
