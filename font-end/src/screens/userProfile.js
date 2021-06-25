@@ -272,6 +272,9 @@ export default class userProfile extends Component {
                         <Link to={`/users/profile/${userId}/order`}>Đơn của tôi</Link>
                     </NavItem>
                     <NavItem>
+                        <Link to={`/users/profile/${userId}/my-restaurant`}>Nhà hàng của tôi</Link>
+                    </NavItem>
+                    <NavItem>
                         <Link to={``}>Ví FBS</Link>
                     </NavItem>
                 </Nav>
