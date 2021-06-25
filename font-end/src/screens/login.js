@@ -98,6 +98,7 @@ class login extends Component {
             value={password}
             onChange={this.onchangePassword}
             required="required"
+            pattern={`[A-Za-z\d@$!%*#?&]{3,127}$]`}
           />
         </FormGroup>
         <Input type="submit" value="Đăng nhập" className="btn-login btn btn-success" />

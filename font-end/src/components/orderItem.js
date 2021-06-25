@@ -13,7 +13,7 @@ export default function OrderItem(props) {
             <div className="order-item item">
                 <CardImg className="order-img" src={`/images/${order.image_restaurant_id}`} width="200px" height="300px" alt="order" />
                 <div className="order-content">
-                    <div className="order-code">Mã số đơn hàng: {order.order_id} </div>
+                    <div className="order-code">Mã số đơn hàng: {order.order_code} </div>
                     <div className="order-restaurant-name">Tên nhà hàng: {order.restaurant_name}</div>
                     <div className="order-type">{order.restaurant_type}</div>
                     <div className="order-date">Thời gian diễn ra: {order.time}</div>

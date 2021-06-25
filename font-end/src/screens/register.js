@@ -164,6 +164,7 @@ class register extends Component {
                             value={password}
                             onChange={this.onchangePassword}
                             required="required"
+                            pattern={`[A-Za-z\d@$!%*#?&]{3,127}$]`}
                         />
                     </FormGroup>
                     {' '}
@@ -177,6 +178,7 @@ class register extends Component {
                             value={rePassword}
                             onChange={this.onchangeRePassword}
                             required="required"
+                            pattern={`[A-Za-z\d@$!%*#?&]{3,127}$]`}
                         // onBlur={this.onBlurRePassword(password, rePassword)}
                         />
                     </FormGroup>

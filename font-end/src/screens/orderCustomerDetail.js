@@ -45,8 +45,17 @@ export default class orderCustomerDetail extends Component {
         const { listOrderDetails, restaurantInfo, orderDetailInfo } = this.state;
 
         let orderStatus = '';
-        if (orderDetailInfo.order_status === 'order_pending') {
-            orderStatus = 'Đang chờ duyệt';
+        if (orderDetailInfo.order_status === 'pending') {
+            orderStatus = 'Chờ duyệt';
+        }
+        if (orderDetailInfo.order_status === 'preparing') {
+            orderStatus = 'Chưa diễn ra';
+        }
+        if (orderDetailInfo.order_status === 'accomplished') {
+            orderStatus = 'Đã diễn ra';
+        }
+        if (orderDetailInfo.order_status === 'cancelled') {
+            orderStatus = 'Đã hủy';
         }
 
         let organizeDate = formatDate(orderDetailInfo.organize_date);
@@ -61,6 +70,9 @@ export default class orderCustomerDetail extends Component {
                     </NavItem>
                     <NavItem className="active">
                         <Link to={`/users/profile/${userId}/order`}>Đơn của tôi</Link>
+                    </NavItem>
+                    <NavItem>
+                        <Link to={`/users/profile/${userId}/my-restaurant`}>Nhà hàng của tôi</Link>
                     </NavItem>
                     <NavItem>
                         <Link to={``}>Ví FBS</Link>
@@ -87,7 +99,7 @@ export default class orderCustomerDetail extends Component {
                                 <Link to={`/restaurant-detail/${restaurantInfo.restaurant_id}`}>Đi đến nhà hàng</Link>
                             </div>
                             <hr />
-                            <div className="od-info-code"><b>Mã số đơn hàng: </b>{orderDetailInfo.order_id}</div>
+                            <div className="od-info-code"><b>Mã số đơn hàng: </b>{orderDetailInfo.order_code}</div>
                             <div className="od-info-type"><b>Loại bàn: </b>{orderDetailInfo.table_type}</div>
                             <div className="od-info-guest-number"><b>Số lượng khách: </b>{orderDetailInfo.number_of_guests}</div>
                             <div className="od-info-order-date"><b>Thời gian đặt: </b>{orderDate}</div>
