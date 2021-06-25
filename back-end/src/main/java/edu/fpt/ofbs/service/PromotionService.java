@@ -16,4 +16,8 @@ public class PromotionService {
 	public List<IPromotionDTO> searchPromotionByProvince(String province){
 		return promotionRepository.searchPromotionByProvince(province);
 	}
+	
+	public List<IPromotionDTO> getPromotionsByRestaurantId(long restaurantId){
+		return promotionRepository.getPromotionsByRestaurantId(restaurantId);
+	}
 }

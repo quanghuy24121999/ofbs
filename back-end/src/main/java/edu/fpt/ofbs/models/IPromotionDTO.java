@@ -16,4 +16,6 @@ public interface IPromotionDTO {
 	Date getStart_date();
 
 	Date getEnd_date();
+	
+	String getPromotion_status();
 }

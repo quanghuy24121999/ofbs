@@ -11,6 +11,6 @@ import edu.fpt.ofbs.models.IComboDTO;
 
 @Repository
 public interface ComboRepository extends JpaRepository<Combo, Long>{
-	@Query(value = "exec sp_getCombosByRestaurantId @restaurant_id = ?1", nativeQuery = true)
+	@Query(value = "exec sp_getCombosByRestaurantId ?1", nativeQuery = true)
 	List<IComboDTO> getCombosByRestaurantId(long restaurantId);
 }

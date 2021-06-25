@@ -34,6 +34,10 @@ public class ImageService{
 	public void delete(long userId){
 		imageRepository.deleteByUserId(userId);
 	}
+	
+	public void deleteRestaurantCertificate(long restaurantId) {
+		imageRepository.deleteRestaurantCertificate(restaurantId);
+	}
 
 	public Image getImage(String id) {
 		return imageRepository.findById(id).get();
