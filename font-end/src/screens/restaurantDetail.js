@@ -235,7 +235,7 @@ export default class restaurantDetail extends Component {
                 </Container>
                 <Container className="restaurant-detail-content">
                     <div className="restauran-detail-header">
-                        <div className="restauran-detail-name">{restaurant.restaurantName}</div>
+                        <div className="restauran-detail-name">{restaurant.restaurant_name}</div>
                         <div className="restauran-detail-rate">
                             <StarRating rate={restaurant.rate} starDimension="30" starSpacing="4" />
                         </div>
@@ -247,7 +247,7 @@ export default class restaurantDetail extends Component {
                 </Container>
 
                 <Container className="feedback">
-                    <div className="feedback-title">Bài đánh giá {restaurant.restaurantName} từ khách hàng</div>
+                    <div className="feedback-title">Bài đánh giá {restaurant.restaurant_name} từ khách hàng</div>
                     <div className="feedback-sub-title">
                         <StarRating rate={restaurant.rate} starDimension="30" starSpacing="4" />
                         <div className="feedback-description"><b>{restaurant.rate}/5</b> dựa trên {feedbacks.length} đánh giá</div>

@@ -2,6 +2,7 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
 }
 
 /*================================================== VARIABLES ================================================== */
@@ -145,6 +146,7 @@ body {
   transform: translate(-50%, -50%);
   letter-spacing: 5px;
   width: 100%;
+  font-family: "Sofia", sans-serif;
 }
 
 .image {
@@ -1198,10 +1200,11 @@ hr {
   margin: 5px 0;
 }
 
-
 /*=============================================== ORDER DETAIL ===========================================*/
 .od-restaurant-img {
   height: auto;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 
 .od-info,
@@ -1227,6 +1230,16 @@ hr {
 
 .od-info-status {
   color: #0572e6;
+}
+
+table {
+  box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px,
+    rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
+}
+
+thead {
+  background-color: var(--color-primary);
+  color: #ffff;
 }
 
 tr > th:nth-child(3),
@@ -1267,6 +1280,109 @@ tr > td:nth-child(4) {
 .order-detail-amount {
   margin: 30px 0 0;
   color: #0572e6;
+}
+
+/*=============================================== REGISTER PROVIDER ===========================================*/
+
+.register-provider-content {
+  margin-top: 120px;
+}
+
+.form-register-restaurant {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+}
+
+.form-register-restaurant::before {
+  display: block;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 8px;
+  background-color: var(--color-primary);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.content-row-1,
+.content-row-2,
+.content-row-3,
+.content-row-4,
+.content-row-5,
+.content-row-6,
+.content-row-7 {
+  width: 100%;
+  margin: 0;
+}
+
+.rp-content-title {
+  margin: 20px 0 30px;
+  text-align: center;
+}
+
+.input-restaurant-name,
+.input-restaurant-type {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.input-restaurant-name > label {
+  width: 200px;
+  align-items: center;
+  margin: 0;
+}
+
+.content-row-2 > .col {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+.cb-accept {
+  margin-right: 5px;
+}
+
+.link-rule {
+  margin-left: 5px;
+}
+
+.btn-register-restaurant {
+  width: 50%;
+  margin: 30px auto 10px;
+  padding: 10px;
+}
+
+.link-redirect {
+  color: #fff;
+}
+
+/*=============================================== MY RESTAURANT ===========================================*/
+
+
+.restaurant-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.restaurant-row-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.restaurant-message {
+  text-align: center;
 }
 
 /*=============================================== FOOTER ===========================================*/

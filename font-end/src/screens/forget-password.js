@@ -35,6 +35,7 @@ export default class forgetPassword extends Component {
 
     onchangePassword(e) {
         this.setState({
+            // password: e.target.value.match(`^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)\S{6,15}$`)
             password: e.target.value
         });
     }
@@ -150,6 +151,7 @@ export default class forgetPassword extends Component {
                             value={password}
                             onChange={this.onchangePassword}
                             required="required"
+                            pattern={`[A-Za-z\d@$!%*#?&]{3,127}$]`}
                         />
                     </FormGroup>
                     {' '}
@@ -163,6 +165,7 @@ export default class forgetPassword extends Component {
                             value={rePassword}
                             onChange={this.onchangeRePassword}
                             required="required"
+                            pattern={`[A-Za-z\d@$!%*#?&]{3,127}$]`}
                         // onBlur={this.onBlurRePassword(password, rePassword)}
                         />
                     </FormGroup>

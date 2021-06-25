@@ -160,7 +160,7 @@ export default class searchResult extends Component {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
                 const restaurants = slice.map((restaurant) => {
-                    return <Col key={restaurant.restaurantId} className="search-item" lg="3" md="6" sm="12">
+                    return <Col key={restaurant.restaurant_id} className="search-item" lg="3" md="6" sm="12">
                         <RestaurantItem restaurant={restaurant} />
                     </Col>
                 })

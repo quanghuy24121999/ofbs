@@ -71,9 +71,7 @@ export default class orderCustomer extends Component {
                     const data = res.data;
                     const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
                     const orderPaging = slice.map((order, index) => {
-                        return <div key={index}>
-                            <OrderItem order={order} />
-                        </div>
+                        return <OrderItem key={index} userId={userId} order={order} />
                     })
                     this.setState({
                         pageCount: Math.ceil(data.length / this.state.perPage),
@@ -95,6 +93,9 @@ export default class orderCustomer extends Component {
                     </NavItem>
                     <NavItem className="active">
                         <Link to={`/users/profile/${userId}/order`}>Đơn của tôi</Link>
+                    </NavItem>
+                    <NavItem>
+                        <Link to={`/users/profile/${userId}/my-restaurant`}>Nhà hàng của tôi</Link>
                     </NavItem>
                     <NavItem>
                         <Link to={``}>Ví FBS</Link>

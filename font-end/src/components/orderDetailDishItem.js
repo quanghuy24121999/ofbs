@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table } from 'reactstrap';
+import { formatCurrency } from '../common/formatCurrency';
 
 export default function OrderDetailDishItem(props) {
     const listOrderDetails = props.listOrderDetails;
@@ -26,7 +27,7 @@ export default function OrderDetailDishItem(props) {
                                 return (<tr key={index} className="od-dish-item">
                                     <th>{count++}</th>
                                     <td>{item.dish_name}</td>
-                                    <td>{item.price} VNĐ</td>
+                                    <td>{formatCurrency(item.price)} VNĐ</td>
                                     <td>{item.quantity}</td>
                                 </tr>
                                 )
@@ -37,7 +38,7 @@ export default function OrderDetailDishItem(props) {
                     }
                 </tbody>
             </Table>
-            <div className="od-dish-item-total">Tổng tiền món ăn: {total} VNĐ</div>
+            <div className="od-dish-item-total">Tổng tiền món ăn: {formatCurrency(total)} VNĐ</div>
         </div>
     )
 }
