@@ -23,7 +23,7 @@ public class PromotionController {
 	private PromotionService promotionService;
 	
 	@GetMapping("")
-	public ResponseEntity<?> getRestaurantsByType(@PathParam("province") String province) {
+	public ResponseEntity<?> searchPromotionByProvince(@PathParam("province") String province) {
 		List<IPromotionDTO> promotions = promotionService.searchPromotionByProvince(province);
 		return ResponseEntity.status(HttpStatus.OK).body(promotions);
 	}

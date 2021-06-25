@@ -31,4 +31,6 @@ public class OrderDTO {
 	private String order_status;
 	
 	private Date organize_date;
+	
+	private String order_code;
 }

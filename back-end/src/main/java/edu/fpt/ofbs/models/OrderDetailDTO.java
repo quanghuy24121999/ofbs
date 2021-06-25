@@ -63,4 +63,6 @@ public class OrderDetailDTO {
 	private float price;
 	
 	private int quantity;
+	
+	private String order_code;
 }
