@@ -43,4 +43,8 @@ public class RestaurantService {
 	public Restaurant addRestaurant(Restaurant restaurant) {
 		return restaurantRepository.save(restaurant);
 	}
+	
+	public List<IRestaurantDTO> getRestaurantByProviderId(long providerId, long statusId){
+		return restaurantRepository.getRestaurantByProviderId(providerId, statusId);
+	}
 }
