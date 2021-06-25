@@ -65,6 +65,20 @@ public class ImageController {
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
 		}
 	}
+	
+	@DeleteMapping("/deleteCertificate")
+	public ResponseEntity<ResponseMessage> deleteRestaurantCertificate(@RequestParam("restaurantId") long restaurantId) {
+		String message = "";
+		try {
+			imageService.deleteRestaurantCertificate(restaurantId);
+
+			message = "Delete the image certificate successfully !";
+			return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+		} catch (Exception e) {
+			message = "Could not delete the image certificate !";
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+		}
+	}
 
 	@GetMapping("/getImages")
 	public ResponseEntity<List<ImageDTO>> getListFiles() {
