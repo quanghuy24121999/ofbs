@@ -16,9 +16,9 @@ public class RestaurantDTO {
 	
 	private String image_type;
 	
-	private String name;
+	private String restaurant_type;
 	
-	private String restaurantName;
+	private String restaurant_name;
 	
 	private String image_id;
 	

@@ -138,4 +138,9 @@ public class RestaurantController {
 		return ResponseEntity.status(HttpStatus.OK).body(restaurant);
 	}
 	
+	@GetMapping("/getRestaurantByProviderId")
+	public ResponseEntity<?> getRestaurantByProviderId(@PathParam("providerId") long providerId, @PathParam("statusId") long statusId) {
+		List<IRestaurantDTO> restaurant = restaurantService.getRestaurantByProviderId(providerId, statusId);
+		return ResponseEntity.status(HttpStatus.OK).body(restaurant);
+	}
 }
