@@ -13,15 +13,15 @@ import edu.fpt.ofbs.models.IOrderDTO;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long>{
-	@Query(value = "exec sp_getOrderByCustomerId @customer_id = ?1, @status_id = ?2", nativeQuery = true)
+	@Query(value = "exec sp_getOrderByCustomerId ?1, ?2", nativeQuery = true)
 	List<IOrderDTO> getOrderByCustomerId (long customerId, long statusId);
 	
-	@Query(value = "exec sp_getOrderByProviderId @provider_id = ?1", nativeQuery = true)
+	@Query(value = "exec sp_getOrderByProviderId ?1", nativeQuery = true)
 	List<IOrderDTO> getOrderByProviderId (long providerId);
 	
 	@Modifying
-	@Query(value = "exec sp_insertOrder @time = ?1, @customer_id = ?2, @restaurant_id = ?3, @table_type = ?4, @number_of_guests = ?5, @note = ?6, @organize_date = ?7", nativeQuery = true)
-	void insertOrder(String time, long customerId, long restaurantId, int tableType, int NumberOfGuests, String note, Date organizeDate);
+	@Query(value = "exec sp_insertOrder ?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9", nativeQuery = true)
+	void insertOrder(String time, Date orderDate, long customerId, long restaurantId, int tableType, int NumberOfGuests, String note, Date organizeDate, String orderCode);
 	
 	@Modifying
 	@Query(value = "exec sp_updateOrderStatus ?1, ?2", nativeQuery = true)

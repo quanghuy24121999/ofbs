@@ -52,4 +52,6 @@ public interface IOrderDetailDTO {
 	float getPrice();
 
 	int getQuantity();
+	
+	String getOrder_code();
 }
