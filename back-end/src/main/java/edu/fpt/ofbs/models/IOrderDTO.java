@@ -20,4 +20,6 @@ public interface IOrderDTO {
 	String getOrder_status();
 	
 	Date getOrganize_date();
+	
+	String getOrder_code();
 }

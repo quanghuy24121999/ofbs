@@ -132,7 +132,7 @@ public class RestaurantController {
 	
 	@PostMapping("/registerRestaurant")
 	public ResponseEntity<?> addRestaurant(@RequestBody Restaurant restaurant){
-		restaurant.setStatus(statusService.findStatusByName("inactive"));
+		restaurant.setStatus(statusService.findStatusByName("pending"));
 		restaurantService.addRestaurant(restaurant);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(restaurant);

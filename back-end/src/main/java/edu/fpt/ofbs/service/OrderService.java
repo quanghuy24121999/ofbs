@@ -1,5 +1,6 @@
 package edu.fpt.ofbs.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -26,7 +27,11 @@ public class OrderService {
 	}
 	
 	public void insertOrder(OrderSaveDTO order) {
-		orderRepository.insertOrder(order.getTime(), order.getCustomerId(), order.getRestaurantId(), order.getTableType(), order.getNumberOfGuests(), order.getNote(), order.getOrganizeDate());
+		Date orderDate = new Date();
+		
+		String orderCode = "FBS" + order.getCustomerId() + order.getRestaurantId() + "OD" + orderDate.getTime();
+		
+		orderRepository.insertOrder(order.getTime(), orderDate, order.getCustomerId(), order.getRestaurantId(), order.getTableType(), order.getNumberOfGuests(), order.getNote(), order.getOrganizeDate(), orderCode);
 	}
 	
 	public void deleteOrder(long orderId) {
