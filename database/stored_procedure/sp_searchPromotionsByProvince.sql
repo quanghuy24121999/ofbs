@@ -2,7 +2,7 @@ CREATE PROC sp_searchPromotionByProvince @province nvarchar(50)
 AS
 DECLARE @sql_select nvarchar(MAX), @sql_prov nvarchar(MAX), @sql_order_by nvarchar(MAX)
 BEGIN
-SET @sql_select = 'SELECT pro.id as promotion_id, pro.name as promotion_name, pro.description, img.id as image_id, pro.start_date, pro.end_date 
+SET @sql_select = 'SELECT pro.id as promotion_id, res.id as restaurant_id, pro.name as promotion_name, pro.description, img.id as image_id, pro.start_date, pro.end_date 
 				   FROM promotions pro
 						left join images img on img.promotion_id = pro.id
 						left join provider_restaurants res on pro.restaurant_id = res.id
