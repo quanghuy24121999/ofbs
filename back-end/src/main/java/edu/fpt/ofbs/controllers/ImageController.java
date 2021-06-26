@@ -1,7 +1,6 @@
 package edu.fpt.ofbs.controllers;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.websocket.server.PathParam;
 
@@ -23,7 +22,6 @@ import edu.fpt.ofbs.entities.Image;
 
 import edu.fpt.ofbs.message.ResponseMessage;
 import edu.fpt.ofbs.models.IImageDTO;
-import edu.fpt.ofbs.models.ImageDTO;
 import edu.fpt.ofbs.service.ImageService;
 
 @RestController
@@ -80,15 +78,6 @@ public class ImageController {
 		}
 	}
 
-	@GetMapping("/getImages")
-	public ResponseEntity<List<ImageDTO>> getListFiles() {
-		List<ImageDTO> files = imageService.getAllImages().map(dbFile -> {
-			return new ImageDTO(dbFile.getId(), dbFile.getName());
-		}).collect(Collectors.toList());
-
-		return ResponseEntity.status(HttpStatus.OK).body(files);
-	}
-
 	@GetMapping("/{id}")
 	public ResponseEntity<byte[]> getFile(@PathVariable String id) {
 		Image img = imageService.getImage(id);
@@ -116,5 +105,11 @@ public class ImageController {
 			message = "Could not delete the image !";
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
 		}
+	}
+	
+	@GetMapping("/getImagesRestaurant")
+	public ResponseEntity<?> getImagesRestaurant(@PathParam("restaurantId") long restaurantId) {
+		List<IImageDTO> images = imageService.getImagesRestaurant(restaurantId);
+		return ResponseEntity.status(HttpStatus.OK).body(images);
 	}
 }

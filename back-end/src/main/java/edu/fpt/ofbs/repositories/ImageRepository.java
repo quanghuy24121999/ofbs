@@ -22,4 +22,7 @@ public interface ImageRepository extends JpaRepository<Image, String>{
 	@Modifying
 	@Query(value = "delete from Images where restaurant_id = ?1 and type_id = 3", nativeQuery = true)
 	void deleteRestaurantCertificate(long restaurantId);
+	
+	@Query(value = "exec sp_getImagesRestaurant ?1", nativeQuery = true)
+	List<IImageDTO> getImagesRestaurant(long restaurantId);
 }

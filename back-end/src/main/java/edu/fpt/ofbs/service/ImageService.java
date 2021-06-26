@@ -54,4 +54,8 @@ public class ImageService{
 	public void deleteImageById(String id) {
 		imageRepository.deleteById(id);
 	}
+	
+	public List<IImageDTO> getImagesRestaurant(long restaurantId){
+		return imageRepository.getImagesRestaurant(restaurantId);
+	}
 }
