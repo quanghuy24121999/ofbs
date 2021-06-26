@@ -66,7 +66,7 @@ export default class myRestaurant extends Component {
                         {restaurantPending.length > 0 ? (
                             restaurantPending.map((restaurant, index) => {
                                 return <Col lg="3" md="4" sm="12" key={index}>
-                                    <MyRestaurantItem restaurant={restaurant} />
+                                    <MyRestaurantItem restaurant={restaurant} userId={userId} />
                                 </Col>
                             })
                         ) : (
@@ -81,7 +81,7 @@ export default class myRestaurant extends Component {
                         {restaurantActive.length > 0 ? (
                             restaurantActive.map((restaurant, index) => {
                                 return <Col key={index}>
-                                    <MyRestaurantItem restaurant={restaurant} />
+                                    <MyRestaurantItem restaurant={restaurant} userId={userId} />
                                 </Col>
                             })
                         ) : (
@@ -96,7 +96,7 @@ export default class myRestaurant extends Component {
                         {restaurantInactive.length > 0 ? (
                             restaurantInactive.map((restaurant, index) => {
                                 return <Col key={index}>
-                                    <MyRestaurantItem restaurant={restaurant} />
+                                    <MyRestaurantItem restaurant={restaurant} userId={userId} />
                                 </Col>
                             })
                         ) : (
