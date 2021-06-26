@@ -8,4 +8,6 @@ public interface IComboDTO {
 	String getCombo_name();
 
 	float getCombo_price();
+	
+	long getRestaurant_id();
 }

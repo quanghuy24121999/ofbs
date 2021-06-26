@@ -41,8 +41,6 @@ public class Promotion {
 	@Column(name = "discount_percentage")
 	private float discountPercentage;
 	
-	private String type;
-	
 	@Column(name = "start_date")
 	private Date startDate;
 	

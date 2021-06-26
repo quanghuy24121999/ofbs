@@ -47,4 +47,14 @@ public class RestaurantService {
 	public List<IRestaurantDTO> getRestaurantByProviderId(long providerId, long statusId){
 		return restaurantRepository.getRestaurantByProviderId(providerId, statusId);
 	}
+	
+	public void updateInforRestaurant(Restaurant restaurant) {
+		Restaurant res = new Restaurant(restaurant.getId(), restaurant.getProvider(),
+				restaurant.getProvince(), restaurant.getDistrict(), restaurant.getAddress(), 
+				restaurant.getPhoneNumber(), findRestaurantById(restaurant.getId()).getBussinessLicenseId(), 
+				restaurant.getRestaurantName(), restaurant.getStatus(), restaurant.getDescription(), 
+				restaurant.getSize(), restaurant.getProviderType());
+		
+		restaurantRepository.save(res);
+	}
 }
