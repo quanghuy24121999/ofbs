@@ -3,8 +3,7 @@ CREATE PROCEDURE sp_getOrderByProviderId
 AS
 BEGIN
 	SELECT res.restaurant_name, img.id as image_restaurant_id, ord.id as order_id, ord.order_date, 
-		res_type.name as restaurant_type, ord.time, ord.organize_date, ord.amount, 
-		status.name as order_status
+		res_type.name as restaurant_type, ord.time, ord.amount, status.name as order_status, ord.organize_date, ord.order_code
 	FROM orders ord 
 		join status on ord.status_id = status.id
 		join provider_restaurants res on ord.restaurant_id = res.id

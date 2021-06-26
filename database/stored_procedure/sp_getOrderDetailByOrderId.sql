@@ -5,7 +5,7 @@ BEGIN
 		ord.order_date, ord.time, ord.organize_date, status.name as order_status, users.email, users.phone_number, 
 		ord.number_of_guests, ord.table_type, ord.note, ord.amount as total_amount, pro.name as promotion_name,
 		detail.dish_id, dishes.name as dish_name, detail.combo_id, combos.name as combo_name, detail.service_id, 
-		services.name as service_name, detail.price, detail.quantity
+		services.name as service_name, detail.price, detail.quantity, ord.order_code
 	FROM orders ord 
 		join status on ord.status_id = status.id
 		join provider_restaurants res on ord.restaurant_id = res.id

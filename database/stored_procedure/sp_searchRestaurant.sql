@@ -20,12 +20,12 @@ IF (@restaurant_type = 3)
 	END
 
 SET @sql_select = 'SELECT res.id as restaurant_id, img_tp.image_type, pr_tp.name as restaurant_type, res.restaurant_name, 
-						img.id as image_id, res.province, res.size, AVG(fb.rate) as rate, res.description, status.name as restaurant_status
+						img.id as image_id, res.province, res.size, ISNULL(AVG(fb.rate), 0) as rate, res.description, status.name as restaurant_status
 				   FROM provider_restaurants res 
 						join provider_types pr_tp on pr_tp.id =  res.provider_type_id 
 						left join images img on img.restaurant_id = res.id
 						join image_types img_tp on img.type_id = img_tp.id
-						join feedbacks fb on fb.restaurant_id = res.id
+						join feedbacks fb on fb.restaurant_id = res.id and fb.rate > 0
 						join status on status.id = res.status_id
 					WHERE status.name like N' + '''' + 'active' + ''''
 					+ ' and img_tp.image_type like ' + '''' + 'Avatar' + ''''
