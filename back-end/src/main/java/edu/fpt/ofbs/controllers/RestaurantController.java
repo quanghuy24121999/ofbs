@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import edu.fpt.ofbs.entities.ProviderType;
 import edu.fpt.ofbs.entities.Restaurant;
-import edu.fpt.ofbs.entities.Status;
 import edu.fpt.ofbs.message.ResponseMessage;
 import edu.fpt.ofbs.models.FeedbackDTO;
 import edu.fpt.ofbs.models.IComboDTO;
@@ -141,6 +140,19 @@ public class RestaurantController {
 	@GetMapping("/getRestaurantByProviderId")
 	public ResponseEntity<?> getRestaurantByProviderId(@PathParam("providerId") long providerId, @PathParam("statusId") long statusId) {
 		List<IRestaurantDTO> restaurant = restaurantService.getRestaurantByProviderId(providerId, statusId);
+		return ResponseEntity.status(HttpStatus.OK).body(restaurant);
+	}
+	
+	@GetMapping("/getRestaurantById")
+	public ResponseEntity<?> findRestaurantById(@PathParam("restaurantId") long restaurantId) {
+		Restaurant restaurant = restaurantService.findRestaurantById(restaurantId);
+		return ResponseEntity.status(HttpStatus.OK).body(restaurant);
+	}
+	
+	@PostMapping("/updateInforRestaurant")
+	public ResponseEntity<?> updateInforRestaurant(@RequestBody Restaurant restaurant){
+		restaurantService.updateInforRestaurant(restaurant);
+		
 		return ResponseEntity.status(HttpStatus.OK).body(restaurant);
 	}
 }
