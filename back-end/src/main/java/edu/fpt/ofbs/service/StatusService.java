@@ -1,5 +1,8 @@
 package edu.fpt.ofbs.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,5 +20,14 @@ public class StatusService {
 	
 	public Status findStatusByName(String name) {
 		return statusRepository.findByName(name);
+	}
+	
+	public List<Status> getRestaurantStatus(){
+		List<Status> list = new ArrayList<Status>();
+		
+		list.add(findStatusByName("active"));
+		list.add(findStatusByName("inactive"));
+		list.add(findStatusByName("pending"));
+		return list;
 	}
 }
