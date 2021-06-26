@@ -573,7 +573,7 @@ label {
 }
 
 .cart-display {
-  position: absolute;
+  position: fixed;
   width: 50px;
   height: 50px;
   right: 100px;
@@ -581,6 +581,8 @@ label {
   box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
   border-radius: 50%;
   padding-top: 10px;
+  background-color: #fff;
+  z-index: 1;
 }
 
 hr {
@@ -1063,7 +1065,7 @@ hr {
   border-radius: 10px;
 }
 
-.feedback > .row{
+.feedback > .row {
   width: 100%;
 }
 
@@ -1400,7 +1402,7 @@ tr > td:nth-child(4) {
 }
 
 .business-title,
-.content-row-7 > .col{
+.content-row-7 > .col {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1431,6 +1433,60 @@ tr > td:nth-child(4) {
 
 .restaurant-message {
   text-align: center;
+}
+
+/*=============================================== MY RESTAURANT ===========================================*/
+.myRes-detail-content-row {
+  width: 100%;
+}
+
+.myRes-detail > .restaurant-detail-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.myRes-detail-content-info > .row {
+  padding: 5px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.myRes-detail-content-info > .row > div > label {
+  margin: 0 auto;
+}
+
+.update-restaurant {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-update-restaurant {
+  width: 30%;
+}
+
+.restaurant-profile-image {
+  object-fit: contain;
+  min-height: 350px;
+  max-height: 350px;
+  max-width: 90%;
+  box-shadow: rgb(117 124 131) 0px 20px 30px -10px;
+}
+
+.myRes-detail-content-img > .row > div:nth-child(2){
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.img-title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 20px 0;
 }
 
 /*=============================================== FOOTER ===========================================*/

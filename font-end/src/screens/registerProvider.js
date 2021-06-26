@@ -321,7 +321,7 @@ export default class registerPromotion extends Component {
                                         type="textarea"
                                         name="restaurant-description"
                                         id="restaurant-description"
-                                        placeholder="Nhập mã giấy phép kinh doanh của nhà hàng"
+                                        placeholder="Mô tả về nhà hàng"
                                         onChange={this.onChangeRestaurantDescription}
                                         value={restaurantDescription}
                                     />
