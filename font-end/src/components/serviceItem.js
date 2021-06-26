@@ -1,15 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
     Button, Card, CardImg, CardBody,
-    CardTitle, CardText
+    CardTitle, CardText, Modal, ModalHeader,
+    ModalBody, ModalFooter
 } from 'reactstrap';
 import { useCart } from 'react-use-cart';
 
 export default function ServiceItem(props) {
-    const { addItem } = useCart();
+    const { addItem, items } = useCart();
+
     const service = props.service;
     const index = props.index;
-    
+
+    const [modal, setModal] = useState(false);
+    const toggle = () => setModal(!modal);
+
+    const checkAddItem = (service) => {
+        if (items === undefined || items === null || items.length === 0
+            || items[0].restaurant_id === service.restaurant_id) {
+            addItem(service);
+        } else {
+            toggle();
+        }
+
+    }
+
     return (
         <div>
             <Card key={index} className="item">
@@ -17,11 +32,20 @@ export default function ServiceItem(props) {
                 <CardBody className="service-content">
                     <CardTitle tag="h5">{service.service_name}</CardTitle>
                     <CardText className="service-price">{service.price + ' VNĐ'}</CardText>
-                    <Button color="success" onClick={() => addItem(service)}>
+                    <Button color="success" onClick={() => checkAddItem(service)}>
                         Thêm vào giỏ
                     </Button>
                 </CardBody>
             </Card>
+            <Modal isOpen={modal} toggle={toggle} className={``}>
+                <ModalHeader toggle={toggle}>Thông báo</ModalHeader>
+                <ModalBody>
+                    Bạn phải hoàn tất thanh toán của nhà hàng khác trước khi thêm vào giỏ hàng !
+                </ModalBody>
+                <ModalFooter>
+                    <Button color="success" onClick={toggle}>Ok</Button>
+                </ModalFooter>
+            </Modal>
         </div>
     )
 }

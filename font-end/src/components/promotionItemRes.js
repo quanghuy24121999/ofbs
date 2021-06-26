@@ -1,6 +1,5 @@
 import React from 'react';
 import { CardImg } from 'reactstrap';
-import { Link } from 'react-router-dom';
 
 import { formatDate } from '../common/formatDate';
 
@@ -25,9 +24,6 @@ export default function PromotionItem(props) {
                     </div>
                 </div>
                 <div className="promotion-status">{status}</div>
-                <Link to={"/restaurant-detail/" + promotion.restaurant_id} className="link-to-restaurant">
-                    Đi đến nhà hàng
-                </Link>
             </div>
             <CardImg
                 className="promotion-item-img"

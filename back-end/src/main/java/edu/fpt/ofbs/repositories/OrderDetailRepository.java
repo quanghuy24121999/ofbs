@@ -17,7 +17,7 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long>{
 	void insertOrderDetail(int quantity, long dishId, long comboId, long serviceId, long customerId, long restaurantId);
 	
 	@Modifying
-	@Query(value = "DELETE FROM order_details WHERE ?1", nativeQuery = true)
+	@Query(value = "DELETE FROM order_details WHERE order_id = ?1", nativeQuery = true)
 	void deleteOrderDetail(long orderId);
 	
 	@Query(value = "exec sp_getOrderDetailByOrderId ?1", nativeQuery = true)

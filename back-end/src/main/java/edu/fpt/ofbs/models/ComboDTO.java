@@ -19,4 +19,6 @@ public class ComboDTO {
 	private String combo_name;
 	
 	private float combo_price;
+	
+	private long restaurant_id;
 }

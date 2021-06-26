@@ -118,6 +118,10 @@ body {
   margin: 10px 0;
 }
 
+.promotion-status {
+  color: #0572e6;
+}
+
 .promotion-item-img {
   flex-grow: 1;
 }
@@ -1059,14 +1063,19 @@ hr {
   border-radius: 10px;
 }
 
+.feedback > .row{
+  width: 100%;
+}
+
 .feedback-item {
   margin: 20px 0;
 }
 
 .feedback-title {
   font-size: 1.5rem;
-  padding: 20px 0;
+  padding: 20px 0 0;
   font-weight: 500;
+  text-align: center;
 }
 
 .feedback-sub-title {
@@ -1087,19 +1096,21 @@ hr {
 }
 
 .send-feedback {
-  width: 50%;
+  width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin: 10px 0;
+  padding: 10px;
 }
 
-.send-feedback-title,
+/* .send-feedback-title,
 .feedback-comment,
 .feedback-star,
 .btn-feedback {
   width: 1px;
-}
+} */
 
 .feedback-star > .star-ratings {
   margin: 0;
@@ -1116,6 +1127,7 @@ hr {
 
 .feedback-star {
   flex-grow: 3;
+  margin: 20px 0;
 }
 
 .btn-feedback {
@@ -1143,6 +1155,23 @@ hr {
   height: 30px;
   margin-right: 6px;
   border-radius: 50%;
+}
+
+.feedback-content {
+  padding: 10px;
+}
+
+.feedback-list {
+  padding-left: 120px;
+}
+
+.feedback-content > .pagination {
+  justify-content: center;
+}
+
+.star-rating-nav {
+  display: flex;
+  justify-content: center;
 }
 
 .username {
@@ -1201,6 +1230,10 @@ hr {
 }
 
 /*=============================================== ORDER DETAIL ===========================================*/
+.od-content-detail {
+  justify-content: center;
+}
+
 .od-restaurant-img {
   height: auto;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
@@ -1366,19 +1399,34 @@ tr > td:nth-child(4) {
   color: #fff;
 }
 
-/*=============================================== MY RESTAURANT ===========================================*/
+.business-title,
+.content-row-7 > .col{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.business-image {
+  width: 300px;
+  height: 300px;
+}
+
+/*=============================================== MY RESTAURANT ===========================================*/
 
 .restaurant-row {
   display: flex;
-  align-items: center;
-  justify-content: center;
   margin-bottom: 50px;
+}
+
+.restaurant-row > div {
+  margin-bottom: 10px;
+  padding: 0;
 }
 
 .restaurant-row-title {
   text-align: center;
   margin-bottom: 20px;
+  color: var(--color-primary);
 }
 
 .restaurant-message {

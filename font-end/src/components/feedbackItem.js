@@ -1,8 +1,9 @@
 import React from 'react';
-import { CardImg } from 'reactstrap';
+import { CardImg, Col } from 'reactstrap';
 
 import StarRating from './starRating';
 import imageUser from '../images/default-avatar-user.png';
+import { formatDate } from '../common/formatDate';
 
 export default function FeedbackItem(props) {
     const feedback = props.feedback;
@@ -21,7 +22,7 @@ export default function FeedbackItem(props) {
             </div>
             <div className="user-content">
                 <div className="user-comment"><i>"{feedback.feedback_content}"</i></div>
-                <div className="feedback-date">{feedback.feedback_date}</div>
+                <div className="feedback-date">{formatDate(feedback.feedback_date)}</div>
             </div>
         </div>
     )

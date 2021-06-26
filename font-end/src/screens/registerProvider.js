@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import {
     Container, Input, Label, Button,
     Row, Col, Modal, ModalHeader, ModalBody,
-    ModalFooter, Form
+    ModalFooter, Form, CardImg, Alert
 } from 'reactstrap';
 import subVn from "sub-vn";
 import { Link } from 'react-router-dom';
+import ImageUploading from "react-images-uploading";
+import axios from 'axios';
 
 import TopMenu from '../components/topMenu';
 import Footer from '../components/footer';
-import axios from 'axios';
 
 export default class registerPromotion extends Component {
     constructor(props) {
@@ -19,6 +20,7 @@ export default class registerPromotion extends Component {
             provinces: subVn.getProvinces(),
             districts: [],
             types: [],
+            images: [],
             user: {},
             modal: false,
             modal1: false,
@@ -50,6 +52,8 @@ export default class registerPromotion extends Component {
         this.onSubmitRegister = this.onSubmitRegister.bind(this);
         this.toggle = this.toggle.bind(this);
         this.toggle1 = this.toggle1.bind(this);
+        this.onChange = this.onChange.bind(this);
+        this.updateImage = this.updateImage.bind(this);
     }
 
     onChangeRestaurantName(e) {
@@ -138,6 +142,7 @@ export default class registerPromotion extends Component {
                 "providerType": restaurantType
             }
         ).then(res => {
+            this.updateImage(res.data.id);
             this.toggle1();
         })
     }
@@ -150,10 +155,30 @@ export default class registerPromotion extends Component {
         this.setState({ modal1: !this.state.modal1 })
     }
 
+    onChange = (imageList, addUpdateIndex) => {
+        this.setState({ images: imageList });
+    };
+
+    updateImage(restaurantId) {
+        document.getElementById('error-form4').style.display = "none";
+        axios.delete(`/images/deleteCertificate?restaurantId=${restaurantId}`)
+            .then(res => {
+                let formData = new FormData();
+                formData.append('file', this.state.images[0].file);
+                axios.post(`/images/upload?userId=0&dishId=0&serviceId=0&comboId=0&restaurantId=${restaurantId}&promotionId=0&typeId=3`,
+                    formData, {
+                }).then(res => {
+                    // window.location.reload();
+                }).catch(err => {
+                    document.getElementById('error-form4').style.display = "block";
+                })
+            })
+    }
+
     render() {
         const { provinces, districts, types, provinceCode, restaurantAddress, user,
             restaurantBusinessCode, restaurantDescription, restaurantName, restaurantPhone,
-            restaurantSize, restaurantType, modal, modal1
+            restaurantSize, restaurantType, modal, modal1, images
         } = this.state;
 
         return (
@@ -305,7 +330,34 @@ export default class registerPromotion extends Component {
 
                             <Row className="content-row-6">
                                 <Col>
-                                    <Label><b>Giấy chứng nhận vệ sinh an toàn thực phẩm: </b></Label>
+                                    <Label className="business-title"><b>Giấy chứng nhận vệ sinh an toàn thực phẩm: </b></Label>
+                                    <ImageUploading
+                                        value={images}
+                                        onChange={this.onChange}
+                                        dataURLKey="data_url"
+                                    >
+                                        {({
+                                            imageList,
+                                            onImageUpdate,
+                                            onImageRemove,
+                                        }) => (
+                                            <div className="upload__image-wrapper">
+                                                {imageList.map((image, index) => (
+                                                    (
+                                                        <div key={index} className="image-item">
+                                                            <CardImg className="business-image" top src={image.data_url} />
+                                                            <Alert color="danger" id="error-form4" className="error-form">
+                                                                Không thể tải ảnh lên, vui lòng chọn một ảnh khác !
+                                                            </Alert>
+                                                        </div>
+                                                    )
+                                                )
+                                                )}
+
+                                                <div className="btn-change-image" onClick={onImageUpdate}>Chọn hoặc đổi ảnh</div>
+                                            </div>
+                                        )}
+                                    </ImageUploading>
                                 </Col>
                             </Row>
 
