@@ -103,4 +103,18 @@ public class ImageController {
 		List<IImageDTO> images = imageService.getImagesByRestaurantId(restaurantId);
 		return ResponseEntity.status(HttpStatus.OK).body(images);
 	}
+	
+	@DeleteMapping("/deleteImageById")
+	public ResponseEntity<ResponseMessage> deleteImage(@RequestParam("imageId") String imageId) {
+		String message = "";
+		try {
+			imageService.deleteImageById(imageId);
+
+			message = "Delete the image successfully !";
+			return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+		} catch (Exception e) {
+			message = "Could not delete the image !";
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+		}
+	}
 }

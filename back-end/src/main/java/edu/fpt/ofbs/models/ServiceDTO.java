@@ -19,4 +19,6 @@ public class ServiceDTO {
 	private String image_service_id;
 	
 	private float price;
+	
+	private long restaurant_id;
 }
