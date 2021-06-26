@@ -13,5 +13,8 @@ import lombok.Setter;
 @Setter
 public class ImageDTO {
 	private String image_id;
+	
 	private String image_name;
+	
+	private String imagr_type;
 }

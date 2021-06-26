@@ -5,4 +5,6 @@ public interface IImageDTO {
 	String getImage_id();
 
 	String getImage_name();
+	
+	String getImage_type();
 }
