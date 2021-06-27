@@ -16,5 +16,5 @@ public class ImageDTO {
 	
 	private String image_name;
 	
-	private String imagr_type;
+	private String image_type;
 }

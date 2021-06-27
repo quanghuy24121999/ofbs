@@ -5,14 +5,19 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import edu.fpt.ofbs.entities.ServiceCategory;
 import edu.fpt.ofbs.entities.Services;
 import edu.fpt.ofbs.models.IServiceDTO;
+import edu.fpt.ofbs.repositories.ServiceCategoryRepository;
 import edu.fpt.ofbs.repositories.ServiceRepository;
 
 @Service
 public class ServiceService{
 	@Autowired
 	private ServiceRepository serviceRepository;
+	
+	@Autowired
+	private ServiceCategoryRepository categoryRepository;
 
 	public List<Services> findAll() {
 		return serviceRepository.findAll();
@@ -32,5 +37,13 @@ public class ServiceService{
 	
 	public void updateService(Services service) {
 		serviceRepository.save(service);
+	}
+	
+	public List<ServiceCategory> getAllServiceCategory() {
+		return categoryRepository.findAll();
+	}
+	
+	public void updateStatus(long statusId, long serviceId) {
+		serviceRepository.updateStatusInactive(statusId, serviceId);
 	}
 }
