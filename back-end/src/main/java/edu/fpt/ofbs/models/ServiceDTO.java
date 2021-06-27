@@ -21,4 +21,8 @@ public class ServiceDTO {
 	private float price;
 	
 	private long restaurant_id;
+	
+	private String service_category_name;
+	
+	private String status_name;
 }
