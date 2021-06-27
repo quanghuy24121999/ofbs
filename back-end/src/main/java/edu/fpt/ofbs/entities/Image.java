@@ -69,7 +69,7 @@ public class Image {
 	private String userId;
 	
 	@Column(name = "dish_id")
-	private String dish;
+	private String dishId;
 	
 	@Column(name = "service_id")
 	private String serviceId;
@@ -86,13 +86,13 @@ public class Image {
 	@Column(name = "type_id")
 	private String typeId;
 
-	public Image(String name, byte[] value, String userId, String dish, String serviceId, String comboId,
+	public Image(String name, byte[] value, String userId, String dishId, String serviceId, String comboId,
 			String restaurantId, String promotionId, String typeId) {
 		super();
 		this.name = name;
 		this.value = value;
 		this.userId = userId;
-		this.dish = dish;
+		this.dishId = dishId;
 		this.serviceId = serviceId;
 		this.comboId = comboId;
 		this.restaurantId = restaurantId;

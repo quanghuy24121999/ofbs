@@ -19,9 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import edu.fpt.ofbs.entities.Image;
-
-import edu.fpt.ofbs.message.ResponseMessage;
 import edu.fpt.ofbs.models.IImageDTO;
+import edu.fpt.ofbs.models.ResponseMessage;
 import edu.fpt.ofbs.service.ImageService;
 
 @RestController
@@ -42,10 +41,24 @@ public class ImageController {
 		try {
 			imageService.store(file, userId, dishId, serviceId, comboId, restaurantId, promotionId, typeId);
 
-			message = "Uploaded the file successfully: " + file.getOriginalFilename();
+			message = "Uploaded the image successfully: " + file.getOriginalFilename();
 			return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
 		} catch (Exception e) {
-			message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+			message = "Could not upload the image: " + file.getOriginalFilename() + "!";
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+		}
+	}
+	
+	@PostMapping("/update")
+	public ResponseEntity<ResponseMessage> updateImage(@RequestParam("file") MultipartFile file, @RequestParam("imageId") String imageId) {
+		String message = "";
+		try {
+			imageService.update(file, imageId);
+
+			message = "Update the image successfully: " + file.getOriginalFilename();
+			return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+		} catch (Exception e) {
+			message = "Could not image the file: " + file.getOriginalFilename() + "!";
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
 		}
 	}
