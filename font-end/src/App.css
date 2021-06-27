@@ -1489,6 +1489,55 @@ tr > td:nth-child(4) {
   padding: 20px 0;
 }
 
+/*=============================================== MY RESTAURANT IMAGE ===========================================*/
+
+.myRes-image > .restaurant-detail-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.myRes-image-add {
+  width: 100%;
+  padding: 0 0 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.myRes-detail-list-img > div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.myRes-detail-img-item {
+  position: relative;
+}
+
+.icon-del {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ff0000;
+  padding: 3px;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  color: #ff0000;
+  cursor: pointer;
+}
+
+.image-description {
+  object-fit: contain;
+  max-height: 250px;
+  max-width: 90%;
+  box-shadow: rgb(117 124 131) 0px 20px 30px -10px;
+}
+
 /*=============================================== FOOTER ===========================================*/
 footer {
   width: 100%;
