@@ -313,6 +313,8 @@ export default class myRestaurantDetail extends Component {
             restaurantName, restaurantPhone, restaurantSize, restaurantType, modal,
             modal1, restaurantStatus, restaurantAvatar, restaurantCertificate, images
         } = this.state;
+        const userId = this.props.match.params.userId;
+        const restaurantId = this.props.match.params.restaurantId;
 
         let image;
         if (restaurantAvatar === '') {
@@ -326,22 +328,22 @@ export default class myRestaurantDetail extends Component {
                 <TopMenu />
                 <Nav pills className="restaurant-detail-nav container">
                     <NavItem className="active">
-                        <Link to={``}>Thông tin</Link>
+                        <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/detail`}>Thông tin</Link>
                     </NavItem>
                     <NavItem>
-                        <Link to={``}>Ảnh</Link>
+                        <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/image`}>Ảnh</Link>
                     </NavItem>
                     <NavItem>
-                        <Link to={``}>Thực đơn</Link>
+                        <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/menu`}>Thực đơn</Link>
                     </NavItem>
                     <NavItem>
-                        <Link to={``}>Combo món ăn</Link>
+                        <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/combo`}>Combo món ăn</Link>
                     </NavItem>
                     <NavItem>
-                        <Link to={``}>Dịch vụ</Link>
+                        <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/service`}>Dịch vụ</Link>
                     </NavItem>
                     <NavItem>
-                        <Link to={``}>Khuyến mãi</Link>
+                        <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/promotion`}>Khuyến mãi</Link>
                     </NavItem>
                 </Nav>
                 <Container className="myRes-detail-content">

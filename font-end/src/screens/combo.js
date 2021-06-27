@@ -43,7 +43,7 @@ export default class combo extends Component {
 
     receivedData() {
         const restaurantId = this.props.match.params.restaurantId;
-        axios.get(`/restaurants/combos?restaurantId=${restaurantId}`)
+        axios.get(`/combos/getCombosByRestaurantId?restaurantId=${restaurantId}`)
             .then(res => {
                 let combosTemp = [];
                 combosTemp = res.data;

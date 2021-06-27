@@ -220,21 +220,47 @@ export default class userProfile extends Component {
         document.getElementById("user-image").style.display = "block";
     }
 
+    // updateImage() {
+    //     const userId = this.props.match.params.userId;
+    //     document.getElementById('error-form4').style.display = "none";
+    //     axios.delete(`/images/delete?userId=${userId}`)
+    //         .then(res => {
+    //             let formData = new FormData();
+    //             formData.append('file', this.state.images[0].file);
+    //             axios.post(`/images/upload?userId=${userId}&dishId=0&serviceId=0&comboId=0&restaurantId=0&promotionId=0&typeId=1`,
+    //                 formData, {
+    //             }).then(res => {
+    //                 window.location.reload();
+    //             }).catch(err => {
+    //                 document.getElementById('error-form4').style.display = "block";
+    //             })
+    //         })
+    // }
+
     updateImage() {
         const userId = this.props.match.params.userId;
+        let formData = new FormData();
+        let imageId = this.state.userImage;
+        formData.append('file', this.state.images[0].file);
         document.getElementById('error-form4').style.display = "none";
-        axios.delete(`/images/delete?userId=${userId}`)
-            .then(res => {
-                let formData = new FormData();
-                formData.append('file', this.state.images[0].file);
-                axios.post(`/images/upload?userId=${userId}&dishId=0&serviceId=0&comboId=0&restaurantId=0&promotionId=0&typeId=1`,
-                    formData, {
-                }).then(res => {
-                    window.location.reload();
-                }).catch(err => {
-                    document.getElementById('error-form4').style.display = "block";
-                })
+
+        if (imageId === null || imageId === '') {
+            axios.post(`/images/upload?userId=${userId}&dishId=0&serviceId=0&comboId=0&restaurantId=0&promotionId=0&typeId=1`,
+                formData, {
+            }).then(res => {
+                window.location.reload();
+            }).catch(err => {
+                document.getElementById('error-form4').style.display = "block";
             })
+        } else {
+            axios.post(`/images/update?imageId=${imageId}`,
+                formData, {
+            }).then(res => {
+                window.location.reload();
+            }).catch(err => {
+                document.getElementById('error-form4').style.display = "block";
+            })
+        }
     }
 
     render() {
