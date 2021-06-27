@@ -31,6 +31,19 @@ public class ImageService{
 			return imageRepository.save(image);
 	}
 	
+	public Image update(MultipartFile file, String imageId) throws IOException{
+		
+			String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+			
+			Image image = getImage(imageId);
+			
+		    Image newImage = new Image(fileName, file.getBytes(), image.getUserId(), image.getDishId(), image.getServiceId(), 
+		    		image.getComboId(), image.getRestaurantId(), image.getPromotionId(), image.getTypeId());
+		   newImage.setId(imageId);
+		    
+			return imageRepository.save(newImage);
+	}
+	
 	public void delete(long userId){
 		imageRepository.deleteByUserId(userId);
 	}
@@ -41,10 +54,6 @@ public class ImageService{
 
 	public Image getImage(String id) {
 		return imageRepository.findById(id).get();
-	}
-
-	public Stream<Image> getAllImages() {
-		return imageRepository.findAll().stream();
 	}
 	
 	public List<IImageDTO> getImagesByRestaurantId(long restaurantId){
