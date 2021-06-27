@@ -26,7 +26,7 @@ export default function ComboItem(props) {
     }
 
     useEffect(() => {
-        axios.get(`/restaurants/combos/dishes?comboId=${comboId}`)
+        axios.get(`/dishes/getDishesByComboId?comboId=${comboId}`)
             .then(res => {
                 setDishes(res.data);
             })

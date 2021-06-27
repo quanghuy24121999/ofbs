@@ -65,48 +65,48 @@ export default class service extends Component {
 
     componentDidMount() {
         const restaurantId = this.props.match.params.restaurantId;
-        axios.get(`/restaurants/services?restaurantId=${restaurantId}&categoryId=1`)
+        axios.get(`/services/getServiceByRestaurantId?restaurantId=${restaurantId}&categoryId=1`)
             .then(res => {
                 let services = res.data;
                 // this.modifiedService(services);
                 this.setState({ serviceType1: services })
             })
 
-        axios.get(`/restaurants/services?restaurantId=${restaurantId}&categoryId=2`)
+        axios.get(`/services/getServiceByRestaurantId?restaurantId=${restaurantId}&categoryId=2`)
             .then(res => {
                 let services = res.data;
                 // this.modifiedService(services);
                 this.setState({ serviceType2: services })
             })
 
-        axios.get(`/restaurants/services?restaurantId=${restaurantId}&categoryId=3`)
+        axios.get(`/services/getServiceByRestaurantId?restaurantId=${restaurantId}&categoryId=3`)
             .then(res => {
                 let services = res.data;
                 // this.modifiedService(services);
                 this.setState({ serviceType3: services })
             })
 
-        axios.get(`/restaurants/services?restaurantId=${restaurantId}&categoryId=4`)
+        axios.get(`/services/getServiceByRestaurantId?restaurantId=${restaurantId}&categoryId=4`)
             .then(res => {
                 let services = res.data;
                 // this.modifiedService(services);
                 this.setState({ serviceType4: services })
             })
-        axios.get(`/restaurants/services?restaurantId=${restaurantId}&categoryId=5`)
+        axios.get(`/services/getServiceByRestaurantId?restaurantId=${restaurantId}&categoryId=5`)
             .then(res => {
                 let services = res.data;
                 // this.modifiedService(services);
                 this.setState({ serviceType5: services })
             })
 
-        axios.get(`/restaurants/services?restaurantId=${restaurantId}&categoryId=6`)
+        axios.get(`/services/getServiceByRestaurantId?restaurantId=${restaurantId}&categoryId=6`)
             .then(res => {
                 let services = res.data;
                 // this.modifiedService(services);
                 this.setState({ serviceType6: services })
             })
 
-        axios.get(`/restaurants/services?restaurantId=${restaurantId}&categoryId=7`)
+        axios.get(`/services/getServiceByRestaurantId?restaurantId=${restaurantId}&categoryId=7`)
             .then(res => {
                 let services = res.data;
                 // this.modifiedService(services);

@@ -80,7 +80,7 @@ export default class restaurantDetail extends Component {
                 this.setState({ promotions: res.data })
             })
 
-        axios.get(`/restaurants/feedbacks?restaurantId=${restaurantId}&rate=0`)
+        axios.get(`/feedbacks/getFeedbacksByRestaurantId?restaurantId=${restaurantId}&rate=0`)
             .then(res => {
                 this.setState({ numberRates: res.data.length });
             })
@@ -96,7 +96,7 @@ export default class restaurantDetail extends Component {
 
     receivedData() {
         const restaurantId = this.props.match.params.restaurantId;
-        axios.get(`/restaurants/feedbacks?restaurantId=${restaurantId}&rate=${this.state.rate}`)
+        axios.get(`/feedbacks/getFeedbacksByRestaurantId?restaurantId=${restaurantId}&rate=${this.state.rate}`)
             .then(res => {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
@@ -140,7 +140,7 @@ export default class restaurantDetail extends Component {
                     const { textFeedback, rating } = this.state;
                     axios({
                         method: 'post',
-                        url: `/restaurants/insertFeedback`,
+                        url: `/feedbacks/insertFeedback`,
                         data: {
                             "feedback_content": textFeedback,
                             "user_id": currentUser.id,
@@ -175,7 +175,7 @@ export default class restaurantDetail extends Component {
             rate: rate
         }, () => {
             const restaurantId = this.props.match.params.restaurantId;
-            axios.get(`/restaurants/feedbacks?restaurantId=${restaurantId}&rate=${rate}`)
+            axios.get(`/feedbacks/getFeedbacksByRestaurantId?restaurantId=${restaurantId}&rate=${rate}`)
                 .then(res => {
                     const data = res.data;
                     const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
