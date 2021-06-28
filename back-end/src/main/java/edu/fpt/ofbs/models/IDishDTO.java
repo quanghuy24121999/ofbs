@@ -8,6 +8,10 @@ public interface IDishDTO {
 	String getImage_dish_id();
 
 	float getPrice();
-	
+
 	long getRestaurant_id();
+
+	String getCategory_name();
+
+	String getStatus_name();
 }
