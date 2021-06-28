@@ -211,6 +211,8 @@ export default class myRestaurantService extends Component {
                     </NavItem>
                 </Nav>
                 <Container>
+                    <h3>Dịch vụ</h3>
+                    <hr />
                     <Row className="service-search">
                         <Col>
                             <Row>
@@ -256,7 +258,7 @@ export default class myRestaurantService extends Component {
                                 <FaSearch className="icon-search" />
                             </Button>
                             <Button color="primary" onClick={this.toggle}>
-                                <FaRegPlusSquare className="icon-add-service"/>Thêm dịch vụ
+                                <FaRegPlusSquare className="icon-add-service" />Thêm dịch vụ
                             </Button>
                             <Modal isOpen={modal} toggle={this.toggle} className={``}>
                                 <ModalHeader toggle={this.toggle}>Thêm dịch vụ</ModalHeader>

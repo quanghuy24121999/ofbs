@@ -38,7 +38,7 @@ export default class promotion extends Component {
     };
 
     receivedData() {
-        axios.get(`/promotions`)
+        axios.get(`/promotions/searchPromotionByProvince`)
             .then(res => {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)

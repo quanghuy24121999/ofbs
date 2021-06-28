@@ -1635,6 +1635,46 @@ tr > td:nth-child(4) {
   align-items: center;
 }
 
+/*=============================================== MY RESTAURANT COMBO ===========================================*/
+
+.myRes-combo .restaurant-detail-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.combo-search > .col > .row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.combo-search > .col > .row > div:nth-child(1) > label {
+  margin: 0;
+}
+
+.combo-search > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.custome-modal {
+  max-width: 80%;
+}
+
+.icon-delete {
+  margin: 0 5px;
+}
+
+.btn-add-combo {
+  width: 100%;
+  margin: 0 0 20px auto;
+  display: flex;
+  justify-content: flex-end;
+}
+
 /*=============================================== FOOTER ===========================================*/
 footer {
   width: 100%;

@@ -75,7 +75,7 @@ export default class restaurantDetail extends Component {
                 this.setState({ restaurant: res.data })
             })
 
-        axios.get(`/promotions/${restaurantId}`)
+        axios.get(`/promotions/getPromotionsByRestaurantId?restaurantId=${restaurantId}&isActive=1`)
             .then(res => {
                 this.setState({ promotions: res.data })
             })

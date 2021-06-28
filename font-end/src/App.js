@@ -18,6 +18,7 @@ import orderCustomer from './screens/orderCustomer';
 import myRestaurant from './screens/myRestaurant';
 import myRestaurantDetail from './screens/myRestaurantDetail';
 import myRestaurantMenu from './screens/myRestaurantMenu';
+import myRestaurantCombo from './screens/myRestaurantCombo';
 import myRestaurantImage from './screens/myRestaurantImage';
 import myRestaurantService from './screens/myRestaurantService';
 import orderDetailCustomer from './screens/orderCustomerDetail';
@@ -46,6 +47,7 @@ class App extends Component {
             <Route exact path="/users/profile/:userId/my-restaurant" component={myRestaurant} />
             <Route exact path="/users/profile/:userId/my-restaurant/:restaurantId/detail" component={myRestaurantDetail} />
             <Route exact path="/users/profile/:userId/my-restaurant/:restaurantId/menu" component={myRestaurantMenu} />
+            <Route exact path="/users/profile/:userId/my-restaurant/:restaurantId/combo" component={myRestaurantCombo} />
             <Route exact path="/users/profile/:userId/my-restaurant/:restaurantId/image" component={myRestaurantImage} />
             <Route exact path="/users/profile/:userId/my-restaurant/:restaurantId/service" component={myRestaurantService} />
             <Route exact path="/users/profile/:userId/orderDetail/:orderId" component={orderDetailCustomer} />
