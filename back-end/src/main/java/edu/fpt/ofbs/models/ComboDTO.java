@@ -21,4 +21,6 @@ public class ComboDTO {
 	private float combo_price;
 	
 	private long restaurant_id;
+	
+	private String status_name;
 }

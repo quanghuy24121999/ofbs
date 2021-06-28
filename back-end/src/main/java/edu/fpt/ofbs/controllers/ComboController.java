@@ -9,10 +9,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.fpt.ofbs.entities.Combo;
 import edu.fpt.ofbs.models.IComboDTO;
+import edu.fpt.ofbs.models.ResponseMessage;
 import edu.fpt.ofbs.service.ComboService;
 
 @RestController
@@ -26,5 +30,22 @@ public class ComboController {
 	public ResponseEntity<?> getCombosByRestaurantId(@PathParam("restaurantId") long restaurantId) {
 		List<IComboDTO> combos = comboService.getCombosByRestaurantId(restaurantId);
 		return ResponseEntity.status(HttpStatus.OK).body(combos);
+	}
+	
+	@GetMapping("/getComboById")
+	public ResponseEntity<?> getComboById(@PathParam("comboId") long comboId) {
+		Combo combo = comboService.getComboById(comboId);
+		return ResponseEntity.status(HttpStatus.OK).body(combo);
+	}
+	
+	@PostMapping("/save")
+	public ResponseEntity<?> updateInforDish(@RequestBody Combo combo) {
+		try {
+			comboService.saveCombo(combo);
+
+			return ResponseEntity.status(HttpStatus.OK).body(combo);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage("Update combo fail !"));
+		}
 	}
 }
