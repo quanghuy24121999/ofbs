@@ -44,6 +44,6 @@ public class ServiceService{
 	}
 	
 	public void updateStatus(long statusId, long serviceId) {
-		serviceRepository.updateStatusInactive(statusId, serviceId);
+		serviceRepository.updateStatus(statusId, serviceId);
 	}
 }

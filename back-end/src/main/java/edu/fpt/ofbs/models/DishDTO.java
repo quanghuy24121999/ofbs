@@ -21,4 +21,8 @@ public class DishDTO {
 	private float price;
 	
 	private long restaurant_id;
+	
+	private String category_name;
+	
+	private String status_name;
 }
