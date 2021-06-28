@@ -14,6 +14,6 @@ public interface PromotionRepository extends JpaRepository<Promotion, Long>{
 	@Query(value = "exec sp_searchPromotionByProvince ?1", nativeQuery = true)
 	List<IPromotionDTO> searchPromotionByProvince(String province);
 	
-	@Query(value = "exec sp_getPromotionsByRestaurantId ?1", nativeQuery = true)
-	List<IPromotionDTO> getPromotionsByRestaurantId(long restaurantId);
+	@Query(value = "exec sp_getPromotionsByRestaurantId ?1, ?2", nativeQuery = true)
+	List<IPromotionDTO> getPromotionsByRestaurantId(long restaurantId, boolean isActive);
 }

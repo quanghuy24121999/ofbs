@@ -27,8 +27,8 @@ public class ComboController {
 	private ComboService comboService;
 	
 	@GetMapping("/getCombosByRestaurantId")
-	public ResponseEntity<?> getCombosByRestaurantId(@PathParam("restaurantId") long restaurantId) {
-		List<IComboDTO> combos = comboService.getCombosByRestaurantId(restaurantId);
+	public ResponseEntity<?> getCombosByRestaurantId(@PathParam("restaurantId") long restaurantId, @PathParam("isActive") boolean isActive) {
+		List<IComboDTO> combos = comboService.getCombosByRestaurantId(restaurantId, isActive);
 		return ResponseEntity.status(HttpStatus.OK).body(combos);
 	}
 	

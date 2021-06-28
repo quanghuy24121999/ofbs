@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import edu.fpt.ofbs.entities.Promotion;
 import edu.fpt.ofbs.models.IPromotionDTO;
 import edu.fpt.ofbs.repositories.PromotionRepository;
 
@@ -17,7 +18,15 @@ public class PromotionService {
 		return promotionRepository.searchPromotionByProvince(province);
 	}
 	
-	public List<IPromotionDTO> getPromotionsByRestaurantId(long restaurantId){
-		return promotionRepository.getPromotionsByRestaurantId(restaurantId);
+	public List<IPromotionDTO> getPromotionsByRestaurantId(long restaurantId, boolean isActive){
+		return promotionRepository.getPromotionsByRestaurantId(restaurantId, isActive);
+	}
+	
+	public Promotion getPromotionById(long id) {
+		return promotionRepository.findById(id).get();
+	}
+	
+	public void savePromotion(Promotion promotion) {
+		promotionRepository.save(promotion);
 	}
 }
