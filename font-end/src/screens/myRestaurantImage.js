@@ -10,7 +10,6 @@ import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 import { FaTrashAlt } from 'react-icons/fa';
 
-
 import TopMenu from '../components/topMenu';
 import Footer from '../components/footer';
 
