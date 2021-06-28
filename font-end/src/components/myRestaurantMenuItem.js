@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-    Table, Button, Modal, ModalHeader,
+    Button, Modal, ModalHeader,
     ModalBody, ModalFooter, Label, Input,
     CardImg, Alert
 } from 'reactstrap';

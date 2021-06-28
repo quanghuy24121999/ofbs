@@ -186,7 +186,7 @@ export default class myRestaurantMenu extends Component {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
                 const dishesPaging = slice.map((dish, index) => {
-                    return <MyRestaurantMenuItem key={index} dish={dish} count={index + 1} restaurantId={restaurantId}/>
+                    return <MyRestaurantMenuItem key={index} dish={dish} count={index + 1} restaurantId={restaurantId} />
                 })
 
                 this.setState({
@@ -227,6 +227,8 @@ export default class myRestaurantMenu extends Component {
                     </NavItem>
                 </Nav>
                 <Container>
+                    <h3>Món ăn</h3>
+                    <hr />
                     <Row className="menu-search">
                         <Col>
                             <Row>
