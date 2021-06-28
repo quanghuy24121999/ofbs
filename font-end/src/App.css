@@ -1435,7 +1435,6 @@ tr > td:nth-child(4) {
   text-align: center;
 }
 
-/*=============================================== MY RESTAURANT ===========================================*/
 .myRes-detail-content-row {
   width: 100%;
 }
@@ -1583,7 +1582,7 @@ tr > td:nth-child(4) {
   margin: 0;
 }
 
-.service-search > div{
+.service-search > div {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -1609,6 +1608,31 @@ tr > td:nth-child(4) {
 
 .btn-service-search {
   width: 25%;
+}
+
+/*=============================================== MY RESTAURANT MENU ===========================================*/
+
+.myRes-menu .restaurant-detail-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-search > .col > .row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-search > .col > .row > div:nth-child(1) > label {
+  margin: 0;
+}
+
+.menu-search > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 /*=============================================== FOOTER ===========================================*/
