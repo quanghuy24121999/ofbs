@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import edu.fpt.ofbs.entities.Combo;
 import edu.fpt.ofbs.models.IComboDTO;
 import edu.fpt.ofbs.repositories.ComboRepository;
 
@@ -16,5 +17,13 @@ public class ComboService {
 	
 	public List<IComboDTO> getCombosByRestaurantId(long restaurantId){
 		return comboRepository.getCombosByRestaurantId(restaurantId);
+	}
+	
+	public Combo getComboById(long id) {
+		return comboRepository.findById(id).get();
+	}
+	
+	public void saveCombo(Combo combo) {
+		comboRepository.save(combo);
 	}
 }
