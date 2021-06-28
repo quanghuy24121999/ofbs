@@ -19,30 +19,18 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@Entity(name = "order_detail")
-@Table(name = "order_details")
-public class OrderDetail {
+@Entity(name = "dishCombo")
+@Table(name = "dish_combo")
+public class DishCombo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
-	private float price;
-	
-	private int quantity;
-	
-	@ManyToOne
-	@JoinColumn(name = "dish_id", referencedColumnName = "id")
-	private Dish dish;
 	
 	@ManyToOne
 	@JoinColumn(name = "combo_id", referencedColumnName = "id")
 	private Combo combo;
 	
 	@ManyToOne
-	@JoinColumn(name = "service_id", referencedColumnName = "id")
-	private Services service;
-	
-	@ManyToOne
-	@JoinColumn(name = "order_id", referencedColumnName = "id")
-	private Order order;
+	@JoinColumn(name = "dish_id", referencedColumnName = "id")
+	private Dish dish;
 }

@@ -66,7 +66,7 @@ public class ServiceController {
 	}
 
 	@PostMapping("/updateStatus")
-	public ResponseEntity<?> updateInforRestaurant(@PathParam("serviceId") long serviceId,
+	public ResponseEntity<?> updateStatus(@PathParam("serviceId") long serviceId,
 			@PathParam("statusId") long statusId) {
 		try {
 			serviceService.updateStatus(statusId, serviceId);

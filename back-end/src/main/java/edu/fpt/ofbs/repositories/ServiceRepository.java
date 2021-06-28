@@ -18,5 +18,5 @@ public interface ServiceRepository extends JpaRepository<Services, Long>{
 	List<IServiceDTO> searchServices(long restaurant_id, String serviceName, String category);
 	
 	@Query(value = "UPDATE services SET status_id = ?1 WHERE id = ?2", nativeQuery = true)
-	void updateStatusInactive(long statusId, long serviceId);
+	void updateStatus(long statusId, long serviceId);
 }
