@@ -65,22 +65,22 @@ export default class menu extends Component {
 
     componentDidMount() {
         const restaurantId = this.props.match.params.restaurantId;
-        axios.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=1`)
+        axios.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=1&dishName=&statusId=1`)
             .then(res => {
                 this.setState({ dishType1: res.data })
             })
 
-        axios.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=2`)
+        axios.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=2&dishName=&statusId=1`)
             .then(res => {
                 this.setState({ dishType2: res.data })
             })
 
-        axios.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=3`)
+        axios.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=3&dishName=&statusId=1`)
             .then(res => {
                 this.setState({ dishType3: res.data })
             })
 
-        axios.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=4`)
+        axios.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=4&dishName=&statusId=1`)
             .then(res => {
                 this.setState({ dishType4: res.data })
             })
@@ -101,7 +101,7 @@ export default class menu extends Component {
         if (inputDishName === null || inputDishName === undefined) {
             inputDishName = '';
         }
-        axios.get(`/dishes/searchDishes?restaurantId=${restaurantId}&name=${inputDishName}`)
+        axios.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=0&dishName=${inputDishName}&statusId=1`)
             .then(res => {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
