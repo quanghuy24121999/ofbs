@@ -15,8 +15,8 @@ public class ComboService {
 	@Autowired
 	private ComboRepository comboRepository;
 	
-	public List<IComboDTO> getCombosByRestaurantId(long restaurantId){
-		return comboRepository.getCombosByRestaurantId(restaurantId);
+	public List<IComboDTO> getCombosByRestaurantId(long restaurantId, boolean isActive){
+		return comboRepository.getCombosByRestaurantId(restaurantId, isActive);
 	}
 	
 	public Combo getComboById(long id) {
