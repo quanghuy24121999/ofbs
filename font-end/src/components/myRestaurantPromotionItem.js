@@ -8,60 +8,98 @@ import { FaEdit } from 'react-icons/fa';
 import axios from 'axios';
 import ImageUploading from "react-images-uploading";
 
-export default function MyRestaurantMenuItem(props) {
-    const dish = props.dish;
+import { formatDate, formatDateForInput } from '../common/formatDate';
+
+export default function MyRestaurantPromotionItem(props) {
+    const promotion = props.promotion;
     const restaurantId = props.restaurantId;
-    let statusDish = dish.status_name;
     let count = props.count;
+    let statusPromotion = promotion.promotion_status;
 
     const [modal, setModal] = useState(false);
-    const [dishModal, setDishModal] = useState();
+    const [promotionModal, setPromotionModal] = useState();
+
     const [name, setName] = useState('');
-    const [price, setPrice] = useState(0);
+    const [discount, setDiscount] = useState(0);
     const [description, setDescription] = useState('');
-    const [category, setCategory] = useState('');
-    const [categories, setCategories] = useState([]);
+    const [start, setStart] = useState('');
+    const [end, setEnd] = useState('');
     const [status, setStatus] = useState('');
+
     const [imageId, setImageId] = useState('');
     const [images, setImages] = useState([]);
 
-    if (statusDish === 'active') {
-        statusDish = 'Đang kinh doanh';
-    } else {
-        statusDish = 'Ngừng kinh doanh';
-    }
-
     const onChangeName = (e) => { setName(e.target.value) };
-    const onChangePrice = (e) => { setPrice(e.target.value) };
-    const onChangeDescription = (e) => { setDescription(e.target.value) };
-    const onChangeCategory = (e) => { setCategory(e.target.value); };
+    const onChangeDiscount = (e) => { setDiscount(e.target.value) };
+    const onChangeStart = (e) => { setStart(e.target.value) };
+    const onChangeEnd = (e) => { setEnd(e.target.value); };
     const onChangeStatus = (e) => { setStatus(e.target.value); };
+    const onChangeDescription = (e) => { setDescription(e.target.value) };
     const onChange = (imageList, addUpdateIndex) => {
         setImages(imageList);
     };
 
-    axios.get(`/dishes/getCategories`)
-        .then(res => {
-            setCategories(res.data)
-        })
+    if (statusPromotion === 'active') {
+        statusPromotion = 'Đang diễn ra';
+    } else if (statusPromotion === 'inactive') {
+        statusPromotion = 'Đã kết thúc';
+    } else if (statusPromotion === 'coming') {
+        statusPromotion = 'Sắp diễn ra';
+    }
 
     const toggle = () => {
-        setImageId(dish.image_dish_id);
+        setImageId(promotion.image_id);
         setModal(!modal);
 
         if (modal === false) {
-            axios.get(`/dishes/getDishesById?dishId=${dish.id}`)
+            axios.get(`/promotions/getPromotionById?promotionId=${promotion.promotion_id}`)
                 .then(res => {
-                    let dish = res.data;
+                    let promotion = res.data;
+                    let statusPromotion = promotion.status.name;
 
-                    setDishModal(res.data);
-                    setName(dish.name);
-                    setPrice(dish.price);
-                    setDescription(dish.description);
-                    setCategory(dish.menuCategory.id);
-                    setStatus(dish.status.id);
+                    if (statusPromotion === 'active') {
+                        statusPromotion = 'Đang diễn ra';
+                    } else if (statusPromotion === 'inactive') {
+                        statusPromotion = 'Đã kết thúc';
+                    } else if (statusPromotion === 'coming') {
+                        statusPromotion = 'Sắp diễn ra';
+                    }
+
+                    setPromotionModal(res.data);
+                    setName(promotion.name);
+                    setDiscount(promotion.discountPercentage);
+                    setDescription(promotion.description);
+                    setStart(formatDateForInput(promotion.startDate));
+                    setEnd(formatDateForInput(promotion.endDate));
+                    setStatus(statusPromotion);
                 })
         }
+    }
+
+    const updatePromotion = () => {
+        axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
+            .then(res => {
+                let restaurant = res.data;
+
+                updateImage();
+
+                axios.post(`/promotions/save`,
+                    {
+                        "id": promotion.promotion_id,
+                        "name": name,
+                        "restaurant": restaurant,
+                        "description": description,
+                        "discountPercentage": discount,
+                        "startDate": start,
+                        "endDate": end,
+                        "status": { id: 1, name: "active" }
+                    }
+                )
+                    .then(res => {
+                        toggle();
+                        window.location.reload();
+                    })
+            })
     }
 
     const updateImage = () => {
@@ -71,7 +109,7 @@ export default function MyRestaurantMenuItem(props) {
             document.getElementById('error-form4').style.display = "none";
 
             if (imageId === null || imageId === '') {
-                axios.post(`/images/upload?userId=0&dishId=${dish.id}&serviceId=0&comboId=0&restaurantId=0&promotionId=0&typeId=1`,
+                axios.post(`/images/upload?userId=0&dishId=0&serviceId=0&comboId=0&restaurantId=0&promotionId=${promotion.promotion_id}&typeId=1`,
                     formData, {
                 }).then(res => {
                     // window.location.reload();
@@ -90,73 +128,20 @@ export default function MyRestaurantMenuItem(props) {
         }
     }
 
-    const updateDish = () => {
-        axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
-            .then(res => {
-                let dishStatus = '';
-                let dishCategory = '';
-                let restaurant = res.data;
-                updateImage();
-
-                if (status === 1) {
-                    dishStatus = 'active';
-                } else {
-                    dishStatus = 'inactive';
-                }
-
-                switch (category) {
-                    case 1:
-                        dishCategory = 'Khai vị';
-                        break;
-
-                    case 2:
-                        dishCategory = 'Món chính';
-                        break;
-
-                    case 3:
-                        dishCategory = 'Tráng miệng';
-                        break;
-
-                    case 4:
-                        dishCategory = 'Đồ uống';
-                        break;
-
-                    default:
-                        break;
-                }
-                
-                axios.post(`/dishes/save`,
-                    {
-                        "id": dish.id,
-                        "name": name,
-                        "description": description,
-                        "status": { id: status, name: dishStatus },
-                        "price": price,
-                        "restaurant": restaurant,
-                        "menuCategory": { id: category, name: dishCategory }
-                    }
-                )
-                    .then(res => {
-                        toggle();
-                        window.location.reload();
-                    })
-            })
-    }
-
     return (
         <tr>
             <td>{count}</td>
-            <td>{dish.dish_name}</td>
-            <td>{dish.price}</td>
-            <td>{dish.category_name}</td>
-            <td>{statusDish}</td>
+            <td>{promotion.promotion_name}</td>
+            <td>{formatDate(promotion.start_date)}</td>
+            <td>{formatDate(promotion.end_date)}</td>
+            <td>{statusPromotion}</td>
             <td>
-                <Button onClick={toggle} color="primary">
+                <Button color="primary" onClick={toggle}>
                     <FaEdit className="icon-edit" />Sửa
                 </Button>
             </td>
             <Modal isOpen={modal} toggle={toggle} className={``}>
-                <ModalHeader toggle={toggle}>Cập nhật món ăn</ModalHeader>
+                <ModalHeader toggle={toggle}>Cập nhật khuyến mãi</ModalHeader>
                 <ModalBody>
                     {
                         imageId && (
@@ -172,7 +157,7 @@ export default function MyRestaurantMenuItem(props) {
                                         onImageRemove,
                                     }) => (
                                         <div className="upload__image-wrapper">
-                                            <CardImg id="user-image" className="dish-profile-image" top src={`/images/${imageId}`} alt="món ăn" />
+                                            <CardImg id="user-image" className="promotion-profile-image" top src={`/images/${imageId}`} alt="khuyến mãi" />
                                             {imageList.map((image, index) => (
                                                 (document.getElementById("user-image").style.display = "none"),
                                                 (
@@ -195,54 +180,55 @@ export default function MyRestaurantMenuItem(props) {
 
                     }
                     {
-                        dishModal && <div>
-                            <Label for="name"><b>Tên món ăn:</b></Label>
+                        promotionModal && <div>
+                            <Label for="name"><b>Tên khuyến mãi:</b></Label>
                             <Input
                                 type="text"
                                 name="name"
                                 id="name"
-                                placeholder="Nhập tên món ăn"
+                                placeholder="Nhập tên khuyến mãi"
                                 onChange={onChangeName}
                                 value={name}
                             />
 
-                            <Label for="category"><b>Loại hình:</b></Label>
+                            <Label for="discount"><b>Phần trăm khuyến mãi:</b></Label>
                             <Input
-                                type="select"
-                                name="category"
-                                id="category"
-                                onChange={onChangeCategory}
-                                value={category}
-                            >
-                                {categories.map((category) => {
-                                    return (
-                                        <option key={category.id} value={category.id}>
-                                            {category.name}
-                                        </option>
-                                    );
-                                })}
-                            </Input>
+                                type="number"
+                                name="discount"
+                                id="discount"
+                                placeholder="Nhập phần trăm khuyến mãi"
+                                onChange={onChangeDiscount}
+                                value={discount}
+                            />
+
+                            <Label for="start"><b>Ngày bắt đầu:</b></Label>
+                            <Input
+                                type="date"
+                                name="start"
+                                id="start"
+                                placeholder="Nhập ngày bắt đầu"
+                                onChange={onChangeStart}
+                                value={start}
+                            />
+
+                            <Label for="end"><b>Ngày kết thúc:</b></Label>
+                            <Input
+                                type="date"
+                                name="end"
+                                id="end"
+                                placeholder="Nhập ngày kết thúc"
+                                onChange={onChangeEnd}
+                                value={end}
+                            />
 
                             <Label for="status"><b>Trạng thái:</b></Label>
                             <Input
-                                type="select"
+                                type="text"
                                 name="status"
                                 id="status"
                                 onChange={onChangeStatus}
+                                disabled
                                 value={status}
-                            >
-                                <option value="1">Đang hoạt động</option>
-                                <option value="2">Ngừng hoạt động</option>
-                            </Input>
-
-                            <Label for="price"><b>Giá món ăn:</b></Label>
-                            <Input
-                                type="number"
-                                name="price"
-                                id="price"
-                                placeholder="Nhập giá món ăn"
-                                onChange={onChangePrice}
-                                value={price}
                             />
 
                             <Label for="description"><b>Mô tả:</b></Label>
@@ -250,7 +236,7 @@ export default function MyRestaurantMenuItem(props) {
                                 type="textarea"
                                 name="description"
                                 id="description"
-                                placeholder="Mô tả món ăn"
+                                placeholder="Mô tả khuyến mãi"
                                 onChange={onChangeDescription}
                                 value={description}
                             />
@@ -258,7 +244,7 @@ export default function MyRestaurantMenuItem(props) {
                     }
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="success" onClick={() => updateDish()}>Lưu</Button>{' '}
+                    <Button color="success" onClick={() => updatePromotion()}>Lưu</Button>{' '}
                     <Button color="secondary" onClick={toggle}>Trở lại</Button>
                 </ModalFooter>
             </Modal>

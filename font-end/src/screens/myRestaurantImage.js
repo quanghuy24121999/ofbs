@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import ImageUploading from "react-images-uploading";
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
-import { FaTrashAlt } from 'react-icons/fa';
+import { FaTrashAlt, FaRegPlusSquare } from 'react-icons/fa';
 
 import TopMenu from '../components/topMenu';
 import Footer from '../components/footer';
@@ -155,7 +155,7 @@ export default class myRestaurantImage extends Component {
                         <hr />
                     </div>
                     <div className="myRes-image-add">
-                        <Button color="success" onClick={this.toggle1}>Thêm ảnh</Button>
+                        <Button color="primary" onClick={this.toggle1}><FaRegPlusSquare className="btn-add-image"/>Thêm ảnh</Button>
                         <Modal isOpen={modal1} toggle={this.toggle1} className={``}>
                             <ModalHeader toggle={this.toggle1}>Thêm ảnh</ModalHeader>
                             <ModalBody>
