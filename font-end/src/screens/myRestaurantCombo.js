@@ -152,7 +152,7 @@ export default class myRestaurantCombo extends Component {
                         <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/menu`}>Thực đơn</Link>
                     </NavItem>
                     <NavItem className="active">
-                        <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/combo`}>Combo combo</Link>
+                        <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/combo`}>Combo</Link>
                     </NavItem>
                     <NavItem >
                         <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/service`}>Dịch vụ</Link>
@@ -162,7 +162,7 @@ export default class myRestaurantCombo extends Component {
                     </NavItem>
                 </Nav>
                 <Container>
-                    <h3>Combo combo</h3>
+                    <h3>Combo</h3>
                     <hr />
                     <div className="btn-add-combo">
                         <Button color="primary" onClick={this.toggle}>

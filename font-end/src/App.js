@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-multi-carousel/lib/styles.css";
+import 'react-toastify/dist/ReactToastify.css';
 
 import './App.css';
 import home from "./screens/home";

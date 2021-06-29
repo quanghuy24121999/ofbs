@@ -1675,6 +1675,14 @@ tr > td:nth-child(4) {
   justify-content: flex-end;
 }
 
+.modal-add-dish-to-combo {
+  max-width: 80%;
+}
+
+.price-tempt {
+  margin: 20px 0;
+}
+
 /*=============================================== FOOTER ===========================================*/
 footer {
   width: 100%;
