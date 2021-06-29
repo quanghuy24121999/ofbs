@@ -1683,6 +1683,31 @@ tr > td:nth-child(4) {
   margin: 20px 0;
 }
 
+/*=============================================== MY RESTAURANT COMBO ===========================================*/
+
+.myRes-promotion .restaurant-detail-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.promotion-search > .col > .row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.promotion-search > .col > .row > div:nth-child(1) > label {
+  margin: 0;
+}
+
+.promotion-search > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 /*=============================================== FOOTER ===========================================*/
 footer {
   width: 100%;
