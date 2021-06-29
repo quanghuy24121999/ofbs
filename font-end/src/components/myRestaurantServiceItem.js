@@ -216,12 +216,12 @@ export default function MyRestaurantServiceItem(props) {
                                         onImageRemove,
                                     }) => (
                                         <div className="upload__image-wrapper">
-                                            <CardImg id="user-image" className="user-profile-image" top src={`/images/${imageId}`} alt="Dịch vụ" />
+                                            <CardImg id="user-image" className="service-image" top src={`/images/${imageId}`} alt="Dịch vụ" />
                                             {imageList.map((image, index) => (
                                                 (document.getElementById("user-image").style.display = "none"),
                                                 (
                                                     <div key={index} className="image-item">
-                                                        <CardImg className="user-profile-image" top src={image.data_url} />
+                                                        <CardImg className="service-image" top src={image.data_url} />
                                                         <Alert color="danger" id="error-form4" className="error-form">
                                                             Không thể tải ảnh lên, vui lòng chọn một ảnh khác !
                                                         </Alert>

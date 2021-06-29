@@ -53,7 +53,6 @@ export default function MyRestaurantMenuItem(props) {
             axios.get(`/dishes/getDishesById?dishId=${dish.id}`)
                 .then(res => {
                     let dish = res.data;
-            
 
                     setDishModal(res.data);
                     setName(dish.name);

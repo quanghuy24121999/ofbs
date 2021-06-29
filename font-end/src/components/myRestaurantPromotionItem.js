@@ -22,7 +22,7 @@ export default function MyRestaurantPromotionItem(props) {
     const [name, setName] = useState('');
     const [discount, setDiscount] = useState(0);
     const [description, setDescription] = useState('');
-    const [start, setStart] = useState(''); 
+    const [start, setStart] = useState('');
     const [end, setEnd] = useState('');
     const [status, setStatus] = useState('');
 
@@ -48,21 +48,83 @@ export default function MyRestaurantPromotionItem(props) {
     }
 
     const toggle = () => {
-        // setImageId(promotion.image_dish_id);
+        setImageId(promotion.image_id);
         setModal(!modal);
 
         if (modal === false) {
             axios.get(`/promotions/getPromotionById?promotionId=${promotion.promotion_id}`)
                 .then(res => {
                     let promotion = res.data;
+                    let statusPromotion = promotion.status.name;
+
+                    if (statusPromotion === 'active') {
+                        statusPromotion = 'Đang diễn ra';
+                    } else if (statusPromotion === 'inactive') {
+                        statusPromotion = 'Đã kết thúc';
+                    } else if (statusPromotion === 'coming') {
+                        statusPromotion = 'Sắp diễn ra';
+                    }
+
                     setPromotionModal(res.data);
                     setName(promotion.name);
                     setDiscount(promotion.discountPercentage);
                     setDescription(promotion.description);
                     setStart(formatDateForInput(promotion.startDate));
                     setEnd(formatDateForInput(promotion.endDate));
-                    setStatus(promotion.status.id);
+                    setStatus(statusPromotion);
                 })
+        }
+    }
+
+    const updatePromotion = () => {
+        axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
+            .then(res => {
+                let restaurant = res.data;
+
+                updateImage();
+
+                axios.post(`/promotions/save`,
+                    {
+                        "id": promotion.promotion_id,
+                        "name": name,
+                        "restaurant": restaurant,
+                        "description": description,
+                        "discountPercentage": discount,
+                        "startDate": start,
+                        "endDate": end,
+                        "status": { id: 1, name: "active" }
+                    }
+                )
+                    .then(res => {
+                        toggle();
+                        window.location.reload();
+                    })
+            })
+    }
+
+    const updateImage = () => {
+        let formData = new FormData();
+        if (images.length > 0) {
+            formData.append('file', images[0].file);
+            document.getElementById('error-form4').style.display = "none";
+
+            if (imageId === null || imageId === '') {
+                axios.post(`/images/upload?userId=0&dishId=0&serviceId=0&comboId=0&restaurantId=0&promotionId=${promotion.promotion_id}&typeId=1`,
+                    formData, {
+                }).then(res => {
+                    // window.location.reload();
+                }).catch(err => {
+                    document.getElementById('error-form4').style.display = "block";
+                })
+            } else {
+                axios.post(`/images/update?imageId=${imageId}`,
+                    formData, {
+                }).then(res => {
+                    // window.location.reload();
+                }).catch(err => {
+                    document.getElementById('error-form4').style.display = "block";
+                })
+            }
         }
     }
 
@@ -161,15 +223,13 @@ export default function MyRestaurantPromotionItem(props) {
 
                             <Label for="status"><b>Trạng thái:</b></Label>
                             <Input
-                                type="select"
+                                type="text"
                                 name="status"
                                 id="status"
                                 onChange={onChangeStatus}
+                                disabled
                                 value={status}
-                            >
-                                <option value="1">Đang diễn ra</option>
-                                <option value="2">Đã kết thúc</option>
-                            </Input>
+                            />
 
                             <Label for="description"><b>Mô tả:</b></Label>
                             <Input
@@ -184,7 +244,7 @@ export default function MyRestaurantPromotionItem(props) {
                     }
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="success">Lưu</Button>{' '}
+                    <Button color="success" onClick={() => updatePromotion()}>Lưu</Button>{' '}
                     <Button color="secondary" onClick={toggle}>Trở lại</Button>
                 </ModalFooter>
             </Modal>
