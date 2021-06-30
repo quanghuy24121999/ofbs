@@ -148,6 +148,9 @@ export default class myRestaurantImage extends Component {
                     <NavItem>
                         <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/promotion`}>Khuyến mãi</Link>
                     </NavItem>
+                    <NavItem>
+                        <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/order`}>Đơn hàng</Link>
+                    </NavItem>
                 </Nav>
                 <Container>
                     <div>

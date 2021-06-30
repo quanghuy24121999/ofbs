@@ -181,6 +181,9 @@ export default class myRestaurantPromotion extends Component {
                     <NavItem className="active">
                         <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/promotion`}>Khuyến mãi</Link>
                     </NavItem>
+                    <NavItem>
+                        <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/order`}>Đơn hàng</Link>
+                    </NavItem>
                 </Nav>
                 <Container>
                     <h3>Khuyến mãi</h3>

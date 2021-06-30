@@ -225,6 +225,9 @@ export default class myRestaurantMenu extends Component {
                     <NavItem>
                         <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/promotion`}>Khuyến mãi</Link>
                     </NavItem>
+                    <NavItem>
+                        <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/order`}>Đơn hàng</Link>
+                    </NavItem>
                 </Nav>
                 <Container>
                     <h3>Món ăn</h3>
