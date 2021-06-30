@@ -106,12 +106,12 @@ public class OrderController {
 		}
 	}
 	
-	@PatchMapping("/updateStatus")
-	public ResponseEntity<?> updateOrderStatus(@PathParam("customerId") long customerId, @PathParam("restaurantId") long restaurantId) {
+	@PatchMapping("/setStatus")
+	public ResponseEntity<?> setOrderStatus(@PathParam("customerId") long customerId, @PathParam("restaurantId") long restaurantId) {
 		String message = "";
 		
 		try {
-			orderService.updateOrderStatus(customerId, restaurantId);
+			orderService.setOrderStatus(customerId, restaurantId);
 			
 			message = "Update order status successfully !";
 			return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
@@ -125,5 +125,20 @@ public class OrderController {
 	public ResponseEntity<?> getOrderDetailByOrderId(@PathParam("orderId") long orderId) {
 		List<IOrderDetailDTO> orders = orderDetailService.getOrderDetailByOrderId(orderId);
 		return ResponseEntity.status(HttpStatus.OK).body(orders);
+	}
+	
+	@PatchMapping("/updateStatus")
+	public ResponseEntity<?> updateOrderStatus(@PathParam("orderId") long orderId, @PathParam("status") String status) {
+		String message = "";
+		
+		try {
+			orderService.updateOrderStatus(orderId, status);
+			
+			message = "Update order status successfully !";
+			return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+		} catch (Exception e) {
+			message = "Could not update order status !";
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+		}
 	}
 }

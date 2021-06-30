@@ -38,7 +38,11 @@ public class OrderService {
 		orderRepository.deleteById(orderId);
 	}
 	
-	public void updateOrderStatus(long customerId, long restaurantId) {
-		orderRepository.updateOrderStatus(customerId, restaurantId);
+	public void setOrderStatus(long customerId, long restaurantId) {
+		orderRepository.setOrderStatus(customerId, restaurantId);
+	}
+	
+	public void updateOrderStatus(long orderId, String status) {
+		orderRepository.updateOrderStatus(orderId, status);
 	}
 }
