@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import {
     Button, Modal, ModalHeader,
     ModalBody, ModalFooter, Row,
-    Col, Container
+    Col, Container, Label, Input
 } from 'reactstrap';
 import { FaEye } from 'react-icons/fa';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 
 import { formatDate } from '../common/formatDate';
 import { formatCurrency } from '../common/formatCurrency';
@@ -16,17 +17,29 @@ import OrderDetailServiceItem from '../components/orderDetailServiceItem';
 export default function MyRestaurantOrderItem(props) {
     const order = props.order;
     let orderStatus = order.order_status;
+    let currentUser = localStorage.getItem('currentUser');
+    let displayOrderStatus = '';
 
     const [modal, setModal] = useState(false);
+    const [modal1, setModal1] = useState(false);
+    const [modal2, setModal2] = useState(false);
+    const [modal3, setModal3] = useState(false);
+    const [password, setPassword] = useState('');
     const [orderDetailInfo, setOrderDetailInfo] = useState('');
     const [listOrderDetails, setListOrderDetails] = useState([]);
 
     if (orderStatus === 'pending') {
+        displayOrderStatus = <b style={{ color: 'purple' }}>Đang chờ duyệt</b>
         orderStatus = 'Đang chờ duyệt';
     } else if (orderStatus === 'preparing') {
-        orderStatus = 'Đã đặt';
-    } if (orderStatus === 'accomplished') {
+        displayOrderStatus = <b style={{ color: 'blue' }}>Chưa diễn ra</b>
+        orderStatus = 'Chưa diễn ra';
+    } else if (orderStatus === 'accomplished') {
+        displayOrderStatus = <b style={{ color: 'green' }}>Đã hoàn thành</b>
         orderStatus = 'Đã hoàn thành';
+    } else if (orderStatus === 'cancelled') {
+        displayOrderStatus = <b style={{ color: 'red' }}>Đã hủy</b>
+        orderStatus = 'Đã hủy';
     }
 
     const toggle = () => {
@@ -40,12 +53,145 @@ export default function MyRestaurantOrderItem(props) {
         }
     }
 
+    const toggle1 = () => { setModal1(!modal1) };
+
+    const toggle2 = () => { setModal2(!modal2) };
+
+    const toggle3 = () => { setModal3(!modal3) };
+
+    const onChangePassword = (e) => {
+        setPassword(e.target.value);
+    }
+
+    const acceptOrder = () => {
+        axios.post('/users/login', {
+            phoneLogin: currentUser,
+            password: password
+        }).then(res => {
+            axios.patch(`/orders/updateStatus?orderId=${order.order_id}&status=preparing`)
+                .then(res => {
+                    window.location.reload();
+                    toast.success("Nhận đơn thành công !", {
+                        position: "top-left",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                }).catch(err => {
+                    toast.error('Nhận đơn không thành công !', {
+                        position: "top-left",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                })
+        }).catch(err => {
+            toast.error('Mật khẩu không đúng !', {
+                position: "top-left",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        })
+    }
+
+    const cancelOrder = () => {
+        axios.post('/users/login', {
+            phoneLogin: currentUser,
+            password: password
+        }).then(res => {
+            axios.patch(`/orders/updateStatus?orderId=${order.order_id}&status=cancelled`)
+                .then(res => {
+                    window.location.reload();
+                    toast.success("Hủy đơn thành công !", {
+                        position: "top-left",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                }).catch(err => {
+                    toast.error('Hủy đơn không thành công !', {
+                        position: "top-left",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                })
+        }).catch(err => {
+            toast.error('Mật khẩu không đúng !', {
+                position: "top-left",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        })
+    }
+
+    const completeOrder = () => {
+        axios.post('/users/login', {
+            phoneLogin: currentUser,
+            password: password
+        }).then(res => {
+            axios.patch(`/orders/updateStatus?orderId=${order.order_id}&status=accomplished`)
+                .then(res => {
+                    window.location.reload();
+                    toast.success("Xác nhận hoành thành đơn hàng thành công !", {
+                        position: "top-left",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                }).catch(err => {
+                    toast.error('Xác nhận hoành thành đơn hàng không thành công !', {
+                        position: "top-left",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                })
+        }).catch(err => {
+            toast.error('Mật khẩu không đúng !', {
+                position: "top-left",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        })
+    }
+
     return (
         <tr>
             <td>{order.order_code}</td>
             <td>{formatCurrency(order.amount) + ' VNĐ'}</td>
             <td>{formatDate(order.order_date)}</td>
-            <td>{orderStatus}</td>
+            <td>{displayOrderStatus}</td>
             <td>
                 <Button onClick={toggle} color="primary">
                     <FaEye className="icon-see-more" />Chi tiết
@@ -67,15 +213,87 @@ export default function MyRestaurantOrderItem(props) {
                                             <b>Thời gian tổ chức: </b>{orderDetailInfo.time + ' ' + formatDate(orderDetailInfo.organize_date)}
                                         </div>
                                         <div className="od-info-note"><b>Ghi chú: </b>{orderDetailInfo.note}</div>
-                                        <div className="od-info-status"><b>Trạng thái: </b>{orderStatus}</div>
+                                        <div className="od-info-status"><b>Trạng thái: </b>{displayOrderStatus}</div>
                                         <hr />
                                         <div className="info-order-amount">
                                             <h5>Tổng tiền: {formatCurrency(orderDetailInfo.total_amount)} VNĐ</h5>
                                             <h5 >Tiền đặt cọc (10%): {formatCurrency(orderDetailInfo.total_amount * 10 / 100)} VNĐ</h5>
-                                            <div className="info-order-btn">
-                                                <Button color="success">Nhận đơn</Button>
-                                                <Button color="danger">Hủy đơn</Button>
-                                            </div>
+                                            <Row className="info-order-btn">
+                                                {
+                                                    orderStatus === 'Đang chờ duyệt' && (
+                                                        <Col lg="6" md="6" sm="6">
+                                                            <Button color="success" onClick={toggle1}>
+                                                                Nhận đơn
+                                                            </Button>
+                                                            <Modal isOpen={modal1} toggle={toggle1} className={``}>
+                                                                <ModalHeader toggle={toggle1}>Thông báo</ModalHeader>
+                                                                <ModalBody>
+                                                                    <Label for="password"><b>Nhập mật khẩu của bạn: </b></Label>
+                                                                    <Input
+                                                                        type="password"
+                                                                        id="password"
+                                                                        placeholder="Nhập mật khẩu"
+                                                                        value={password}
+                                                                        onChange={onChangePassword}
+                                                                    />
+                                                                </ModalBody>
+                                                                <ModalFooter>
+                                                                    <Button color="success" onClick={() => acceptOrder()}>Xác nhận</Button>
+                                                                    <Button color="secondary" onClick={toggle1}>Trở lại</Button>
+                                                                </ModalFooter>
+                                                            </Modal>
+                                                        </Col>
+                                                    )
+
+                                                }
+                                                {
+                                                    (orderStatus === 'Chưa diễn ra')
+                                                    && <Col lg="5" md="5" sm="5">
+                                                        <Button color="success" onClick={toggle3}>Hoàn thành</Button>
+                                                        <Modal isOpen={modal3} toggle={toggle3} className={``}>
+                                                            <ModalHeader toggle={toggle3}>Thông báo</ModalHeader>
+                                                            <ModalBody>
+                                                                <Label for="password"><b>Nhập mật khẩu của bạn: </b></Label>
+                                                                <Input
+                                                                    type="password"
+                                                                    id="password"
+                                                                    placeholder="Nhập mật khẩu"
+                                                                    value={password}
+                                                                    onChange={onChangePassword}
+                                                                />
+                                                            </ModalBody>
+                                                            <ModalFooter>
+                                                                <Button color="success" onClick={() => completeOrder()}>Xác nhận</Button>
+                                                                <Button color="secondary" onClick={toggle3}>Trở lại</Button>
+                                                            </ModalFooter>
+                                                        </Modal>
+                                                    </Col>
+                                                }
+                                                {
+                                                    (orderStatus === 'Đang chờ duyệt' || orderStatus === 'Chưa diễn ra')
+                                                    && <Col lg="5" md="5" sm="5">
+                                                        <Button color="danger" onClick={toggle2}>Hủy đơn</Button>
+                                                        <Modal isOpen={modal2} toggle={toggle2} className={``}>
+                                                            <ModalHeader toggle={toggle2}>Thông báo</ModalHeader>
+                                                            <ModalBody>
+                                                                <Label for="password"><b>Nhập mật khẩu của bạn: </b></Label>
+                                                                <Input
+                                                                    type="password"
+                                                                    id="password"
+                                                                    placeholder="Nhập mật khẩu"
+                                                                    value={password}
+                                                                    onChange={onChangePassword}
+                                                                />
+                                                            </ModalBody>
+                                                            <ModalFooter>
+                                                                <Button color="success" onClick={() => cancelOrder()}>Xác nhận</Button>
+                                                                <Button color="secondary" onClick={toggle2}>Trở lại</Button>
+                                                            </ModalFooter>
+                                                        </Modal>
+                                                    </Col>
+                                                }
+
+                                            </Row>
                                         </div>
                                     </Col>
                                     <Col lg="6" md="6" sm="12">
@@ -94,6 +312,7 @@ export default function MyRestaurantOrderItem(props) {
                     </ModalFooter>
                 </Modal>
             </td>
+            <ToastContainer />
         </tr>
     )
 }

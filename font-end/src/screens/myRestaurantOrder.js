@@ -108,17 +108,21 @@ export default class myRestaurantOrder extends Component {
                 <Container>
                     <h3>Đơn hàng</h3>
                     <hr />
-                    <div className="search-order">
-                        <Label for="order-id"><b>Mã đơn hàng</b></Label>
-                        <Input
-                            type="text"
-                            id="order-id"
-                            value={orderId}
-                            placeholder="Nhập mã đơn hàng"
-                            onChange={this.onChangeOrderId}
-                        />
-                        <Button color="success" onClick={this.search}><FaSearch className="icon-search" /></Button>
-                    </div>
+                    <Row className="search-order">
+                        <Col lg="4" md="4" sm="4"><div><b>Mã đơn hàng: </b></div></Col>
+                        <Col lg="6" md="6" sm="6">
+                            <Input
+                                type="text"
+                                id="order-id"
+                                value={orderId}
+                                placeholder="Nhập mã đơn hàng"
+                                onChange={this.onChangeOrderId}
+                            />
+                        </Col>
+                        <Col lg="2" md="2" sm="2">
+                            <Button color="success" className="btn-search-order" onClick={this.search}><FaSearch className="icon-search" /></Button>
+                        </Col>
+                    </Row>
                     <Table>
                         <thead>
                             <tr>

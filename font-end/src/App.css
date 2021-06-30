@@ -1754,10 +1754,13 @@ tr > td:nth-child(4) {
 }
 
 .info-order-btn {
-  width: 65%;
+  width: 100%;
+}
+
+.info-order-btn > div {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 
@@ -1765,6 +1768,17 @@ tr > td:nth-child(4) {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  margin-bottom: 10px;
+}
+
+.search-order > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-search-order {
+  width: 100%;
 }
 
 /*=============================================== FOOTER ===========================================*/
