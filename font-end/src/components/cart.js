@@ -144,7 +144,7 @@ export default function Cart(props) {
 
                     axios.post(`/orders/insertOrderDetail`, json, config).then(res => {
                     }).then(res => {
-                        axios.patch(`/orders/updateStatus?customerId=${customerId}&restaurantId=${restaurantId}`)
+                        axios.patch(`/orders/setStatus?customerId=${customerId}&restaurantId=${restaurantId}`)
                             .then(res => {
                                 updateCartMetadata({
                                     customerQuantity: 1,
