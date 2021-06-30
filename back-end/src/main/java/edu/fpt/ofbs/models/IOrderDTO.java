@@ -18,8 +18,12 @@ public interface IOrderDTO {
 	float getAmount();
 
 	String getOrder_status();
-	
+
 	Date getOrganize_date();
-	
+
 	String getOrder_code();
+
+	String getCustomer_phone_number();
+
+	String getCustomer_name();
 }
