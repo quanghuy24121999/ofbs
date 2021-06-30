@@ -40,9 +40,9 @@ public class OrderController {
 		return ResponseEntity.status(HttpStatus.OK).body(orders);
 	}
 	
-	@GetMapping("/provider")
-	public ResponseEntity<?> getOrderByProviderId(@PathParam("providerId") long providerId) {
-		List<IOrderDTO> orders = orderService.getOrderByProviderId(providerId);
+	@GetMapping("/restaurant")
+	public ResponseEntity<?> getOrderByRestaurantId(@PathParam("restaurantId") long restaurantId, @PathParam("orderCode") String orderCode) {
+		List<IOrderDTO> orders = orderService.getOrderByRestaurantId(restaurantId, orderCode);
 		return ResponseEntity.status(HttpStatus.OK).body(orders);
 	}
 	

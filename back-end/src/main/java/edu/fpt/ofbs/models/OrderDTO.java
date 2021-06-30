@@ -33,4 +33,8 @@ public class OrderDTO {
 	private Date organize_date;
 	
 	private String order_code;
+	
+	private String customer_phone_number;
+	
+	private String customer_name;
 }

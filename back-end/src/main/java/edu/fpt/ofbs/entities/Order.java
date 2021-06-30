@@ -34,6 +34,9 @@ public class Order {
 	
 	private String time;
 	
+	@Column(name = "organize_date")
+	private Date organizeDate;
+	
 	@Column(name = "order_date")
 	private Date orderDate;
 	
@@ -52,4 +55,7 @@ public class Order {
 	@ManyToOne
 	@JoinColumn(name = "promotion_id", referencedColumnName = "id")
 	private Promotion promotion;
+	
+	@Column(name = "order_code")
+	private String orderCode;
 }

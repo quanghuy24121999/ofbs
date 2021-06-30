@@ -22,8 +22,8 @@ public class OrderService {
 		return orderRepository.getOrderByCustomerId(customerId, statusId);
 	}
 	
-	public List<IOrderDTO> getOrderByProviderId (long providerId){
-		return orderRepository.getOrderByProviderId(providerId);
+	public List<IOrderDTO> getOrderByRestaurantId (long restaurantId, String orderCode){
+		return orderRepository.getOrderByRestaurantId(restaurantId, orderCode);
 	}
 	
 	public void insertOrder(OrderSaveDTO order) {
