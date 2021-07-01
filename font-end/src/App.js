@@ -36,6 +36,9 @@ import order from './screens/admin/order';
 import restaurant from './screens/admin/restaurant';
 import adminRestaurantDetail from './screens/admin/restaurantDetail';
 import adminRestaurantImage from './screens/admin/restaurantImage';
+import adminRestaurantMenu from './screens/admin/restaurantDish';
+import adminRestaurantCombo from './screens/admin/restaurantCombo';
+import adminRestaurantService from './screens/admin/restaurantService';
 
 import { CartProvider } from "react-use-cart";
 
@@ -73,6 +76,9 @@ class App extends Component {
             <Route exact path="/admin/restaurant" component={restaurant} />
             <Route exact path="/admin/restaurant/detail" component={adminRestaurantDetail} />
             <Route exact path="/admin/restaurant/image" component={adminRestaurantImage} />
+            <Route exact path="/admin/restaurant/menu" component={adminRestaurantMenu} />
+            <Route exact path="/admin/restaurant/combo" component={adminRestaurantCombo} />
+            <Route exact path="/admin/restaurant/service" component={adminRestaurantService} />
           </div>
         </Router>
       </CartProvider>

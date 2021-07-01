@@ -2,20 +2,22 @@ import React, { useEffect, useState } from 'react';
 import SlideBar from '../../components/admin/SlideBar';
 import { FaBars } from 'react-icons/fa';
 import {
-    Row, Col, NavItem, Nav, Container, CardImg
+    NavItem, Nav, Container, Table
 } from 'reactstrap';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 import { Link } from 'react-router-dom';
 
-export default function RestaurantImage(props) {
+import RestaurantComboItem from '../../components/admin/RestaurantComboItem';
+
+export default function RestaurantCombo(props) {
     const { restaurantId } = props.location.state;
     const [toggled, setToggled] = useState(false);
     const handleToggleSidebar = (value) => {
         setToggled(value);
     };
 
-    const [imageList, setImageList] = useState([]);
+    const [combos, setCombos] = useState([]);
     const [pageCount, setPageCount] = useState(0);
     const [offset, setOffset] = useState(0);
     const [perPage, setPerpage] = useState(12);
@@ -23,7 +25,7 @@ export default function RestaurantImage(props) {
 
     useEffect(() => {
         receivedData();
-    }, currentPage);
+    }, [currentPage]);
 
     const handlePageClick = (e) => {
         const selectedPage = e.selected;
@@ -31,21 +33,19 @@ export default function RestaurantImage(props) {
 
         setCurrentPage(selectedPage);
         setOffset(offset);
-        receivedData();
+        // receivedData(0, '');
     };
 
     const receivedData = () => {
-        axios.get(`/images/getRestaurantImages?restaurantId=${restaurantId}`)
+        axios.get(`/combos/getCombosByRestaurantId?restaurantId=${restaurantId}&isActive=0`)
             .then(res => {
                 const data = res.data;
                 const slice = data.slice(offset, offset + perPage)
-                const imageList = slice.map((image, index) => {
-                    return <Col className="myRes-detail-img-item" key={index} lg="3" md="4" sm="12">
-                        <CardImg className="image-description" src={`/images/${image.image_id}`} />
-                    </Col>
+                const combosPaging = slice.map((combo, index) => {
+                    return <RestaurantComboItem key={index} combo={combo} count={index + 1} restaurantId={restaurantId} />
                 })
 
-                setImageList(imageList);
+                setCombos(combosPaging);
                 setPageCount(Math.ceil(data.length / perPage));
             })
     }
@@ -76,7 +76,7 @@ export default function RestaurantImage(props) {
                             Thông tin
                         </Link>
                     </NavItem>
-                    <NavItem className="active">
+                    <NavItem >
                         <Link to={{
                             pathname: `/admin/restaurant/image`,
                             state: {
@@ -86,7 +86,7 @@ export default function RestaurantImage(props) {
                         >Ảnh
                         </Link>
                     </NavItem>
-                    <NavItem>
+                    <NavItem >
                         <Link to={{
                             pathname: `/admin/restaurant/menu`,
                             state: {
@@ -97,7 +97,7 @@ export default function RestaurantImage(props) {
                             Thực đơn
                         </Link>
                     </NavItem>
-                    <NavItem>
+                    <NavItem className="active">
                         <Link to={{
                             pathname: `/admin/restaurant/combo`,
                             state: {
@@ -108,7 +108,7 @@ export default function RestaurantImage(props) {
                             Combo món ăn
                         </Link>
                     </NavItem>
-                    <NavItem>
+                    <NavItem >
                         <Link to={{
                             pathname: `/admin/restaurant/service`,
                             state: {
@@ -121,9 +121,20 @@ export default function RestaurantImage(props) {
                     </NavItem>
                 </Nav>
                 <Container>
-                    <Row className="myRes-detail-list-img">
-                        {imageList.length > 0 && imageList}
-                    </Row>
+                    <Table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Tên combo</th>
+                                <th>Giá</th>
+                                <th>Trạng thái</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {combos.length > 0 && combos}
+                        </tbody>
+                    </Table>
                     <ReactPaginate
                         previousLabel={"Trang trước"}
                         nextLabel={"Trang sau"}
