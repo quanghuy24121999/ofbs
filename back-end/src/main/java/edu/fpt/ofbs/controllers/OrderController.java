@@ -141,4 +141,10 @@ public class OrderController {
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
 		}
 	}
+	
+	@GetMapping("/searchOrder")
+	public ResponseEntity<?> searchOrder(@PathParam("orderCode") String orderCode) {
+		List<IOrderDetailDTO> orders = orderDetailService.getOrderDetailByOrderCode(orderCode);
+		return ResponseEntity.status(HttpStatus.OK).body(orders);
+	}
 }
