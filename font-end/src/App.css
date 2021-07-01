@@ -1829,6 +1829,22 @@ tr > td:nth-child(4) {
   align-items: center;
 }
 
+.admin-modal-combo {
+  max-width: 60%;
+}
+
+.title-dish-combo {
+  text-align: center;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
 /*=============================================== FOOTER ===========================================*/
 footer {
   width: 100%;

@@ -2,28 +2,30 @@ import React, { useEffect, useState } from 'react';
 import SlideBar from '../../components/admin/SlideBar';
 import { FaBars } from 'react-icons/fa';
 import {
-    Row, Col, NavItem, Nav, Container, CardImg
+    Row, Col, NavItem, Nav, Container, CardImg, Table
 } from 'reactstrap';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 import { Link } from 'react-router-dom';
 
-export default function RestaurantImage(props) {
+import RestaurantDishItem from '../../components/admin/RestaurantDishItem';
+
+export default function RestaurantDish(props) {
     const { restaurantId } = props.location.state;
     const [toggled, setToggled] = useState(false);
     const handleToggleSidebar = (value) => {
         setToggled(value);
     };
 
-    const [imageList, setImageList] = useState([]);
+    const [dishes, setDishes] = useState([]);
     const [pageCount, setPageCount] = useState(0);
     const [offset, setOffset] = useState(0);
     const [perPage, setPerpage] = useState(12);
     const [currentPage, setCurrentPage] = useState(0);
 
     useEffect(() => {
-        receivedData();
-    }, currentPage);
+        receivedData(0, '');
+    }, [currentPage]);
 
     const handlePageClick = (e) => {
         const selectedPage = e.selected;
@@ -31,21 +33,19 @@ export default function RestaurantImage(props) {
 
         setCurrentPage(selectedPage);
         setOffset(offset);
-        receivedData();
+        // receivedData(0, '');
     };
 
-    const receivedData = () => {
-        axios.get(`/images/getRestaurantImages?restaurantId=${restaurantId}`)
+    const receivedData = (categoryId, nameSearch) => {
+        axios.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=${categoryId}&dishName=${nameSearch}&statusId=1`)
             .then(res => {
                 const data = res.data;
                 const slice = data.slice(offset, offset + perPage)
-                const imageList = slice.map((image, index) => {
-                    return <Col className="myRes-detail-img-item" key={index} lg="3" md="4" sm="12">
-                        <CardImg className="image-description" src={`/images/${image.image_id}`} />
-                    </Col>
+                const dishesPaging = slice.map((dish, index) => {
+                    return <RestaurantDishItem key={index} dish={dish} count={index + 1} restaurantId={restaurantId} />
                 })
 
-                setImageList(imageList);
+                setDishes(dishesPaging);
                 setPageCount(Math.ceil(data.length / perPage));
             })
     }
@@ -76,7 +76,7 @@ export default function RestaurantImage(props) {
                             Thông tin
                         </Link>
                     </NavItem>
-                    <NavItem className="active">
+                    <NavItem >
                         <Link to={{
                             pathname: `/admin/restaurant/image`,
                             state: {
@@ -86,7 +86,7 @@ export default function RestaurantImage(props) {
                         >Ảnh
                         </Link>
                     </NavItem>
-                    <NavItem>
+                    <NavItem className="active">
                         <Link to={{
                             pathname: `/admin/restaurant/menu`,
                             state: {
@@ -121,9 +121,21 @@ export default function RestaurantImage(props) {
                     </NavItem>
                 </Nav>
                 <Container>
-                    <Row className="myRes-detail-list-img">
-                        {imageList.length > 0 && imageList}
-                    </Row>
+                    <Table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Tên món ăn</th>
+                                <th>Giá</th>
+                                <th>Loại món ăn</th>
+                                <th>Trạng thái</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {dishes.length > 0 && dishes}
+                        </tbody>
+                    </Table>
                     <ReactPaginate
                         previousLabel={"Trang trước"}
                         nextLabel={"Trang sau"}
