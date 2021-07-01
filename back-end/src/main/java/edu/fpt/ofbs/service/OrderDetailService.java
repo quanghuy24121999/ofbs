@@ -56,4 +56,8 @@ public class OrderDetailService {
 	public List<IOrderDetailDTO> getOrderDetailByOrderId(long orderId) {
 		return orderDetailRepository.getOrderDetailByOrderId(orderId);
 	}
+	
+	public List<IOrderDetailDTO> getOrderDetailByOrderCode(String orderCode){
+		return getOrderDetailByOrderId(orderDetailRepository.getOrderIdByOrderCode(orderCode));
+	}
 }
