@@ -33,6 +33,9 @@ import registerProvider from './screens/registerProvider';
 
 import admin from './screens/admin/dashboard';
 import order from './screens/admin/order';
+import restaurant from './screens/admin/restaurant';
+import adminRestaurantDetail from './screens/admin/restaurantDetail';
+import adminRestaurantImage from './screens/admin/restaurantImage';
 
 import { CartProvider } from "react-use-cart";
 
@@ -67,6 +70,9 @@ class App extends Component {
 
             <Route exact path="/admin" component={admin} />
             <Route exact path="/admin/order" component={order} />
+            <Route exact path="/admin/restaurant" component={restaurant} />
+            <Route exact path="/admin/restaurant/detail" component={adminRestaurantDetail} />
+            <Route exact path="/admin/restaurant/image" component={adminRestaurantImage} />
           </div>
         </Router>
       </CartProvider>

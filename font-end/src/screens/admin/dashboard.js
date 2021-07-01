@@ -17,11 +17,10 @@ function Dashboard() {
                 inComponent="admin"
             />
             <div className="main">
-                <div className="btn-toggle" onClick={() => handleToggleSidebar(true)}>
-                    <FaBars />
-                </div>
                 <div className="navbar-top">
-                    <div>Admin</div>
+                    <div className="btn-toggle" onClick={() => handleToggleSidebar(true)}>
+                        <FaBars />
+                    </div>
                     <div>Đăng xuất</div>
                 </div>
             </div>

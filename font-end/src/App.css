@@ -1800,7 +1800,7 @@ tr > td:nth-child(4) {
 .navbar-top {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-top: 0;
 }
 
@@ -1810,6 +1810,23 @@ tr > td:nth-child(4) {
 
 .btn-search-order-code {
   width: 100%;
+}
+
+.modal-restaurant-detail {
+  max-width: 90%;
+}
+
+.admin-res-nav {
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.admin-res-avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /*=============================================== FOOTER ===========================================*/
