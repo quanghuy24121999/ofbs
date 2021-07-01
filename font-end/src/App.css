@@ -2,6 +2,7 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  height: 100vh;
   /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
 }
 
@@ -1781,6 +1782,28 @@ tr > td:nth-child(4) {
   width: 100%;
 }
 
+/*=============================================== ADMIN ===========================================*/
+
+.main {
+  padding: 24px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.pro-sidebar .pro-menu .pro-menu-item.active {
+  color: #ffffff;
+  background-color: gray;
+}
+
+.navbar-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-top: 0;
+}
+
 /*=============================================== FOOTER ===========================================*/
 footer {
   width: 100%;
@@ -1973,6 +1996,10 @@ a {
   .search-item > .item {
     margin: 0;
   }
+
+  /* .btn-toggle {
+    display: flex;
+  } */
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1199.98px) {

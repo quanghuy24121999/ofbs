@@ -3,8 +3,11 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-multi-carousel/lib/styles.css";
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-pro-sidebar/dist/css/styles.css';
 
 import './App.css';
+import './admin.scss';
+
 import home from "./screens/home";
 import login from "./screens/login";
 import register from "./screens/register";
@@ -28,6 +31,9 @@ import orderDetailCustomer from './screens/orderCustomerDetail';
 import promotion from './screens/promotion';
 import registerProvider from './screens/registerProvider';
 
+import admin from './screens/admin/dashboard';
+import order from './screens/admin/order';
+
 import { CartProvider } from "react-use-cart";
 
 class App extends Component {
@@ -35,7 +41,7 @@ class App extends Component {
     return (
       <CartProvider>
         <Router>
-          <div className="App">
+          <div className="app">
             <Route path="/" exact component={home} />
             <Route path="/login" component={login} />
             <Route path="/register" component={register} />
@@ -58,6 +64,9 @@ class App extends Component {
             <Route exact path="/users/profile/:userId/orderDetail/:orderId" component={orderDetailCustomer} />
             <Route exact path="/promotion" component={promotion} />
             <Route exact path="/provider-register" component={registerProvider} />
+
+            <Route exact path="/admin" component={admin} />
+            <Route exact path="/admin/order" component={order} />
           </div>
         </Router>
       </CartProvider>
