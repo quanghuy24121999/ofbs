@@ -1804,6 +1804,14 @@ tr > td:nth-child(4) {
   margin-top: 0;
 }
 
+.search-order {
+  width: 50%;
+}
+
+.btn-search-order-code {
+  width: 100%;
+}
+
 /*=============================================== FOOTER ===========================================*/
 footer {
   width: 100%;
