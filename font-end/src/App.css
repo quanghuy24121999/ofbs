@@ -2,6 +2,7 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  height: 100vh;
   /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
 }
 
@@ -1781,6 +1782,53 @@ tr > td:nth-child(4) {
   width: 100%;
 }
 
+/*=============================================== ADMIN ===========================================*/
+
+.main {
+  padding: 24px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.pro-sidebar .pro-menu .pro-menu-item.active {
+  color: #ffffff;
+  background-color: gray;
+}
+
+.navbar-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 0;
+}
+
+.search-order {
+  width: 50%;
+}
+
+.btn-search-order-code {
+  width: 100%;
+}
+
+.modal-restaurant-detail {
+  max-width: 90%;
+}
+
+.admin-res-nav {
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.admin-res-avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /*=============================================== FOOTER ===========================================*/
 footer {
   width: 100%;
@@ -1973,6 +2021,10 @@ a {
   .search-item > .item {
     margin: 0;
   }
+
+  /* .btn-toggle {
+    display: flex;
+  } */
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1199.98px) {
