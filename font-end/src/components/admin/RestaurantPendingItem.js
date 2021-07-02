@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
     Button, Modal, ModalHeader, ModalBody,
-    ModalFooter, NavItem, Nav, Container,
+    ModalFooter
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { FaEye } from 'react-icons/fa';
@@ -12,10 +12,28 @@ export default function RestaurantPendingItem(props) {
     const count = props.count;
 
     const [modal, setModal] = useState(false);
+    const [modal1, setModal1] = useState(false);
 
     const toggle = () => {
-
         setModal(!modal);
+    }
+
+    const toggle1 = () => {
+        setModal1(!modal1);
+    }
+
+    const acceptRestaurant = () => {
+        axios.patch(`/restaurants/updateStatus?restaurantId=${restaurant.restaurant_id}&status=${restaurant.restaurant_status}&statusUpdate=active`)
+            .then(res => {
+                toggle();
+            })
+    }
+
+    const denyRestaurant = () => {
+        axios.patch(`/restaurants/updateStatus?restaurantId=${restaurant.restaurant_id}&status=${restaurant.restaurant_status}&statusUpdate=cancelled`)
+            .then(res => {
+                toggle1();
+            })
     }
 
     return (
@@ -36,26 +54,40 @@ export default function RestaurantPendingItem(props) {
                 >
                     <FaEye className="icon-see-more" />Chi tiết
                 </Link>
-                <Modal isOpen={modal} toggle={toggle} className={`modal-restaurant-detail`}>
-                    <ModalHeader toggle={toggle}>Chi tiết nhà hàng</ModalHeader>
+            </td>
+            <td>
+                <Button color="success" onClick={toggle}>
+                    Duyệt
+                </Button>
+                <Modal isOpen={modal} toggle={toggle} className={``}>
+                    <ModalHeader toggle={toggle}>Thông báo</ModalHeader>
                     <ModalBody>
-
-
+                        Lưu thay đổi ?
                     </ModalBody>
                     <ModalFooter>
+                        <Button color="success" onClick={() => acceptRestaurant()}>
+                            Có
+                        </Button>
                         <Button color="secondary" onClick={toggle}>Trở lại</Button>
                     </ModalFooter>
                 </Modal>
             </td>
             <td>
-                <Button color="success">
-                    Duyệt
-                </Button>
-            </td>
-            <td>
-                <Button color="danger">
+                <Button color="danger" onClick={toggle1}>
                     Hủy
                 </Button>
+                <Modal isOpen={modal1} toggle={toggle1} className={``}>
+                    <ModalHeader toggle={toggle1}>Thông báo</ModalHeader>
+                    <ModalBody>
+                        Lưu thay đổi ?
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="success" onClick={() => denyRestaurant()}>
+                            Có
+                        </Button>
+                        <Button color="secondary" onClick={toggle1}>Trở lại</Button>
+                    </ModalFooter>
+                </Modal>
             </td>
         </tr>
     )

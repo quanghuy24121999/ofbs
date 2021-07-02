@@ -288,19 +288,44 @@ export default class myRestaurantDetail extends Component {
 
     updateImage() {
         const restaurantId = this.props.match.params.restaurantId;
+        let formData = new FormData();
+        let imageId = this.state.restaurantAvatar;
+        formData.append('file', this.state.images[0].file);
         document.getElementById('error-form4').style.display = "none";
-        axios.delete(`/images/delete?userId=${restaurantId}`)
-            .then(res => {
-                let formData = new FormData();
-                formData.append('file', this.state.images[0].file);
-                axios.post(`/images/upload?userId=0&dishId=0&serviceId=0&comboId=0&restaurantId=${restaurantId}&promotionId=0&typeId=1`,
-                    formData, {
-                }).then(res => {
-                    window.location.reload();
-                }).catch(err => {
-                    document.getElementById('error-form4').style.display = "block";
-                })
+
+        if (imageId === null || imageId === '') {
+            axios.post(`/images/upload?userId=0&dishId=0&serviceId=0&comboId=0&restaurantId=${restaurantId}&promotionId=0&typeId=1`,
+                formData, {
+            }).then(res => {
+                window.location.reload();
+            }).catch(err => {
+                document.getElementById('error-form4').style.display = "block";
             })
+        } else {
+            axios.post(`/images/update?imageId=${imageId}`,
+                formData, {
+            }).then(res => {
+                window.location.reload();
+            }).catch(err => {
+                document.getElementById('error-form4').style.display = "block";
+            })
+        }
+
+
+        
+        // document.getElementById('error-form4').style.display = "none";
+        // axios.delete(`/images/delete?userId=${restaurantId}`)
+        //     .then(res => {
+        //         let formData = new FormData();
+        //         formData.append('file', this.state.images[0].file);
+        //         axios.post(`/images/upload?userId=0&dishId=0&serviceId=0&comboId=0&restaurantId=${restaurantId}&promotionId=0&typeId=1`,
+        //             formData, {
+        //         }).then(res => {
+        //             window.location.reload();
+        //         }).catch(err => {
+        //             document.getElementById('error-form4').style.display = "block";
+        //         })
+        //     })
     }
 
     displayImage() {
