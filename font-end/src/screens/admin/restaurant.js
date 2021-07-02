@@ -17,7 +17,7 @@ function Restaurant() {
     const [restaurants, setRestaurants] = useState([]);
 
     useEffect(() => {
-        axios.get(`/restaurants/getRestaurantByProviderId?providerId=53&statusId=3`)
+        axios.get(`/restaurants/getRestaurantPending`)
             .then(res => {
                 setRestaurants(res.data);
             })
