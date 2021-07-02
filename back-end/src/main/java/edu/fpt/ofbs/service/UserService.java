@@ -4,14 +4,18 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import edu.fpt.ofbs.entities.User;
+import edu.fpt.ofbs.models.CustomUserDetails;
 import edu.fpt.ofbs.models.IUserDTO;
 import edu.fpt.ofbs.repositories.UserRepository;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService{
 	@Autowired
 	private UserRepository userRepository;
 
@@ -33,5 +37,23 @@ public class UserService {
 
 	public IUserDTO getUserProfileById(long userId) {
 		return userRepository.getUserProfileById(userId);
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String phoneLogin) throws UsernameNotFoundException {
+		// Kiểm tra xem user có tồn tại trong database không?
+        User user = userRepository.findByPhoneNumberLogin(phoneLogin);
+        if (user == null) {
+            throw new UsernameNotFoundException(phoneLogin);
+        }
+        return new CustomUserDetails(user);
+	}
+	
+	public UserDetails loadUserById(long userId) throws UsernameNotFoundException {
+		User user = userRepository.findById(userId).get();
+		if (user == null) {
+			throw new UsernameNotFoundException("not found user " + userId);
+		}
+		return new CustomUserDetails(user);
 	}
 }
