@@ -3,6 +3,7 @@ package edu.fpt.ofbs.repositories;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -22,4 +23,11 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long>{
 	
 	@Query(value = "exec sp_getRestaurantsByProviderId ?1, ?2", nativeQuery = true)
 	List<IRestaurantDTO> getRestaurantByProviderId(long providerId, long statusId);
+	
+	@Query(value = "exec sp_adminViewPendingRestaurant", nativeQuery = true)
+	List<IRestaurantDTO> getRestaurantPending();
+	
+	@Modifying
+	@Query(value = "exec sp_updateStatusRestaurant ?1, ?2, ?3", nativeQuery = true)
+	void updateStatusRestaurant(long restaurantId, String status, String statusUpdate);
 }

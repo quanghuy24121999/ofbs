@@ -79,7 +79,7 @@ public class UserController {
 				return ResponseEntity.status(HttpStatus.OK).body(userLogin);
 			}
 		}
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 
 	@PostMapping("/register")

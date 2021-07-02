@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.fpt.ofbs.entities.ProviderType;
 import edu.fpt.ofbs.entities.Restaurant;
@@ -12,6 +13,7 @@ import edu.fpt.ofbs.repositories.ProviderTypeRepository;
 import edu.fpt.ofbs.repositories.RestaurantRepository;
 
 @Service
+@Transactional
 public class RestaurantService {
 
 	@Autowired
@@ -56,5 +58,13 @@ public class RestaurantService {
 				restaurant.getSize(), restaurant.getProviderType());
 		
 		restaurantRepository.save(res);
+	}
+	
+	public List<IRestaurantDTO> getRestaurantPending(){
+		return restaurantRepository.getRestaurantPending();
+	}
+	
+	public void updateStatusRestaurant(long restaurantId, String status, String statusUpdate) {
+		restaurantRepository.updateStatusRestaurant(restaurantId, status, statusUpdate);
 	}
 }
