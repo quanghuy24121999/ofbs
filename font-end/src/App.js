@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "react-multi-carousel/lib/styles.css";
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-pro-sidebar/dist/css/styles.css';
+import { CartProvider } from "react-use-cart";
 
 import './App.css';
 import './admin.scss';
@@ -39,9 +40,9 @@ import adminRestaurantImage from './screens/admin/restaurantImage';
 import adminRestaurantMenu from './screens/admin/restaurantDish';
 import adminRestaurantCombo from './screens/admin/restaurantCombo';
 import adminRestaurantService from './screens/admin/restaurantService';
+import errorPage from './screens/errorPage';
 
-import { CartProvider } from "react-use-cart";
-import { ProtectedRoute } from './common/checkAuthen';
+import { ProtectedRouteAdmin, ProtectedRouteCustomer } from './common/checkAuthen';
 
 class App extends Component {
   render() {
@@ -54,32 +55,35 @@ class App extends Component {
             <Route path="/register" component={register} />
             <Route path="/forget-password" component={forgetPassword} />
             <Route path="/search-result" component={searchResult} />
+            <Route exact path="/promotion" component={promotion} />
             <Route exact path="/restaurant-detail/:restaurantId" component={restaurantDetail} />
             <Route exact path="/restaurant-detail/:restaurantId/menu" component={menu} />
             <Route exact path="/restaurant-detail/:restaurantId/combo" component={combo} />
             <Route exact path="/restaurant-detail/:restaurantId/service" component={service} />
-            <Route exact path="/users/profile/:userId" component={userProfile} />
-            <Route exact path="/users/profile/:userId/order" component={orderCustomer} />
-            <Route exact path="/users/profile/:userId/my-restaurant" component={myRestaurant} />
-            <Route exact path="/users/profile/:userId/my-restaurant/:restaurantId/detail" component={myRestaurantDetail} />
-            <Route exact path="/users/profile/:userId/my-restaurant/:restaurantId/menu" component={myRestaurantMenu} />
-            <Route exact path="/users/profile/:userId/my-restaurant/:restaurantId/combo" component={myRestaurantCombo} />
-            <Route exact path="/users/profile/:userId/my-restaurant/:restaurantId/image" component={myRestaurantImage} />
-            <Route exact path="/users/profile/:userId/my-restaurant/:restaurantId/service" component={myRestaurantService} />
-            <Route exact path="/users/profile/:userId/my-restaurant/:restaurantId/promotion" component={myRestaurantPromotion} />
-            <Route exact path="/users/profile/:userId/my-restaurant/:restaurantId/order" component={myRestaurantOrder} />
-            <Route exact path="/users/profile/:userId/orderDetail/:orderId" component={orderDetailCustomer} />
-            <Route exact path="/promotion" component={promotion} />
             <Route exact path="/provider-register" component={registerProvider} />
 
-            <ProtectedRoute exact path="/admin" component={admin} />
-            <ProtectedRoute exact path="/admin/order" component={order} />
-            <ProtectedRoute exact path="/admin/restaurant" component={restaurant} />
-            <ProtectedRoute exact path="/admin/restaurant/detail" component={adminRestaurantDetail} />
-            <ProtectedRoute exact path="/admin/restaurant/image" component={adminRestaurantImage} />
-            <ProtectedRoute exact path="/admin/restaurant/menu" component={adminRestaurantMenu} />
-            <ProtectedRoute exact path="/admin/restaurant/combo" component={adminRestaurantCombo} />
-            <ProtectedRoute exact path="/admin/restaurant/service" component={adminRestaurantService} />
+            <ProtectedRouteCustomer exact path="/users/profile/:userId" component={userProfile} />
+            <ProtectedRouteCustomer exact path="/users/profile/:userId/order" component={orderCustomer} />
+            <ProtectedRouteCustomer exact path="/users/profile/:userId/orderDetail/:orderId" component={orderDetailCustomer} />
+            <ProtectedRouteCustomer exact path="/users/profile/:userId/my-restaurant" component={myRestaurant} />
+            <ProtectedRouteCustomer exact path="/users/profile/:userId/my-restaurant/:restaurantId/detail" component={myRestaurantDetail} />
+            <ProtectedRouteCustomer exact path="/users/profile/:userId/my-restaurant/:restaurantId/menu" component={myRestaurantMenu} />
+            <ProtectedRouteCustomer exact path="/users/profile/:userId/my-restaurant/:restaurantId/combo" component={myRestaurantCombo} />
+            <ProtectedRouteCustomer exact path="/users/profile/:userId/my-restaurant/:restaurantId/image" component={myRestaurantImage} />
+            <ProtectedRouteCustomer exact path="/users/profile/:userId/my-restaurant/:restaurantId/service" component={myRestaurantService} />
+            <ProtectedRouteCustomer exact path="/users/profile/:userId/my-restaurant/:restaurantId/promotion" component={myRestaurantPromotion} />
+            <ProtectedRouteCustomer exact path="/users/profile/:userId/my-restaurant/:restaurantId/order" component={myRestaurantOrder} />
+
+            <ProtectedRouteAdmin exact path="/admin" component={admin} />
+            <ProtectedRouteAdmin exact path="/admin/order" component={order} />
+            <ProtectedRouteAdmin exact path="/admin/restaurant" component={restaurant} />
+            <ProtectedRouteAdmin exact path="/admin/restaurant/detail" component={adminRestaurantDetail} />
+            <ProtectedRouteAdmin exact path="/admin/restaurant/image" component={adminRestaurantImage} />
+            <ProtectedRouteAdmin exact path="/admin/restaurant/menu" component={adminRestaurantMenu} />
+            <ProtectedRouteAdmin exact path="/admin/restaurant/combo" component={adminRestaurantCombo} />
+            <ProtectedRouteAdmin exact path="/admin/restaurant/service" component={adminRestaurantService} />
+
+            {/* <Route path="*" component={errorPage} /> */}
           </div>
         </Router>
       </CartProvider>
