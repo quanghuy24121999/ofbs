@@ -11,6 +11,8 @@ import Footer from '../components/footer';
 import OrderItem from '../components/orderItem';
 import { onChangeLinkStatus } from '../common/changeLink';
 
+
+let userId = localStorage.getItem('userId');
 export default class orderCustomer extends Component {
     constructor(props) {
         super(props);
@@ -31,7 +33,6 @@ export default class orderCustomer extends Component {
     }
 
     receivedData() {
-        const userId = this.props.match.params.userId;
         axios.get(`/orders/customer?customerId=${userId}&statusId=${this.state.status}`, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -41,7 +42,7 @@ export default class orderCustomer extends Component {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
                 const orderPaging = slice.map((order, index) => {
-                    return <OrderItem key={index} order={order} userId={userId} />
+                    return <OrderItem key={index} order={order} />
                 })
                 this.setState({
                     pageCount: Math.ceil(data.length / this.state.perPage),
@@ -69,7 +70,6 @@ export default class orderCustomer extends Component {
             offset: 0,
             status: status
         }, () => {
-            const userId = this.props.match.params.userId;
             axios.get(`/orders/customer?customerId=${userId}&statusId=${this.state.status}`, {
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -79,7 +79,7 @@ export default class orderCustomer extends Component {
                     const data = res.data;
                     const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
                     const orderPaging = slice.map((order, index) => {
-                        return <OrderItem key={index} userId={userId} order={order} />
+                        return <OrderItem key={index} order={order} />
                     })
                     this.setState({
                         pageCount: Math.ceil(data.length / this.state.perPage),
@@ -90,20 +90,18 @@ export default class orderCustomer extends Component {
     }
 
     render() {
-        const userId = this.props.match.params.userId;
-
         return (
             <div>
                 <TopMenu />
                 <Nav pills className="restaurant-detail-nav container">
                     <NavItem>
-                        <Link to={`/users/profile/${userId}`}>Hồ sơ</Link>
+                        <Link to={`/users/profile`}>Hồ sơ</Link>
                     </NavItem>
                     <NavItem className="active">
-                        <Link to={`/users/profile/${userId}/order`}>Đơn của tôi</Link>
+                        <Link to={`/users/profile/order`}>Đơn của tôi</Link>
                     </NavItem>
                     <NavItem>
-                        <Link to={`/users/profile/${userId}/my-restaurant`}>Nhà hàng của tôi</Link>
+                        <Link to={`/users/profile/my-restaurant`}>Nhà hàng của tôi</Link>
                     </NavItem>
                     <NavItem>
                         <Link to={``}>Ví FBS</Link>

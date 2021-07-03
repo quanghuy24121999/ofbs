@@ -45,7 +45,6 @@ export default class orderCustomerDetail extends Component {
     }
 
     render() {
-        const userId = this.props.match.params.userId;
         const { listOrderDetails, restaurantInfo, orderDetailInfo } = this.state;
 
         let orderStatus = '';
@@ -70,13 +69,13 @@ export default class orderCustomerDetail extends Component {
                 <TopMenu />
                 <Nav pills className="restaurant-detail-nav container">
                     <NavItem>
-                        <Link to={`/users/profile/${userId}`}>Hồ sơ</Link>
+                        <Link to={`/users/profile`}>Hồ sơ</Link>
                     </NavItem>
                     <NavItem className="active">
-                        <Link to={`/users/profile/${userId}/order`}>Đơn của tôi</Link>
+                        <Link to={`/users/profile/order`}>Đơn của tôi</Link>
                     </NavItem>
                     <NavItem>
-                        <Link to={`/users/profile/${userId}/my-restaurant`}>Nhà hàng của tôi</Link>
+                        <Link to={`/users/profile/my-restaurant`}>Nhà hàng của tôi</Link>
                     </NavItem>
                     <NavItem>
                         <Link to={``}>Ví FBS</Link>

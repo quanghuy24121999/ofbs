@@ -13,6 +13,8 @@ import TopMenu from '../components/topMenu';
 import Footer from '../components/footer';
 import MyRestaurantServiceItem from '../components/myRestaurantServiceItem';
 
+let restaurantId = '';
+
 export default class myRestaurantService extends Component {
     constructor(props) {
         super(props);
@@ -44,7 +46,7 @@ export default class myRestaurantService extends Component {
     }
 
     componentDidMount() {
-        const restaurantId = this.props.match.params.restaurantId;
+        restaurantId = localStorage.getItem('resId');
         axios.get(`/services/search?restaurantId=${restaurantId}`)
             .then(res => {
                 this.setState({ services: res.data });
@@ -85,7 +87,6 @@ export default class myRestaurantService extends Component {
     }
 
     search() {
-        const restaurantId = this.props.match.params.restaurantId;
         const { nameSearch, categorySearch } = this.state;
         axios.get(`/services/search?restaurantId=${restaurantId}&serviceName=${nameSearch}&category=${categorySearch}`)
             .then(res => {
@@ -94,7 +95,6 @@ export default class myRestaurantService extends Component {
     }
 
     addService() {
-        const restaurantId = this.props.match.params.restaurantId;
         const { category, description, name, price, status } = this.state;
         console.log(status);
         axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
@@ -185,8 +185,6 @@ export default class myRestaurantService extends Component {
     }
 
     render() {
-        const userId = this.props.match.params.userId;
-        const restaurantId = this.props.match.params.restaurantId;
         const { services, categorySearch, nameSearch, categories, modal,
             images, category, description, name, price, status
         } = this.state;
@@ -195,26 +193,87 @@ export default class myRestaurantService extends Component {
             <div className="myRes-service">
                 <TopMenu />
                 <Nav pills className="restaurant-detail-nav container">
-                    <NavItem>
-                        <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/detail`}>Thông tin</Link>
-                    </NavItem>
                     <NavItem >
-                        <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/image`}>Ảnh</Link>
+                        <Link to={`/users/profile/my-restaurant/detail`}>Thông tin</Link>
                     </NavItem>
                     <NavItem>
-                        <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/menu`}>Thực đơn</Link>
+                        <Link
+                            onClick={() => {
+                                localStorage.setItem('resId', '');
+                                localStorage.setItem('resId', restaurantId)
+                            }}
+                            to={{
+                                pathname: `/users/profile/my-restaurant/image`
+                            }}
+                        >
+                            Ảnh
+                        </Link>
                     </NavItem>
                     <NavItem>
-                        <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/combo`}>Combo món ăn</Link>
+                        <Link
+                            onClick={() => {
+                                localStorage.setItem('resId', '');
+                                localStorage.setItem('resId', restaurantId)
+                            }}
+                            to={{
+                                pathname: `/users/profile/my-restaurant/menu`,
+                                state: { restaurantId: localStorage.getItem('resId') }
+                            }}
+                        >
+                            Thực đơn
+                        </Link>
+                    </NavItem>
+                    <NavItem>
+                        <Link
+                            onClick={() => {
+                                localStorage.setItem('resId', '');
+                                localStorage.setItem('resId', restaurantId)
+                            }}
+                            to={{
+                                pathname: `/users/profile/my-restaurant/combo`
+                            }}
+                        >
+                            Combo món ăn
+                        </Link>
                     </NavItem>
                     <NavItem className="active">
-                        <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/service`}>Dịch vụ</Link>
+                        <Link
+                            onClick={() => {
+                                localStorage.setItem('resId', '');
+                                localStorage.setItem('resId', restaurantId)
+                            }}
+                            to={{
+                                pathname: `/users/profile/my-restaurant/service`
+                            }}
+                        >
+                            Dịch vụ
+                        </Link>
                     </NavItem>
-                    <NavItem>
-                        <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/promotion`}>Khuyến mãi</Link>
+                    <NavItem >
+                        <Link
+                            onClick={() => {
+                                localStorage.setItem('resId', '');
+                                localStorage.setItem('resId', restaurantId)
+                            }}
+                            to={{
+                                pathname: `/users/profile/my-restaurant/promotion`
+                            }}
+                        >
+                            Khuyến mãi
+                        </Link>
                     </NavItem>
-                    <NavItem>
-                        <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/order`}>Đơn hàng</Link>
+                    <NavItem >
+                        <Link
+                            onClick={() => {
+                                localStorage.setItem('resId', '');
+                                localStorage.setItem('resId', restaurantId)
+                            }}
+                            to={{
+                                pathname: `/users/profile/my-restaurant/order`
+                            }}
+                        >
+                            Đơn hàng
+                        </Link>
                     </NavItem>
                 </Nav>
                 <Container>
@@ -369,7 +428,7 @@ export default class myRestaurantService extends Component {
                     </Row>
                     {
                         services.length > 0 &&
-                        <MyRestaurantServiceItem services={services} restaurantId={restaurantId} userId={userId} />
+                        <MyRestaurantServiceItem services={services} restaurantId={restaurantId} />
                     }
                 </Container>
                 <Footer />

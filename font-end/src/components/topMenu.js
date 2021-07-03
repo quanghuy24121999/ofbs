@@ -26,6 +26,7 @@ const TopMenu = () => {
         axios.get(`/users/findByPhoneNumber/${localStorage.getItem('currentUser')}`)
             .then(res => {
                 setCurrentUser(res.data);
+                localStorage.setItem('userId', res.data.id);
             });
     }, [])
 
@@ -33,6 +34,8 @@ const TopMenu = () => {
         e.preventDefault();
         localStorage.removeItem('currentUser');
         localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('resId');
         setIsLogout(true);
     }
 
@@ -42,7 +45,7 @@ const TopMenu = () => {
                 <NavbarBrand className="logo" href="/">
                     <CardImg src={image} alt="Logo" />
                 </NavbarBrand>
-                <NavbarToggler onClick={toggle} color="success"/>
+                <NavbarToggler onClick={toggle} color="success" />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="mr-auto nav" navbar>
                         <div className="nav-section">
@@ -59,7 +62,14 @@ const TopMenu = () => {
                         {currentUser ? (
                             <div className="authen">
                                 <NavItem>
-                                    <Link className="link" to={`/users/profile/${currentUser.id}`}>{currentUser.phoneNumber}</Link>
+                                    <Link className="link" to={{
+                                        pathname: `/users/profile`,
+                                        state: {
+                                            currentUserId: localStorage.getItem('userId')
+                                        }
+                                    }}>
+                                        {currentUser.phoneNumber}
+                                    </Link>
                                 </NavItem>
                                 <NavItem>
                                     <Link className="link" onClick={logout} to="/">Đăng xuất</Link>

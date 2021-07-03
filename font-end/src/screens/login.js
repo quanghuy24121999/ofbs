@@ -55,6 +55,8 @@ class login extends Component {
           });
         } else {
           localStorage.setItem('currentUser', phone);
+          localStorage.setItem('userId', '');
+          localStorage.setItem('resId', '');
           localStorage.setItem('token', res.data.token);
           this.setState({
             redirect: true

@@ -10,7 +10,6 @@ import DefaultRestaurantImg from '../images/default-restaurant.png';
 
 export default function RestaurantItem(props) {
     const restaurant = props.restaurant;
-    const userId = props.userId;
 
     let imgRestaurant;
     if (restaurant.image_id === null) {
@@ -27,7 +26,19 @@ export default function RestaurantItem(props) {
                 <CardSubtitle tag="h6" className="mb-2 text-muted">{restaurant.province}</CardSubtitle>
                 <CardText className="restaurant-size">{'Khoảng ' + restaurant.size + ' người'}</CardText>
                 <StarRating rate={restaurant.rate} starDimension="20px" starSpacing="4px" />
-                <Link to={`/users/profile/${userId}/my-restaurant/${restaurant.restaurant_id}/detail`} className="btn btn-success">Xem thêm</Link>
+                <Link
+                    onClick={() => {
+                        localStorage.setItem('resId', '');
+                        localStorage.setItem('resId', restaurant.restaurant_id)
+                    }}
+                    to={{
+                        pathname: `/users/profile/my-restaurant/detail`,
+                        state: { restaurantId: restaurant.restaurant_id }
+                    }}
+                    className="btn btn-success"
+                >
+                    Xem thêm
+                </Link>
             </CardBody>
         </Card>
     )

@@ -7,6 +7,7 @@ import TopMenu from '../components/topMenu';
 import Footer from '../components/footer';
 import MyRestaurantItem from '../components/myRestaurantItem';
 
+let userId = localStorage.getItem('userId');
 export default class myRestaurant extends Component {
     constructor(props) {
         super(props);
@@ -20,8 +21,6 @@ export default class myRestaurant extends Component {
     }
 
     componentDidMount() {
-        const userId = this.props.match.params.userId;
-
         axios.get(`/users/findByPhoneNumber/${localStorage.getItem('currentUser')}`)
             .then(res => {
                 this.setState({ role: res.data.role.name })
@@ -45,20 +44,19 @@ export default class myRestaurant extends Component {
 
     render() {
         const { restaurantActive, restaurantInactive, restaurantPending, role } = this.state;
-        const userId = this.props.match.params.userId;
 
         return (
             <div>
                 <TopMenu />
                 <Nav pills className="restaurant-detail-nav container">
                     <NavItem>
-                        <Link to={`/users/profile/${userId}`}>Hồ sơ</Link>
+                        <Link to={`/users/profile`}>Hồ sơ</Link>
                     </NavItem>
                     <NavItem>
-                        <Link to={`/users/profile/${userId}/order`}>Đơn của tôi</Link>
+                        <Link to={`/users/profile/order`}>Đơn của tôi</Link>
                     </NavItem>
                     <NavItem className="active">
-                        <Link to={`/users/profile/${userId}/my-restaurant`}>Nhà hàng của tôi</Link>
+                        <Link to={`/users/profile/my-restaurant`}>Nhà hàng của tôi</Link>
                     </NavItem>
                     <NavItem>
                         <Link to={``}>Ví FBS</Link>
@@ -78,7 +76,7 @@ export default class myRestaurant extends Component {
                                 {restaurantPending.length > 0 ? (
                                     restaurantPending.map((restaurant, index) => {
                                         return <Col lg="3" md="4" sm="12" key={index}>
-                                            <MyRestaurantItem restaurant={restaurant} userId={userId} />
+                                            <MyRestaurantItem restaurant={restaurant}/>
                                         </Col>
                                     })
                                 ) : (
@@ -93,7 +91,7 @@ export default class myRestaurant extends Component {
                                 {restaurantActive.length > 0 ? (
                                     restaurantActive.map((restaurant, index) => {
                                         return <Col lg="3" md="4" sm="12" key={index}>
-                                            <MyRestaurantItem restaurant={restaurant} userId={userId} />
+                                            <MyRestaurantItem restaurant={restaurant} />
                                         </Col>
                                     })
                                 ) : (
@@ -108,7 +106,7 @@ export default class myRestaurant extends Component {
                                 {restaurantInactive.length > 0 ? (
                                     restaurantInactive.map((restaurant, index) => {
                                         return <Col lg="3" md="4" sm="12" key={index}>
-                                            <MyRestaurantItem restaurant={restaurant} userId={userId} />
+                                            <MyRestaurantItem restaurant={restaurant}/>
                                         </Col>
                                     })
                                 ) : (

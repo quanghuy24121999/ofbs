@@ -39,7 +39,6 @@ export default function MyRestaurantComboItem(props) {
     const [imageId, setImageId] = useState('');
     const [images, setImages] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [priceTempt, setPriceTempt] = useState(0);
     const [dishesPaging, setDishesPaging] = useState([]);
 
     const [offset, setOffset] = useState(0);

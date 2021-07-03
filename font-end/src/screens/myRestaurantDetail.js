@@ -13,6 +13,7 @@ import TopMenu from '../components/topMenu';
 import Footer from '../components/footer';
 import RestaurantAvater from '../images/default-restaurant.png';
 
+let restaurantId = '';
 export default class myRestaurantDetail extends Component {
     constructor(props) {
         super(props);
@@ -84,7 +85,7 @@ export default class myRestaurantDetail extends Component {
     }
 
     componentDidMount() {
-        const restaurantId = this.props.match.params.restaurantId;
+        restaurantId = localStorage.getItem('resId');
 
         axios.get(`/restaurants/providerTypes`)
             .then(res => {
@@ -247,7 +248,6 @@ export default class myRestaurantDetail extends Component {
     }
 
     onSubmitUpdate() {
-        const restaurantId = this.props.match.params.restaurantId;
         const {
             districtName, provinceName, restaurantAddress, restaurantDescription, user,
             restaurantName, restaurantPhone, restaurantSize, restaurantStatus, restaurantType,
@@ -291,7 +291,6 @@ export default class myRestaurantDetail extends Component {
     };
 
     updateImage() {
-        const restaurantId = this.props.match.params.restaurantId;
         let formData = new FormData();
         let imageId = this.state.restaurantAvatar;
         formData.append('file', this.state.images[0].file);
@@ -314,22 +313,6 @@ export default class myRestaurantDetail extends Component {
                 document.getElementById('error-form4').style.display = "block";
             })
         }
-
-
-
-        // document.getElementById('error-form4').style.display = "none";
-        // axios.delete(`/images/delete?userId=${restaurantId}`)
-        //     .then(res => {
-        //         let formData = new FormData();
-        //         formData.append('file', this.state.images[0].file);
-        //         axios.post(`/images/upload?userId=0&dishId=0&serviceId=0&comboId=0&restaurantId=${restaurantId}&promotionId=0&typeId=1`,
-        //             formData, {
-        //         }).then(res => {
-        //             window.location.reload();
-        //         }).catch(err => {
-        //             document.getElementById('error-form4').style.display = "block";
-        //         })
-        //     })
     }
 
     displayImage() {
@@ -338,12 +321,10 @@ export default class myRestaurantDetail extends Component {
 
     render() {
         const { provinces, districts, types, status, provinceCode, districtCode,
-            restaurantAddress, user, restaurantBusinessCode, restaurantDescription,
+            restaurantAddress, restaurantBusinessCode, restaurantDescription,
             restaurantName, restaurantPhone, restaurantSize, restaurantType, modal,
             modal1, restaurantStatus, restaurantAvatar, restaurantCertificate, images
         } = this.state;
-        const userId = this.props.match.params.userId;
-        const restaurantId = this.props.match.params.restaurantId;
 
         let image;
         if (restaurantAvatar === '') {
@@ -357,25 +338,86 @@ export default class myRestaurantDetail extends Component {
                 <TopMenu />
                 <Nav pills className="restaurant-detail-nav container">
                     <NavItem className="active">
-                        <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/detail`}>Thông tin</Link>
+                        <Link to={`/users/profile/my-restaurant/detail`}>Thông tin</Link>
                     </NavItem>
                     <NavItem>
-                        <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/image`}>Ảnh</Link>
+                        <Link
+                            onClick={() => {
+                                localStorage.setItem('resId', '');
+                                localStorage.setItem('resId', restaurantId)
+                            }}
+                            to={{
+                                pathname: `/users/profile/my-restaurant/image`
+                            }}
+                        >
+                            Ảnh
+                        </Link>
                     </NavItem>
                     <NavItem>
-                        <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/menu`}>Thực đơn</Link>
+                        <Link
+                            onClick={() => {
+                                localStorage.setItem('resId', '');
+                                localStorage.setItem('resId', restaurantId)
+                            }}
+                            to={{
+                                pathname: `/users/profile/my-restaurant/menu`,
+                                state: { restaurantId: localStorage.getItem('resId') }
+                            }}
+                        >
+                            Thực đơn
+                        </Link>
                     </NavItem>
                     <NavItem>
-                        <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/combo`}>Combo món ăn</Link>
+                        <Link
+                            onClick={() => {
+                                localStorage.setItem('resId', '');
+                                localStorage.setItem('resId', restaurantId)
+                            }}
+                            to={{
+                                pathname: `/users/profile/my-restaurant/combo`
+                            }}
+                        >
+                            Combo món ăn
+                        </Link>
                     </NavItem>
                     <NavItem>
-                        <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/service`}>Dịch vụ</Link>
+                        <Link
+                            onClick={() => {
+                                localStorage.setItem('resId', '');
+                                localStorage.setItem('resId', restaurantId)
+                            }}
+                            to={{
+                                pathname: `/users/profile/my-restaurant/service`
+                            }}
+                        >
+                            Dịch vụ
+                        </Link>
                     </NavItem>
                     <NavItem>
-                        <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/promotion`}>Khuyến mãi</Link>
+                        <Link
+                            onClick={() => {
+                                localStorage.setItem('resId', '');
+                                localStorage.setItem('resId', restaurantId)
+                            }}
+                            to={{
+                                pathname: `/users/profile/my-restaurant/promotion`
+                            }}
+                        >
+                            Khuyến mãi
+                        </Link>
                     </NavItem>
                     <NavItem>
-                        <Link to={`/users/profile/${userId}/my-restaurant/${restaurantId}/order`}>Đơn hàng</Link>
+                        <Link
+                            onClick={() => {
+                                localStorage.setItem('resId', '');
+                                localStorage.setItem('resId', restaurantId)
+                            }}
+                            to={{
+                                pathname: `/users/profile/my-restaurant/order`
+                            }}
+                        >
+                            Đơn hàng
+                        </Link>
                     </NavItem>
                 </Nav>
                 <Container className="myRes-detail-content">

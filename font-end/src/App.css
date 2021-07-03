@@ -1876,6 +1876,22 @@ tr > td:nth-child(4) {
   width: 30%;
 }
 
+/*=============================================== NOT FOUND ===========================================*/
+.not-found {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.not-found-content {
+  margin: 200px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+}
+
 /*=============================================== FOOTER ===========================================*/
 footer {
   width: 100%;

@@ -6,7 +6,6 @@ import { formatDate } from '../common/formatDate';
 
 export default function OrderItem(props) {
     const order = props.order;
-    const userId = props.userId;
 
     return (
         <Col className="order-col" lg="6" md="12" sm="12">
@@ -18,7 +17,7 @@ export default function OrderItem(props) {
                     <div className="order-type">{order.restaurant_type}</div>
                     <div className="order-date">Thời gian diễn ra: {order.time}</div>
                     <div className="order-order-date">Ngày đặt: {formatDate(order.order_date)}</div>
-                    <Link to={`/users/profile/${userId}/orderDetail/${order.order_id}`}>Xem chi tiết</Link>
+                    <Link to={`/users/profile/orderDetail/${order.order_id}`}>Xem chi tiết</Link>
                 </div>
             </div>
         </Col>

@@ -14,6 +14,7 @@ import Footer from '../components/footer';
 import imageUser from '../images/default-avatar-user.png';
 import { formatDate } from '../common/formatDate';
 
+let userId = localStorage.getItem('userId');
 export default class userProfile extends Component {
     constructor(props) {
         super(props);
@@ -62,7 +63,6 @@ export default class userProfile extends Component {
     }
 
     componentDidMount() {
-        const userId = this.props.match.params.userId;
         axios.get(`/users/profile/?userId=${userId}`, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -150,7 +150,6 @@ export default class userProfile extends Component {
     }
 
     onSubmit() {
-        const userId = this.props.match.params.userId;
         let { address, email, phone, username,
             gender, dob
         } = this.state;
@@ -217,7 +216,6 @@ export default class userProfile extends Component {
     }
 
     onSubmitChangePassword() {
-        const userId = this.props.match.params.userId;
         axios.patch('/users/update/' + userId, {
             "password": this.state.newPassword
         }, {
@@ -237,7 +235,6 @@ export default class userProfile extends Component {
     }
 
     updateImage() {
-        const userId = this.props.match.params.userId;
         let formData = new FormData();
         let imageId = this.state.userImage;
         formData.append('file', this.state.images[0].file);
@@ -269,7 +266,6 @@ export default class userProfile extends Component {
             nestedModalChange, closeAllChange, images
         } = this.state;
 
-        const userId = this.props.match.params.userId;
 
         let image;
         if (userImage === '') {
@@ -283,13 +279,13 @@ export default class userProfile extends Component {
                 <TopMenu />
                 <Nav pills className="restaurant-detail-nav container">
                     <NavItem className="active">
-                        <Link to={`/users/profile/${userId}`}>Hồ sơ</Link>
+                        <Link to={`/users/profile`}>Hồ sơ</Link>
                     </NavItem>
                     <NavItem>
-                        <Link to={`/users/profile/${userId}/order`}>Đơn của tôi</Link>
+                        <Link to={`/users/profile/order`}>Đơn của tôi</Link>
                     </NavItem>
                     <NavItem>
-                        <Link to={`/users/profile/${userId}/my-restaurant`}>Nhà hàng của tôi</Link>
+                        <Link to={`/users/profile/my-restaurant`}>Nhà hàng của tôi</Link>
                     </NavItem>
                     <NavItem>
                         <Link to={``}>Ví FBS</Link>
