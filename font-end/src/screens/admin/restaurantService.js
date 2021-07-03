@@ -50,6 +50,10 @@ export default function RestaurantService(props) {
             })
     }
 
+    const Logout = () => {
+        localStorage.removeItem('currentAdmin');
+    }
+
     return (
         <div className={`admin ${toggled ? 'toggled' : ''}`}>
             <SlideBar
@@ -63,7 +67,7 @@ export default function RestaurantService(props) {
                     <div className="btn-toggle" onClick={() => handleToggleSidebar(true)}>
                         <FaBars />
                     </div>
-                    <div>Đăng xuất</div>
+                    <Link className="btn btn-primary" to='/login' onClick={Logout}>Đăng xuất</Link>
                 </div>
                 <Nav pills className="restaurant-detail-nav admin-res-nav container">
                     <NavItem >
