@@ -98,6 +98,10 @@ export default function Cart(props) {
                     "tableType": parseInt(typeTable),
                     "numberOfGuests": customerQuantity,
                     "note": note
+                }, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
                 }).then(res => {
                     items.forEach(item => {
                         if (item.dish_name) {
@@ -139,13 +143,21 @@ export default function Cart(props) {
 
                     let json = JSON.stringify(arr);
                     const config = {
-                        headers: { 'Content-Type': 'application/json' }
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                        }
                     }
 
-                    axios.post(`/orders/insertOrderDetail`, json, config).then(res => {
-                    }).then(res => {
-                        axios.patch(`/orders/setStatus?customerId=${customerId}&restaurantId=${restaurantId}`)
-                            .then(res => {
+                    axios.post(`/orders/insertOrderDetail`, json, config)
+                        .then(res => {
+                            axios({
+                                method: 'PATCH',
+                                headers: {
+                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                },
+                                url: `/orders/setStatus?customerId=${customerId}&restaurantId=${restaurantId}`
+                            }).then(res => {
                                 updateCartMetadata({
                                     customerQuantity: 1,
                                     period: "",
@@ -156,7 +168,7 @@ export default function Cart(props) {
                                 emptyCart();
                                 setModalComfirm(!modalConfirm);
                             })
-                    })
+                        })
                 })
             })
     }

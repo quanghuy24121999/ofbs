@@ -158,7 +158,7 @@ export default class myRestaurantImage extends Component {
                         <hr />
                     </div>
                     <div className="myRes-image-add">
-                        <Button color="primary" onClick={this.toggle1}><FaRegPlusSquare className="btn-add-image"/>Thêm ảnh</Button>
+                        <Button color="primary" onClick={this.toggle1}><FaRegPlusSquare className="btn-add-image" />Thêm ảnh</Button>
                         <Modal isOpen={modal1} toggle={this.toggle1} className={``}>
                             <ModalHeader toggle={this.toggle1}>Thêm ảnh</ModalHeader>
                             <ModalBody>
@@ -191,9 +191,10 @@ export default class myRestaurantImage extends Component {
                                 </ImageUploading>
                             </ModalBody>
                             <ModalFooter>
-                                <Button color="success" onClick={imageUploads.length > 0 && this.toggle}>
-                                    Ok
-                                </Button>{' '}
+                                {imageUploads.length > 0 &&
+                                    <Button color="success" onClick={this.toggle}>
+                                        Ok
+                                    </Button>}
                                 <Button color="secondary" onClick={this.toggle1}>Hủy</Button>{' '}
                             </ModalFooter>
                         </Modal>

@@ -3,8 +3,7 @@ import SlideBar from '../../components/admin/SlideBar';
 import { FaBars } from 'react-icons/fa';
 import {
     Row, Col, NavItem, Nav, Container,
-    Input, Label, Button, Modal, ModalHeader, ModalBody,
-    ModalFooter, CardImg, Alert
+    Label,CardImg
 } from 'reactstrap';
 import axios from 'axios';
 import { Link } from 'react-router-dom';

@@ -30,7 +30,11 @@ export default class orderCustomerDetail extends Component {
     componentDidMount() {
         const orderId = this.props.match.params.orderId;
 
-        axios.get(`/orders/orderDetail/infor?orderId=${orderId}`)
+        axios.get(`/orders/orderDetail/infor?orderId=${orderId}`, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
             .then(res => {
                 this.setState({
                     restaurantInfo: res.data[0],

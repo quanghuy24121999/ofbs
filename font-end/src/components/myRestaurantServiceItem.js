@@ -142,7 +142,11 @@ export default function MyRestaurantServiceItem(props) {
                         "price": price,
                         "restaurant": restaurant,
                         "serviceCategory": { id: category, name: serviceCategory }
+                    }, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
+                }
                 )
                     .then(res => {
                         toggle();
@@ -188,7 +192,7 @@ export default function MyRestaurantServiceItem(props) {
                                             item.image_service_id
                                         )}
                                     >
-                                        <FaEdit className="icon-edit"/>Sửa
+                                        <FaEdit className="icon-edit" />Sửa
                                     </Button></td>
                                 </tr>
                                 )

@@ -183,7 +183,11 @@ export default function MyRestaurantComboItem(props) {
                         "price": price,
                         "restaurant": restaurant,
                         "status": { id: status, name: dishStatus }
+                    }, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
+                }
                 )
                     .then(res => {
                         toggle();
@@ -263,8 +267,8 @@ export default function MyRestaurantComboItem(props) {
                                         onChange={onChangeStatus}
                                         value={status}
                                     >
-                                        <option value="1">Đang hoạt động</option>
-                                        <option value="2">Ngừng hoạt động</option>
+                                        <option value="1">Đang kinh doanh</option>
+                                        <option value="2">Ngừng kinh doanh</option>
                                     </Input>
 
                                     <Label for="price"><b>Giá combo:</b></Label>
@@ -310,7 +314,7 @@ export default function MyRestaurantComboItem(props) {
                                     }
                                 </tbody>
                             </Table>
-                            
+
                             <Button color="primary" onClick={toggle1}>Thêm món ăn vào combo</Button>
                             <h5 className="price-tempt">{'Giá combo tạm tính: ' + formatCurrency(priceDish) + ' VNĐ'}</h5>
                             <Modal isOpen={modal1} toggle={toggle1} className="modal-add-dish-to-combo">

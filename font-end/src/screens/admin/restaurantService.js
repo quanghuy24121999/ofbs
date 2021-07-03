@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import SlideBar from '../../components/admin/SlideBar';
 import { FaBars } from 'react-icons/fa';
 import {
-    Row, Col, NavItem, Nav, Container, CardImg, Table
+    NavItem, Nav, Container, Table
 } from 'reactstrap';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';

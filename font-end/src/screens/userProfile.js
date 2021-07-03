@@ -63,7 +63,11 @@ export default class userProfile extends Component {
 
     componentDidMount() {
         const userId = this.props.match.params.userId;
-        axios.get(`/users/profile/?userId=${userId}`)
+        axios.get(`/users/profile/?userId=${userId}`, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
             .then(res => {
                 this.setState({
                     user: res.data,
@@ -158,8 +162,16 @@ export default class userProfile extends Component {
             "name": username,
             "gender": gender,
             "dateOfBirth": dob
+        }, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
         }).then(res => {
-            axios.get(`/users/profile/?userId=${userId}`)
+            axios.get(`/users/profile/?userId=${userId}`, {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            })
                 .then(res => {
                     this.setState({
                         user: res.data,
@@ -208,6 +220,10 @@ export default class userProfile extends Component {
         const userId = this.props.match.params.userId;
         axios.patch('/users/update/' + userId, {
             "password": this.state.newPassword
+        }, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
         })
         this.toggleAllChange();
     }
@@ -219,23 +235,6 @@ export default class userProfile extends Component {
     displayImage() {
         document.getElementById("user-image").style.display = "block";
     }
-
-    // updateImage() {
-    //     const userId = this.props.match.params.userId;
-    //     document.getElementById('error-form4').style.display = "none";
-    //     axios.delete(`/images/delete?userId=${userId}`)
-    //         .then(res => {
-    //             let formData = new FormData();
-    //             formData.append('file', this.state.images[0].file);
-    //             axios.post(`/images/upload?userId=${userId}&dishId=0&serviceId=0&comboId=0&restaurantId=0&promotionId=0&typeId=1`,
-    //                 formData, {
-    //             }).then(res => {
-    //                 window.location.reload();
-    //             }).catch(err => {
-    //                 document.getElementById('error-form4').style.display = "block";
-    //             })
-    //         })
-    // }
 
     updateImage() {
         const userId = this.props.match.params.userId;
@@ -278,14 +277,6 @@ export default class userProfile extends Component {
         } else {
             image = <CardImg id="user-image" className="user-profile-image" top src={'/images/' + user.image_id} />
         }
-
-        // if (gender === true || gender === "1") {
-        //     genderValue = "1"
-        // } else if (gender === false || gender === "0") {
-        //     genderValue = "0"
-        // } else {
-        //     genderValue = "2"
-        // }
 
         return (
             <div>

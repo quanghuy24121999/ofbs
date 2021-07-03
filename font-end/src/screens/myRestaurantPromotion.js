@@ -127,7 +127,11 @@ export default class myRestaurantPromotion extends Component {
                         "startDate": start,
                         "endDate": end,
                         "status": { id: 1, name: 'active' }
+                    }, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
+                }
                 )
                     .then(res => {
                         this.toggle();

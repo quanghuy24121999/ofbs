@@ -151,7 +151,11 @@ export default class myRestaurantMenu extends Component {
                         "price": price,
                         "restaurant": restaurant,
                         "menuCategory": { id: category, name: menuCategory }
+                    }, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
+                }
                 )
                     .then(res => {
                         this.toggle();
@@ -179,9 +183,13 @@ export default class myRestaurantMenu extends Component {
 
     };
 
+    componentWillUnmount() {
+        this.setState({ dishesPaging: []});
+    }
+
     receivedData(categoryId, nameSearch) {
         const restaurantId = this.props.match.params.restaurantId;
-        axios.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=${categoryId}&dishName=${nameSearch}&statusId=1`)
+        axios.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=${categoryId}&dishName=${nameSearch}&statusId=0`)
             .then(res => {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)

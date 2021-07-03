@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import {
     Nav, NavItem, Container, Row, Col, Table,
-    Label, Input, Button, Modal, ModalHeader,
-    ModalBody, ModalFooter, Alert, CardImg
+    Input, Button,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -54,7 +53,11 @@ export default class myRestaurantOrder extends Component {
 
     receivedData(orderCode) {
         const restaurantId = this.props.match.params.restaurantId;
-        axios.get(`/orders/restaurant?restaurantId=${restaurantId}&orderCode=${orderCode}`)
+        axios.get(`/orders/restaurant?restaurantId=${restaurantId}&orderCode=${orderCode}`, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
             .then(res => {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)

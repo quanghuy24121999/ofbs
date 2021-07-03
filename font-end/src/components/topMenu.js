@@ -32,6 +32,7 @@ const TopMenu = () => {
     const logout = (e) => {
         e.preventDefault();
         localStorage.removeItem('currentUser');
+        localStorage.removeItem('token');
         setIsLogout(true);
     }
 

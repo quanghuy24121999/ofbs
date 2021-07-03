@@ -29,7 +29,11 @@ function Order() {
     };
 
     const search = () => {
-        axios.get(`/orders/searchOrder?orderCode=${orderCode}`)
+        axios.get(`/orders/searchOrder?orderCode=${orderCode}`, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
             .then(res => {
                 setRestaurantInfo(res.data[0]);
                 setOrderDetailInfo(res.data[0]);

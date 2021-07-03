@@ -32,6 +32,7 @@ import edu.fpt.ofbs.jwt.JwtTokenProvider;
 import edu.fpt.ofbs.models.CustomUserDetails;
 import edu.fpt.ofbs.models.IUserDTO;
 import edu.fpt.ofbs.models.RegisterUserDTO;
+import edu.fpt.ofbs.models.ResponseJwt;
 import edu.fpt.ofbs.service.RoleService;
 import edu.fpt.ofbs.service.StatusService;
 import edu.fpt.ofbs.service.UserService;
@@ -89,17 +90,17 @@ public class UserController {
 		if (userLogin != null) {
 			try {
 				// Xác thực từ username và password.
-				Authentication authentication = authenticationManager
-						.authenticate(new UsernamePasswordAuthenticationToken(user.getPhoneLogin(), user.getPassword()));
+				Authentication authentication = authenticationManager.authenticate(
+						new UsernamePasswordAuthenticationToken(user.getPhoneLogin(), user.getPassword()));
 				// Nếu không xảy ra exception tức là thông tin hợp lệ
 				// Set thông tin authentication vào Security Context
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 
 				// Trả về jwt cho người dùng.
 				String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
-				
-				return ResponseEntity.status(HttpStatus.OK).body(jwt);
-			}catch (Exception e) {
+
+				return ResponseEntity.status(HttpStatus.OK).body(new ResponseJwt(userLogin, jwt));
+			} catch (Exception e) {
 				return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 			}
 		}
@@ -113,6 +114,7 @@ public class UserController {
 			newUser.setPhoneLogin(user.getPhoneLogin());
 			newUser.setName(user.getName());
 			newUser.setPhoneNumber(user.getPhoneNumber());
+			newUser.setPassword(passwordEncoder.encode(user.getPassword()));
 
 			Status status = statusService.findStatusById(1);
 			newUser.setStatus(status);

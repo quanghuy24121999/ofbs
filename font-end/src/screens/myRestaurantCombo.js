@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    Nav, NavItem, Container, Row, Col, Table,
+    Nav, NavItem, Container, Table,
     Label, Input, Button, Modal, ModalHeader,
     ModalBody, ModalFooter, Alert, CardImg
 } from 'reactstrap';
@@ -123,7 +123,11 @@ export default class myRestaurantCombo extends Component {
                         "description": description,
                         "price": price,
                         "restaurant": restaurant
+                    }, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
+                }
                 )
                     .then(res => {
                         this.toggle();

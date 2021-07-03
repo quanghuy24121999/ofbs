@@ -124,7 +124,7 @@ export default function MyRestaurantMenuItem(props) {
                     default:
                         break;
                 }
-                
+
                 axios.post(`/dishes/save`,
                     {
                         "id": dish.id,
@@ -134,7 +134,11 @@ export default function MyRestaurantMenuItem(props) {
                         "price": price,
                         "restaurant": restaurant,
                         "menuCategory": { id: category, name: dishCategory }
+                    }, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
+                }
                 )
                     .then(res => {
                         toggle();
@@ -231,8 +235,8 @@ export default function MyRestaurantMenuItem(props) {
                                 onChange={onChangeStatus}
                                 value={status}
                             >
-                                <option value="1">Đang hoạt động</option>
-                                <option value="2">Ngừng hoạt động</option>
+                                <option value="1">Đang kinh doanh</option>
+                                <option value="2">Ngừng kinh doanh</option>
                             </Input>
 
                             <Label for="price"><b>Giá món ăn:</b></Label>

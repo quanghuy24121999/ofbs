@@ -266,7 +266,11 @@ export default class myRestaurantDetail extends Component {
                 "description": restaurantDescription,
                 "size": restaurantSize,
                 "providerType": restaurantType
+            }, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
+        }
         )
             .then(res => {
                 this.toggle();
@@ -312,7 +316,7 @@ export default class myRestaurantDetail extends Component {
         }
 
 
-        
+
         // document.getElementById('error-form4').style.display = "none";
         // axios.delete(`/images/delete?userId=${restaurantId}`)
         //     .then(res => {

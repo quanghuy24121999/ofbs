@@ -140,7 +140,11 @@ export default class registerPromotion extends Component {
                 "description": restaurantDescription,
                 "size": restaurantSize,
                 "providerType": restaurantType
+            }, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
+        }
         ).then(res => {
             this.updateImage(res.data.id);
             this.toggle1();
