@@ -1,5 +1,6 @@
 package edu.fpt.ofbs.controllers;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.websocket.server.PathParam;
@@ -30,26 +31,28 @@ import edu.fpt.ofbs.service.OrderService;
 public class OrderController {
 	@Autowired
 	private OrderService orderService;
-	
+
 	@Autowired
 	private OrderDetailService orderDetailService;
-	
+
 	@GetMapping("/customer")
-	public ResponseEntity<?> getOrderByCustomerId(@PathParam("customerId") long customerId, @PathParam("statusId") long statusId) {
+	public ResponseEntity<?> getOrderByCustomerId(@PathParam("customerId") long customerId,
+			@PathParam("statusId") long statusId) {
 		List<IOrderDTO> orders = orderService.getOrderByCustomerId(customerId, statusId);
 		return ResponseEntity.status(HttpStatus.OK).body(orders);
 	}
-	
+
 	@GetMapping("/restaurant")
-	public ResponseEntity<?> getOrderByRestaurantId(@PathParam("restaurantId") long restaurantId, @PathParam("orderCode") String orderCode) {
+	public ResponseEntity<?> getOrderByRestaurantId(@PathParam("restaurantId") long restaurantId,
+			@PathParam("orderCode") String orderCode) {
 		List<IOrderDTO> orders = orderService.getOrderByRestaurantId(restaurantId, orderCode);
 		return ResponseEntity.status(HttpStatus.OK).body(orders);
 	}
-	
+
 	@PostMapping("/insertOrder")
 	public ResponseEntity<?> insertOrder(@RequestBody OrderSaveDTO order) {
 		String message = "";
-		
+
 		try {
 			orderService.insertOrder(order);
 
@@ -60,11 +63,11 @@ public class OrderController {
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
 		}
 	}
-	
+
 	@PostMapping("/insertOrderDetail")
 	public ResponseEntity<?> insertOrderDetail(@RequestBody List<OrderDetailSaveDTO> orders) {
 		String message = "";
-		
+
 		try {
 			orderDetailService.insertOrderDetail(orders);
 
@@ -75,11 +78,11 @@ public class OrderController {
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
 		}
 	}
-	
+
 	@DeleteMapping("/deleteOrder")
 	public ResponseEntity<?> deleteOrder(@PathParam("orderId") long orderId) {
 		String message = "";
-		
+
 		try {
 			orderService.deleteOrder(orderId);
 
@@ -90,11 +93,11 @@ public class OrderController {
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
 		}
 	}
-	
+
 	@DeleteMapping("/deleteOrderDetail")
 	public ResponseEntity<?> deleteOrderDetail(@PathParam("orderId") long orderId) {
 		String message = "";
-		
+
 		try {
 			orderDetailService.deleteOrderDetail(orderId);
 
@@ -105,14 +108,15 @@ public class OrderController {
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
 		}
 	}
-	
+
 	@PatchMapping("/setStatus")
-	public ResponseEntity<?> setOrderStatus(@PathParam("customerId") long customerId, @PathParam("restaurantId") long restaurantId) {
+	public ResponseEntity<?> setOrderStatus(@PathParam("customerId") long customerId,
+			@PathParam("restaurantId") long restaurantId) {
 		String message = "";
-		
+
 		try {
 			orderService.setOrderStatus(customerId, restaurantId);
-			
+
 			message = "Update order status successfully !";
 			return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
 		} catch (Exception e) {
@@ -120,20 +124,20 @@ public class OrderController {
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
 		}
 	}
-	
+
 	@GetMapping("/orderDetail/infor")
 	public ResponseEntity<?> getOrderDetailByOrderId(@PathParam("orderId") long orderId) {
 		List<IOrderDetailDTO> orders = orderDetailService.getOrderDetailByOrderId(orderId);
 		return ResponseEntity.status(HttpStatus.OK).body(orders);
 	}
-	
+
 	@PatchMapping("/updateStatus")
 	public ResponseEntity<?> updateOrderStatus(@PathParam("orderId") long orderId, @PathParam("status") String status) {
 		String message = "";
-		
+
 		try {
 			orderService.updateOrderStatus(orderId, status);
-			
+
 			message = "Update order status successfully !";
 			return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
 		} catch (Exception e) {
@@ -141,10 +145,17 @@ public class OrderController {
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
 		}
 	}
-	
+
 	@GetMapping("/searchOrder")
 	public ResponseEntity<?> searchOrder(@PathParam("orderCode") String orderCode) {
 		List<IOrderDetailDTO> orders = orderDetailService.getOrderDetailByOrderCode(orderCode);
 		return ResponseEntity.status(HttpStatus.OK).body(orders);
+	}
+
+	@GetMapping("/getTotalOrderByStatus")
+	public ResponseEntity<?> getTotalOrderByStatus(@PathParam("status") String status,
+			@PathParam("fromDate") String fromDate, @PathParam("toDate") String toDate) {
+		int total = orderService.getTotalOrderByStatus(status, fromDate, toDate);
+		return ResponseEntity.status(HttpStatus.OK).body(total);
 	}
 }

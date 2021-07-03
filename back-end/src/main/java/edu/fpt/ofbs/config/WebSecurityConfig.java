@@ -66,10 +66,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and().authorizeRequests()
 				.antMatchers("/orders/orderDetail/infor").hasAnyRole("PROVIDER", "CUSTOMER", "ADMIN")
 				.antMatchers(HttpMethod.POST, "/restaurants").hasAnyRole("PROVIDER", "ADMIN")
-				.antMatchers("/users/profile", "/users/profile/**", "/orders/updateStatus",
-						"/orders/setStatus", "/orders/customer", "/orders/insertOrderDetail",
-						"/restaurants/registerRestaurant").hasAnyRole("PROVIDER", "CUSTOMER")
-				.antMatchers("/orders/searchOrder").hasRole("ADMIN")
+				.antMatchers("/users/profile", "/users/profile/**", "/orders/updateStatus", "/orders/setStatus",
+						"/orders/customer", "/restaurants/registerRestaurant", "/orders/insertOrderDetail").hasAnyRole("PROVIDER", "CUSTOMER")
+				.antMatchers("/orders/searchOrder", "/orders/getTotalOrderByStatus").hasRole("ADMIN")
 				.antMatchers(HttpMethod.POST, "/dishes").hasRole("PROVIDER")
 				.antMatchers(HttpMethod.DELETE, "/dishes").hasRole("PROVIDER")
 				.antMatchers("/combos/save", "/services/update", "/promotions/save", "/orders/restaurant").hasRole("PROVIDER")
