@@ -45,4 +45,8 @@ public class OrderService {
 	public void updateOrderStatus(long orderId, String status) {
 		orderRepository.updateOrderStatus(orderId, status);
 	}
+	
+	public int getTotalOrderByStatus(String status, String fromDate, String toDate) {
+		return orderRepository.getTotalOrderByStatus(status, fromDate, toDate);
+	}
 }
