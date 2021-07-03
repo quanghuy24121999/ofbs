@@ -141,6 +141,10 @@ export default class restaurantDetail extends Component {
                     axios({
                         method: 'post',
                         url: `/feedbacks/insertFeedback`,
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                        }
+                        ,
                         data: {
                             "feedback_content": textFeedback,
                             "user_id": currentUser.id,

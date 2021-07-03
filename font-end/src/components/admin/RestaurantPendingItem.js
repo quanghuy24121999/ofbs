@@ -23,17 +23,27 @@ export default function RestaurantPendingItem(props) {
     }
 
     const acceptRestaurant = () => {
-        axios.patch(`/restaurants/updateStatus?restaurantId=${restaurant.restaurant_id}&status=${restaurant.restaurant_status}&statusUpdate=active`)
-            .then(res => {
-                toggle();
-            })
+        axios({
+            method: 'PATCH',
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            },
+            url: `/restaurants/updateStatus?restaurantId=${restaurant.restaurant_id}&status=${restaurant.restaurant_status}&statusUpdate=active`
+        }).then(res => {
+            toggle();
+        })
     }
 
     const denyRestaurant = () => {
-        axios.patch(`/restaurants/updateStatus?restaurantId=${restaurant.restaurant_id}&status=${restaurant.restaurant_status}&statusUpdate=cancelled`)
-            .then(res => {
-                toggle1();
-            })
+        axios({
+            method: 'PATCH',
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            },
+            url: `/restaurants/updateStatus?restaurantId=${restaurant.restaurant_id}&status=${restaurant.restaurant_status}&statusUpdate=cancelled`
+        }).then(res => {
+            toggle1();
+        })
     }
 
     return (

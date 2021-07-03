@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import {
     Button, Modal, ModalHeader,
-    ModalBody, ModalFooter, Label,
-    CardImg
+    ModalBody, ModalFooter, CardImg
 } from 'reactstrap';
 import { FaEye } from 'react-icons/fa';
 import axios from 'axios';

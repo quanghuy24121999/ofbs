@@ -93,7 +93,11 @@ export default function MyRestaurantPromotionItem(props) {
                         "startDate": start,
                         "endDate": end,
                         "status": { id: 1, name: "active" }
+                    }, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
+                }
                 )
                     .then(res => {
                         toggle();

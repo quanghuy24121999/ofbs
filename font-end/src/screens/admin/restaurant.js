@@ -5,6 +5,7 @@ import {
     Container, Table
 } from 'reactstrap';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 import RestaurantPendingItem from '../../components/admin/RestaurantPendingItem';
 
@@ -23,6 +24,10 @@ function Restaurant() {
             })
     })
 
+    const Logout = () => {
+        localStorage.removeItem('currentAdmin');
+    }
+
     return (
         <div className={`admin ${toggled ? 'toggled' : ''}`}>
             <SlideBar
@@ -36,7 +41,7 @@ function Restaurant() {
                     <div className="btn-toggle" onClick={() => handleToggleSidebar(true)}>
                         <FaBars />
                     </div>
-                    <div>Đăng xuất</div>
+                    <Link className="btn btn-primary" to='/login' onClick={Logout}>Đăng xuất</Link>
                 </div>
                 <Container>
                     <h3>Các nhà hàng đang chờ duyệt</h3>

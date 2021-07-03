@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardImg, Col } from 'reactstrap';
+import { CardImg } from 'reactstrap';
 
 import StarRating from './starRating';
 import imageUser from '../images/default-avatar-user.png';

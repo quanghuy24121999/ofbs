@@ -6,6 +6,7 @@ import {
     Button, CardImg
 } from 'reactstrap';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 import OrderDetailDishItem from '../../components/orderDetailDishItem';
 import OrderDetailComboItem from '../../components/orderDetailComboItem';
@@ -29,7 +30,11 @@ function Order() {
     };
 
     const search = () => {
-        axios.get(`/orders/searchOrder?orderCode=${orderCode}`)
+        axios.get(`/orders/searchOrder?orderCode=${orderCode}`, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
             .then(res => {
                 setRestaurantInfo(res.data[0]);
                 setOrderDetailInfo(res.data[0]);
@@ -51,6 +56,10 @@ function Order() {
         orderStatus = 'Đã hủy';
     }
 
+    const Logout = () => {
+        localStorage.removeItem('currentAdmin');
+    }
+
     return (
         <div className={`admin ${toggled ? 'toggled' : ''}`}>
             <SlideBar
@@ -64,7 +73,7 @@ function Order() {
                     <div className="btn-toggle" onClick={() => handleToggleSidebar(true)}>
                         <FaBars />
                     </div>
-                    <div>Đăng xuất</div>
+                    <Link className="btn btn-primary" to='/login' onClick={Logout}>Đăng xuất</Link>
                 </div>
                 <Container>
                     <Row className="search-order">

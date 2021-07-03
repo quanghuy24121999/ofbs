@@ -41,6 +41,7 @@ import adminRestaurantCombo from './screens/admin/restaurantCombo';
 import adminRestaurantService from './screens/admin/restaurantService';
 
 import { CartProvider } from "react-use-cart";
+import { ProtectedRoute } from './common/checkAuthen';
 
 class App extends Component {
   render() {
@@ -71,14 +72,14 @@ class App extends Component {
             <Route exact path="/promotion" component={promotion} />
             <Route exact path="/provider-register" component={registerProvider} />
 
-            <Route exact path="/admin" component={admin} />
-            <Route exact path="/admin/order" component={order} />
-            <Route exact path="/admin/restaurant" component={restaurant} />
-            <Route exact path="/admin/restaurant/detail" component={adminRestaurantDetail} />
-            <Route exact path="/admin/restaurant/image" component={adminRestaurantImage} />
-            <Route exact path="/admin/restaurant/menu" component={adminRestaurantMenu} />
-            <Route exact path="/admin/restaurant/combo" component={adminRestaurantCombo} />
-            <Route exact path="/admin/restaurant/service" component={adminRestaurantService} />
+            <ProtectedRoute exact path="/admin" component={admin} />
+            <ProtectedRoute exact path="/admin/order" component={order} />
+            <ProtectedRoute exact path="/admin/restaurant" component={restaurant} />
+            <ProtectedRoute exact path="/admin/restaurant/detail" component={adminRestaurantDetail} />
+            <ProtectedRoute exact path="/admin/restaurant/image" component={adminRestaurantImage} />
+            <ProtectedRoute exact path="/admin/restaurant/menu" component={adminRestaurantMenu} />
+            <ProtectedRoute exact path="/admin/restaurant/combo" component={adminRestaurantCombo} />
+            <ProtectedRoute exact path="/admin/restaurant/service" component={adminRestaurantService} />
           </div>
         </Router>
       </CartProvider>

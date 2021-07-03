@@ -9,9 +9,12 @@ export default function DishComboItem(props) {
     let count = props.count;
 
     const deleteDish = () => {
-        axios.delete(`/dishes/removeDishFromCombo?comboId=${combo.combo_id}&dishId=${dish.id}`)
+        axios.delete(`/dishes/removeDishFromCombo?comboId=${combo.combo_id}&dishId=${dish.id}`, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
             .then(res => {
-
             })
     }
 

@@ -50,28 +50,30 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/users/login",
 												"/users/register",
-												"/users/update/",
-												"/images/**",
-												"/restaurants/registerRestaurant"
+												"/users/update/**",
+												"/users/findByPhoneNumber/**",
+												"/images/**"
 												).permitAll();
-		http.authorizeRequests().antMatchers(HttpMethod.GET, "/promotions").permitAll();
-		http.authorizeRequests().antMatchers(HttpMethod.GET, "/restaurants").permitAll();
-		http.authorizeRequests().antMatchers(HttpMethod.GET, "/dishes").permitAll();
-		http.authorizeRequests().antMatchers(HttpMethod.GET, "/feedbacks").permitAll();
-		http.authorizeRequests().antMatchers(HttpMethod.GET, "/combos").permitAll();
-		http.authorizeRequests().antMatchers(HttpMethod.GET, "/services").permitAll();
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/promotions/**").permitAll();
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/restaurants/**").permitAll();
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/dishes/**").permitAll();
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/feedbacks/**").permitAll();
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/combos/**").permitAll();
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/services/**").permitAll();
 		
 		http.cors().and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and().authorizeRequests()
 				.antMatchers("/orders/orderDetail/infor").hasAnyRole("PROVIDER", "CUSTOMER", "ADMIN")
 				.antMatchers(HttpMethod.POST, "/restaurants").hasAnyRole("PROVIDER", "ADMIN")
-				.antMatchers("/users/profile", "/orders/updateStatus", "/orders/setStatus").hasAnyRole("PROVIDER", "CUSTOMER")
+				.antMatchers("/users/profile", "/users/profile/**", "/orders/updateStatus",
+						"/orders/setStatus", "/orders/customer", "/orders/insertOrderDetail",
+						"/restaurants/registerRestaurant").hasAnyRole("PROVIDER", "CUSTOMER")
 				.antMatchers("/orders/searchOrder").hasRole("ADMIN")
 				.antMatchers(HttpMethod.POST, "/dishes").hasRole("PROVIDER")
 				.antMatchers(HttpMethod.DELETE, "/dishes").hasRole("PROVIDER")
 				.antMatchers("/combos/save", "/services/update", "/promotions/save", "/orders/restaurant").hasRole("PROVIDER")
-				.antMatchers("/orders/customer").hasRole("CUSTOMER")
+//				.antMatchers("/orders/customer").hasRole("CUSTOMER")
 				.anyRequest().authenticated();
 		
 		// Thêm một lớp Filter kiểm tra jwt

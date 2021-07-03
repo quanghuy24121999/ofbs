@@ -32,7 +32,11 @@ export default class orderCustomer extends Component {
 
     receivedData() {
         const userId = this.props.match.params.userId;
-        axios.get(`/orders/customer?customerId=${userId}&statusId=${this.state.status}`)
+        axios.get(`/orders/customer?customerId=${userId}&statusId=${this.state.status}`, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
             .then(res => {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
@@ -66,7 +70,11 @@ export default class orderCustomer extends Component {
             status: status
         }, () => {
             const userId = this.props.match.params.userId;
-            axios.get(`/orders/customer?customerId=${userId}&statusId=${this.state.status}`)
+            axios.get(`/orders/customer?customerId=${userId}&statusId=${this.state.status}`, {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            })
                 .then(res => {
                     const data = res.data;
                     const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)

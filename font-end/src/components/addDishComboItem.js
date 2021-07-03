@@ -40,7 +40,11 @@ export default function AddDishComboItem(props) {
                                 {
                                     "combo": comboApi,
                                     "dish": dishApi
+                                }, {
+                                headers: {
+                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
                                 }
+                            }
                             )
                                 .then(res => {
                                     toast.success("Thêm thành công !", {
@@ -64,7 +68,7 @@ export default function AddDishComboItem(props) {
                 pauseOnHover: true,
                 draggable: true,
                 progress: undefined,
-                });
+            });
         }
     }
 
@@ -75,6 +79,6 @@ export default function AddDishComboItem(props) {
             <td>{formatCurrency(dish.price) + ' VNĐ'}</td>
             <td>{dish.category_name}</td>
             <td><Button color="primary" onClick={addToCombo} >Thêm</Button><ToastContainer /></td>
-        </tr >  
+        </tr >
     )
 }

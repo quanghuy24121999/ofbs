@@ -47,13 +47,15 @@ class login extends Component {
       password: this.state.password
     })
       .then(res => {
-        if (res.data.role.id === 1) {
+        if (res.data.user.role.id === 1) {
           localStorage.setItem('currentAdmin', phone);
+          localStorage.setItem('token', res.data.token);
           this.setState({
             redirectAdmin: true
           });
         } else {
-        localStorage.setItem('currentUser', phone);
+          localStorage.setItem('currentUser', phone);
+          localStorage.setItem('token', res.data.token);
           this.setState({
             redirect: true
           });

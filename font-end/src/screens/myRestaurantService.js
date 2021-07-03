@@ -150,7 +150,11 @@ export default class myRestaurantService extends Component {
                         "price": price,
                         "restaurant": restaurant,
                         "serviceCategory": { id: category, name: serviceCategory }
+                    }, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
+                }
                 )
                     .then(res => {
                         this.toggle();
@@ -363,7 +367,10 @@ export default class myRestaurantService extends Component {
                             </Modal>
                         </Col>
                     </Row>
-                    <MyRestaurantServiceItem services={services} restaurantId={restaurantId} userId={userId} />
+                    {
+                        services.length > 0 &&
+                        <MyRestaurantServiceItem services={services} restaurantId={restaurantId} userId={userId} />
+                    }
                 </Container>
                 <Footer />
             </div>

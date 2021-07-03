@@ -45,7 +45,11 @@ export default function MyRestaurantOrderItem(props) {
     const toggle = () => {
         setModal(!modal);
         if (modal === false) {
-            axios.get(`/orders/orderDetail/infor?orderId=${order.order_id}`)
+            axios.get(`/orders/orderDetail/infor?orderId=${order.order_id}`, {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            })
                 .then(res => {
                     setOrderDetailInfo(res.data[0]);
                     setListOrderDetails(res.data);
@@ -68,29 +72,34 @@ export default function MyRestaurantOrderItem(props) {
             phoneLogin: currentUser,
             password: password
         }).then(res => {
-            axios.patch(`/orders/updateStatus?orderId=${order.order_id}&status=preparing`)
-                .then(res => {
-                    window.location.reload();
-                    toast.success("Nhận đơn thành công !", {
-                        position: "top-left",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                    });
-                }).catch(err => {
-                    toast.error('Nhận đơn không thành công !', {
-                        position: "top-left",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                    });
-                })
+            axios({
+                method: 'PATCH',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                },
+                url: `/orders/updateStatus?orderId=${order.order_id}&status=preparing`
+            }).then(res => {
+                window.location.reload();
+                toast.success("Nhận đơn thành công !", {
+                    position: "top-left",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            }).catch(err => {
+                toast.error('Nhận đơn không thành công !', {
+                    position: "top-left",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            })
         }).catch(err => {
             toast.error('Mật khẩu không đúng !', {
                 position: "top-left",
@@ -109,29 +118,34 @@ export default function MyRestaurantOrderItem(props) {
             phoneLogin: currentUser,
             password: password
         }).then(res => {
-            axios.patch(`/orders/updateStatus?orderId=${order.order_id}&status=cancelled`)
-                .then(res => {
-                    window.location.reload();
-                    toast.success("Hủy đơn thành công !", {
-                        position: "top-left",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                    });
-                }).catch(err => {
-                    toast.error('Hủy đơn không thành công !', {
-                        position: "top-left",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                    });
-                })
+            axios({
+                method: 'PATCH',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                },
+                url: `/orders/updateStatus?orderId=${order.order_id}&status=cancelled`
+            }).then(res => {
+                window.location.reload();
+                toast.success("Hủy đơn thành công !", {
+                    position: "top-left",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            }).catch(err => {
+                toast.error('Hủy đơn không thành công !', {
+                    position: "top-left",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            })
         }).catch(err => {
             toast.error('Mật khẩu không đúng !', {
                 position: "top-left",
@@ -150,29 +164,34 @@ export default function MyRestaurantOrderItem(props) {
             phoneLogin: currentUser,
             password: password
         }).then(res => {
-            axios.patch(`/orders/updateStatus?orderId=${order.order_id}&status=accomplished`)
-                .then(res => {
-                    window.location.reload();
-                    toast.success("Xác nhận hoành thành đơn hàng thành công !", {
-                        position: "top-left",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                    });
-                }).catch(err => {
-                    toast.error('Xác nhận hoành thành đơn hàng không thành công !', {
-                        position: "top-left",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                    });
-                })
+            axios({
+                method: 'PATCH',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                },
+                url: `/orders/updateStatus?orderId=${order.order_id}&status=accomplished`
+            }).then(res => {
+                window.location.reload();
+                toast.success("Xác nhận hoành thành đơn hàng thành công !", {
+                    position: "top-left",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            }).catch(err => {
+                toast.error('Xác nhận hoành thành đơn hàng không thành công !', {
+                    position: "top-left",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            })
         }).catch(err => {
             toast.error('Mật khẩu không đúng !', {
                 position: "top-left",
