@@ -7,7 +7,7 @@ import {
 
 import firebase from "../config/firebase";
 
-import TopMenu from '../components/topMenu';
+import TopMenu from '../components/common/topMenu';
 
 export default class forgetPassword extends Component {
     constructor() {

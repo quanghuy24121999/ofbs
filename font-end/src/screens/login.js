@@ -7,7 +7,7 @@ import { Link, Redirect } from "react-router-dom";
 
 import axios from 'axios';
 
-import TopMenu from '../components/topMenu';
+import TopMenu from '../components/common/topMenu';
 
 class login extends Component {
   constructor(props) {
@@ -55,6 +55,8 @@ class login extends Component {
           });
         } else {
           localStorage.setItem('currentUser', phone);
+          localStorage.setItem('userId', '');
+          localStorage.setItem('resId', '');
           localStorage.setItem('token', res.data.token);
           this.setState({
             redirect: true

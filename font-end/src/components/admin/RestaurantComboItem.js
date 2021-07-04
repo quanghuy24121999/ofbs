@@ -7,7 +7,7 @@ import {
 import { FaEye } from 'react-icons/fa';
 import axios from 'axios';
 
-import DishComboItem from './DishComboItem';
+import DishComboItem from '../restaurant/dishComboItem';
 
 export default function RestaurantComboItem(props) {
     const combo = props.combo;
