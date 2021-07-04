@@ -1,6 +1,5 @@
 package edu.fpt.ofbs.controllers;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.websocket.server.PathParam;
@@ -126,8 +125,9 @@ public class OrderController {
 	}
 
 	@GetMapping("/orderDetail/infor")
-	public ResponseEntity<?> getOrderDetailByOrderId(@PathParam("orderId") long orderId) {
-		List<IOrderDetailDTO> orders = orderDetailService.getOrderDetailByOrderId(orderId);
+	public ResponseEntity<?> getOrderDetailByOrderId(@PathParam("orderId") long orderId,
+			@PathParam("customerId") long customerId, @PathParam("restaurantId") long restaurantId) {
+		List<IOrderDetailDTO> orders = orderDetailService.getOrderDetailByOrderId(orderId, customerId, restaurantId);
 		return ResponseEntity.status(HttpStatus.OK).body(orders);
 	}
 
