@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import SlideBar from '../../components/admin/SlideBar';
-import { FaBars, FaSearch } from 'react-icons/fa';
+import { FaBars } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col, Input, Button, Label } from 'reactstrap';
+import { Container, Row, Col, Input, Label } from 'reactstrap';
 import { Pie } from 'react-chartjs-2';
 import axios from 'axios';
 
 import { formatDateForInput } from '../../common/formatDate';
 
 function Dashboard() {
+    let fromDate = new Date().setDate(new Date().getDate() - 7);
+    let toDate = new Date();
+
     const [toggled, setToggled] = useState(false);
-    const [from, setFrom] = useState(formatDateForInput(new Date()));
-    const [to, setTo] = useState(formatDateForInput(new Date()));
+    const [from, setFrom] = useState(formatDateForInput(fromDate));
+    const [to, setTo] = useState(formatDateForInput(toDate));
     const [pending, setPending] = useState(0);
     const [preparing, setPreparing] = useState(0);
     const [accomplished, setAccomplished] = useState(0);
@@ -81,48 +84,48 @@ function Dashboard() {
                     <Row className="dashboard-row">
                         <Col lg="8" md="12" sm="12">
                             <div>
-                                {(pending !== 0 && preparing !==0 && accomplished !==0
-                                && cancelled !== 0) ? < Pie
+                                {(pending !== 0 || preparing !== 0 || accomplished !== 0
+                                    || cancelled !== 0) ? < Pie
                                     id="myChart"
-                                data={{
-                                    labels: ["Đang chờ duyệt", "Chưa diễn ra", "Đã hoàn thành", "Đã hủy"],
-                                    datasets: [
-                                        {
-                                            label: ["Đơn hàng"],
-                                            data: [pending, preparing, accomplished, cancelled],
-                                            backgroundColor: [
-                                                '#831ae4d9',
-                                                '#5771cfd9',
-                                                '#12c32fd9',
-                                                '#db4646d9'
-                                            ],
-                                            borderColor: [
-                                                '#831ae4d9',
-                                                '#5771cfd9',
-                                                '#12c32fd9',
-                                                '#db4646d9'
-                                            ],
-                                            borderWidth: 1,
-                                        }
-                                    ]
-                                }}
-                                width={50}
-                                height={300}
-                                options={{
-                                    maintainAspectRatio: false,
-                                    responsive: true,
-                                    // scales: {
-                                    //     yAxes: [{
-                                    //         ticks: {
-                                    //             beginAtZero: true
-                                    //         }
-                                    //     }]
-                                    // }
-                                }}
+                                    data={{
+                                        labels: ["Đang chờ duyệt", "Chưa diễn ra", "Đã hoàn thành", "Đã hủy"],
+                                        datasets: [
+                                            {
+                                                label: ["Đơn hàng"],
+                                                data: [pending, preparing, accomplished, cancelled],
+                                                backgroundColor: [
+                                                    '#831ae4d9',
+                                                    '#5771cfd9',
+                                                    '#12c32fd9',
+                                                    '#db4646d9'
+                                                ],
+                                                borderColor: [
+                                                    '#831ae4d9',
+                                                    '#5771cfd9',
+                                                    '#12c32fd9',
+                                                    '#db4646d9'
+                                                ],
+                                                borderWidth: 1,
+                                            }
+                                        ]
+                                    }}
+                                    width={50}
+                                    height={300}
+                                    options={{
+                                        maintainAspectRatio: false,
+                                        responsive: true,
+                                        // scales: {
+                                        //     yAxes: [{
+                                        //         ticks: {
+                                        //             beginAtZero: true
+                                        //         }
+                                        //     }]
+                                        // }
+                                    }}
                                 /> : <p className="chart-title">
                                     Không có đơn hàng nào trong khoảng thời gian này !
                                 </p>
-                            }
+                                }
                             </div>
                             <p className="chart-title">Thống kê đơn hàng theo thời gian</p>
                         </Col>

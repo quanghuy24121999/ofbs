@@ -163,6 +163,7 @@ export default function MyRestaurantPromotionItem(props) {
                                         <div className="upload__image-wrapper">
                                             <CardImg id="user-image" className="promotion-profile-image" top src={`/images/${imageId}`} alt="khuyến mãi" />
                                             {imageList.map((image, index) => (
+                                                // eslint-disable-next-line no-sequences
                                                 (document.getElementById("user-image").style.display = "none"),
                                                 (
                                                     <div key={index} className="image-item">

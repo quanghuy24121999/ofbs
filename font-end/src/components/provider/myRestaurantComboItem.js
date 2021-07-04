@@ -43,7 +43,7 @@ export default function MyRestaurantComboItem(props) {
 
     const [offset, setOffset] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
-    const [perPage, setPerpage] = useState(10);
+    const [perPage] = useState(10);
     const [pageCount, setPageCount] = useState(0);
 
     const onChangeName = (e) => { setName(e.target.value) };
