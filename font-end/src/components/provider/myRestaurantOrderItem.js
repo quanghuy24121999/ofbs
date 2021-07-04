@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Button, Modal, ModalHeader,
     ModalBody, ModalFooter, Row,
@@ -13,6 +13,8 @@ import { formatCurrency } from '../../common/formatCurrency';
 import OrderDetailDishItem from '../order/orderDetailDishItem';
 import OrderDetailComboItem from '../order/orderDetailComboItem';
 import OrderDetailServiceItem from '../order/orderDetailServiceItem';
+
+let restaurantId = '';
 
 export default function MyRestaurantOrderItem(props) {
     const order = props.order;
@@ -42,10 +44,14 @@ export default function MyRestaurantOrderItem(props) {
         orderStatus = 'Đã hủy';
     }
 
+    useEffect(() => {
+        restaurantId = localStorage.getItem('resId');
+    })
+
     const toggle = () => {
         setModal(!modal);
         if (modal === false) {
-            axios.get(`/orders/orderDetail/infor?orderId=${order.order_id}`, {
+            axios.get(`/orders/orderDetail/infor?orderId=${order.order_id}&customerId=0&restaurantId=${restaurantId}`, {
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                 }

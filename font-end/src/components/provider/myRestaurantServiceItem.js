@@ -222,6 +222,7 @@ export default function MyRestaurantServiceItem(props) {
                                         <div className="upload__image-wrapper">
                                             <CardImg id="user-image" className="service-image" top src={`/images/${imageId}`} alt="Dịch vụ" />
                                             {imageList.map((image, index) => (
+                                                // eslint-disable-next-line no-sequences
                                                 (document.getElementById("user-image").style.display = "none"),
                                                 (
                                                     <div key={index} className="image-item">

@@ -20,7 +20,7 @@ export default function RestaurantService(props) {
     const [services, setServices] = useState([]);
     const [pageCount, setPageCount] = useState(0);
     const [offset, setOffset] = useState(0);
-    const [perPage, setPerpage] = useState(12);
+    const [perPage] = useState(12);
     const [currentPage, setCurrentPage] = useState(0);
 
     useEffect(() => {

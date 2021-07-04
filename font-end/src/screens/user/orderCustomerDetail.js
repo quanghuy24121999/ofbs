@@ -3,7 +3,7 @@ import {
     Container, Nav, NavItem, CardImg, Row, Col,
     Button
 } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 import TopMenu from '../../components/common/topMenu';
@@ -13,6 +13,7 @@ import OrderDetailComboItem from '../../components/order/orderDetailComboItem';
 import OrderDetailServiceItem from '../../components/order/orderDetailServiceItem';
 import { formatDate } from '../../common/formatDate';
 import { formatCurrency } from '../../common/formatCurrency';
+
 export default class orderCustomerDetail extends Component {
     constructor(props) {
         super(props);
@@ -29,24 +30,32 @@ export default class orderCustomerDetail extends Component {
 
     componentDidMount() {
         const orderId = this.props.match.params.orderId;
-
-        axios.get(`/orders/orderDetail/infor?orderId=${orderId}`, {
+        const customerId = localStorage.getItem('userId');
+        axios.get(`/orders/orderDetail/infor?orderId=${orderId}&customerId=${customerId}&restaurantId=0`, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
         })
             .then(res => {
-                this.setState({
-                    restaurantInfo: res.data[0],
-                    orderDetailInfo: res.data[0],
-                    listOrderDetails: res.data
-                });
+                console.log(res.data.length)
+                if (res.data.length === 0) {
+                    <Redirect to={
+                        {
+                            pathname: "/users/profile/order"
+                        }
+                    } />
+                } else {
+                    this.setState({
+                        restaurantInfo: res.data[0],
+                        orderDetailInfo: res.data[0],
+                        listOrderDetails: res.data
+                    });
+                }
             })
     }
 
     render() {
         const { listOrderDetails, restaurantInfo, orderDetailInfo } = this.state;
-
         let orderStatus = '';
         if (orderDetailInfo.order_status === 'pending') {
             orderStatus = 'Chờ duyệt';
@@ -60,9 +69,6 @@ export default class orderCustomerDetail extends Component {
         if (orderDetailInfo.order_status === 'cancelled') {
             orderStatus = 'Đã hủy';
         }
-
-        let organizeDate = formatDate(orderDetailInfo.organize_date);
-        let orderDate = formatDate(orderDetailInfo.order_date);
 
         return (
             <div>
@@ -105,9 +111,9 @@ export default class orderCustomerDetail extends Component {
                             <div className="od-info-code"><b>Mã số đơn hàng: </b>{orderDetailInfo.order_code}</div>
                             <div className="od-info-type"><b>Loại bàn: </b>{orderDetailInfo.table_type}</div>
                             <div className="od-info-guest-number"><b>Số lượng khách: </b>{orderDetailInfo.number_of_guests}</div>
-                            <div className="od-info-order-date"><b>Thời gian đặt: </b>{orderDate}</div>
+                            <div className="od-info-order-date"><b>Thời gian đặt: </b>{formatDate(orderDetailInfo.order_date)}</div>
                             <div className="od-info-organize-date">
-                                <b>Thời gian tổ chức: </b>{orderDetailInfo.time + ' ' + organizeDate}
+                                <b>Thời gian tổ chức: </b>{orderDetailInfo.time + ' ' + formatDate(orderDetailInfo.organize_date)}
                             </div>
                             <div className="od-info-note"><b>Ghi chú: </b>{orderDetailInfo.note}</div>
                             <div className="od-info-status"><b>Trạng thái: </b>{orderStatus}</div>

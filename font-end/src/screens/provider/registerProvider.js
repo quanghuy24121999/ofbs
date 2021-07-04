@@ -180,7 +180,7 @@ export default class registerPromotion extends Component {
     }
 
     render() {
-        const { provinces, districts, types, provinceCode, restaurantAddress, user,
+        const { provinces, districts, types, provinceCode, restaurantAddress,
             restaurantBusinessCode, restaurantDescription, restaurantName, restaurantPhone,
             restaurantSize, restaurantType, modal, modal1, images
         } = this.state;

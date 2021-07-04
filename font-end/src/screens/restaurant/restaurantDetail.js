@@ -214,7 +214,7 @@ export default class restaurantDetail extends Component {
     }
 
     render() {
-        const { images, restaurant, feedbacks, textFeedback,
+        const { images, restaurant, textFeedback,
             rating, displayModal, moveToLogin, promotions, numberRates
         } = this.state;
         const restaurantId = this.props.match.params.restaurantId;

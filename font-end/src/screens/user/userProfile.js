@@ -383,6 +383,7 @@ export default class userProfile extends Component {
                                     <div className="upload__image-wrapper">
                                         {image}
                                         {imageList.map((image, index) => (
+                                            // eslint-disable-next-line no-sequences
                                             (document.getElementById("user-image").style.display = "none"),
                                             (
                                                 <div key={index} className="image-item">
