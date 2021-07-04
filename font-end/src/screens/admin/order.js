@@ -8,9 +8,9 @@ import {
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-import OrderDetailDishItem from '../../components/orderDetailDishItem';
-import OrderDetailComboItem from '../../components/orderDetailComboItem';
-import OrderDetailServiceItem from '../../components/orderDetailServiceItem';
+import OrderDetailDishItem from '../../components/order/orderDetailDishItem';
+import OrderDetailComboItem from '../../components/order/orderDetailComboItem';
+import OrderDetailServiceItem from '../../components/order/orderDetailServiceItem';
 import { formatDate } from '../../common/formatDate';
 import { formatCurrency } from '../../common/formatCurrency';
 

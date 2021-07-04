@@ -4,7 +4,7 @@ import { Form, FormGroup, Label, Input, Toast,
     ToastBody, ToastHeader, Alert 
 } from 'reactstrap';
 
-import TopMenu from '../components/topMenu';
+import TopMenu from '../components/common/topMenu';
 import axios from "axios";
 
 class register extends Component {

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Container } from 'reactstrap';
 
-import TopMenu from '../components/topMenu';
-import Footer from '../components/footer';
+import TopMenu from '../components/common/topMenu';
+import Footer from '../components/common/footer';
 
 export default class errorPage extends Component {
     render() {

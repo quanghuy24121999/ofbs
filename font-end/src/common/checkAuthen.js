@@ -7,6 +7,8 @@ export const ProtectedRouteAdmin = ({ component: Component, ...rest }) => {
             (props) => {
                 if (localStorage.getItem('currentAdmin') !== null
                     && localStorage.getItem('currentAdmin') !== undefined
+                    && (localStorage.getItem('currentUser') === null
+                        || localStorage.getItem('currentUser') === undefined)
                 ) {
                     return <Component {...props} />
                 } else {

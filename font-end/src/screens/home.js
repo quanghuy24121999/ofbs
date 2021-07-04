@@ -8,11 +8,11 @@ import axios from 'axios';
 import subVn from "sub-vn";
 import Carousel from 'react-multi-carousel';
 
-import TopMenu from '../components/topMenu';
-import Footer from '../components/footer';
+import TopMenu from '../components/common/topMenu';
+import Footer from '../components/common/footer';
 import { Redirect } from 'react-router';
 import wallpaper from '../images/wallpaper.png';
-import RestaurantItem from '../components/restaurantItem';
+import RestaurantItem from '../components/restaurant/restaurantItem';
 
 const responsive = {
     desktop: {

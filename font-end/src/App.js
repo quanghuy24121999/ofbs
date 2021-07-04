@@ -14,23 +14,26 @@ import login from "./screens/login";
 import register from "./screens/register";
 import forgetPassword from "./screens/forget-password";
 import searchResult from "./screens/searchResult";
-import restaurantDetail from './screens/restaurantDetail';
-import menu from './screens/menu';
-import combo from './screens/combo';
-import service from './screens/service';
-import userProfile from './screens/userProfile';
-import orderCustomer from './screens/orderCustomer';
-import myRestaurant from './screens/myRestaurant';
-import myRestaurantDetail from './screens/myRestaurantDetail';
-import myRestaurantMenu from './screens/myRestaurantMenu';
-import myRestaurantCombo from './screens/myRestaurantCombo';
-import myRestaurantImage from './screens/myRestaurantImage';
-import myRestaurantService from './screens/myRestaurantService';
-import myRestaurantPromotion from './screens/myRestaurantPromotion';
-import myRestaurantOrder from './screens/myRestaurantOrder';
-import orderDetailCustomer from './screens/orderCustomerDetail';
-import promotion from './screens/promotion';
-import registerProvider from './screens/registerProvider';
+
+import restaurantDetail from './screens/restaurant/restaurantDetail';
+import menu from './screens/restaurant/menu';
+import combo from './screens/restaurant/combo';
+import service from './screens/restaurant/service';
+import promotion from './screens/restaurant/promotion';
+
+import userProfile from './screens/user/userProfile';
+import orderCustomer from './screens/user/orderCustomer';
+import orderDetailCustomer from './screens/user/orderCustomerDetail';
+
+import myRestaurant from './screens/provider/myRestaurant';
+import myRestaurantDetail from './screens/provider/myRestaurantDetail';
+import myRestaurantMenu from './screens/provider/myRestaurantMenu';
+import myRestaurantCombo from './screens/provider/myRestaurantCombo';
+import myRestaurantImage from './screens/provider/myRestaurantImage';
+import myRestaurantService from './screens/provider/myRestaurantService';
+import myRestaurantPromotion from './screens/provider/myRestaurantPromotion';
+import myRestaurantOrder from './screens/provider/myRestaurantOrder';
+import registerProvider from './screens/provider/registerProvider';
 
 import admin from './screens/admin/dashboard';
 import order from './screens/admin/order';

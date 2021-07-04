@@ -8,9 +8,9 @@ import {
 import subVn from "sub-vn";
 import ReactPaginate from 'react-paginate';
 
-import TopMenu from '../components/topMenu';
-import Footer from '../components/footer';
-import RestaurantItem from '../components/restaurantItem';
+import TopMenu from '../components/common/topMenu';
+import Footer from '../components/common/footer';
+import RestaurantItem from '../components/restaurant/restaurantItem';
 
 export default class searchResult extends Component {
     constructor(props) {
