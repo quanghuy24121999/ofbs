@@ -20,9 +20,9 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long>{
 	@Query(value = "DELETE FROM order_details WHERE order_id = ?1", nativeQuery = true)
 	void deleteOrderDetail(long orderId);
 	
-	@Query(value = "exec sp_getOrderDetailByOrderId ?1", nativeQuery = true)
-	List<IOrderDetailDTO> getOrderDetailByOrderId(long orderId);
+	@Query(value = "exec sp_getOrderDetailByOrderId ?1, ?2, ?3", nativeQuery = true)
+	List<IOrderDetailDTO> getOrderDetailByOrderId(long orderId, long customerId, long restaurantId);
 	
-	@Query(value = "SELECT id FROM orders WHERE order_code = ?1", nativeQuery = true)
-	long getOrderIdByOrderCode(String orderCode);
+	@Query(value = "exec sp_adminSearchOrder ?1", nativeQuery = true)
+	List<IOrderDetailDTO> getOrderIdByOrderCode(String orderCode);
 }

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -30,14 +31,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		try {
 			// Lấy jwt từ request
 			String jwt = getJwtFromRequest(request);
-
 			if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
 				// Lấy id user từ chuỗi jwt
 				Long userId = tokenProvider.getUserIdFromJWT(jwt);
 				// Lấy thông tin người dùng từ id
 				UserDetails userDetails = customUserDetailsService.loadUserById(userId);
-//				System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal() + "");
-				
+
 				if (userDetails != null) {
 					// Nếu người dùng hợp lệ, set thông tin cho Seturity Context
 					UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(

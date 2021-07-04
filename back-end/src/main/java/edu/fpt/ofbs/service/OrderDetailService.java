@@ -53,11 +53,11 @@ public class OrderDetailService {
 		orderDetailRepository.deleteOrderDetail(orderId);
 	}
 
-	public List<IOrderDetailDTO> getOrderDetailByOrderId(long orderId) {
-		return orderDetailRepository.getOrderDetailByOrderId(orderId);
+	public List<IOrderDetailDTO> getOrderDetailByOrderId(long orderId, long customerId, long restaurantId) {
+		return orderDetailRepository.getOrderDetailByOrderId(orderId, customerId, restaurantId);
 	}
 	
 	public List<IOrderDetailDTO> getOrderDetailByOrderCode(String orderCode){
-		return getOrderDetailByOrderId(orderDetailRepository.getOrderIdByOrderCode(orderCode));
+		return orderDetailRepository.getOrderIdByOrderCode(orderCode);
 	}
 }
