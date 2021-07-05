@@ -4,7 +4,6 @@ import {
     Form, FormGroup, Label, Input
 } from 'reactstrap';
 import axios from "axios";
-import { ToastContainer } from 'react-toastify';
 
 import TopMenu from '../components/common/topMenu';
 import { Notify } from '../common/notify';
@@ -175,7 +174,6 @@ class register extends Component {
                     <div id="recaptcha"></div>
                     <Input type="submit" value="Đăng ký" className="btn-register btn btn-success btn-forget-password" />
                 </Form>
-                <ToastContainer />
             </div>
         );
     }

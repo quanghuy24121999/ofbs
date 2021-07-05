@@ -3,7 +3,6 @@ import React from 'react';
 import {
     Button
 } from 'reactstrap';
-import { ToastContainer } from 'react-toastify';
 
 import { formatCurrency } from '../../common/formatCurrency';
 import { Notify } from '../../common/notify';
@@ -63,7 +62,7 @@ export default function AddDishComboItem(props) {
             <td>{dish.dish_name}</td>
             <td>{formatCurrency(dish.price) + ' VNĐ'}</td>
             <td>{dish.category_name}</td>
-            <td><Button color="primary" onClick={addToCombo} >Thêm</Button><ToastContainer /></td>
+            <td><Button color="primary" onClick={addToCombo} >Thêm</Button></td>
         </tr >
     )
 }

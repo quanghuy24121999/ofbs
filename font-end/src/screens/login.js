@@ -4,7 +4,6 @@ import {
 } from 'reactstrap';
 import { Link, Redirect } from "react-router-dom";
 import axios from 'axios';
-import { ToastContainer } from 'react-toastify';
 
 import TopMenu from '../components/common/topMenu';
 import { Notify } from '../common/notify';
@@ -48,13 +47,14 @@ class login extends Component {
     })
       .then(res => {
         if (res.data.user.role.id === 1) {
+          Notify("Đăng nhập thành công !", "success", "top-right");
           localStorage.setItem('currentAdmin', phone);
           localStorage.setItem('token', res.data.token);
           this.setState({
             redirectAdmin: true
           });
         } else {
-          Notify("Đăng nhập thành công !", "success", "top-right")
+          Notify("Đăng nhập thành công !", "success", "top-right");
           localStorage.setItem('currentUser', phone);
           localStorage.setItem('userId', '');
           localStorage.setItem('resId', '');
@@ -119,7 +119,6 @@ class login extends Component {
             <Link to="/register" className="link-register">Đăng kí tài khoản mới</Link>
           </div>
         </Form>
-        <ToastContainer/>
       </div>
   }
 }

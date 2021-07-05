@@ -5,6 +5,7 @@ import "react-multi-carousel/lib/styles.css";
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-pro-sidebar/dist/css/styles.css';
 import { CartProvider } from "react-use-cart";
+import { ToastContainer } from 'react-toastify';
 
 import './App.css';
 import './admin.scss';
@@ -45,8 +46,10 @@ import adminRestaurantCombo from './screens/admin/restaurantCombo';
 import adminRestaurantService from './screens/admin/restaurantService';
 import errorPage from './screens/errorPage';
 
-import { ProtectedRouteAdmin, ProtectedRouteCustomer, ProtectedRouteLogin, 
-  ProtectedRouteCustomerRestaurant } from './common/checkAuthen';
+import {
+  ProtectedRouteAdmin, ProtectedRouteCustomer, ProtectedRouteLogin,
+  ProtectedRouteCustomerRestaurant
+} from './common/checkAuthen';
 
 class App extends Component {
   render() {
@@ -92,6 +95,7 @@ class App extends Component {
             </Switch>
           </div>
         </Router>
+        <ToastContainer />
       </CartProvider>
     );
   }
