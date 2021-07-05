@@ -3,9 +3,9 @@ import React from 'react';
 import {
     Button
 } from 'reactstrap';
-import { ToastContainer, toast } from 'react-toastify';
 
 import { formatCurrency } from '../../common/formatCurrency';
+import { Notify } from '../../common/notify';
 
 export default function AddDishComboItem(props) {
     const dish = props.dish;
@@ -47,28 +47,12 @@ export default function AddDishComboItem(props) {
                             }
                             )
                                 .then(res => {
-                                    toast.success("Thêm thành công !", {
-                                        position: "top-left",
-                                        autoClose: 5000,
-                                        hideProgressBar: false,
-                                        closeOnClick: true,
-                                        pauseOnHover: true,
-                                        draggable: true,
-                                        progress: undefined,
-                                    });
+                                    Notify("Thêm thành công !", "success", "top-left");
                                 })
                         })
                 })
         } else {
-            toast.warn('Món ăn đã có trong combo', {
-                position: "top-left",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
+            Notify("Món ăn đã có trong combo !", "warning", "top-left");
         }
     }
 
@@ -78,7 +62,7 @@ export default function AddDishComboItem(props) {
             <td>{dish.dish_name}</td>
             <td>{formatCurrency(dish.price) + ' VNĐ'}</td>
             <td>{dish.category_name}</td>
-            <td><Button color="primary" onClick={addToCombo} >Thêm</Button><ToastContainer /></td>
+            <td><Button color="primary" onClick={addToCombo} >Thêm</Button></td>
         </tr >
     )
 }

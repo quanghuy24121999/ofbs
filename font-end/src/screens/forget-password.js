@@ -4,10 +4,11 @@ import {
     Form, FormGroup, Label, Input, Toast,
     ToastBody, ToastHeader, Alert
 } from 'reactstrap';
+import { ToastContainer } from 'react-toastify';
 
 import firebase from "../config/firebase";
-
 import TopMenu from '../components/common/topMenu';
+import { Notify } from '../common/notify';
 
 export default class forgetPassword extends Component {
     constructor() {
@@ -62,11 +63,7 @@ export default class forgetPassword extends Component {
         axios.get('/users/findByPhoneNumber/' + phoneNumber)
             .then(res => {
                 if (res.data !== null && res.data !== '') {
-                    document.getElementById('error-form1').style.display = "none";
-                    document.getElementById('error-form2').style.display = "none";
                     if (this.validateConfirmPassword() === true) {
-                        document.getElementById('error-form1').style.display = "none";
-                        document.getElementById('error-form2').style.display = "none";
 
                         let recapcha = new firebase.auth.RecaptchaVerifier("recaptcha");
                         firebase.auth().signInWithPhoneNumber(phoneNumber, recapcha)
@@ -78,30 +75,22 @@ export default class forgetPassword extends Component {
                                         axios.patch('/users/update/' + res.data.id, {
                                             "password": password
                                         })
-                                        document.getElementById('toast-message-success').style.display = "block";
-                                        window.setTimeout(() =>
-                                            document.getElementById('toast-message-success').style.display = "none"
-                                            , 5000
-                                        );
+                                        Notify("Đổi mật khẩu thành công !", "success", "top-right");
                                         recapcha.clear();
                                     })
                                     .catch((error) => {
                                         console.log(error);
-                                        document.getElementById('toast-message-error').style.display = "block";
-                                        window.setTimeout(() =>
-                                            document.getElementById('toast-message-error').style.display = "none"
-                                            , 5000
-                                        );
+                                        Notify("Đổi mật khẩu không thành công !", "error", "top-right");
                                         recapcha.clear();
                                     });
                             }).catch((error) => {
                                 console.log(error)
                             });
                     } else {
-                        document.getElementById('error-form2').style.display = "block";
+                        Notify("Mật khẩu không khớp !", "error", "top-right");
                     }
                 } else {
-                    document.getElementById('error-form1').style.display = "block";
+                    Notify("Số điện thoại không đúng !", "error", "top-right");
                 }
             });
     }
@@ -171,34 +160,9 @@ export default class forgetPassword extends Component {
                     </FormGroup>
                     {' '}
                     <div id="recaptcha"></div>
-                    <Alert color="danger" id="error-form1" className="error-form">
-                        Số điện thoại không đúng !
-                    </Alert>
-                    <Alert color="danger" id="error-form2" className="error-form">
-                        Mật khẩu không trùng !
-                    </Alert>
                     <Input type="submit" value="Gửi mã OTP" className="btn-register btn btn-success btn-forget-password" />
                 </Form>
-                <div className="p-3 bg-success my-2 rounded" id="toast-message-success">
-                    <Toast>
-                        <ToastHeader>
-                            Thành công
-                        </ToastHeader>
-                        <ToastBody>
-                            Bạn đã đổi mật khẩu thành công
-                        </ToastBody>
-                    </Toast>
-                </div>
-                <div className="p-3 bg-danger my-2 rounded" id="toast-message-error">
-                    <Toast>
-                        <ToastHeader>
-                            Thất bại
-                        </ToastHeader>
-                        <ToastBody>
-                            Bạn đổi mật khẩu không thành công
-                        </ToastBody>
-                    </Toast>
-                </div>
+                <ToastContainer />
             </div>
         )
     }

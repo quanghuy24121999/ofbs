@@ -1,12 +1,12 @@
 import { Component } from "react";
 import firebase from "../config/firebase";
-import { Form, FormGroup, Label, Input, Toast,
-    ToastBody, ToastHeader, Alert 
+import {
+    Form, FormGroup, Label, Input
 } from 'reactstrap';
-
-import TopMenu from '../components/common/topMenu';
 import axios from "axios";
 
+import TopMenu from '../components/common/topMenu';
+import { Notify } from '../common/notify';
 class register extends Component {
     constructor() {
         super();
@@ -69,11 +69,7 @@ class register extends Component {
         axios.get('/users/findByPhoneNumber/' + phone)
             .then(res => {
                 if (res.data === null || res.data === '') {
-                    document.getElementById('error-form1').style.display = "none";
-                    document.getElementById('error-form2').style.display = "none";
                     if (this.validateConfirmPassword() === true) {
-                        document.getElementById('error-form1').style.display = "none";
-                        document.getElementById('error-form2').style.display = "none";
                         let recapcha = new firebase.auth.RecaptchaVerifier("recaptcha");
                         firebase.auth().signInWithPhoneNumber(phone, recapcha)
                             .then(function (e) {
@@ -87,30 +83,22 @@ class register extends Component {
                                             password: password,
                                             phoneNumber: phone
                                         })
-                                        document.getElementById('toast-message-success').style.display = "block";
-                                        window.setTimeout(() =>
-                                            document.getElementById('toast-message-success').style.display = "none"
-                                            , 5000
-                                        );
+                                        Notify("Đăng ký thành công !", "success", "top-right");
                                         recapcha.clear();
                                     })
                                     .catch((error) => {
                                         console.log(error);
-                                        document.getElementById('toast-message-error').style.display = "block";
-                                        window.setTimeout(() =>
-                                            document.getElementById('toast-message-error').style.display = "none"
-                                            , 5000
-                                        );
+                                        Notify("Đăng ký thất bại !", "error", "top-right");
                                         recapcha.clear();
                                     });
                             }).catch((error) => {
                                 console.log(error)
                             });
                     } else {
-                        document.getElementById('error-form2').style.display = "block";
+                        Notify("Mật khẩu không khớp !", "error", "top-right");
                     }
                 } else {
-                    document.getElementById('error-form1').style.display = "block";
+                    Notify("Số điện thoại đã tồn tại !", "error", "top-right");
                 }
             });
     }
@@ -143,7 +131,7 @@ class register extends Component {
                             <span className="prefix-phone-input">(+84)</span>
                             <Input
                                 className="input-phone-number"
-                                type="text"
+                                type="tel"
                                 name="phoneNumber"
                                 id="phone-number"
                                 placeholder="Số điện thoại"
@@ -184,34 +172,8 @@ class register extends Component {
                     </FormGroup>
                     {' '}
                     <div id="recaptcha"></div>
-                    <Alert color="danger" id="error-form1" className="error-form">
-                        Số điện thoại đã tồn tại !
-                    </Alert>
-                    <Alert color="danger" id="error-form2" className="error-form">
-                        Mật khẩu không khớp !
-                    </Alert>
                     <Input type="submit" value="Đăng ký" className="btn-register btn btn-success btn-forget-password" />
                 </Form>
-                <div className="p-3 bg-success my-2 rounded" id="toast-message-success">
-                    <Toast>
-                        <ToastHeader>
-                            Thành công
-                        </ToastHeader>
-                        <ToastBody>
-                            Bạn đã đăng ký thành công
-                        </ToastBody>
-                    </Toast>
-                </div>
-                <div className="p-3 bg-danger my-2 rounded" id="toast-message-error">
-                    <Toast>
-                        <ToastHeader>
-                            Thất bại
-                        </ToastHeader>
-                        <ToastBody>
-                            Bạn đăng ký không thành công
-                        </ToastBody>
-                    </Toast>
-                </div>
             </div>
         );
     }
