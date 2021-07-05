@@ -1,8 +1,7 @@
 import axios from 'axios';
 import React, { Component } from 'react'
 import {
-    Form, FormGroup, Label, Input, Toast,
-    ToastBody, ToastHeader, Alert
+    Form, FormGroup, Label, Input, Button
 } from 'reactstrap';
 import { ToastContainer } from 'react-toastify';
 
@@ -10,6 +9,9 @@ import firebase from "../config/firebase";
 import TopMenu from '../components/common/topMenu';
 import { Notify } from '../common/notify';
 
+let userId = '';
+let recap = null;
+let event = '';
 export default class forgetPassword extends Component {
     constructor() {
         super();
@@ -17,15 +19,18 @@ export default class forgetPassword extends Component {
         this.state = {
             phoneNumber: "",
             password: "",
-            rePassword: ""
+            rePassword: "",
+            code: "",
         }
 
         this.onchangePhoneNumber = this.onchangePhoneNumber.bind(this);
         this.onchangePassword = this.onchangePassword.bind(this);
         this.onchangeRePassword = this.onchangeRePassword.bind(this);
+        this.onchangeCode = this.onchangeCode.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
         this.validateConfirmPassword = this.validateConfirmPassword.bind(this);
+        this.verifyCode = this.verifyCode.bind(this);
     }
 
     onchangePhoneNumber(e) {
@@ -36,7 +41,6 @@ export default class forgetPassword extends Component {
 
     onchangePassword(e) {
         this.setState({
-            // password: e.target.value.match(`^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)\S{6,15}$`)
             password: e.target.value
         });
     }
@@ -47,8 +51,13 @@ export default class forgetPassword extends Component {
         });
     }
 
+    onchangeCode(e) {
+        this.setState({
+            code: e.target.value
+        });
+    }
+
     updatePassword() {
-        console.log(this.state.userId);
         axios.patch('/update/' + this.state.userId, {
             "password": this.state.password
         })
@@ -57,34 +66,26 @@ export default class forgetPassword extends Component {
     handleClick(e) {
         e.preventDefault();
 
-        let { password } = this.state;
         let phoneNumber = this.state.phoneNumber;
         phoneNumber = '+84' + phoneNumber.substring(1, phoneNumber.length);
         axios.get('/users/findByPhoneNumber/' + phoneNumber)
             .then(res => {
                 if (res.data !== null && res.data !== '') {
                     if (this.validateConfirmPassword() === true) {
-
                         let recapcha = new firebase.auth.RecaptchaVerifier("recaptcha");
                         firebase.auth().signInWithPhoneNumber(phoneNumber, recapcha)
                             .then(function (e) {
-                                let code = prompt("Nhập mã OTP", "");
-                                if (code == null) return;
-                                e.confirm(code)
-                                    .then(function (result) {
-                                        axios.patch('/users/update/' + res.data.id, {
-                                            "password": password
-                                        })
-                                        Notify("Đổi mật khẩu thành công !", "success", "top-right");
-                                        recapcha.clear();
-                                    })
-                                    .catch((error) => {
-                                        console.log(error);
-                                        Notify("Đổi mật khẩu không thành công !", "error", "top-right");
-                                        recapcha.clear();
-                                    });
+                                userId = res.data.id;
+                                recap = recapcha;
+                                event = e;
+
+                                document.getElementById('verify-code').style.display = "flex";
+                                document.getElementById('recaptcha').style.display = "none";
+                                document.getElementById('btn-forget-password').style.display = "none";
                             }).catch((error) => {
-                                console.log(error)
+                                recapcha.clear();
+                                console.log(error);
+                                Notify("Lỗi hệ thống !", "error", "top-right");
                             });
                     } else {
                         Notify("Mật khẩu không khớp !", "error", "top-right");
@@ -105,6 +106,29 @@ export default class forgetPassword extends Component {
         }
     }
 
+    verifyCode(userId, recapcha, e) {
+        let code = this.state.code;
+        let password = this.state.password;
+        if (code === null || code === '') return;
+
+        e.confirm(code)
+            .then(function (result) {
+                axios.patch('/users/update/' + userId, {
+                    "password": password
+                }).then(res => {
+                    Notify("Đổi mật khẩu thành công !", "success", "top-right");
+                    recapcha.clear();
+                    window.location.reload();
+                })
+            })
+            .catch((error) => {
+                console.log(error);
+                Notify("Mã OTP không chính xác !", "error", "top-right");
+                recapcha.clear();
+                window.location.reload();
+            });
+    }
+
     render() {
         let { phoneNumber, password, rePassword } = this.state;
 
@@ -114,7 +138,9 @@ export default class forgetPassword extends Component {
                 <Form inline className="form-forget-password" onSubmit={this.handleClick}>
                     <div className="title-foget-password">Quên mật khẩu</div>
                     <FormGroup>
-                        <Label for="phone-number" hidden>Số điện thoại:  </Label>
+                        <Label for="phone-number">
+                            <b>Số điện thoại: <span className="require-icon">*</span></b>
+                        </Label>
                         <div className="phone-number-input">
                             <span className="prefix-phone-input">(+84)</span>
                             <Input
@@ -131,7 +157,9 @@ export default class forgetPassword extends Component {
                     </FormGroup>
                     {' '}
                     <FormGroup>
-                        <Label for="new-password" hidden>Mật khẩu mới:</Label>
+                        <Label for="new-password">
+                            <b>Mật khẩu mới: <span className="require-icon">*</span></b>
+                        </Label>
                         <Input
                             type="password"
                             name="newPassword"
@@ -145,7 +173,9 @@ export default class forgetPassword extends Component {
                     </FormGroup>
                     {' '}
                     <FormGroup>
-                        <Label for="re-new-password" hidden>Nhập lại mật khẩu mới:</Label>
+                        <Label for="re-new-password">
+                            <b>Nhập lại mật khẩu mới: <span className="require-icon">*</span></b>
+                        </Label>
                         <Input
                             type="password"
                             name="reNewPassword"
@@ -155,13 +185,37 @@ export default class forgetPassword extends Component {
                             onChange={this.onchangeRePassword}
                             required="required"
                             pattern={`[A-Za-z\d@$!%*#?&]{3,127}$]`}
-                        // onBlur={this.onBlurRePassword(password, rePassword)}
                         />
                     </FormGroup>
                     {' '}
                     <div id="recaptcha"></div>
-                    <Input type="submit" value="Gửi mã OTP" className="btn-register btn btn-success btn-forget-password" />
+
+                    <Input
+                        type="submit"
+                        value="Gửi mã OTP"
+                        className="btn-register btn btn-success btn-forget-password"
+                        id="btn-forget-password"
+                    />
+                    <Form id="verify-code">
+                        <b><span className="require-icon">*</span></b>
+                        <Input
+                            type="text"
+                            id="code"
+                            onChange={this.onchangeCode}
+                            value={this.state.code}
+                            required="required"
+                            placeholder="Nhập mã OTP"
+                        />
+                        <Button
+                            id="btn-code"
+                            color="primary"
+                            onClick={() => this.verifyCode(userId, recap, event)}
+                        >
+                            Xác nhận
+                        </Button>
+                    </Form>
                 </Form>
+
                 <ToastContainer />
             </div>
         )

@@ -6,11 +6,15 @@ body {
   /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
 }
 
-/*================================================== VARIABLES ================================================== */
+/*================================================== VARIABLES & COMMON ================================================== */
 :root {
   --color-primary: #198754;
   --text-color: #fff;
   --text-hover: #e7e7e7;
+}
+
+.require-icon {
+  color: red;
 }
 
 /*================================================== TOP MENU ================================================== */
@@ -761,6 +765,30 @@ hr {
   top: 70px;
   /* transform: translateX(calc(100% + 32px)); */
   animation: toastMessage linear 0.3s, fadeOut linear 1 5s;
+}
+
+#verify-code {
+  margin-top: 20px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+#verify-code > b > .require-icon {
+  margin-right: 5px;
+}
+
+#code, #btn-code {
+  width: 20px;
+}
+
+#code {
+  flex-grow: 2;
+  margin-right: 10px;
+}
+
+#btn-code {
+  flex-grow: 1;
 }
 
 @keyframes toastMessage {
