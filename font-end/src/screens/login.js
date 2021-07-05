@@ -1,13 +1,13 @@
 import { Component } from 'react';
 import {
-  Form, FormGroup, Label, Input, Toast,
-  ToastBody, ToastHeader
+  Form, FormGroup, Label, Input
 } from 'reactstrap';
 import { Link, Redirect } from "react-router-dom";
-
 import axios from 'axios';
+import { ToastContainer } from 'react-toastify';
 
 import TopMenu from '../components/common/topMenu';
+import { Notify } from '../common/notify';
 
 class login extends Component {
   constructor(props) {
@@ -54,6 +54,7 @@ class login extends Component {
             redirectAdmin: true
           });
         } else {
+          Notify("Đăng nhập thành công !", "success", "top-right")
           localStorage.setItem('currentUser', phone);
           localStorage.setItem('userId', '');
           localStorage.setItem('resId', '');
@@ -64,11 +65,7 @@ class login extends Component {
         }
       }).catch((error) => {
         console.log(error)
-        document.getElementById('toast-message-error').style.display = "block";
-        window.setTimeout(() =>
-          document.getElementById('toast-message-error').style.display = "none"
-          , 5000
-        );
+        Notify("Tài khoản hoặc mật khẩu không chính xác !", "error", "top-right");
       });
   }
 
@@ -122,27 +119,7 @@ class login extends Component {
             <Link to="/register" className="link-register">Đăng kí tài khoản mới</Link>
           </div>
         </Form>
-
-        <div className="p-3 bg-success my-2 rounded" id="toast-message-success">
-          <Toast>
-            <ToastHeader>
-              Thành công
-            </ToastHeader>
-            <ToastBody>
-              Đăng nhập thành công
-            </ToastBody>
-          </Toast>
-        </div>
-        <div className="p-3 bg-danger my-2 rounded" id="toast-message-error">
-          <Toast>
-            <ToastHeader>
-              Thất bại
-            </ToastHeader>
-            <ToastBody>
-              Số điện thoại hoặc Mật khẩu không chính xác
-            </ToastBody>
-          </Toast>
-        </div>
+        <ToastContainer/>
       </div>
   }
 }

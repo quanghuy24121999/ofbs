@@ -3,9 +3,10 @@ import React from 'react';
 import {
     Button
 } from 'reactstrap';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
 import { formatCurrency } from '../../common/formatCurrency';
+import { Notify } from '../../common/notify';
 
 export default function AddDishComboItem(props) {
     const dish = props.dish;
@@ -47,28 +48,12 @@ export default function AddDishComboItem(props) {
                             }
                             )
                                 .then(res => {
-                                    toast.success("Thêm thành công !", {
-                                        position: "top-left",
-                                        autoClose: 5000,
-                                        hideProgressBar: false,
-                                        closeOnClick: true,
-                                        pauseOnHover: true,
-                                        draggable: true,
-                                        progress: undefined,
-                                    });
+                                    Notify("Thêm thành công !", "success", "top-left");
                                 })
                         })
                 })
         } else {
-            toast.warn('Món ăn đã có trong combo', {
-                position: "top-left",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
+            Notify("Món ăn đã có trong combo !", "warning", "top-left");
         }
     }
 
