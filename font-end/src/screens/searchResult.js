@@ -4,13 +4,13 @@ import {
     Container, Row, Form, FormGroup,
     Input, Label, Col
 } from 'reactstrap';
-
 import subVn from "sub-vn";
 import ReactPaginate from 'react-paginate';
 
 import TopMenu from '../components/common/topMenu';
 import Footer from '../components/common/footer';
 import RestaurantItem from '../components/restaurant/restaurantItem';
+import Spinner from '../components/common/spinner';
 
 export default class searchResult extends Component {
     constructor(props) {
@@ -33,7 +33,8 @@ export default class searchResult extends Component {
             isSubmit: false,
             offset: 0,
             perPage: 12,
-            currentPage: 0
+            currentPage: 0,
+            loading: true
         }
 
         this.handlePageClick = this.handlePageClick.bind(this);
@@ -157,6 +158,7 @@ export default class searchResult extends Component {
 
         axios.get(`/restaurants?type=${type}&province=${provinceName}&district=${districtName}&restaurantName=${restaurantText}`)
             .then(res => {
+                this.setState({ loading: false });
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
                 const restaurants = slice.map((restaurant) => {
@@ -167,7 +169,7 @@ export default class searchResult extends Component {
 
                 this.setState({
                     pageCount: Math.ceil(data.length / this.state.perPage),
-                    restaurants
+                    restaurants,
                 })
             });
     }
@@ -177,7 +179,7 @@ export default class searchResult extends Component {
     }
 
     render() {
-        let { provinces, districts } = this.state;
+        let { provinces, districts, loading } = this.state;
 
         return (
             <div>
@@ -243,23 +245,31 @@ export default class searchResult extends Component {
                         <Input onClick={this.onSubmit} type="submit" className="btn btn-success btn-result-search" value="Tìm kiếm" />
                     </Form>
                 </div>
-                <Container className="search-content">
-                    <Row>
-                        {this.state.restaurants}
-                    </Row>
-                    <ReactPaginate
-                        previousLabel={"Trang trước"}
-                        nextLabel={"Trang sau"}
-                        breakLabel={"..."}
-                        breakClassName={"break-me"}
-                        pageCount={this.state.pageCount}
-                        marginPagesDisplayed={5}
-                        pageRangeDisplayed={5}
-                        onPageChange={this.handlePageClick}
-                        containerClassName={"pagination"}
-                        subContainerClassName={"pages pagination"}
-                        activeClassName={"active"} />
-                </Container>
+                {
+                    loading ? (
+                        <Container className="search-content">
+                            <Spinner />
+                        </Container>
+                    ) : (
+                        <Container className="search-content">
+                            <Row>
+                                {this.state.restaurants}
+                            </Row>
+                            <ReactPaginate
+                                previousLabel={"Trang trước"}
+                                nextLabel={"Trang sau"}
+                                breakLabel={"..."}
+                                breakClassName={"break-me"}
+                                pageCount={this.state.pageCount}
+                                marginPagesDisplayed={5}
+                                pageRangeDisplayed={5}
+                                onPageChange={this.handlePageClick}
+                                containerClassName={"pagination"}
+                                subContainerClassName={"pages pagination"}
+                                activeClassName={"active"} />
+                        </Container>
+                    )
+                }
                 <Footer />
             </div>
         )
