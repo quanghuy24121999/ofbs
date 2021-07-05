@@ -3,16 +3,16 @@ import {
     CardImg, Row, Form, FormGroup,
     Input, Label, Container
 } from 'reactstrap';
-
+import { Redirect } from 'react-router';
 import axios from 'axios';
 import subVn from "sub-vn";
 import Carousel from 'react-multi-carousel';
 
 import TopMenu from '../components/common/topMenu';
 import Footer from '../components/common/footer';
-import { Redirect } from 'react-router';
 import wallpaper from '../images/wallpaper.png';
 import RestaurantItem from '../components/restaurant/restaurantItem';
+import Spinner from '../components/common/spinner';
 
 const responsive = {
     desktop: {
@@ -60,7 +60,8 @@ export default class home extends Component {
                 type: 0
             },
             isSubmit: false,
-            restaurantId: ''
+            restaurantId: '',
+            loading: true
         };
         this.onProvinceClick = this.onProvinceClick.bind(this);
         this.onChangeRestaurantName = this.onChangeRestaurantName.bind(this);
@@ -143,17 +144,23 @@ export default class home extends Component {
     componentDidMount() {
         axios.get('/restaurants/1')
             .then(res => {
-                this.setState({ restaurantsType1: res.data })
+                this.setState({
+                    restaurantsType1: res.data,
+                    loading: false
+                });
             })
         axios.get('/restaurants/2')
             .then(res => {
-                this.setState({ restaurantsType2: res.data })
+                this.setState({
+                    restaurantsType2: res.data,
+                    loading: false
+                })
             })
     }
 
     render() {
         let { provinces, districts, restaurantsType1,
-            restaurantsType2, isSubmit
+            restaurantsType2, isSubmit, loading
         } = this.state;
 
         return (
@@ -239,67 +246,70 @@ export default class home extends Component {
                     </Form>
 
                 </div>
-                <div className="home-content">
-                    <div className="content-title">Trung tâm tổ chức sự kiện nổi bật</div>
-                    <div className="content-restaurant">
-                        <div className="section-1">
-                            <div className="content-restaurant-heading">
-                                <div className="heading-title">Tiệc lưu động</div>
-                                <div className="heading-see-all">Xem tất cả</div>
-                            </div>
-                            <Container className="content-restaurant-list">
-                                <Row className="content-restaurant-row">
-                                    <Carousel
-                                        responsive={responsive}
-                                        additionalTransfrom={0}
-                                        autoPlay={this.props.deviceType !== "desktop" ? true : false}
-                                        autoPlaySpeed={3000}
-                                        centerMode={true}
-                                        // containerClass="container"
-                                        focusOnSelect={false}
-                                        infinite={true}
-                                        slidesToSlide={1}
-                                        containerClass="container-with-dots"
-                                    >
-                                        {restaurantsType1.map((restaurant, index) => {
-                                            return <div key={index}>
-                                                <RestaurantItem restaurant={restaurant} />
-                                            </div>
-                                        })}
-                                    </Carousel>
-                                </Row>
-                            </Container>
+                {
+                    loading ? (
+                        <div className="home-content">
+                            <Spinner/>
                         </div>
-                        <div className="section-2">
-                            <div className="content-restaurant-heading">
-                                <div className="heading-title">Tiệc tại trung tâm</div>
-                                <div className="heading-see-all">Xem tất cả</div>
+                    ) : (<div className="home-content">
+                        <div className="content-title">Trung tâm tổ chức sự kiện nổi bật</div>
+                        <div className="content-restaurant">
+                            <div className="section-1">
+                                <div className="content-restaurant-heading">
+                                    <div className="heading-title">Tiệc lưu động</div>
+                                </div>
+                                <Container className="content-restaurant-list">
+                                    <Row className="content-restaurant-row">
+                                        <Carousel
+                                            responsive={responsive}
+                                            additionalTransfrom={0}
+                                            autoPlay={this.props.deviceType !== "desktop" ? true : false}
+                                            autoPlaySpeed={3000}
+                                            centerMode={true}
+                                            focusOnSelect={false}
+                                            infinite={true}
+                                            slidesToSlide={1}
+                                            containerClass="container-with-dots"
+                                        >
+                                            {restaurantsType1.map((restaurant, index) => {
+                                                return <div key={index}>
+                                                    <RestaurantItem restaurant={restaurant} />
+                                                </div>
+                                            })}
+                                        </Carousel>
+                                    </Row>
+                                </Container>
                             </div>
-                            <Container className="content-restaurant-list">
-                                <Row className="content-restaurant-row">
-                                    <Carousel
-                                        responsive={responsive}
-                                        additionalTransfrom={0}
-                                        autoPlay={this.props.deviceType !== "desktop" ? true : false}
-                                        autoPlaySpeed={3000}
-                                        centerMode={true}
-                                        // containerClass="container"
-                                        focusOnSelect={false}
-                                        infinite={true}
-                                        slidesToSlide={1}
-                                        containerClass="container-with-dots"
-                                    >
-                                        {restaurantsType2.map((restaurant, index) => {
-                                            return <div key={index}>
-                                                <RestaurantItem restaurant={restaurant} />
-                                            </div>
-                                        })}
-                                    </Carousel>
-                                </Row>
-                            </Container>
+                            <div className="section-2">
+                                <div className="content-restaurant-heading">
+                                    <div className="heading-title">Tiệc tại trung tâm</div>
+                                </div>
+                                <Container className="content-restaurant-list">
+                                    <Row className="content-restaurant-row">
+                                        <Carousel
+                                            responsive={responsive}
+                                            additionalTransfrom={0}
+                                            autoPlay={this.props.deviceType !== "desktop" ? true : false}
+                                            autoPlaySpeed={3000}
+                                            centerMode={true}
+                                            focusOnSelect={false}
+                                            infinite={true}
+                                            slidesToSlide={1}
+                                            containerClass="container-with-dots"
+                                        >
+                                            {restaurantsType2.map((restaurant, index) => {
+                                                return <div key={index}>
+                                                    <RestaurantItem restaurant={restaurant} />
+                                                </div>
+                                            })}
+                                        </Carousel>
+                                    </Row>
+                                </Container>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    )
+                }
                 <Footer />
                 {
                     isSubmit &&

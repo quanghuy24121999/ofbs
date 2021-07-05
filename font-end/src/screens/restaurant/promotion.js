@@ -6,6 +6,7 @@ import axios from 'axios';
 import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
 import PromotionItem from '../../components/restaurant/promotionItem';
+import Spinner from '../../components/common/spinner';
 
 export default class promotion extends Component {
     constructor(props) {
@@ -14,7 +15,8 @@ export default class promotion extends Component {
         this.state = {
             offset: 0,
             perPage: 5,
-            currentPage: 0
+            currentPage: 0,
+            loading: true
         }
 
         this.handlePageClick = this.handlePageClick.bind(this);
@@ -40,6 +42,7 @@ export default class promotion extends Component {
     receivedData() {
         axios.get(`/promotions/searchPromotionByProvince`)
             .then(res => {
+                this.setState({ loading: false })
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
                 const promotions = slice.map((promotion, index) => {
@@ -61,9 +64,17 @@ export default class promotion extends Component {
                 <TopMenu />
                 <Container className="promotion">
                     <div className="promtion-title">Thông tin ưu đãi</div>
-                    <div className="promotion-list">
-                        {this.state.promotions}
-                    </div>
+                    {
+                        this.state.loading ? (
+                            <div className="promotion-list">
+                                <Spinner />
+                            </div>
+                        ) : (
+                            <div className="promotion-list">
+                                {this.state.promotions}
+                            </div>
+                        )
+                    }
                     <ReactPaginate
                         previousLabel={"Trang trước"}
                         nextLabel={"Trang sau"}
@@ -79,7 +90,7 @@ export default class promotion extends Component {
                     />
                 </Container>
                 <Footer />
-            </div>
+            </div >
         )
     }
 }
