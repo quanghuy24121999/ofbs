@@ -1,12 +1,16 @@
 import { Component } from "react";
 import firebase from "../config/firebase";
 import {
-    Form, FormGroup, Label, Input
+    Form, FormGroup, Label, Input, Button
 } from 'reactstrap';
 import axios from "axios";
 
 import TopMenu from '../components/common/topMenu';
 import { Notify } from '../common/notify';
+
+let recap = null;
+let event = '';
+let phoneCapcha = '';
 class register extends Component {
     constructor() {
         super();
@@ -16,6 +20,7 @@ class register extends Component {
             phoneNumber: "",
             password: "",
             rePassword: "",
+            code: "",
         }
 
         this.onchangeName = this.onchangeName.bind(this);
@@ -23,7 +28,9 @@ class register extends Component {
         this.onchangePassword = this.onchangePassword.bind(this);
         this.onchangeRePassword = this.onchangeRePassword.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.onchangeCode = this.onchangeCode.bind(this);
         this.validateConfirmPassword = this.validateConfirmPassword.bind(this);
+        this.verifyCode = this.verifyCode.bind(this);
     }
 
     onchangeName(e) {
@@ -50,6 +57,12 @@ class register extends Component {
         });
     }
 
+    onchangeCode(e) {
+        this.setState({
+            code: e.target.value
+        });
+    }
+
     validateConfirmPassword() {
         const { password, rePassword } = this.state;
 
@@ -63,8 +76,6 @@ class register extends Component {
     handleClick(e) {
         e.preventDefault();
 
-        let { name, password } = this.state;
-
         const phone = '+84' + this.state.phoneNumber.substring(1, this.state.phoneNumber.length);
         axios.get('/users/findByPhoneNumber/' + phone)
             .then(res => {
@@ -73,26 +84,17 @@ class register extends Component {
                         let recapcha = new firebase.auth.RecaptchaVerifier("recaptcha");
                         firebase.auth().signInWithPhoneNumber(phone, recapcha)
                             .then(function (e) {
-                                let code = prompt("Nhập mã OTP", "");
-                                if (code == null) return;
-                                e.confirm(code)
-                                    .then(function (result) {
-                                        axios.post('/users/register', {
-                                            name: name,
-                                            phoneLogin: phone,
-                                            password: password,
-                                            phoneNumber: phone
-                                        })
-                                        Notify("Đăng ký thành công !", "success", "top-right");
-                                        recapcha.clear();
-                                    })
-                                    .catch((error) => {
-                                        console.log(error);
-                                        Notify("Đăng ký thất bại !", "error", "top-right");
-                                        recapcha.clear();
-                                    });
+                                recap = recapcha;
+                                event = e;
+                                phoneCapcha = phone;
+
+                                document.getElementById('verify-code').style.display = "flex";
+                                document.getElementById('recaptcha').style.display = "none";
+                                document.getElementById('btn-forget-password').style.display = "none";
                             }).catch((error) => {
-                                console.log(error)
+                                recapcha.clear();
+                                console.log(error);
+                                Notify("Lỗi hệ thống !", "error", "top-right");
                             });
                     } else {
                         Notify("Mật khẩu không khớp !", "error", "top-right");
@@ -100,6 +102,32 @@ class register extends Component {
                 } else {
                     Notify("Số điện thoại đã tồn tại !", "error", "top-right");
                 }
+            });
+    }
+
+    verifyCode(phoneCapcha, recapcha, e) {
+        let code = this.state.code;
+        let password = this.state.password;
+        let name = this.state.name;
+        if (code === null || code === '') return;
+
+        e.confirm(code)
+            .then(function (result) {
+                axios.post('/users/register', {
+                    name: name,
+                    phoneLogin: phoneCapcha,
+                    password: password,
+                    phoneNumber: phoneCapcha
+                })
+                Notify("Đăng ký thành công !", "success", "top-right");
+                recapcha.clear();
+                window.location.reload();
+            })
+            .catch((error) => {
+                console.log(error);
+                Notify("Đăng ký thất bại !", "error", "top-right");
+                recapcha.clear();
+                window.location.reload();
             });
     }
 
@@ -114,7 +142,9 @@ class register extends Component {
                 >
                     <div className="title-register">Đăng ký</div>
                     <FormGroup>
-                        <Label for="name">Họ và tên</Label>
+                        <Label for="name">
+                            <b>Họ và tên: <span className="require-icon">*</span></b>
+                        </Label>
                         <Input
                             type="text"
                             name="Name"
@@ -126,7 +156,9 @@ class register extends Component {
                         />
                     </FormGroup>
                     <FormGroup>
-                        <Label for="phone-number" hidden>Số điện thoại:  </Label>
+                        <Label for="phone-number" hidden>
+                            <b>Số điện thoại: <span className="require-icon">*</span></b>
+                        </Label>
                         <div className="phone-number-input">
                             <span className="prefix-phone-input">(+84)</span>
                             <Input
@@ -141,9 +173,10 @@ class register extends Component {
                             />
                         </div>
                     </FormGroup>
-                    {' '}
                     <FormGroup>
-                        <Label for="password" hidden>Mật khẩu :</Label>
+                        <Label for="password">
+                            <b>Mật khẩu: <span className="require-icon">*</span></b>
+                        </Label>
                         <Input
                             type="password"
                             name="password"
@@ -155,9 +188,10 @@ class register extends Component {
                             pattern={`[A-Za-z\d@$!%*#?&]{3,127}$]`}
                         />
                     </FormGroup>
-                    {' '}
                     <FormGroup>
-                        <Label for="re-password" hidden>Nhập lại mật khẩu:</Label>
+                        <Label for="re-password">
+                            <b>Nhập lại mật khẩu: <span className="require-icon">*</span></b>
+                        </Label>
                         <Input
                             type="password"
                             name="rePassword"
@@ -170,9 +204,31 @@ class register extends Component {
                         // onBlur={this.onBlurRePassword(password, rePassword)}
                         />
                     </FormGroup>
-                    {' '}
                     <div id="recaptcha"></div>
-                    <Input type="submit" value="Đăng ký" className="btn-register btn btn-success btn-forget-password" />
+                    <Form id="verify-code">
+                        <b><span className="require-icon">*</span></b>
+                        <Input
+                            type="text"
+                            id="code"
+                            onChange={this.onchangeCode}
+                            value={this.state.code}
+                            required="required"
+                            placeholder="Nhập mã OTP"
+                        />
+                        <Button
+                            id="btn-code"
+                            color="primary"
+                            onClick={() => this.verifyCode(phoneCapcha, recap, event)}
+                        >
+                            Xác nhận
+                        </Button>
+                    </Form>
+                    <Input
+                        type="submit"
+                        value="Đăng ký"
+                        className="btn-register btn btn-success btn-forget-password"
+                        id="btn-forget-password"
+                    />
                 </Form>
             </div>
         );

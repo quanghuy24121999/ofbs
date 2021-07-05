@@ -37,10 +37,7 @@ class login extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    // AuthenService.login(this.state.phoneLogin, this.state.password);
-
     const phone = '+84' + this.state.phoneLogin.substring(1, this.state.phoneLogin.length);
-
     axios.post('/users/login', {
       phoneLogin: phone,
       password: this.state.password
@@ -83,7 +80,10 @@ class login extends Component {
         >
           <div className="login-heading mb-4">Đăng nhập</div>
           <FormGroup className="mb-2 mr-sm-2 mb-sm-0 form-group">
-            <Label for="phone-number" hidden>Số điện thoại:  </Label>
+            <Label for="phone-number" hidden>
+              <b>
+                Số điện thoại: <span className="require-icon">*</span>
+              </b></Label>
             <div className="phone-number-input">
               <span className="prefix-phone-input">(+84)</span>
               <Input
@@ -100,7 +100,9 @@ class login extends Component {
           </FormGroup>
           {' '}
           <FormGroup className="mb-2 mr-sm-2 mb-sm-0 form-group">
-            <Label for="examplePassword" className="mr-sm-2 ">Mật khẩu:</Label>
+            <Label for="examplePassword" className="mr-sm-2 ">
+              <b>Mật khẩu: <span className="require-icon">*</span></b>
+            </Label>
             <Input
               type="password"
               name="password"
@@ -109,7 +111,7 @@ class login extends Component {
               value={password}
               onChange={this.onchangePassword}
               required="required"
-              pattern={`[A-Za-z\d@$!%*#?&]{3,127}$]`}
+              pattern={`[A-Za-z@$!%*#?&]{3,127}$]`}
             />
           </FormGroup>
           <Input type="submit" value="Đăng nhập" className="btn-login btn btn-success" />
