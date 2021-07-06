@@ -51,6 +51,14 @@ import {
   ProtectedRouteCustomerRestaurant
 } from './common/checkAuthen';
 
+
+let hours = 2; // Reset when storage is more than 24hours
+let now = new Date().getTime();
+let setupTime = localStorage.getItem('setTime');
+if (now - setupTime > hours * 60 * 60 * 1000) {
+  localStorage.clear();
+  // localStorage.setItem('setupTime', now);
+}
 class App extends Component {
   render() {
     return (

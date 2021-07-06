@@ -47,6 +47,7 @@ class login extends Component {
           Notify("Đăng nhập thành công !", "success", "top-right");
           localStorage.setItem('currentAdmin', phone);
           localStorage.setItem('token', res.data.token);
+          localStorage.setItem('setTime', new Date().getTime());
           this.setState({
             redirectAdmin: true
           });
@@ -56,6 +57,7 @@ class login extends Component {
           localStorage.setItem('userId', '');
           localStorage.setItem('resId', '');
           localStorage.setItem('token', res.data.token);
+          localStorage.setItem('setTime', new Date().getTime());
           this.setState({
             redirect: true
           });

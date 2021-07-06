@@ -33,19 +33,19 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-color);
+  color: #e2e2e2;
   font-weight: 400;
   line-height: 1.6;
   text-decoration: none;
   font-size: 15px;
   margin: 0 6px;
   padding: 3px 15px;
-  border: 2px solid var(--text-hover);
+  border: 2px solid #737373;
   border-radius: 20px;
 }
 
 .link:hover {
-  color: var(--text-hover);
+  color: var(--text-color);
 }
 
 .nav {
@@ -63,6 +63,88 @@ body {
 
 .authen {
   display: flex;
+}
+
+.icon-bell {
+  position: relative;
+  color: #e2e2e2;
+  font-size: 1.25rem;
+  align-self: center;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.icon-bell:hover {
+  color: #fff;
+}
+
+.icon-bell:hover .icon-bell-dot {
+  background-color: red;
+}
+
+.notification {
+  position: absolute;
+  width: 400px;
+  height: auto;
+  padding: 20px 10px 10px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+  color: #000;
+  font-size: 10px;
+  top: 37px;
+  left: -135px;
+  cursor: text;
+  display: none;
+  flex-direction: column;
+  box-shadow: rgb(50 50 93 / 25%) 0px 6px 12px -2px,
+    rgb(0 0 0 / 30%) 0px 3px 7px -3px;
+  animation: fade-in 0.5 ease-in;
+}
+
+.notification > hr {
+  margin: 10px auto;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.icon-bell-dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  top: 7px;
+  left: 10px;
+  border-radius: 50%;
+  background-color: #f71f1f;
+  display: block;
+}
+
+.notify-content {
+  width: 100%;
+  height: auto;
+  word-wrap: break-word;
+  font-size: 1.05rem;
+  padding: 10px;
+  cursor: pointer;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.notify-content:hover {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+.notify-time {
+  font-size: 0.9rem;
 }
 
 /*===================================================== PROMOTION =============================================*/
@@ -778,7 +860,8 @@ hr {
   margin-right: 5px;
 }
 
-#code, #btn-code {
+#code,
+#btn-code {
   width: 20px;
 }
 
@@ -999,8 +1082,19 @@ hr {
 
 .restauran-detail-header {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.restauran-detail-sub-header {
+  display: flex;
   justify-content: flex-start;
   align-items: center;
+}
+
+.icon-flag {
+  font-size: 1.03rem;
+  cursor: pointer;
 }
 
 .restauran-detail-name {
