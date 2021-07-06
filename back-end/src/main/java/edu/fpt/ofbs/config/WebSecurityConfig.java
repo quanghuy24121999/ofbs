@@ -52,8 +52,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 												"/users/register",
 												"/users/update/**",
 												"/users/findByPhoneNumber/**",
-												"/images/**"
-												).permitAll();
+												"/images/**",
+												"/notifications/**").permitAll();
 		http.authorizeRequests().antMatchers(HttpMethod.GET, "/promotions/**").permitAll();
 		http.authorizeRequests().antMatchers(HttpMethod.GET, "/restaurants/**").permitAll();
 		http.authorizeRequests().antMatchers(HttpMethod.GET, "/dishes/**").permitAll();
