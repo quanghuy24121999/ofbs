@@ -53,7 +53,7 @@ export default function RestaurantDetail(props) {
     }
 
     const Logout = () => {
-        localStorage.removeItem('currentAdmin');
+        localStorage.clear();
     }
 
     return (

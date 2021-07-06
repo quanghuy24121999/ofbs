@@ -12,9 +12,11 @@ import {
 import { Link, Redirect } from "react-router-dom";
 import image from '../../images/logo_header-removebg-preview.png';
 import axios from "axios";
+import { FaBell } from "react-icons/fa";
 
 const TopMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [isDisplay, setIsDisplay] = useState(false);
 
     const [currentUser, setCurrentUser] = useState();
 
@@ -37,7 +39,17 @@ const TopMenu = () => {
         localStorage.removeItem('currentUser');
         localStorage.removeItem('token');
         localStorage.removeItem('resId');
+        localStorage.clear();
         setIsLogout(true);
+    }
+
+    const displayNotify = () => {
+        setIsDisplay(!isDisplay);
+        if (!isDisplay) {
+            document.getElementById('notification').style.display = "flex";
+        } else {
+            document.getElementById('notification').style.display = "none";
+        }
     }
 
     return (
@@ -62,6 +74,22 @@ const TopMenu = () => {
                         </div>
                         {currentUser ? (
                             <div className="authen">
+                                <NavItem className="icon-bell">
+                                    <FaBell onClick={displayNotify} />
+                                    <span className="icon-bell-dot"></span>
+                                    <div className="notification" id="notification">
+                                        <h5>Thông báo</h5>
+                                        <hr />
+                                        <div className="notify-content">
+                                            <div className="notify-message">
+                                                ajsdkasdhadkjashdkjasdhjashdajsdkasdhahdkjasdhjashdajsdkasdha
+                                            </div>
+                                            <div className="notify-time">
+                                                {new Date().getDate()}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </NavItem>
                                 <NavItem>
                                     <Link
                                         className="link"

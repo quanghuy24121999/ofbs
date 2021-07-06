@@ -25,7 +25,7 @@ function Restaurant() {
     })
 
     const Logout = () => {
-        localStorage.removeItem('currentAdmin');
+        localStorage.clear();
     }
 
     return (

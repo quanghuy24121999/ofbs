@@ -57,7 +57,7 @@ function Order() {
     }
 
     const Logout = () => {
-        localStorage.removeItem('currentAdmin');
+        localStorage.clear();
     }
 
     return (

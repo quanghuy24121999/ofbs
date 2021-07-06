@@ -51,7 +51,7 @@ export default function RestaurantImage(props) {
     }
 
     const Logout = () => {
-        localStorage.removeItem('currentAdmin');
+        localStorage.clear();
     }
 
     return (

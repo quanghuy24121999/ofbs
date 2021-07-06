@@ -63,7 +63,7 @@ function Dashboard() {
     };
 
     const Logout = () => {
-        localStorage.removeItem('currentAdmin');
+        localStorage.clear();
     }
 
     return (
