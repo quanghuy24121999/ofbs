@@ -22,6 +22,9 @@ public class FeedbackService {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private StatusService statusService;
+	
 	public List<IFeedbackDTO> getFeedbackByRestaurantId(long restaurantId, float rate){
 		return feedbackRepository.getFeedbackByRestaurantId(restaurantId, rate);
 	}
@@ -34,6 +37,7 @@ public class FeedbackService {
 		feedback.setRate(feedbackDto.getRate());
 		feedback.setRestaurant(restaurantService.findRestaurantById(feedbackDto.getRestaurant_id()));
 		feedback.setUser(userService.findById(feedbackDto.getUser_id()).get());
+		feedback.setStatus(statusService.findStatusByName("active"));
 		
 		return feedbackRepository.save(feedback);
 	}
