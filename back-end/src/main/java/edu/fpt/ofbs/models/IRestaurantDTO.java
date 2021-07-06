@@ -20,4 +20,6 @@ public interface IRestaurantDTO {
 	String getDescription();
 	
 	String getRestaurant_status();
+	
+	long getProvider_id();
 }

@@ -31,4 +31,6 @@ public class RestaurantDTO {
 	private String description;
 	
 	private String restaurant_status;
+	
+	private long provider_id;
 }
