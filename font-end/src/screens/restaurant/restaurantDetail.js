@@ -9,7 +9,7 @@ import {
 import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from "react-image-gallery";
 import StarRatings from "react-star-ratings";
-import { FaMapMarkerAlt } from 'react-icons/fa';
+import { FaFlag, FaMapMarkerAlt } from 'react-icons/fa';
 import ReactPaginate from 'react-paginate';
 import { Redirect, Link } from "react-router-dom";
 
@@ -22,6 +22,7 @@ import StarRating from '../../components/common/starRating';
 import FeedbackItem from '../../components/common/feedbackItem';
 import PromotionItemRes from '../../components/restaurant/promotionItemRes';
 import { onChangeRate } from '../../common/changeLink';
+import { Notify } from '../../common/notify';
 
 export default class restaurantDetail extends Component {
     constructor(props) {
@@ -40,7 +41,9 @@ export default class restaurantDetail extends Component {
             rate: 0,
             textFeedback: '',
             displayModal: false,
-            moveToLogin: false
+            moveToLogin: false,
+            modal: false,
+            report: ''
         }
 
         this.changeRating = this.changeRating.bind(this);
@@ -49,6 +52,9 @@ export default class restaurantDetail extends Component {
         this.onChangeTextFeedback = this.onChangeTextFeedback.bind(this);
         this.onSubmitFeedback = this.onSubmitFeedback.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
+        this.toggle = this.toggle.bind(this);
+        this.onChangeReport = this.onChangeReport.bind(this);
+        this.sendReport = this.sendReport.bind(this);
     }
 
     componentDidMount() {
@@ -116,6 +122,12 @@ export default class restaurantDetail extends Component {
     toggleModal() {
         this.setState({
             displayModal: !this.state.displayModal
+        })
+    }
+
+    toggle() {
+        this.setState({
+            modal: !this.state.modal
         })
     }
 
@@ -197,6 +209,46 @@ export default class restaurantDetail extends Component {
         });
     }
 
+    onChangeReport(e) {
+        this.setState({ report: e.target.value });
+    }
+
+    sendReport(e) {
+        e.preventDefault();
+        let isAuthen = this.isAuthentication();
+
+
+        if (!isAuthen) {
+            this.toggleModal();
+
+        } else {
+            axios.get(`/users/findByPhoneNumber/${localStorage.getItem('currentUser')}`)
+                .then(res => {
+                    const currentUser = res.data;
+                    const { report } = this.state;
+                    axios({
+                        method: 'post',
+                        url: `/feedbacks/insertFeedback`,
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                        }
+                        ,
+                        data: {
+                            "feedback_content": report,
+                            "user_id": currentUser.id,
+                            "rate": 0,
+                            "restaurant_id": this.props.match.params.restaurantId
+                        }
+                    }).then(res => {
+                        this.toggle();
+                        Notify("Gửi báo cáo thành công", "success", "top-right");
+                    }).catch(err => {
+                        Notify("Gửi báo cáo không thành công", "error", "top-right");
+                    });
+                })
+        }
+    }
+
     isAuthentication() {
         const currentUser = localStorage.getItem("currentUser");
         if (currentUser !== null && currentUser !== undefined) {
@@ -214,7 +266,7 @@ export default class restaurantDetail extends Component {
     }
 
     render() {
-        const { images, restaurant, textFeedback,
+        const { images, restaurant, textFeedback, modal, report,
             rating, displayModal, moveToLogin, promotions, numberRates
         } = this.state;
         const restaurantId = this.props.match.params.restaurantId;
@@ -252,10 +304,30 @@ export default class restaurantDetail extends Component {
                 </Container>
                 <Container className="restaurant-detail-content">
                     <div className="restauran-detail-header">
-                        <div className="restauran-detail-name">{restaurant.restaurant_name}</div>
-                        <div className="restauran-detail-rate">
-                            <StarRating rate={restaurant.rate} starDimension="30" starSpacing="4" />
+                        <div className="restauran-detail-sub-header">
+                            <div className="restauran-detail-name">{restaurant.restaurant_name}</div>
+                            <div className="restauran-detail-rate">
+                                <StarRating rate={restaurant.rate} starDimension="30" starSpacing="4" />
+                            </div>
                         </div>
+                        <div className="icon-flag" onClick={this.toggle}><FaFlag /> Báo cáo</div>
+                        <Modal isOpen={modal} toggle={this.toggle} className={``}>
+                            <ModalHeader toggle={this.toggle}>Báo cáo</ModalHeader>
+                            <ModalBody>
+                                <Label for="report"><b>Nội dung báo cáo: </b></Label>
+                                <Input
+                                    id="report"
+                                    type="textarea"
+                                    placeholder="Viết nội dung báo cáo "
+                                    value={report}
+                                    onChange={this.onChangeReport}
+                                />
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button color="success" onClick={this.sendReport}>Gửi</Button>{' '}
+                                <Button color="secondary" onClick={this.toggle}>Trở lại</Button>
+                            </ModalFooter>
+                        </Modal>
                     </div>
                     <div className="restauran-detail-location">
                         <FaMapMarkerAlt className="i-location" /> {restaurant.province}

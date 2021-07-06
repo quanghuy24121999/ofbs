@@ -999,8 +999,19 @@ hr {
 
 .restauran-detail-header {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.restauran-detail-sub-header {
+  display: flex;
   justify-content: flex-start;
   align-items: center;
+}
+
+.icon-flag {
+  font-size: 1.03rem;
+  cursor: pointer;
 }
 
 .restauran-detail-name {
