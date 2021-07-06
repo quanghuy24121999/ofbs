@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -45,5 +46,9 @@ public class Feedback {
 	@ManyToOne
 	@JoinColumn(name = "customer_id", referencedColumnName = "id")
 	private User user;
+	
+	@OneToOne
+	@JoinColumn(name = "status_id", referencedColumnName = "id")
+	private Status status;
 
 }
