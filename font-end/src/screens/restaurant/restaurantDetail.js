@@ -58,6 +58,7 @@ export default class restaurantDetail extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         let imageArr = [];
         const restaurantId = this.props.match.params.restaurantId;
 
@@ -240,8 +241,20 @@ export default class restaurantDetail extends Component {
                             "restaurant_id": this.props.match.params.restaurantId
                         }
                     }).then(res => {
-                        this.toggle();
-                        Notify("Gửi báo cáo thành công", "success", "top-right");
+                        axios.post(`/notifications/insertNotification`,
+                            {
+                                "content": report,
+                                "customer": null,
+                                "provider": null,
+                                "forAdmin": true,
+                                "type": "report",
+                                "read": false
+                            }
+                        )
+                            .then(res => {
+                                this.toggle();
+                                Notify("Gửi báo cáo thành công", "success", "top-right");
+                            })
                     }).catch(err => {
                         Notify("Gửi báo cáo không thành công", "error", "top-right");
                     });

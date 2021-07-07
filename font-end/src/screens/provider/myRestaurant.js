@@ -22,6 +22,7 @@ export default class myRestaurant extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         userId = localStorage.getItem('userId');
         axios.get(`/users/findByPhoneNumber/${localStorage.getItem('currentUser')}`)
             .then(res => {

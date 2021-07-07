@@ -19,6 +19,7 @@ function Restaurant() {
     const [restaurants, setRestaurants] = useState([]);
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         axios.get(`/restaurants/getRestaurantPending`)
             .then(res => {
                 setRestaurants(res.data);

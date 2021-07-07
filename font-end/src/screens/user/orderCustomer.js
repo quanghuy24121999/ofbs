@@ -29,6 +29,7 @@ export default class orderCustomer extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         userId = localStorage.getItem('userId');
         this.receivedData();
     }

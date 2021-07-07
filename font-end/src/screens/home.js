@@ -142,6 +142,7 @@ export default class home extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         axios.get('/restaurants/1')
             .then(res => {
                 this.setState({

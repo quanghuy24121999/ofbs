@@ -64,6 +64,7 @@ export default class service extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         const restaurantId = this.props.match.params.restaurantId;
         axios.get(`/services/getServiceByRestaurantId?restaurantId=${restaurantId}&categoryId=1`)
             .then(res => {

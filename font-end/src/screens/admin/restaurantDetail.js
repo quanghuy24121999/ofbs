@@ -24,6 +24,7 @@ export default function RestaurantDetail(props) {
     const [restaurantCertificate, setRestaurantCertificate] = useState('');
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         axios.get(`/images/getImagesRestaurant?restaurantId=${restaurantId}`)
             .then(res => {
                 let tempArr = res.data;

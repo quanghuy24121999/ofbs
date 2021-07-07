@@ -45,6 +45,7 @@ export default class myRestaurantCombo extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         restaurantId = localStorage.getItem('resId');
         this.receivedData();
     }

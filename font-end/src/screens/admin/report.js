@@ -23,6 +23,7 @@ export default function Report() {
     }
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         axios.get(`/feedbacks/getReport`)
             .then(res => {
                 setReport(res.data);
