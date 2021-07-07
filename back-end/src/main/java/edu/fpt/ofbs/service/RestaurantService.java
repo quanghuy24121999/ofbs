@@ -67,4 +67,8 @@ public class RestaurantService {
 	public void updateStatusRestaurant(long restaurantId, String status, String statusUpdate) {
 		restaurantRepository.updateStatusRestaurant(restaurantId, status, statusUpdate);
 	}
+	
+	public String getProviderPhoneLoginFromRestaurantId(long restaurantId) {
+		return restaurantRepository.getProviderPhoneLoginFromRestaurantId(restaurantId);
+	}
 }

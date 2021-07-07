@@ -16,11 +16,18 @@ public class NotificationService {
 	private NotificationRepository notificationRepository;
 	
 	public Notification save(Notification notification) {
-		notification.setDate(new Date());
+		if(notification.getDate() == null) {
+			notification.setDate(new Date());
+		}
+		
 		return notificationRepository.save(notification);
 	}
 	
 	public List<INotificationDTO> getNotifications(long customerId, long providerId, boolean isAdmin) {
 		return notificationRepository.getNotifications(customerId, providerId, isAdmin);
+	}
+	
+	public Notification getNotificationById(long id) {
+		return notificationRepository.findById(id).get();
 	}
 }
