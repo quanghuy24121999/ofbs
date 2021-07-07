@@ -23,7 +23,7 @@ public interface IOrderDetailDTO {
 
 	String getOrder_status();
 
-	String getEmail();
+	long getCustomer_id();
 
 	String getPhone_number();
 

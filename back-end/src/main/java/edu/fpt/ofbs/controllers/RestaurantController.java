@@ -118,4 +118,10 @@ public class RestaurantController {
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
 		}
 	}
+	
+	@GetMapping("/getProviderPhoneLogin")
+	public ResponseEntity<?> getProviderPhoneLogin(@PathParam("restaurantId") long restaurantId) {
+		String phoneLogin = restaurantService.getProviderPhoneLoginFromRestaurantId(restaurantId);
+		return ResponseEntity.status(HttpStatus.OK).body(phoneLogin);
+	}
 }

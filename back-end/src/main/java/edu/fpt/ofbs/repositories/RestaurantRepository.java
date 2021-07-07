@@ -30,4 +30,10 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long>{
 	@Modifying
 	@Query(value = "exec sp_updateStatusRestaurant ?1, ?2, ?3", nativeQuery = true)
 	void updateStatusRestaurant(long restaurantId, String status, String statusUpdate);
+	
+	@Query(value = "select u.phone_login\r\n"
+			+ "  from provider_restaurants res\r\n"
+			+ "  join users u on res.provider_id = u.id\r\n"
+			+ "  where res.id = ?1", nativeQuery = true)
+	String getProviderPhoneLoginFromRestaurantId(long restaurantId);
 }

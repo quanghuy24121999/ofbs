@@ -35,7 +35,7 @@ public class NotificationController {
 			message = "Insert the notification successfully !";
 			return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
 		} catch (Exception e) {
-			message = "Could not notification feedback !";
+			message = "Could not insert notification !";
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
 		}
 	}
@@ -45,5 +45,11 @@ public class NotificationController {
 			@PathParam("providerId") long providerId, @PathParam("isAdmin") boolean isAdmin) {
 		List<INotificationDTO> notifications = notificationService.getNotifications(customerId, providerId, isAdmin);
 		return ResponseEntity.status(HttpStatus.OK).body(notifications);
+	}
+	
+	@GetMapping("/getNotificationById")
+	public ResponseEntity<?> getNotificationById(@PathParam("id") long id) {
+		Notification notification = notificationService.getNotificationById(id);
+		return ResponseEntity.status(HttpStatus.OK).body(notification);
 	}
 }

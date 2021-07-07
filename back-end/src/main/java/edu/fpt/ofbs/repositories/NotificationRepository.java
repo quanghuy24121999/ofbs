@@ -11,6 +11,6 @@ import edu.fpt.ofbs.models.INotificationDTO;
 
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Long>{
-	@Query(value = "exec sp_getNotification ?1, ?2, ?3", nativeQuery = true)
+	@Query(value = "exec sp_getNotifications ?1, ?2, ?3", nativeQuery = true)
 	List<INotificationDTO> getNotifications(long customerId, long providerId, boolean isAdmin);
 }

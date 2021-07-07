@@ -34,7 +34,7 @@ public class OrderDetailDTO {
 	
 	private String order_status;
 	
-	private String email;
+	private long customer_id;
 	
 	private String phone_number;
 	
