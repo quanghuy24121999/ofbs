@@ -3,6 +3,8 @@ package edu.fpt.ofbs.service;
 import java.util.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,7 @@ import edu.fpt.ofbs.models.IFeedbackDTO;
 import edu.fpt.ofbs.repositories.FeedbackRepository;
 
 @Service
+@Transactional
 public class FeedbackService {
 	@Autowired
 	private FeedbackRepository feedbackRepository;
@@ -46,5 +49,9 @@ public class FeedbackService {
 	public List<Feedback> findByRateAndStatus(){
 		Status status = statusService.findStatusById(1);
 		return feedbackRepository.findByRateAndStatus(0, status);
+	}
+	
+	public void updateStatusFeedback(long feedbackId) {
+		feedbackRepository.updateStatusFeedback(feedbackId);
 	}
 }
