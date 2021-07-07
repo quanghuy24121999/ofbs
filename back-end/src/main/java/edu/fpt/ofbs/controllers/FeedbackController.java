@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.fpt.ofbs.entities.Feedback;
 import edu.fpt.ofbs.models.FeedbackDTO;
 import edu.fpt.ofbs.models.IFeedbackDTO;
 import edu.fpt.ofbs.models.ResponseMessage;
@@ -44,5 +45,11 @@ public class FeedbackController {
 			message = "Could not insert feedback !";
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
 		}
+	}
+	
+	@GetMapping("/getReport")
+	public ResponseEntity<?> getReport() {
+		List<Feedback> feedbacks = feedbackService.findByRateAndStatus();
+		return ResponseEntity.status(HttpStatus.OK).body(feedbacks);
 	}
 }
