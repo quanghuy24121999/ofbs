@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.fpt.ofbs.entities.Feedback;
+import edu.fpt.ofbs.entities.Status;
 import edu.fpt.ofbs.models.FeedbackDTO;
 import edu.fpt.ofbs.models.IFeedbackDTO;
 import edu.fpt.ofbs.repositories.FeedbackRepository;
@@ -40,5 +41,10 @@ public class FeedbackService {
 		feedback.setStatus(statusService.findStatusByName("active"));
 		
 		return feedbackRepository.save(feedback);
+	}
+	
+	public List<Feedback> findByRateAndStatus(){
+		Status status = statusService.findStatusById(1);
+		return feedbackRepository.findByRateAndStatus(0, status);
 	}
 }
