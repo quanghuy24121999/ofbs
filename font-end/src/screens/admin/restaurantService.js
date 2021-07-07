@@ -9,6 +9,7 @@ import ReactPaginate from 'react-paginate';
 import { Link } from 'react-router-dom';
 
 import RestaurantServiceItem from '../../components/admin/RestaurantServiceItem';
+import Notification from '../../components/admin/Notification';
 
 export default function RestaurantService(props) {
     const { restaurantId } = props.location.state;
@@ -67,6 +68,7 @@ export default function RestaurantService(props) {
                     <div className="btn-toggle" onClick={() => handleToggleSidebar(true)}>
                         <FaBars />
                     </div>
+                    <Notification />
                     <Link className="btn btn-primary" to='/login' onClick={Logout}>Đăng xuất</Link>
                 </div>
                 <Nav pills className="restaurant-detail-nav admin-res-nav container">

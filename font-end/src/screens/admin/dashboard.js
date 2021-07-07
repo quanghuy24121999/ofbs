@@ -7,6 +7,7 @@ import { Pie } from 'react-chartjs-2';
 import axios from 'axios';
 
 import { formatDateForInput } from '../../common/formatDate';
+import Notification from '../../components/admin/Notification';
 
 function Dashboard() {
     let fromDate = new Date().setDate(new Date().getDate() - 7);
@@ -78,6 +79,7 @@ function Dashboard() {
                     <div className="btn-toggle" onClick={() => handleToggleSidebar(true)}>
                         <FaBars />
                     </div>
+                    <Notification />
                     <Link className="btn btn-primary" to='/login' onClick={Logout}>Đăng xuất</Link>
                 </div>
                 <Container>

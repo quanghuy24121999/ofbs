@@ -103,7 +103,12 @@ body {
   animation: fade-in 0.5 ease-in;
 }
 
+.notification-title {
+  color: var(--color-primary);
+}
+
 .notification > hr {
+  color: var(--color-primary);
   margin: 10px auto;
 }
 
@@ -127,10 +132,18 @@ body {
   display: block;
 }
 
+.notification-list {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
 .notify-content {
+  display: block;
   width: 100%;
   height: auto;
+  margin-bottom: 10px;
   word-wrap: break-word;
+  color: #000;
   font-size: 1.05rem;
   padding: 10px;
   cursor: pointer;
@@ -1996,6 +2009,108 @@ tr > td:nth-child(4) {
 .btn-search-chart {
   margin-top: 10px;
   width: 30%;
+}
+
+.admin-icon-bell {
+  position: relative;
+  color: #000000;
+  font-size: 1.25rem;
+  align-self: center;
+  margin-right: 20px;
+  cursor: pointer;
+  list-style: none;
+}
+/* 
+.admin-icon-bell:hover {
+  color: rgb(0, 4, 255);
+} */
+
+.admin-icon-bell:hover .icon-bell-dot {
+  background-color: red;
+}
+
+.admin-notification {
+  position: absolute;
+  width: 400px;
+  height: auto;
+  padding: 20px 10px 10px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+  color: #000;
+  font-size: 10px;
+  top: 37px;
+  left: -250px;
+  cursor: text;
+  display: none;
+  flex-direction: column;
+  box-shadow: rgb(50 50 93 / 25%) 0px 6px 12px -2px,
+    rgb(0 0 0 / 30%) 0px 3px 7px -3px;
+  animation: fade-in 0.5 ease-in;
+  z-index: 1;
+}
+
+.admin-notification-title {
+  color: var(--color-primary);
+}
+
+.admin-notification > hr {
+  color: var(--color-primary);
+  margin: 10px auto;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.admin-icon-bell-dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  top: 7px;
+  left: 10px;
+  border-radius: 50%;
+  background-color: #f71f1f;
+  display: block;
+}
+
+.admin-notification-list {
+  max-height: 500px;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.admin-notification-list > h5 {
+  text-align: center;
+}
+
+.admin-notify-content {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+  word-wrap: break-word;
+  color: #000;
+  font-size: 1.05rem;
+  padding: 10px;
+  cursor: pointer;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.admin-notify-content:hover {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+.admin-notify-time {
+  font-size: 0.9rem;
 }
 
 /*=============================================== NOT FOUND ===========================================*/

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
     Container, Nav, NavItem, CardImg, Row, Col,
-    Button
+    Button, Modal, ModalHeader, Label, Input,
+    ModalBody, ModalFooter,
 } from 'reactstrap';
 import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
@@ -13,7 +14,9 @@ import OrderDetailComboItem from '../../components/order/orderDetailComboItem';
 import OrderDetailServiceItem from '../../components/order/orderDetailServiceItem';
 import { formatDate } from '../../common/formatDate';
 import { formatCurrency } from '../../common/formatCurrency';
+import { Notify } from '../../common/notify';
 
+let currentUser = localStorage.getItem('currentUser');
 export default class orderCustomerDetail extends Component {
     constructor(props) {
         super(props);
@@ -25,7 +28,13 @@ export default class orderCustomerDetail extends Component {
             dishes: [],
             combos: [],
             services: [],
+            password: '',
+            modal: false
         }
+
+        this.cancelOrder = this.cancelOrder.bind(this);
+        this.toggle = this.toggle.bind(this);
+        this.onChangePassword = this.onChangePassword.bind(this);
     }
 
     componentDidMount() {
@@ -37,7 +46,6 @@ export default class orderCustomerDetail extends Component {
             }
         })
             .then(res => {
-                console.log(res.data.length)
                 if (res.data.length === 0) {
                     <Redirect to={
                         {
@@ -54,9 +62,59 @@ export default class orderCustomerDetail extends Component {
             })
     }
 
+    toggle() {
+        this.setState({ modal: !this.state.modal });
+    }
+
+    onChangePassword(e) {
+        this.setState({ password: e.target.value });
+    }
+
+    cancelOrder() {
+        const { orderDetailInfo, password, restaurantInfo } = this.state;
+        axios.post('/users/login', {
+            phoneLogin: currentUser,
+            password: password
+        }).then(res => {
+            axios({
+                method: 'PATCH',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                },
+                url: `/orders/updateStatus?orderId=${orderDetailInfo.order_id}&status=cancelled`
+            }).then(res => {
+                axios.get(`/restaurants/getProviderPhoneLogin?restaurantId=${restaurantInfo.restaurant_id}`)
+                    .then(res => {
+                        axios.get(`/users/findByPhoneNumber/${res.data}`)
+                            .then(res => {
+                                axios.post(`/notifications/insertNotification`,
+                                    {
+                                        "content": `Đơn hàng ${orderDetailInfo.order_code} đã bị hủy`,
+                                        "customer": null,
+                                        "provider": res.data,
+                                        "forAdmin": false,
+                                        "type": "order",
+                                        "read": false
+                                    }
+                                )
+                                    .then(res => {
+                                        window.location.reload();
+                                        Notify('Hủy đơn thành công', 'success', 'top-left');
+                                    })
+                            })
+                    })
+            }).catch(err => {
+                Notify('Hủy đơn không thành công', 'error', 'top-left');
+            })
+        }).catch(err => {
+            Notify('Mật khẩu không đúng', 'error', 'top-left');
+        })
+    }
+
     render() {
         const { listOrderDetails, restaurantInfo, orderDetailInfo } = this.state;
         let orderStatus = '';
+
         if (orderDetailInfo.order_status === 'pending') {
             orderStatus = 'Chờ duyệt';
         }
@@ -134,7 +192,28 @@ export default class orderCustomerDetail extends Component {
                             <h4>Tổng tiền: {formatCurrency(orderDetailInfo.total_amount)} VNĐ</h4>
                             <h4 >Tiền đặt cọc (10%): {formatCurrency(orderDetailInfo.total_amount * 10 / 100)} VNĐ</h4>
                         </div>
-                        <Button color="danger">Hủy đặt</Button>
+                        {
+                            orderDetailInfo.order_status !== "cancelled" &&
+                            orderDetailInfo.order_status !== "accomplished" &&
+                            <Button color="danger" onClick={this.toggle}>Hủy đặt</Button>
+                        }
+                        <Modal isOpen={this.state.modal} toggle={this.toggle} className={``}>
+                            <ModalHeader toggle={this.toggle}>Thông báo</ModalHeader>
+                            <ModalBody>
+                                <Label for="password"><b>Nhập mật khẩu của bạn: </b></Label>
+                                <Input
+                                    type="password"
+                                    id="password"
+                                    placeholder="Nhập mật khẩu"
+                                    value={this.state.password}
+                                    onChange={this.onChangePassword}
+                                />
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button color="success" onClick={() => this.cancelOrder()}>Xác nhận</Button>
+                                <Button color="secondary" onClick={this.toggle}>Trở lại</Button>
+                            </ModalFooter>
+                        </Modal>
                     </div>
                 </Container>
 
