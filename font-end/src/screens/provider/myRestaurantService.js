@@ -46,6 +46,7 @@ export default class myRestaurantService extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         restaurantId = localStorage.getItem('resId');
         axios.get(`/services/search?restaurantId=${restaurantId}`)
             .then(res => {

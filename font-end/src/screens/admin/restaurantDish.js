@@ -25,6 +25,7 @@ export default function RestaurantDish(props) {
     const [currentPage, setCurrentPage] = useState(0);
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         receivedData(0, '');
     }, [currentPage]);
 

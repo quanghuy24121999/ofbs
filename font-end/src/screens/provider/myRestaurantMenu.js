@@ -53,6 +53,7 @@ export default class myRestaurantMenu extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         restaurantId = localStorage.getItem('resId');
         axios.get(`/dishes/getCategories`)
             .then(res => {

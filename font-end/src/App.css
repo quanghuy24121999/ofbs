@@ -135,6 +135,8 @@ body {
 .notification-list {
   max-height: 500px;
   overflow-y: auto;
+  padding-top: 5px;
+  padding-right: 1px;
 }
 
 .notify-content {
@@ -147,8 +149,7 @@ body {
   font-size: 1.05rem;
   padding: 10px;
   cursor: pointer;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }
 
 .notify-content:hover {
@@ -158,6 +159,11 @@ body {
 
 .notify-time {
   font-size: 0.9rem;
+}
+
+.notify-message {
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 /*===================================================== PROMOTION =============================================*/
@@ -2084,6 +2090,8 @@ tr > td:nth-child(4) {
   max-height: 500px;
   overflow-y: auto;
   width: 100%;
+  padding-top: 5px;
+  padding-right: 1px;
 }
 
 .admin-notification-list > h5 {
@@ -2100,8 +2108,7 @@ tr > td:nth-child(4) {
   font-size: 1.05rem;
   padding: 10px;
   cursor: pointer;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }
 
 .admin-notify-content:hover {
@@ -2111,6 +2118,11 @@ tr > td:nth-child(4) {
 
 .admin-notify-time {
   font-size: 0.9rem;
+}
+
+.admin-notify-message {
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 /*=============================================== NOT FOUND ===========================================*/

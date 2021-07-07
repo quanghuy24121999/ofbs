@@ -30,7 +30,25 @@ export default function RestaurantPendingItem(props) {
             },
             url: `/restaurants/updateStatus?restaurantId=${restaurant.restaurant_id}&status=${restaurant.restaurant_status}&statusUpdate=active`
         }).then(res => {
-            toggle();
+            axios.get(`/restaurants/getProviderPhoneLogin?restaurantId=${restaurant.restaurant_id}`)
+                .then(res => {
+                    axios.get(`/users/findByPhoneNumber/${res.data}`)
+                        .then(res => {
+                            axios.post(`/notifications/insertNotification`,
+                                {
+                                    "content": `Nhà hàng ${restaurant.restaurant_name} của bạn đã được duyệt`,
+                                    "customer": null,
+                                    "provider": res.data,
+                                    "forAdmin": false,
+                                    "type": "restaurant",
+                                    "read": false
+                                }
+                            )
+                                .then(res => {
+                                    toggle();
+                                })
+                        })
+                })
         })
     }
 
@@ -42,7 +60,25 @@ export default function RestaurantPendingItem(props) {
             },
             url: `/restaurants/updateStatus?restaurantId=${restaurant.restaurant_id}&status=${restaurant.restaurant_status}&statusUpdate=cancelled`
         }).then(res => {
-            toggle1();
+            axios.get(`/restaurants/getProviderPhoneLogin?restaurantId=${restaurant.restaurant_id}`)
+                .then(res => {
+                    axios.get(`/users/findByPhoneNumber/${res.data}`)
+                        .then(res => {
+                            axios.post(`/notifications/insertNotification`,
+                                {
+                                    "content": `Nhà hàng ${restaurant.restaurant_name} của bạn không được duyệt`,
+                                    "customer": null,
+                                    "provider": res.data,
+                                    "forAdmin": false,
+                                    "type": "restaurant",
+                                    "read": false
+                                }
+                            )
+                                .then(res => {
+                                    toggle1();
+                                })
+                        })
+                })
         })
     }
 

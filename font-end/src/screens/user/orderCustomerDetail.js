@@ -38,6 +38,7 @@ export default class orderCustomerDetail extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         const orderId = this.props.match.params.orderId;
         const customerId = localStorage.getItem('userId');
         axios.get(`/orders/orderDetail/infor?orderId=${orderId}&customerId=${customerId}&restaurantId=0`, {

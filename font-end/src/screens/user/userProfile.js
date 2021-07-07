@@ -63,6 +63,7 @@ export default class userProfile extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         userId = localStorage.getItem('userId');
         axios.get(`/users/profile/?userId=${userId}`, {
             headers: {

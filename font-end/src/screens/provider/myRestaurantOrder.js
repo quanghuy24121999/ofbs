@@ -32,6 +32,7 @@ export default class myRestaurantOrder extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         restaurantId = localStorage.getItem('resId');
         this.receivedData('');
     }

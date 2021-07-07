@@ -112,6 +112,7 @@ export default class registerPromotion extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         axios.get(`/restaurants/providerTypes`)
             .then(res => {
                 this.setState({ types: res.data })
@@ -146,6 +147,16 @@ export default class registerPromotion extends Component {
             }
         }
         ).then(res => {
+            axios.post(`/notifications/insertNotification`,
+                {
+                    "content": `Có nhà hàng ${restaurantName} mới đăng ký`,
+                    "customer": null,
+                    "provider": null,
+                    "forAdmin": true,
+                    "type": "restaurant",
+                    "read": false
+                }
+            )
             this.updateImage(res.data.id);
             this.toggle1();
         })

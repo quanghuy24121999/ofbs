@@ -24,6 +24,7 @@ export default function RestaurantImage(props) {
     const [currentPage, setCurrentPage] = useState(0);
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         receivedData();
     }, currentPage);
 

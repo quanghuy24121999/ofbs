@@ -8,7 +8,7 @@ import { Notify } from '../../common/notify';
 
 export default function ReportItem(props) {
     const count = props.count;
-    const report = props.report;console.log(report)
+    const report = props.report;
 
     const complete = () => {
         axios.post(`/notifications/insertNotification`,
@@ -22,8 +22,15 @@ export default function ReportItem(props) {
             }
         )
             .then(res => {
-                window.location.reload();
-                Notify('Xử lý báo cáo thành công', 'success', 'top-left');
+                axios({
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    },
+                    url: `/feedbacks/updateStatusFeedback?feedbackId=${report.id}`
+                }).then(res => {
+                    Notify('Xử lý báo cáo thành công', 'success', 'top-left');
+                })
             })
     }
 

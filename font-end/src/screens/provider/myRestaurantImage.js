@@ -39,6 +39,7 @@ export default class myRestaurantImage extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         restaurantId = localStorage.getItem('resId');
         this.receivedData();
     }

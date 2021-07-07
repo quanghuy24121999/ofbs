@@ -85,6 +85,7 @@ export default class myRestaurantDetail extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         restaurantId = localStorage.getItem('resId');
 
         axios.get(`/restaurants/providerTypes`)
