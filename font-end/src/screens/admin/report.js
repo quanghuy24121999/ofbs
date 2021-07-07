@@ -27,7 +27,7 @@ export default function Report() {
             .then(res => {
                 setReport(res.data);
             })
-    }, []);
+    }, [reports]);
 
     return (
         <div className={`admin ${toggled ? 'toggled' : ''}`}>

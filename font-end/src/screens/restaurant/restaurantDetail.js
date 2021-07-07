@@ -318,7 +318,7 @@ export default class restaurantDetail extends Component {
                                 <Input
                                     id="report"
                                     type="textarea"
-                                    placeholder="Viết nội dung báo cáo "
+                                    placeholder="Viết nội dung báo cáo (yêu cầu điền cụ thể tên món ăn, combo hoặc dịch vụ) "
                                     value={report}
                                     onChange={this.onChangeReport}
                                 />
