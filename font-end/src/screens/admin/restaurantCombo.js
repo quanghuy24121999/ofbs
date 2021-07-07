@@ -9,6 +9,7 @@ import ReactPaginate from 'react-paginate';
 import { Link } from 'react-router-dom';
 
 import RestaurantComboItem from '../../components/admin/RestaurantComboItem';
+import Notification from '../../components/admin/Notification';
 
 export default function RestaurantCombo(props) {
     const { restaurantId } = props.location.state;
@@ -67,6 +68,7 @@ export default function RestaurantCombo(props) {
                     <div className="btn-toggle" onClick={() => handleToggleSidebar(true)}>
                         <FaBars />
                     </div>
+                    <Notification />
                     <Link className="btn btn-primary" to='/login' onClick={Logout}>Đăng xuất</Link>
                 </div>
                 <Nav pills className="restaurant-detail-nav admin-res-nav container">

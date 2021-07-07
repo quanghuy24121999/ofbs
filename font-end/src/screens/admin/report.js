@@ -1,40 +1,40 @@
 import React, { useEffect, useState } from 'react';
-import SlideBar from '../../components/admin/SlideBar';
-import { FaBars } from 'react-icons/fa';
 import {
     Container, Table
 } from 'reactstrap';
+import { FaBars } from 'react-icons/fa';
+import SlideBar from '../../components/admin/SlideBar';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-import RestaurantPendingItem from '../../components/admin/RestaurantPendingItem';
 import Notification from '../../components/admin/Notification';
+import ReportItem from '../../components/admin/ReportItem';
 
-function Restaurant() {
+export default function Report() {
     const [toggled, setToggled] = useState(false);
+    const [reports, setReport] = useState([]);
+
     const handleToggleSidebar = (value) => {
         setToggled(value);
     };
 
-    const [restaurants, setRestaurants] = useState([]);
-
-    useEffect(() => {
-        axios.get(`/restaurants/getRestaurantPending`)
-            .then(res => {
-                setRestaurants(res.data);
-            })
-    })
-
     const Logout = () => {
         localStorage.clear();
     }
+
+    useEffect(() => {
+        axios.get(`/feedbacks/getReport`)
+            .then(res => {
+                setReport(res.data);
+            })
+    }, []);
 
     return (
         <div className={`admin ${toggled ? 'toggled' : ''}`}>
             <SlideBar
                 toggled={toggled}
                 handleToggleSidebar={handleToggleSidebar}
-                inComponent="restaurant"
+                inComponent="report"
             />
 
             <div className="main">
@@ -52,20 +52,19 @@ function Restaurant() {
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Tên nhà hàng</th>
-                                <th>Loại hình</th>
-                                <th>Địa chỉ</th>
-                                <th>Quy mô</th>
-                                <th></th>
+                                <th>Nội dung</th>
+                                <th>Thời gian</th>
                                 <th></th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                restaurants.map((restaurant, index) => {
-                                    return <RestaurantPendingItem key={index} restaurant={restaurant} count={index + 1} />
-                                })
+                                reports.length > 0 && (
+                                    reports.map((report, index) => {
+                                        return <ReportItem key={index} report={report} count={index + 1}/>
+                                    })
+                                )
                             }
                         </tbody>
                     </Table>
@@ -74,5 +73,3 @@ function Restaurant() {
         </div>
     )
 }
-
-export default Restaurant;

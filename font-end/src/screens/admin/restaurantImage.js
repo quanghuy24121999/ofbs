@@ -8,6 +8,8 @@ import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 import { Link } from 'react-router-dom';
 
+import Notification from '../../components/admin/Notification';
+
 export default function RestaurantImage(props) {
     const { restaurantId } = props.location.state;
     const [toggled, setToggled] = useState(false);
@@ -67,6 +69,7 @@ export default function RestaurantImage(props) {
                     <div className="btn-toggle" onClick={() => handleToggleSidebar(true)}>
                         <FaBars />
                     </div>
+                    <Notification />
                     <Link className="btn btn-primary" to='/login' onClick={Logout}>Đăng xuất</Link>
                 </div>
                 <Nav pills className="restaurant-detail-nav admin-res-nav container">

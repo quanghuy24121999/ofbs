@@ -44,6 +44,8 @@ import adminRestaurantImage from './screens/admin/restaurantImage';
 import adminRestaurantMenu from './screens/admin/restaurantDish';
 import adminRestaurantCombo from './screens/admin/restaurantCombo';
 import adminRestaurantService from './screens/admin/restaurantService';
+import adminRestaurantReport from './screens/admin/report';
+
 import errorPage from './screens/errorPage';
 
 import {
@@ -52,15 +54,14 @@ import {
 } from './common/checkAuthen';
 
 
-let hours = 2; // Reset when storage is more than 24hours
+let hours = 2; // Reset when storage is more than 2hours
 let now = new Date().getTime();
 let setupTime = localStorage.getItem('setTime');
-if (now - setupTime > hours * 60 * 60 * 1000) {
-  localStorage.clear();
-  // localStorage.setItem('setupTime', now);
-}
+
 class App extends Component {
   render() {
+    (now - setupTime > hours * 60 * 60 * 1000) &&
+      localStorage.clear()
     return (
       <CartProvider>
         <Router>
@@ -98,6 +99,7 @@ class App extends Component {
               <ProtectedRouteAdmin exact path="/admin/restaurant/menu" component={adminRestaurantMenu} />
               <ProtectedRouteAdmin exact path="/admin/restaurant/combo" component={adminRestaurantCombo} />
               <ProtectedRouteAdmin exact path="/admin/restaurant/service" component={adminRestaurantService} />
+              <ProtectedRouteAdmin exact path="/admin/report" component={adminRestaurantReport} />
 
               <Route path="*" component={errorPage} />
             </Switch>

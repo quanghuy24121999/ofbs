@@ -14,24 +14,37 @@ import image from '../../images/logo_header-removebg-preview.png';
 import axios from "axios";
 import { FaBell } from "react-icons/fa";
 
+import NotificationItem from "./notificationItem";
+
 const TopMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isDisplay, setIsDisplay] = useState(false);
-
     const [currentUser, setCurrentUser] = useState();
-
+    const [notifications, setNotifications] = useState([]);
     const [isLogout, setIsLogout] = useState(false);
 
     const toggle = () => setIsOpen(!isOpen);
 
     useEffect(() => {
+        loadData();
+    }, [])
+
+    const loadData = () => {
         axios.get(`/users/findByPhoneNumber/${localStorage.getItem('currentUser')}`)
             .then(res => {
-                setCurrentUser(res.data);
-                if (res.data !== null && res.data !== undefined && res.data !== '')
-                    localStorage.setItem('userId', res.data.id);
+                let user = res.data;
+                setCurrentUser(user);
+                if (user !== null && user !== undefined && user !== '') {
+                    localStorage.setItem('userId', user.id);
+                    if (user.role.name === 'ROLE_PROVIDER') {
+                        axios.get(`/notifications/getNotifications?customerId=${user.id}&providerId=${user.id}&isAdmin=0`)
+                            .then(res => {
+                                setNotifications(res.data);
+                            })
+                    }
+                }
             });
-    }, [])
+    }
 
     const logout = (e) => {
         e.preventDefault();
@@ -46,6 +59,7 @@ const TopMenu = () => {
     const displayNotify = () => {
         setIsDisplay(!isDisplay);
         if (!isDisplay) {
+            loadData();
             document.getElementById('notification').style.display = "flex";
         } else {
             document.getElementById('notification').style.display = "none";
@@ -76,17 +90,21 @@ const TopMenu = () => {
                             <div className="authen">
                                 <NavItem className="icon-bell">
                                     <FaBell onClick={displayNotify} />
-                                    <span className="icon-bell-dot"></span>
+                                    {
+                                        notifications.length > 0 &&
+                                        <span className="icon-bell-dot"></span>
+                                    }
                                     <div className="notification" id="notification">
-                                        <h5>Thông báo</h5>
+                                        <h5 className="notification-title">Thông báo</h5>
                                         <hr />
-                                        <div className="notify-content">
-                                            <div className="notify-message">
-                                                ajsdkasdhadkjashdkjasdhjashdajsdkasdhahdkjasdhjashdajsdkasdha
-                                            </div>
-                                            <div className="notify-time">
-                                                {new Date().getDate()}
-                                            </div>
+                                        <div className="notification-list">
+                                            {
+                                                notifications.length > 0 ? (notifications.map((notification, index) => {
+                                                    return <NotificationItem key={index} notification={notification} />
+                                                })) : (
+                                                    <h5>Không có thông báo nào </h5>
+                                                )
+                                            }
                                         </div>
                                     </div>
                                 </NavItem>

@@ -27,6 +27,7 @@ export default function MyRestaurantOrderItem(props) {
     const [modal2, setModal2] = useState(false);
     const [modal3, setModal3] = useState(false);
     const [password, setPassword] = useState('');
+    const [user, setUser] = useState('');
     const [orderDetailInfo, setOrderDetailInfo] = useState('');
     const [listOrderDetails, setListOrderDetails] = useState([]);
 
@@ -59,6 +60,10 @@ export default function MyRestaurantOrderItem(props) {
                 .then(res => {
                     setOrderDetailInfo(res.data[0]);
                     setListOrderDetails(res.data);
+                    axios.get(`/users/findByPhoneNumber/${order.customer_phone_number}`)
+                        .then(res => {
+                            setUser(res.data);
+                        })
                 })
         }
     }
@@ -85,16 +90,28 @@ export default function MyRestaurantOrderItem(props) {
                 },
                 url: `/orders/updateStatus?orderId=${order.order_id}&status=preparing`
             }).then(res => {
-                window.location.reload();
-                toast.success("Nhận đơn thành công !", {
-                    position: "top-left",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                axios.post(`/notifications/insertNotification`,
+                    {
+                        "content": `Đơn hàng ${order.order_code} đã được chấp nhận`,
+                        "customer": user,
+                        "provider": null,
+                        "forAdmin": false,
+                        "type": "order",
+                        "read": false
+                    }
+                )
+                    .then(res => {
+                        window.location.reload();
+                        toast.success("Nhận đơn thành công !", {
+                            position: "top-left",
+                            autoClose: 2000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                        });
+                    })
             }).catch(err => {
                 toast.error('Nhận đơn không thành công !', {
                     position: "top-left",
@@ -131,16 +148,28 @@ export default function MyRestaurantOrderItem(props) {
                 },
                 url: `/orders/updateStatus?orderId=${order.order_id}&status=cancelled`
             }).then(res => {
-                window.location.reload();
-                toast.success("Hủy đơn thành công !", {
-                    position: "top-left",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                axios.post(`/notifications/insertNotification`,
+                    {
+                        "content": `Đơn hàng ${order.order_code} đã bị hủy`,
+                        "customer": user,
+                        "provider": null,
+                        "forAdmin": false,
+                        "type": "order",
+                        "read": false
+                    }
+                )
+                    .then(res => {
+                        window.location.reload();
+                        toast.success("Hủy đơn thành công !", {
+                            position: "top-left",
+                            autoClose: 2000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                        });
+                    })
             }).catch(err => {
                 toast.error('Hủy đơn không thành công !', {
                     position: "top-left",
@@ -177,27 +206,39 @@ export default function MyRestaurantOrderItem(props) {
                 },
                 url: `/orders/updateStatus?orderId=${order.order_id}&status=accomplished`
             }).then(res => {
-                window.location.reload();
-                toast.success("Xác nhận hoành thành đơn hàng thành công !", {
-                    position: "top-left",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-            }).catch(err => {
-                toast.error('Xác nhận hoành thành đơn hàng không thành công !', {
-                    position: "top-left",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-            })
+                axios.post(`/notifications/insertNotification`,
+                    {
+                        "content": `Đơn hàng ${order.order_code} đã hoàn thành`,
+                        "customer": user,
+                        "provider": null,
+                        "forAdmin": false,
+                        "type": "order",
+                        "read": false
+                    }
+                )
+                    .then(res => {
+                        window.location.reload();
+                        toast.success("Xác nhận hoành thành đơn hàng thành công !", {
+                            position: "top-left",
+                            autoClose: 2000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                        });
+                    }).catch(err => {
+                        toast.error('Xác nhận hoành thành đơn hàng không thành công !', {
+                            position: "top-left",
+                            autoClose: 2000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                        });
+                    })
+            });
         }).catch(err => {
             toast.error('Mật khẩu không đúng !', {
                 position: "top-left",

@@ -14,6 +14,8 @@ import OrderDetailServiceItem from '../../components/order/orderDetailServiceIte
 import { formatDate } from '../../common/formatDate';
 import { formatCurrency } from '../../common/formatCurrency';
 
+import Notification from '../../components/admin/Notification';
+
 function Order() {
     const [toggled, setToggled] = useState(false);
     const [orderCode, setOrderCode] = useState('');
@@ -73,6 +75,7 @@ function Order() {
                     <div className="btn-toggle" onClick={() => handleToggleSidebar(true)}>
                         <FaBars />
                     </div>
+                    <Notification />
                     <Link className="btn btn-primary" to='/login' onClick={Logout}>Đăng xuất</Link>
                 </div>
                 <Container>
