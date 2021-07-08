@@ -21,13 +21,13 @@ export default function RestaurantDish(props) {
     const [dishes, setDishes] = useState([]);
     const [pageCount, setPageCount] = useState(0);
     const [offset, setOffset] = useState(0);
-    const [perPage] = useState(12);
+    const [perPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(0);
 
     useEffect(() => {
         window.scrollTo(0, 0);
         receivedData(0, '');
-    }, [currentPage]);
+    }, [currentPage, dishes]);
 
     const handlePageClick = (e) => {
         const selectedPage = e.selected;
@@ -39,7 +39,8 @@ export default function RestaurantDish(props) {
     };
 
     const receivedData = (categoryId, nameSearch) => {
-        axios.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=${categoryId}&dishName=${nameSearch}&statusId=1`)
+        window.scrollTo(0, 0);
+        axios.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=${categoryId}&dishName=${nameSearch}&statusId=0`)
             .then(res => {
                 const data = res.data;
                 const slice = data.slice(offset, offset + perPage)

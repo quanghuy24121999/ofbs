@@ -27,7 +27,7 @@ export default function RestaurantService(props) {
     useEffect(() => {
         window.scrollTo(0, 0);
         receivedData();
-    }, [currentPage]);
+    }, [currentPage, services]);
 
     const handlePageClick = (e) => {
         const selectedPage = e.selected;
