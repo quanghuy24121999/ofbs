@@ -78,19 +78,18 @@ public class DishController {
 		}
 	}
 
-//	@PostMapping("/updateStatus")
-//	public ResponseEntity<?> updateStatus(@PathParam("dishId") long dishId,
-//			@PathParam("statusId") long statusId) {
-//		try {
-//			dishService.updateStatus(statusId, dishId);
-//
-//			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
-//					.body(new ResponseMessage("Update status successful !"));
-//		} catch (Exception e) {
-//			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
-//					.body(new ResponseMessage("Update status fail !"));
-//		}
-//	}
+	@PostMapping("/updateStatus")
+	public ResponseEntity<?> updateStatus(@PathParam("dishId") long dishId) {
+		try {
+			dishService.updateStatus(dishId);
+
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
+					.body(new ResponseMessage("Update status successful !"));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
+					.body(new ResponseMessage("Update status fail !"));
+		}
+	}
 
 	@PostMapping("/addDishToCombo")
 	public ResponseEntity<?> addDishCombo(@RequestBody DishCombo dishCombo) {

@@ -66,10 +66,9 @@ public class ServiceController {
 	}
 
 	@PostMapping("/updateStatus")
-	public ResponseEntity<?> updateStatus(@PathParam("serviceId") long serviceId,
-			@PathParam("statusId") long statusId) {
+	public ResponseEntity<?> updateStatus(@PathParam("serviceId") long serviceId) {
 		try {
-			serviceService.updateStatus(statusId, serviceId);
+			serviceService.updateStatus(serviceId);
 
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
 					.body(new ResponseMessage("Update status successful !"));
