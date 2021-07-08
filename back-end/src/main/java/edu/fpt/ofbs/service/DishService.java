@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.fpt.ofbs.entities.Dish;
 import edu.fpt.ofbs.entities.DishCombo;
@@ -14,6 +15,7 @@ import edu.fpt.ofbs.repositories.DishRepository;
 import edu.fpt.ofbs.repositories.MenuCategoryRepository;
 
 @Service
+@Transactional
 public class DishService {
 	@Autowired
 	private DishRepository dishRepository;
@@ -23,6 +25,9 @@ public class DishService {
 	
 	@Autowired
 	private DishComboRepository dishComboRepository;
+	
+	@Autowired
+	private StatusService statusService;
 	
 	public List<IDishDTO> getDishesByComboId(long comboId){
 		return dishRepository.getDishesByComboId(comboId);
@@ -44,9 +49,10 @@ public class DishService {
 		dishRepository.save(dish);
 	}
 	
-//	public void updateStatus(long statusId, long dishId) {
-//		dishRepository.updateStatus(statusId, dishId);
-//	}
+	public void updateStatus(long dishId) {
+		long statusId = statusService.findStatusByName("banned").getId();
+		dishRepository.updateStatus(statusId, dishId);
+	}
 	
 	public List<MenuCategory> getAllMenuCategories(){
 		return categoryRepository.findAll();

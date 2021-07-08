@@ -48,4 +48,17 @@ public class ComboController {
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage("Update combo fail !"));
 		}
 	}
+	
+	@PostMapping("/updateStatus")
+	public ResponseEntity<?> updateStatus(@PathParam("comboId") long comboId) {
+		try {
+			comboService.updateStatus(comboId);
+
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
+					.body(new ResponseMessage("Update status successful !"));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
+					.body(new ResponseMessage("Update status fail !"));
+		}
+	}
 }

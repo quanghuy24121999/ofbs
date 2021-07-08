@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.fpt.ofbs.entities.ServiceCategory;
 import edu.fpt.ofbs.entities.Services;
@@ -12,6 +13,7 @@ import edu.fpt.ofbs.repositories.ServiceCategoryRepository;
 import edu.fpt.ofbs.repositories.ServiceRepository;
 
 @Service
+@Transactional
 public class ServiceService{
 	@Autowired
 	private ServiceRepository serviceRepository;
@@ -19,6 +21,9 @@ public class ServiceService{
 	@Autowired
 	private ServiceCategoryRepository categoryRepository;
 
+	@Autowired
+	private StatusService statusService;
+	
 	public List<Services> findAll() {
 		return serviceRepository.findAll();
 	}
@@ -43,7 +48,8 @@ public class ServiceService{
 		return categoryRepository.findAll();
 	}
 	
-	public void updateStatus(long statusId, long serviceId) {
+	public void updateStatus(long serviceId) {
+		long statusId = statusService.findStatusByName("banned").getId();
 		serviceRepository.updateStatus(statusId, serviceId);
 	}
 }
