@@ -3,6 +3,7 @@ package edu.fpt.ofbs.repositories;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -20,6 +21,7 @@ public interface DishRepository extends JpaRepository<Dish, Long>{
 //	@Query(value = "exec sp_searchDishesByName ?1, ?2", nativeQuery = true)
 //	List<IDishDTO> searchDishesByName(long restaurantId, String dishName);
 	
+	@Modifying
 	@Query(value = "UPDATE dishes SET status_id = ?1 WHERE id = ?2", nativeQuery = true)
 	void updateStatus(long statusId, long dishId);
 }

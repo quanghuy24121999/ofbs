@@ -53,8 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 												"/users/update/**",
 												"/users/findByPhoneNumber/**",
 												"/images/**",
-												"/notifications/**",
-												"/feedbacks/getReport").permitAll();
+												"/notifications/**").permitAll();
 		http.authorizeRequests().antMatchers(HttpMethod.GET, "/promotions/**").permitAll();
 		http.authorizeRequests().antMatchers(HttpMethod.GET, "/restaurants/**").permitAll();
 		http.authorizeRequests().antMatchers(HttpMethod.GET, "/dishes/**").permitAll();
@@ -69,7 +68,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, "/restaurants").hasAnyRole("PROVIDER", "ADMIN")
 				.antMatchers("/users/profile", "/users/profile/**", "/orders/updateStatus", "/orders/setStatus",
 						"/orders/customer", "/restaurants/registerRestaurant", "/orders/insertOrderDetail", "/feedbacks/insertFeedback").hasAnyRole("PROVIDER", "CUSTOMER")
-				.antMatchers("/orders/searchOrder", "/orders/getTotalOrderByStatus").hasRole("ADMIN")
+				.antMatchers("/orders/searchOrder", "/orders/getTotalOrderByStatus", "/feedbacks/updateStatusFeedback", "/feedbacks/getReport",
+						"dishes/updateStatus", "combos/updateStatus", "services/updateStatus").hasRole("ADMIN")
 				.antMatchers(HttpMethod.POST, "/dishes").hasRole("PROVIDER")
 				.antMatchers(HttpMethod.DELETE, "/dishes").hasRole("PROVIDER")
 				.antMatchers("/combos/save", "/services/update", "/promotions/save", "/orders/restaurant").hasRole("PROVIDER")
