@@ -93,7 +93,12 @@ export default class myRestaurantMenu extends Component {
 
     search() {
         const { nameSearch, categorySearch } = this.state;
-        this.receivedData(categorySearch, nameSearch);
+        this.setState({
+            currentPage: 0,
+            offset: 0
+        }, () => {
+            this.receivedData(categorySearch, nameSearch);
+        })
     }
 
     updateImage(dishId) {
@@ -172,20 +177,21 @@ export default class myRestaurantMenu extends Component {
     }
 
     handlePageClick = (e) => {
+        window.scrollTo(0, 0);
         const selectedPage = e.selected;
         const offset = selectedPage * this.state.perPage;
 
         this.setState({
-            currentPage: 0,
+            currentPage: selectedPage,
             offset: offset
         }, () => {
-            this.receivedData(this.state.categorySearch, this.state.nameSearch);
+            this.search();
         });
 
     };
 
     componentWillUnmount() {
-        this.setState({ dishesPaging: []});
+        this.setState({ dishesPaging: [] });
     }
 
     receivedData(categoryId, nameSearch) {

@@ -27,7 +27,7 @@ export default function RestaurantCombo(props) {
     useEffect(() => {
         window.scrollTo(0, 0);
         receivedData();
-    }, [currentPage]);
+    }, [currentPage, combos]);
 
     const handlePageClick = (e) => {
         const selectedPage = e.selected;

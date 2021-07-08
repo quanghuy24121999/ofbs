@@ -1971,18 +1971,28 @@ tr > td:nth-child(4) {
 }
 
 .admin-modal-combo {
-  max-width: 60%;
+  max-width: 80%;
+}
+
+.modal-dish-detail,
+.modal-service-detail {
+  min-width: 60%;
 }
 
 .title-dish-combo {
   text-align: center;
 }
 
+.dish-image,
+.service-image {
+  min-width: 340px;
+}
+
 .info {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   margin-top: 20px;
 }
 
@@ -2022,7 +2032,7 @@ tr > td:nth-child(4) {
   color: #000000;
   font-size: 1.25rem;
   align-self: center;
-  margin-right: 20px;
+  margin: 0 20px;
   cursor: pointer;
   list-style: none;
 }

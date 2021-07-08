@@ -8,6 +8,7 @@ import { FaEye } from 'react-icons/fa';
 import axios from 'axios';
 
 import DishComboItem from '../restaurant/dishComboItem';
+import { Notify } from '../../common/notify';
 
 export default function RestaurantComboItem(props) {
     const combo = props.combo;
@@ -16,11 +17,14 @@ export default function RestaurantComboItem(props) {
 
     if (comboStatus === 'active') {
         comboStatus = 'Đang kinh doanh';
-    } else {
+    } else if (comboStatus === 'inactive') {
         comboStatus = 'Ngừng kinh doanh';
+    } else {
+        comboStatus = 'Đã bị gỡ';
     }
 
     const [modal, setModal] = useState(false);
+    const [modal1, setModal1] = useState(false);
     const [comboModal, setComboModal] = useState();
     const [dishModal, setDishModal] = useState();
     const [imageId, setImageId] = useState('');
@@ -33,7 +37,6 @@ export default function RestaurantComboItem(props) {
             axios.get(`/combos/getComboById?comboId=${combo.combo_id}`)
                 .then(res => {
                     setComboModal(res.data);
-                    console.log(res.data);
                 });
 
             axios.get(`/dishes/getDishesByComboId?comboId=${combo.combo_id}`)
@@ -41,6 +44,40 @@ export default function RestaurantComboItem(props) {
                     setDishModal(res.data);
                 });
         }
+    }
+
+    const toggle1 = () => {
+        setModal1(!modal1);
+    }
+
+    const ban = () => {
+        axios.get(`/restaurants/getRestaurantById?restaurantId=${combo.restaurant_id}`)
+            .then(res => {
+                const restaurant = res.data;
+                axios({
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    },
+                    url: `/combos/updateStatus?comboId=${combo.combo_id}`
+                });
+                axios.post(`/notifications/insertNotification`,
+                    {
+                        "content": `Dịch vụ ${combo.combo_name} của nhà hàng ${restaurant.restaurantName} đã bị gỡ do vi phạm chính sách của FBS`,
+                        "customer": null,
+                        "provider": restaurant.provider,
+                        "forAdmin": false,
+                        "type": "report",
+                        "read": false
+                    }
+                ).then(res => {
+                    toggle();
+                    toggle1();
+                    Notify('Gỡ combo thành công', 'success', 'top-left');
+                }).catch(res => {
+                    Notify('Gỡ combo không thành công', 'error', 'top-left');
+                })
+            })
     }
 
     return (
@@ -110,6 +147,17 @@ export default function RestaurantComboItem(props) {
                     </Row>
                 </ModalBody>
                 <ModalFooter>
+                    <Button color="danger" onClick={toggle1}>Gỡ</Button>
+                    <Modal isOpen={modal1} toggle={toggle1} className={``}>
+                        <ModalHeader toggle={toggle1}>Thông báo</ModalHeader>
+                        <ModalBody>
+                            Bạn có chắc chắn muốn gỡ combo món ăn này ?
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="success" onClick={ban}>Gỡ</Button>
+                            <Button color="secondary" onClick={toggle1}>Trở lại</Button>
+                        </ModalFooter>
+                    </Modal>
                     <Button color="secondary" onClick={toggle}>Trở lại</Button>
                 </ModalFooter>
             </Modal>
