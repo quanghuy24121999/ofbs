@@ -112,11 +112,18 @@ export default class searchResult extends Component {
     }
 
     onSubmit(e) {
+
         e.preventDefault();
-        this.receivedData();
+        this.setState({
+            currentPage: 0,
+            offset: 0
+        }, () => {
+            this.receivedData();
+        })
     }
 
     handlePageClick = (e) => {
+        window.scrollTo(0, 0);
         const selectedPage = e.selected;
         const offset = selectedPage * this.state.perPage;
 

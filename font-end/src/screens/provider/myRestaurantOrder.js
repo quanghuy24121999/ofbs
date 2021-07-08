@@ -55,6 +55,7 @@ export default class myRestaurantOrder extends Component {
     }
 
     receivedData(orderCode) {
+        window.scrollTo(0, 0);
         axios.get(`/orders/restaurant?restaurantId=${restaurantId}&orderCode=${orderCode}`, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
