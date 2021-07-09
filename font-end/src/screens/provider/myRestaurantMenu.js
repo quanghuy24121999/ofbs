@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
     Nav, NavItem, Container, Row, Col, Table,
     Label, Input, Button, Modal, ModalHeader,
-    ModalBody, ModalFooter, Alert, CardImg
+    ModalBody, ModalFooter, Alert, CardImg, Form
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -13,6 +13,7 @@ import ReactPaginate from 'react-paginate';
 import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
 import MyRestaurantMenuItem from '../../components/provider/myRestaurantMenuItem';
+import { Notify } from '../../common/notify';
 
 let restaurantId = '';
 export default class myRestaurantMenu extends Component {
@@ -116,58 +117,74 @@ export default class myRestaurantMenu extends Component {
     }
 
     addDish() {
-        const { category, name, price, status, description } = this.state;
-        axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
-            .then(res => {
-                let dishStatus = '';
-                let menuCategory = '';
-                let restaurant = res.data;
+        const { category, name, price, status, description, images } = this.state;
+        if (images.length > 0) {
+            axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
+                .then(res => {
+                    let dishStatus = '';
+                    let menuCategory = '';
+                    let restaurant = res.data;
 
-                if (status === 1) {
-                    dishStatus = 'active';
-                } else {
-                    dishStatus = 'inactive';
-                }
-
-                switch (category) {
-                    case 1:
-                        menuCategory = 'Khai vị';
-                        break;
-
-                    case 2:
-                        menuCategory = 'Món chính';
-                        break;
-
-                    case 3:
-                        menuCategory = 'Tráng miệng';
-                        break;
-
-                    case 4:
-                        menuCategory = 'Đồ uống';
-                        break;
-                    default:
-                        break;
-                }
-
-                axios.post(`/dishes/save`,
-                    {
-                        "name": name,
-                        "status": { id: status, name: dishStatus },
-                        "description": description,
-                        "price": price,
-                        "restaurant": restaurant,
-                        "menuCategory": { id: category, name: menuCategory }
-                    }, {
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    if (status === 1) {
+                        dishStatus = 'active';
+                    } else {
+                        dishStatus = 'inactive';
                     }
-                }
-                )
-                    .then(res => {
-                        this.toggle();
-                        this.updateImage(res.data.id);
-                    })
-            })
+
+                    switch (category) {
+                        case 1:
+                            menuCategory = 'Khai vị';
+                            break;
+
+                        case 2:
+                            menuCategory = 'Món chính';
+                            break;
+
+                        case 3:
+                            menuCategory = 'Tráng miệng';
+                            break;
+
+                        case 4:
+                            menuCategory = 'Đồ uống';
+                            break;
+                        default:
+                            break;
+                    }
+                    axios.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=0&dishName=&statusId=0`)
+                        .then(res => {
+                            let count = 0
+                            res.data.forEach(dish => {
+                                if (name === dish.dish_name) {
+                                    count = count + 1;
+                                }
+                            });
+                            if (count === 0) {
+                                axios.post(`/dishes/save`,
+                                    {
+                                        "name": name,
+                                        "status": { id: status, name: dishStatus },
+                                        "description": description,
+                                        "price": price,
+                                        "restaurant": restaurant,
+                                        "menuCategory": { id: category, name: menuCategory }
+                                    }, {
+                                    headers: {
+                                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                    }
+                                }).then(res => {
+                                    this.toggle();
+                                    this.updateImage(res.data.id);
+                                    this.receivedData(0, '');
+                                    Notify("Thêm món ăn thành công", "success", "top-right");
+                                })
+                            } else {
+                                Notify("Món ăn này đã tồn tại", "error", "top-right");
+                            }
+                        })
+                })
+        } else {
+            Notify('Vui lòng thêm ảnh của món ăn', 'warning', 'top-right');
+        }
     }
 
     toggle() { this.setState({ modal: !this.state.modal }) };
@@ -185,7 +202,7 @@ export default class myRestaurantMenu extends Component {
             currentPage: selectedPage,
             offset: offset
         }, () => {
-            this.search();
+           this.receivedData(0, '');
         });
 
     };
@@ -355,98 +372,107 @@ export default class myRestaurantMenu extends Component {
                             <Modal isOpen={modal} toggle={this.toggle} className={``}>
                                 <ModalHeader toggle={this.toggle}>Thêm món ăn</ModalHeader>
                                 <ModalBody>
-                                    <div>
-                                        <ImageUploading
-                                            value={images}
-                                            onChange={this.onChange}
-                                            dataURLKey="data_url"
-                                        >
-                                            {({
-                                                imageList,
-                                                onImageUpdate,
-                                                onImageRemove,
-                                            }) => (
-                                                <div className="upload__image-wrapper">
-                                                    {imageList.map((image, index) => (
-                                                        (
-                                                            <div key={index} className="image-item">
-                                                                <CardImg className="business-image" top src={image.data_url} />
-                                                                <Alert color="danger" id="error-form4" className="error-form">
-                                                                    Không thể tải ảnh lên, vui lòng chọn một ảnh khác !
-                                                                </Alert>
-                                                            </div>
+                                    <Form onSubmit={(event) => {
+                                        event.preventDefault();
+                                        this.addDish();
+                                    }}>
+                                        <div>
+                                            <ImageUploading
+                                                value={images}
+                                                onChange={this.onChange}
+                                                dataURLKey="data_url"
+                                            >
+                                                {({
+                                                    imageList,
+                                                    onImageUpdate,
+                                                    onImageRemove,
+                                                }) => (
+                                                    <div className="upload__image-wrapper">
+                                                        {imageList.map((image, index) => (
+                                                            (
+                                                                <div key={index} className="image-item">
+                                                                    <CardImg className="business-image" top src={image.data_url} />
+                                                                    <Alert color="danger" id="error-form4" className="error-form">
+                                                                        Không thể tải ảnh lên, vui lòng chọn một ảnh khác !
+                                                                    </Alert>
+                                                                </div>
+                                                            )
                                                         )
-                                                    )
-                                                    )}
+                                                        )}
 
-                                                    <div className="btn-change-image" onClick={onImageUpdate}>Chọn hoặc đổi ảnh</div>
-                                                </div>
-                                            )}
-                                        </ImageUploading>
-                                    </div>
-                                    <div>
-                                        <Label for="name"><b>Tên món ăn:</b></Label>
-                                        <Input
-                                            type="text"
-                                            name="name"
-                                            id="name"
-                                            placeholder="Nhập tên món ăn"
-                                            onChange={this.onChangeName}
-                                            value={name}
-                                        />
+                                                        <div className="btn-change-image" onClick={onImageUpdate}>Chọn hoặc đổi ảnh</div>
+                                                    </div>
+                                                )}
+                                            </ImageUploading>
+                                        </div>
+                                        <div>
+                                            <Label for="name"><b>Tên món ăn: <span className="require-icon">*</span></b></Label>
+                                            <Input
+                                                type="text"
+                                                name="name"
+                                                id="name"
+                                                placeholder="Nhập tên món ăn"
+                                                onChange={this.onChangeName}
+                                                value={name}
+                                                required="required"
+                                            />
 
-                                        <Label for="category"><b>Loại hình:</b></Label>
-                                        <Input
-                                            type="select"
-                                            name="category"
-                                            id="category"
-                                            onChange={this.onChangeCategory}
-                                            value={category}
-                                        >
-                                            {categories.map((category) => {
-                                                return (
-                                                    <option key={category.id} value={category.id}>
-                                                        {category.name}
-                                                    </option>
-                                                );
-                                            })}
-                                        </Input>
+                                            <Label for="category"><b>Loại hình: <span className="require-icon">*</span></b></Label>
+                                            <Input
+                                                type="select"
+                                                name="category"
+                                                id="category"
+                                                onChange={this.onChangeCategory}
+                                                value={category}
+                                            >
+                                                {categories.map((category) => {
+                                                    return (
+                                                        <option key={category.id} value={category.id}>
+                                                            {category.name}
+                                                        </option>
+                                                    );
+                                                })}
+                                            </Input>
 
-                                        <Label for="status"><b>Trạng thái:</b></Label>
-                                        <Input
-                                            type="select"
-                                            name="status"
-                                            id="status"
-                                            onChange={this.onChangeStatus}
-                                            value={status}
-                                        >
-                                            <option value="1">Đang kinh doanh</option>
-                                            <option value="2">Ngừng kinh doanh</option>
-                                        </Input>
+                                            <Label for="status"><b>Trạng thái: <span className="require-icon">*</span></b></Label>
+                                            <Input
+                                                type="select"
+                                                name="status"
+                                                id="status"
+                                                onChange={this.onChangeStatus}
+                                                value={status}
+                                            >
+                                                <option value="1">Đang kinh doanh</option>
+                                                <option value="2">Ngừng kinh doanh</option>
+                                            </Input>
 
-                                        <Label for="price"><b>Giá món ăn:</b></Label>
-                                        <Input
-                                            type="number"
-                                            name="price"
-                                            id="price"
-                                            placeholder="Nhập giá món ăn"
-                                            onChange={this.onChangePrice}
-                                            value={price}
-                                        />
+                                            <Label for="price"><b>Giá món ăn: <span className="require-icon">*</span></b></Label>
+                                            <Input
+                                                type="number"
+                                                name="price"
+                                                id="price"
+                                                placeholder="Nhập giá món ăn"
+                                                onChange={this.onChangePrice}
+                                                value={price}
+                                                required="required"
+                                            />
 
-                                        <Label for="description"><b>Mô tả:</b></Label>
-                                        <Input
-                                            type="textarea"
-                                            name="description"
-                                            id="description"
-                                            placeholder="Mô tả món ăn"
-                                            onChange={this.onChangeDescription}
-                                            value={description}
-                                        />
-                                    </div>
+                                            <Label for="description"><b>Mô tả: <span className="require-icon">*</span></b></Label>
+                                            <Input
+                                                type="textarea"
+                                                name="description"
+                                                id="description"
+                                                placeholder="Mô tả món ăn"
+                                                onChange={this.onChangeDescription}
+                                                value={description}
+                                                required="required"
+                                            />
+                                        </div>
+                                        <Input type="submit" value="Lưu" className="btn btn-success btn-save" />
+                                    </Form>
                                 </ModalBody>
                                 <ModalFooter>
-                                    <Button color="success" onClick={() => this.addDish()}>Lưu</Button>{' '}
+                                    {/* <Button color="success" onClick={() => this.addDish()}>Lưu</Button>{' '} */}
                                     <Button color="secondary" onClick={this.toggle}>Trở lại</Button>
                                 </ModalFooter>
                             </Modal>
@@ -456,11 +482,10 @@ export default class myRestaurantMenu extends Component {
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Tên dịch vụ</th>
+                                <th>Tên món ăn</th>
                                 <th>Giá</th>
-                                <th>Loại dịch vụ</th>
+                                <th>Loại món ăn</th>
                                 <th>Trạng thái</th>
-                                <th></th>
                                 <th></th>
                             </tr>
                         </thead>

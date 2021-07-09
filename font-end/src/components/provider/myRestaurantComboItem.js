@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
     Button, Modal, ModalHeader, Container,
     ModalBody, ModalFooter, Label, Input,
-    CardImg, Alert, Row, Col, Table
+    CardImg, Alert, Row, Col, Table, Form
 } from 'reactstrap';
 import { FaEdit, FaSearch } from 'react-icons/fa';
 import axios from 'axios';
@@ -12,6 +12,7 @@ import ReactPaginate from 'react-paginate';
 import DishComboItem from '../restaurant/dishComboItem';
 import { formatCurrency } from '../../common/formatCurrency';
 import AddDishComboItem from '../restaurant/addDishComboItem';
+import { Notify } from '../../common/notify';
 
 export default function MyRestaurantComboItem(props) {
     const combo = props.combo;
@@ -19,6 +20,7 @@ export default function MyRestaurantComboItem(props) {
     let statusCombo = combo.status_name;
     let count = props.count;
     let priceDish = 0;
+    let comboName = combo.combo_name;
 
     if (statusCombo === 'active') {
         statusCombo = 'Đang kinh doanh';
@@ -173,24 +175,38 @@ export default function MyRestaurantComboItem(props) {
                 } else {
                     dishStatus = 'inactive';
                 }
-
-                axios.post(`/combos/save`,
-                    {
-                        "id": combo.combo_id,
-                        "name": name,
-                        "description": description,
-                        "price": price,
-                        "restaurant": restaurant,
-                        "status": { id: status, name: dishStatus }
-                    }, {
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                    }
-                }
-                )
+                axios.get(`/combos/getCombosByRestaurantId?restaurantId=${restaurantId}&isActive=0`)
                     .then(res => {
-                        toggle();
-                        window.location.reload();
+                        let count = 0
+                        res.data.forEach(combo => {
+                            if (name === combo.combo_name) {
+                                count = count + 1;
+                            }
+                        });
+                        if (comboName === name) {
+                            count = 0;
+                        }
+                        if (count === 0) {
+                            axios.post(`/combos/save`,
+                                {
+                                    "id": combo.combo_id,
+                                    "name": name,
+                                    "description": description,
+                                    "price": price,
+                                    "restaurant": restaurant,
+                                    "status": { id: status, name: dishStatus }
+                                }, {
+                                headers: {
+                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                }
+                            }).then(res => {
+                                toggle();
+                                window.location.reload();
+                                Notify("Cập nhật Combo thành công", "success", "top-right");
+                            })
+                        } else {
+                            Notify("Combo này đã tồn tại", "error", "top-right");
+                        }
                     })
             })
     }
@@ -211,86 +227,95 @@ export default function MyRestaurantComboItem(props) {
                 <ModalBody>
                     <Row>
                         <Col lg="6" md="6" sm="12">
-                            {
-                                imageId && (
-                                    <div>
-                                        <ImageUploading
-                                            value={images}
-                                            onChange={onChange}
-                                            dataURLKey="data_url"
-                                        >
-                                            {({
-                                                imageList,
-                                                onImageUpdate,
-                                                onImageRemove,
-                                            }) => (
-                                                <div className="upload__image-wrapper">
-                                                    <CardImg id="user-image" className="dish-profile-image" top src={`/images/${imageId}`} alt="combo" />
-                                                    {imageList.map((image, index) => (
-                                                        (document.getElementById("user-image").style.display = "none"),
-                                                        (
-                                                            <div key={index} className="image-item">
-                                                                <CardImg className="dish-profile-image" top src={image.data_url} />
-                                                                <Alert color="danger" id="error-form4" className="error-form">
-                                                                    Không thể tải ảnh lên, vui lòng chọn một ảnh khác !
-                                                                </Alert>
-                                                            </div>
+                            <Form onSubmit={(event) => {
+                                event.preventDefault();
+                                updateCombo();
+                            }}>
+                                {
+                                    imageId && (
+                                        <div>
+                                            <ImageUploading
+                                                value={images}
+                                                onChange={onChange}
+                                                dataURLKey="data_url"
+                                            >
+                                                {({
+                                                    imageList,
+                                                    onImageUpdate,
+                                                    onImageRemove,
+                                                }) => (
+                                                    <div className="upload__image-wrapper">
+                                                        <CardImg id="user-image" className="dish-profile-image" top src={`/images/${imageId}`} alt="combo" />
+                                                        {imageList.map((image, index) => (
+                                                            (document.getElementById("user-image").style.display = "none"),
+                                                            (
+                                                                <div key={index} className="image-item">
+                                                                    <CardImg className="dish-profile-image" top src={image.data_url} />
+                                                                    <Alert color="danger" id="error-form4" className="error-form">
+                                                                        Không thể tải ảnh lên, vui lòng chọn một ảnh khác !
+                                                                    </Alert>
+                                                                </div>
+                                                            )
                                                         )
-                                                    )
-                                                    )}
+                                                        )}
 
-                                                    <div className="btn-change-image" onClick={onImageUpdate}>Thay đổi ảnh</div>
-                                                </div>
-                                            )}
-                                        </ImageUploading>
+                                                        <div className="btn-change-image" onClick={onImageUpdate}>Thay đổi ảnh</div>
+                                                    </div>
+                                                )}
+                                            </ImageUploading>
+                                        </div>
+                                    )
+                                }
+                                {
+                                    comboModal && <div>
+                                        <Label for="name"><b>Tên combo: <span className="require-icon">*</span></b></Label>
+                                        <Input
+                                            type="text"
+                                            name="name"
+                                            id="name"
+                                            placeholder="Nhập tên combo"
+                                            onChange={onChangeName}
+                                            value={name}
+                                            required="required"
+                                        />
+
+                                        <Label for="status"><b>Trạng thái: <span className="require-icon">*</span></b></Label>
+                                        <Input
+                                            type="select"
+                                            name="status"
+                                            id="status"
+                                            onChange={onChangeStatus}
+                                            value={status}
+                                        >
+                                            <option value="1">Đang kinh doanh</option>
+                                            <option value="2">Ngừng kinh doanh</option>
+                                        </Input>
+
+                                        <Label for="price"><b>Giá combo: <span className="require-icon">*</span></b></Label>
+                                        <Input
+                                            type="number"
+                                            name="price"
+                                            id="price"
+                                            placeholder="Nhập giá combo"
+                                            onChange={onChangePrice}
+                                            value={price}
+                                            required="required"
+                                        />
+
+                                        <Label for="description"><b>Mô tả: <span className="require-icon">*</span></b></Label>
+                                        <Input
+                                            type="textarea"
+                                            name="description"
+                                            id="description"
+                                            placeholder="Mô tả combo"
+                                            onChange={onChangeDescription}
+                                            value={description}
+                                            required="required"
+                                        />
                                     </div>
-                                )
-                            }
-                            {
-                                comboModal && <div>
-                                    <Label for="name"><b>Tên combo:</b></Label>
-                                    <Input
-                                        type="text"
-                                        name="name"
-                                        id="name"
-                                        placeholder="Nhập tên combo"
-                                        onChange={onChangeName}
-                                        value={name}
-                                    />
-
-                                    <Label for="status"><b>Trạng thái:</b></Label>
-                                    <Input
-                                        type="select"
-                                        name="status"
-                                        id="status"
-                                        onChange={onChangeStatus}
-                                        value={status}
-                                    >
-                                        <option value="1">Đang kinh doanh</option>
-                                        <option value="2">Ngừng kinh doanh</option>
-                                    </Input>
-
-                                    <Label for="price"><b>Giá combo:</b></Label>
-                                    <Input
-                                        type="number"
-                                        name="price"
-                                        id="price"
-                                        placeholder="Nhập giá combo"
-                                        onChange={onChangePrice}
-                                        value={price}
-                                    />
-
-                                    <Label for="description"><b>Mô tả:</b></Label>
-                                    <Input
-                                        type="textarea"
-                                        name="description"
-                                        id="description"
-                                        placeholder="Mô tả combo"
-                                        onChange={onChangeDescription}
-                                        value={description}
-                                    />
-                                </div>
-                            }
+                                }
+                                <Input type="submit" value="Lưu" className="btn btn-success btn-save" />
+                            </Form>
                         </Col>
                         <Col lg="6" md="6" sm="12">
                             <Table>
@@ -403,7 +428,7 @@ export default function MyRestaurantComboItem(props) {
                     </Row>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="success" onClick={() => updateCombo()}>Lưu</Button>{' '}
+                    {/* <Button color="success" onClick={() => updateCombo()}>Lưu</Button>{' '} */}
                     <Button color="secondary" onClick={toggle}>Trở lại</Button>
                 </ModalFooter>
             </Modal>
