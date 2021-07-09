@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import {
-    Nav, NavItem, Container, Row, Col,
+    Nav, NavItem, Container, Row, Col, Form,
     Label, Input, Button, Modal, ModalHeader,
     ModalBody, ModalFooter, Alert, CardImg
 } from 'reactstrap';
@@ -12,6 +12,7 @@ import { FaSearch, FaRegPlusSquare } from 'react-icons/fa';
 import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
 import MyRestaurantServiceItem from '../../components/provider/myRestaurantServiceItem';
+import { Notify } from '../../common/notify';
 
 let restaurantId = '';
 
@@ -96,73 +97,90 @@ export default class myRestaurantService extends Component {
     }
 
     addService() {
-        const { category, description, name, price, status } = this.state;
-        console.log(status);
-        axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
-            .then(res => {
-                let serviceStatus = '';
-                let serviceCategory = '';
-                let restaurant = res.data;
+        const { category, description, name, price, status, images } = this.state;
+        if (images.length > 0) {
+            axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
+                .then(res => {
+                    let serviceStatus = '';
+                    let serviceCategory = '';
+                    let restaurant = res.data;
 
-                if (status === 1) {
-                    serviceStatus = 'active';
-                } else {
-                    serviceStatus = 'inactive';
-                }
-
-                switch (category) {
-                    case 1:
-                        serviceCategory = 'Trang trí';
-                        break;
-
-                    case 2:
-                        serviceCategory = 'Ban nhạc';
-                        break;
-
-                    case 3:
-                        serviceCategory = 'Vũ đoàn';
-                        break;
-
-                    case 4:
-                        serviceCategory = 'Ca sĩ';
-                        break;
-
-                    case 5:
-                        serviceCategory = 'MC';
-                        break;
-
-                    case 6:
-                        serviceCategory = 'Quay phim - chụp ảnh';
-                        break;
-
-                    case 7:
-                        serviceCategory = 'Xe cưới';
-                        break;
-
-                    default:
-                        break;
-                }
-
-                axios.post(`/services/update`,
-                    {
-                        "name": name,
-                        "description": description,
-                        "status": { id: status, name: serviceStatus },
-                        "price": price,
-                        "restaurant": restaurant,
-                        "serviceCategory": { id: category, name: serviceCategory }
-                    }, {
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    if (status === 1) {
+                        serviceStatus = 'active';
+                    } else {
+                        serviceStatus = 'inactive';
                     }
-                }
-                )
-                    .then(res => {
-                        this.toggle();
-                        console.log(res.data)
-                        this.updateImage(res.data.id);
-                    })
-            })
+
+                    switch (category) {
+                        case 1:
+                            serviceCategory = 'Trang trí';
+                            break;
+
+                        case 2:
+                            serviceCategory = 'Ban nhạc';
+                            break;
+
+                        case 3:
+                            serviceCategory = 'Vũ đoàn';
+                            break;
+
+                        case 4:
+                            serviceCategory = 'Ca sĩ';
+                            break;
+
+                        case 5:
+                            serviceCategory = 'MC';
+                            break;
+
+                        case 6:
+                            serviceCategory = 'Quay phim - chụp ảnh';
+                            break;
+
+                        case 7:
+                            serviceCategory = 'Xe cưới';
+                            break;
+
+                        default:
+                            break;
+                    }
+                    axios.get(`/services/search?restaurantId=${restaurantId}`)
+                        .then(res => {
+                            let count = 0
+                            res.data.forEach(service => {
+                                if (name === service.service_name) {
+                                    count = count + 1;
+                                }
+                            });
+                            if (count === 0) {
+                                axios.post(`/services/update`,
+                                    {
+                                        "name": name,
+                                        "description": description,
+                                        "status": { id: status, name: serviceStatus },
+                                        "price": price,
+                                        "restaurant": restaurant,
+                                        "serviceCategory": { id: category, name: serviceCategory }
+                                    }, {
+                                    headers: {
+                                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                    }
+                                }).then(res => {
+                                    this.toggle();
+                                    this.updateImage(res.data.id);
+                                    axios.get(`/services/getServiceCategories`)
+                                        .then(res => {
+                                            this.setState({ categories: res.data });
+                                        })
+                                    Notify("Thêm dịch vụ thành công", "success", "top-right");
+                                })
+                            } else {
+                                Notify("Dịch vụ này đã tồn tại", "error", "top-right");
+                            }
+                        })
+                })
+        } else {
+            Notify('Vui lòng thêm ảnh của dịch vụ', 'warning', 'top-right');
+        }
     }
 
     toggle() { this.setState({ modal: !this.state.modal }) };
@@ -330,98 +348,107 @@ export default class myRestaurantService extends Component {
                             <Modal isOpen={modal} toggle={this.toggle} className={``}>
                                 <ModalHeader toggle={this.toggle}>Thêm dịch vụ</ModalHeader>
                                 <ModalBody>
-                                    <div>
-                                        <ImageUploading
-                                            value={images}
-                                            onChange={this.onChange}
-                                            dataURLKey="data_url"
-                                        >
-                                            {({
-                                                imageList,
-                                                onImageUpdate,
-                                                onImageRemove,
-                                            }) => (
-                                                <div className="upload__image-wrapper">
-                                                    {imageList.map((image, index) => (
-                                                        (
-                                                            <div key={index} className="image-item">
-                                                                <CardImg className="business-image" top src={image.data_url} />
-                                                                <Alert color="danger" id="error-form4" className="error-form">
-                                                                    Không thể tải ảnh lên, vui lòng chọn một ảnh khác !
-                                                                </Alert>
-                                                            </div>
+                                    <Form onSubmit={(event) => {
+                                        event.preventDefault();
+                                        this.addService();
+                                    }}>
+                                        <div>
+                                            <ImageUploading
+                                                value={images}
+                                                onChange={this.onChange}
+                                                dataURLKey="data_url"
+                                            >
+                                                {({
+                                                    imageList,
+                                                    onImageUpdate,
+                                                    onImageRemove,
+                                                }) => (
+                                                    <div className="upload__image-wrapper">
+                                                        {imageList.map((image, index) => (
+                                                            (
+                                                                <div key={index} className="image-item">
+                                                                    <CardImg className="business-image" top src={image.data_url} />
+                                                                    <Alert color="danger" id="error-form4" className="error-form">
+                                                                        Không thể tải ảnh lên, vui lòng chọn một ảnh khác !
+                                                                    </Alert>
+                                                                </div>
+                                                            )
                                                         )
-                                                    )
-                                                    )}
+                                                        )}
 
-                                                    <div className="btn-change-image" onClick={onImageUpdate}>Chọn hoặc đổi ảnh</div>
-                                                </div>
-                                            )}
-                                        </ImageUploading>
-                                    </div>
-                                    <div>
-                                        <Label for="name"><b>Tên dịch vụ:</b></Label>
-                                        <Input
-                                            type="text"
-                                            name="name"
-                                            id="name"
-                                            placeholder="Nhập tên dịch vụ"
-                                            onChange={this.onChangeName}
-                                            value={name}
-                                        />
+                                                        <div className="btn-change-image" onClick={onImageUpdate}>Chọn hoặc đổi ảnh</div>
+                                                    </div>
+                                                )}
+                                            </ImageUploading>
+                                        </div>
+                                        <div>
+                                            <Label for="name"><b>Tên dịch vụ: <span className="require-icon">*</span></b></Label>
+                                            <Input
+                                                type="text"
+                                                name="name"
+                                                id="name"
+                                                placeholder="Nhập tên dịch vụ"
+                                                onChange={this.onChangeName}
+                                                value={name}
+                                                required="required"
+                                            />
 
-                                        <Label for="category"><b>Loại hình:</b></Label>
-                                        <Input
-                                            type="select"
-                                            name="category"
-                                            id="category"
-                                            onChange={this.onChangeCategory}
-                                            value={category}
-                                        >
-                                            {categories.map((category) => {
-                                                return (
-                                                    <option key={category.id} value={category.id}>
-                                                        {category.name}
-                                                    </option>
-                                                );
-                                            })}
-                                        </Input>
+                                            <Label for="category"><b>Loại hình: <span className="require-icon">*</span></b></Label>
+                                            <Input
+                                                type="select"
+                                                name="category"
+                                                id="category"
+                                                onChange={this.onChangeCategory}
+                                                value={category}
+                                            >
+                                                {categories.map((category) => {
+                                                    return (
+                                                        <option key={category.id} value={category.id}>
+                                                            {category.name}
+                                                        </option>
+                                                    );
+                                                })}
+                                            </Input>
 
-                                        <Label for="status"><b>Trạng thái:</b></Label>
-                                        <Input
-                                            type="select"
-                                            name="status"
-                                            id="status"
-                                            onChange={this.onChangeStatus}
-                                            value={status}
-                                        >
-                                            <option value="1">Đang hoạt động</option>
-                                            <option value="2">Ngừng hoạt động</option>
-                                        </Input>
+                                            <Label for="status"><b>Trạng thái: <span className="require-icon">*</span></b></Label>
+                                            <Input
+                                                type="select"
+                                                name="status"
+                                                id="status"
+                                                onChange={this.onChangeStatus}
+                                                value={status}
+                                            >
+                                                <option value="1">Đang hoạt động</option>
+                                                <option value="2">Ngừng hoạt động</option>
+                                            </Input>
 
-                                        <Label for="price"><b>Giá dịch vụ:</b></Label>
-                                        <Input
-                                            type="number"
-                                            name="price"
-                                            id="price"
-                                            placeholder="Nhập giá dịch vụ"
-                                            onChange={this.onChangePrice}
-                                            value={price}
-                                        />
+                                            <Label for="price"><b>Giá dịch vụ: <span className="require-icon">*</span></b></Label>
+                                            <Input
+                                                type="number"
+                                                name="price"
+                                                id="price"
+                                                placeholder="Nhập giá dịch vụ"
+                                                onChange={this.onChangePrice}
+                                                value={price}
+                                                required="required"
+                                            />
 
-                                        <Label for="description"><b>Mô tả:</b></Label>
-                                        <Input
-                                            type="textarea"
-                                            name="description"
-                                            id="description"
-                                            placeholder="Mô tả dịch vụ"
-                                            onChange={this.onChangeDescription}
-                                            value={description}
-                                        />
-                                    </div>
+                                            <Label for="description"><b>Mô tả: <span className="require-icon">*</span></b></Label>
+                                            <Input
+                                                type="textarea"
+                                                name="description"
+                                                id="description"
+                                                placeholder="Mô tả dịch vụ"
+                                                onChange={this.onChangeDescription}
+                                                value={description}
+                                                required="required"
+                                            />
+                                        </div>
+                                        <Input type="submit" value="Lưu" className="btn btn-success btn-save" />
+                                    </Form>
                                 </ModalBody>
                                 <ModalFooter>
-                                    <Button color="success" onClick={() => this.addService()}>Lưu</Button>{' '}
+                                    {/* <Button color="success" onClick={() => this.addService()}>Lưu</Button>{' '} */}
                                     <Button color="secondary" onClick={this.toggle}>Trở lại</Button>
                                 </ModalFooter>
                             </Modal>

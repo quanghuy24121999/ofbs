@@ -127,27 +127,38 @@ export default class myRestaurantPromotion extends Component {
             axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
                 .then(res => {
                     let restaurant = res.data;
-
-                    axios.post(`/promotions/save`,
-                        {
-                            "name": name,
-                            "restaurant": restaurant,
-                            "description": description,
-                            "discountPercentage": discount,
-                            "startDate": start,
-                            "endDate": end,
-                            "status": { id: 1, name: 'active' }
-                        }, {
-                        headers: {
-                            'Authorization': 'Bearer ' + localStorage.getItem('token')
-                        }
-                    }
-                    )
+                    axios.get(`/promotions/getPromotionsByRestaurantId?restaurantId=${restaurantId}&isActive=0`)
                         .then(res => {
-                            this.toggle();
-                            this.updateImage(res.data.id);
-                            this.receivedData();
-                            Notify('Thêm khuyến mãi thành công', 'success', 'top-right');
+                            let count = 0;
+                            res.data.forEach(promotion => {
+                                if (name === promotion.promotion_name) {
+                                    count = count + 1;
+                                }
+                            });
+
+                            if (count === 0) {
+                                axios.post(`/promotions/save`,
+                                    {
+                                        "name": name,
+                                        "restaurant": restaurant,
+                                        "description": description,
+                                        "discountPercentage": discount,
+                                        "startDate": start,
+                                        "endDate": end,
+                                        "status": { id: 1, name: 'active' }
+                                    }, {
+                                    headers: {
+                                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                    }
+                                }).then(res => {
+                                    this.toggle();
+                                    this.updateImage(res.data.id);
+                                    this.receivedData();
+                                    Notify('Thêm khuyến mãi thành công', 'success', 'top-right');
+                                })
+                            } else {
+                                Notify("Khuyến mãi này đã tồn tại", "error", "top-right");
+                            }
                         })
                 })
         } else {
@@ -309,7 +320,7 @@ export default class myRestaurantPromotion extends Component {
                                         </ImageUploading>
                                     </div>
                                     <div>
-                                        <Label for="name"><b>Tên khuyến mãi:</b></Label>
+                                        <Label for="name"><b>Tên khuyến mãi: <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="text"
                                             name="name"
@@ -317,9 +328,10 @@ export default class myRestaurantPromotion extends Component {
                                             placeholder="Nhập tên khuyến mãi"
                                             onChange={this.onChangeName}
                                             value={name}
+                                            required="required"
                                         />
 
-                                        <Label for="discount"><b>Phần trăm khuyến mãi:</b></Label>
+                                        <Label for="discount"><b>Phần trăm khuyến mãi: <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="number"
                                             name="discount"
@@ -329,9 +341,10 @@ export default class myRestaurantPromotion extends Component {
                                             placeholder="Nhập phần trăm khuyến mãi"
                                             onChange={this.onChangeDiscount}
                                             value={discount}
+                                            required="required"
                                         />
 
-                                        <Label for="start"><b>Ngày bắt đầu:</b></Label>
+                                        <Label for="start"><b>Ngày bắt đầu: <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="date"
                                             name="start"
@@ -340,9 +353,10 @@ export default class myRestaurantPromotion extends Component {
                                             placeholder="Nhập ngày bắt đầu"
                                             onChange={this.onChangeStart}
                                             value={start}
+                                            required="required"
                                         />
 
-                                        <Label for="end"><b>Ngày kết thúc:</b></Label>
+                                        <Label for="end"><b>Ngày kết thúc: <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="date"
                                             name="end"
@@ -351,9 +365,10 @@ export default class myRestaurantPromotion extends Component {
                                             placeholder="Nhập ngày kết thúc"
                                             onChange={this.onChangeEnd}
                                             value={end}
+                                            required="required"
                                         />
 
-                                        <Label for="description"><b>Mô tả:</b></Label>
+                                        <Label for="description"><b>Mô tả: <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="textarea"
                                             name="description"
@@ -361,9 +376,10 @@ export default class myRestaurantPromotion extends Component {
                                             placeholder="Mô tả khuyến mãi"
                                             onChange={this.onChangeDescription}
                                             value={description}
+                                            required="required"
                                         />
-                                        <Input type="submit" value="Lưu" className="btn btn-success" />
                                     </div>
+                                    <Input type="submit" value="Lưu" className="btn btn-success btn-save" />
                                 </Form>
                             </ModalBody>
                             <ModalFooter>
