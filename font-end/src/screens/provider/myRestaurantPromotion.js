@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    Nav, NavItem, Container, Table,
+    Nav, NavItem, Container, Table, Form,
     Label, Input, Button, Modal, ModalHeader,
     ModalBody, ModalFooter, Alert, CardImg
 } from 'reactstrap';
@@ -13,6 +13,8 @@ import ReactPaginate from 'react-paginate';
 import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
 import MyRestaurantPromotionItem from '../../components/provider/myRestaurantPromotionItem';
+import { formatDateForInput } from '../../common/formatDate';
+import { Notify } from '../../common/notify';
 
 let restaurantId = '';
 export default class myRestaurantPromotion extends Component {
@@ -55,26 +57,32 @@ export default class myRestaurantPromotion extends Component {
     }
 
     onChangeName(e) {
+        e.preventDefault();
         this.setState({ name: e.target.value });
     }
 
     onChangeDiscount(e) {
+        e.preventDefault();
         this.setState({ discount: e.target.value });
     }
 
     onChangeStatus(e) {
+        e.preventDefault();
         this.setState({ status: e.target.value });
     }
 
     onChangeStart(e) {
+        e.preventDefault();
         this.setState({ start: e.target.value });
     }
 
     onChangeEnd(e) {
+        e.preventDefault();
         this.setState({ end: e.target.value });
     }
 
     onChangeDescription(e) {
+        e.preventDefault();
         this.setState({ description: e.target.value });
     }
 
@@ -114,31 +122,37 @@ export default class myRestaurantPromotion extends Component {
     }
 
     addPromotion() {
-        const { discount, name, description, start, end } = this.state;
-        axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
-            .then(res => {
-                let restaurant = res.data;
+        const { discount, name, description, start, end, images } = this.state;
+        if (images.length > 0) {
+            axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
+                .then(res => {
+                    let restaurant = res.data;
 
-                axios.post(`/promotions/save`,
-                    {
-                        "name": name,
-                        "restaurant": restaurant,
-                        "description": description,
-                        "discountPercentage": discount,
-                        "startDate": start,
-                        "endDate": end,
-                        "status": { id: 1, name: 'active' }
-                    }, {
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    axios.post(`/promotions/save`,
+                        {
+                            "name": name,
+                            "restaurant": restaurant,
+                            "description": description,
+                            "discountPercentage": discount,
+                            "startDate": start,
+                            "endDate": end,
+                            "status": { id: 1, name: 'active' }
+                        }, {
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                        }
                     }
-                }
-                )
-                    .then(res => {
-                        this.toggle();
-                        this.updateImage(res.data.id);
-                    })
-            })
+                    )
+                        .then(res => {
+                            this.toggle();
+                            this.updateImage(res.data.id);
+                            this.receivedData();
+                            Notify('Thêm khuyến mãi thành công', 'success', 'top-right');
+                        })
+                })
+        } else {
+            Notify('Vui lòng thêm ảnh của khuyến mãi', 'warning', 'top-right');
+        }
     }
 
     updateImage(promotionId) {
@@ -256,95 +270,109 @@ export default class myRestaurantPromotion extends Component {
                         <Button color="primary" onClick={this.toggle}>
                             <FaRegPlusSquare className="btn-add-promotion" />Thêm khuyến mãi
                         </Button>
+
                         <Modal isOpen={modal} toggle={this.toggle} className={``}>
                             <ModalHeader toggle={this.toggle}>Thêm khuyến mãi</ModalHeader>
                             <ModalBody>
-                                <div>
-                                    <ImageUploading
-                                        value={images}
-                                        onChange={this.onChange}
-                                        dataURLKey="data_url"
-                                    >
-                                        {({
-                                            imageList,
-                                            onImageUpdate,
-                                            onImageRemove,
-                                        }) => (
-                                            <div className="upload__image-wrapper">
-                                                {imageList.map((image, index) => (
-                                                    (
-                                                        <div key={index} className="image-item">
-                                                            <CardImg className="promotion-image" top src={image.data_url} />
-                                                            <Alert color="danger" id="error-form4" className="error-form">
-                                                                Không thể tải ảnh lên, vui lòng chọn một ảnh khác !
-                                                            </Alert>
-                                                        </div>
+                                <Form onSubmit={(event) => {
+                                    event.preventDefault();
+                                    this.addPromotion();
+                                }}>
+                                    <div>
+                                        <ImageUploading
+                                            value={images}
+                                            onChange={this.onChange}
+                                            dataURLKey="data_url"
+
+                                        >
+                                            {({
+                                                imageList,
+                                                onImageUpdate,
+                                                onImageRemove,
+                                            }) => (
+                                                <div className="upload__image-wrapper">
+                                                    {imageList.map((image, index) => (
+                                                        (
+                                                            <div key={index} className="image-item">
+                                                                <CardImg className="promotion-image" top src={image.data_url} />
+                                                                <Alert color="danger" id="error-form4" className="error-form">
+                                                                    Không thể tải ảnh lên, vui lòng chọn một ảnh khác !
+                                                                </Alert>
+                                                            </div>
+                                                        )
                                                     )
-                                                )
-                                                )}
+                                                    )}
 
-                                                <div className="btn-change-image" onClick={onImageUpdate}>Chọn hoặc đổi ảnh</div>
-                                            </div>
-                                        )}
-                                    </ImageUploading>
-                                </div>
-                                <div>
-                                    <Label for="name"><b>Tên khuyến mãi:</b></Label>
-                                    <Input
-                                        type="text"
-                                        name="name"
-                                        id="name"
-                                        placeholder="Nhập tên khuyến mãi"
-                                        onChange={this.onChangeName}
-                                        value={name}
-                                    />
+                                                    <div className="btn-change-image" onClick={onImageUpdate}>Chọn hoặc đổi ảnh</div>
+                                                </div>
+                                            )}
+                                        </ImageUploading>
+                                    </div>
+                                    <div>
+                                        <Label for="name"><b>Tên khuyến mãi:</b></Label>
+                                        <Input
+                                            type="text"
+                                            name="name"
+                                            id="name"
+                                            placeholder="Nhập tên khuyến mãi"
+                                            onChange={this.onChangeName}
+                                            value={name}
+                                        />
 
-                                    <Label for="discount"><b>Phần trăm khuyến mãi:</b></Label>
-                                    <Input
-                                        type="number"
-                                        name="discount"
-                                        id="discount"
-                                        placeholder="Nhập phần trăm khuyến mãi"
-                                        onChange={this.onChangeDiscount}
-                                        value={discount}
-                                    />
+                                        <Label for="discount"><b>Phần trăm khuyến mãi:</b></Label>
+                                        <Input
+                                            type="number"
+                                            name="discount"
+                                            id="discount"
+                                            min={0}
+                                            max={100}
+                                            placeholder="Nhập phần trăm khuyến mãi"
+                                            onChange={this.onChangeDiscount}
+                                            value={discount}
+                                        />
 
-                                    <Label for="start"><b>Ngày bắt đầu:</b></Label>
-                                    <Input
-                                        type="date"
-                                        name="start"
-                                        id="start"
-                                        placeholder="Nhập ngày bắt đầu"
-                                        onChange={this.onChangeStart}
-                                        value={start}
-                                    />
+                                        <Label for="start"><b>Ngày bắt đầu:</b></Label>
+                                        <Input
+                                            type="date"
+                                            name="start"
+                                            id="start"
+                                            min={formatDateForInput(new Date())}
+                                            placeholder="Nhập ngày bắt đầu"
+                                            onChange={this.onChangeStart}
+                                            value={start}
+                                        />
 
-                                    <Label for="end"><b>Ngày kết thúc:</b></Label>
-                                    <Input
-                                        type="date"
-                                        name="end"
-                                        id="end"
-                                        placeholder="Nhập ngày kết thúc"
-                                        onChange={this.onChangeEnd}
-                                        value={end}
-                                    />
+                                        <Label for="end"><b>Ngày kết thúc:</b></Label>
+                                        <Input
+                                            type="date"
+                                            name="end"
+                                            id="end"
+                                            min={start}
+                                            placeholder="Nhập ngày kết thúc"
+                                            onChange={this.onChangeEnd}
+                                            value={end}
+                                        />
 
-                                    <Label for="description"><b>Mô tả:</b></Label>
-                                    <Input
-                                        type="textarea"
-                                        name="description"
-                                        id="description"
-                                        placeholder="Mô tả khuyến mãi"
-                                        onChange={this.onChangeDescription}
-                                        value={description}
-                                    />
-                                </div>
+                                        <Label for="description"><b>Mô tả:</b></Label>
+                                        <Input
+                                            type="textarea"
+                                            name="description"
+                                            id="description"
+                                            placeholder="Mô tả khuyến mãi"
+                                            onChange={this.onChangeDescription}
+                                            value={description}
+                                        />
+                                        <Input type="submit" value="Lưu" className="btn btn-success" />
+                                    </div>
+                                </Form>
                             </ModalBody>
                             <ModalFooter>
-                                <Button color="success" onClick={() => this.addPromotion()}>Lưu</Button>{' '}
+                                {/* <Button color="success" onClick={() => this.addPromotion()}>Lưu</Button>{' '} */}
+
                                 <Button color="secondary" onClick={this.toggle}>Trở lại</Button>
                             </ModalFooter>
                         </Modal>
+
                     </div>
                     <Table>
                         <thead>
