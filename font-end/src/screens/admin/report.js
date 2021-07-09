@@ -24,7 +24,11 @@ export default function Report() {
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        axios.get(`/feedbacks/getReport`)
+        axios.get(`/feedbacks/getReport`, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
             .then(res => {
                 setReport(res.data);
             })
@@ -63,7 +67,7 @@ export default function Report() {
                             {
                                 reports.length > 0 && (
                                     reports.map((report, index) => {
-                                        return <ReportItem key={index} report={report} count={index + 1}/>
+                                        return <ReportItem key={index} report={report} count={index + 1} />
                                     })
                                 )
                             }

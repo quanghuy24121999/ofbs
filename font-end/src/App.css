@@ -591,6 +591,10 @@ label {
 
 /*================================================ CART ================================================*/
 
+.cart-modal {
+  max-width: 60%;
+}
+
 .cart-option {
   display: flex;
   flex-direction: column;
@@ -655,6 +659,14 @@ label {
   flex-direction: row;
 }
 
+.cart-dish-quantity {
+  min-width: 55px;
+}
+
+.cart-input-quantity {
+  text-align: center;
+}
+
 .cart-dish-quantity,
 .btn-add,
 .btn-sub {
@@ -694,6 +706,18 @@ label {
 hr {
   width: 70%;
   margin: 20px auto;
+}
+
+/* Chrome, Safari, Edge, Opera */
+.cart-dish-quantity > input::-webkit-outer-spin-button,
+.cart-dish-quantity > input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.cart-dish-quantity > input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 /*================================================ LOGIN ================================================*/

@@ -8,6 +8,10 @@ import {
 import { FaShoppingCart } from 'react-icons/fa'
 import axios from 'axios';
 
+import CartDishItem from './cartDishItem';
+import CartComboItem from './cartComboItem';
+import CartServiceItem from './cartServiceItem';
+
 export default function Cart(props) {
     const [modal, setModal] = useState(false);
     const [modalConfirm, setModalComfirm] = useState(false);
@@ -276,88 +280,20 @@ export default function Cart(props) {
                         </div>
                         <hr></hr>
                         <h3>Món ăn</h3>
-                        {items.map((item, index) => {
-                            return <div key={index} >
-                                {
-                                    item.dish_name &&
-                                    (<div className="cart">
-                                        <CardImg
-                                            className="cart-dish-img"
-                                            top
-                                            src={'/images/' + item.image_dish_id}
-                                            alt=""
-                                        />
-                                        <div className="cart-detail">
-                                            <div className="cart-dish-name">{item.dish_name}</div>
-                                            <div className="cart-dish-price">{item.price + ' VNĐ'}</div>
-                                        </div>
-                                        <div className="cart-group-btn">
-                                            <Button className="btn-sub" onClick={() => { updateItemQuantity(item.id, item.quantity - 1) }}>-</Button>
-                                            <div className="cart-dish-quantity">
-                                                {item.quantity}
-                                            </div>
-                                            <Button className="btn-add" onClick={() => updateItemQuantity(item.id, item.quantity + 1)} color="success">+</Button>
-                                            <Button onClick={() => removeItem(item.id)} color="danger">Xoá</Button>
-                                        </div>
-                                    </div>)
-                                }
-                            </div>
-                        })}
+                        {
+                            items.map((item, index) => {
+                                return <CartDishItem key={index} dish={item} />
+                            })
+                        }
                         <hr></hr>
                         <h3>Combo món ăn</h3>
                         {items.map((item, index) => {
-                            return <div key={index} >
-                                {
-                                    item.combo_name &&
-                                    (<div className="cart">
-                                        <CardImg
-                                            className="cart-dish-img"
-                                            top
-                                            src={'/images/' + item.image_dish_id}
-                                            alt=""
-                                        />
-                                        <div className="cart-detail">
-                                            <div className="cart-dish-name">{item.combo_name}</div>
-                                            <div className="cart-dish-price">{item.price + ' VNĐ'}</div>
-                                        </div>
-                                        <div className="cart-group-btn">
-                                            <Button className="btn-sub" onClick={() => { updateItemQuantity(item.id, item.quantity - 1) }}>-</Button>
-                                            <div className="cart-dish-quantity">
-                                                {item.quantity}
-                                            </div>
-                                            <Button className="btn-add" onClick={() => updateItemQuantity(item.id, item.quantity + 1)} color="success">+</Button>
-                                            <Button onClick={() => removeItem(item.id)} color="danger">Xoá</Button>
-                                        </div>
-                                    </div>)
-                                }
-                            </div>
+                            return <CartComboItem key={index} combo={item} />
                         })}
                         <hr></hr>
                         <h3>Dịch vụ</h3>
                         {items.map((item, index) => {
-                            return <div key={index} >
-                                {
-                                    item.service_name &&
-                                    (<div className="cart">
-                                        <CardImg
-                                            className="cart-dish-img"
-                                            top
-                                            src={'/images/' + item.image_service_id}
-                                            alt=""
-                                        />
-                                        <div className="cart-detail">
-                                            <div className="cart-dish-name">{item.service_name}</div>
-                                            <div className="cart-dish-price">{item.price + ' VNĐ'}</div>
-                                        </div>
-                                        <div className="cart-group-btn">
-                                            <Button className="btn-sub" onClick={() => updateItemQuantity(item.id, item.quantity - 1)}>-</Button>
-                                            <div className="cart-dish-quantity">{item.quantity}</div>
-                                            <Button className="btn-add" onClick={() => updateItemQuantity(item.id, item.quantity + 1)} color="success">+</Button>
-                                            <Button onClick={() => removeItem(item.id)} color="danger">Xoá</Button>
-                                        </div>
-                                    </div>)
-                                }
-                            </div>
+                            return <CartServiceItem key={index} service={item} />
                         })}
                         <hr></hr>
                         <div className="cart-total-price">Tổng tiền: {cartTotal + "  VNĐ"}</div>
