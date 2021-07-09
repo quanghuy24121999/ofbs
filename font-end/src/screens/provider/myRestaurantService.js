@@ -3,9 +3,11 @@ import axios from 'axios';
 import {
     Nav, NavItem, Container, Row, Col, Form,
     Label, Input, Button, Modal, ModalHeader,
-    ModalBody, ModalFooter, Alert, CardImg
+    ModalBody, ModalFooter, Alert, CardImg,
+    Table
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import ReactPaginate from 'react-paginate';
 import ImageUploading from "react-images-uploading";
 import { FaSearch, FaRegPlusSquare } from 'react-icons/fa';
 
@@ -31,7 +33,10 @@ export default class myRestaurantService extends Component {
             status: 1,
             price: '',
             categorySearch: '',
-            modal: false
+            modal: false,
+            offset: 0,
+            perPage: 10,
+            currentPage: 0
         }
 
         this.onChangeNameSearch = this.onChangeNameSearch.bind(this);
@@ -44,20 +49,51 @@ export default class myRestaurantService extends Component {
         this.search = this.search.bind(this);
         this.toggle = this.toggle.bind(this);
         this.updateImage = this.updateImage.bind(this);
+        this.handlePageClick = this.handlePageClick.bind(this);
     }
 
     componentDidMount() {
         window.scrollTo(0, 0);
         restaurantId = localStorage.getItem('resId');
-        axios.get(`/services/search?restaurantId=${restaurantId}`)
-            .then(res => {
-                this.setState({ services: res.data });
-            })
-
         axios.get(`/services/getServiceCategories`)
             .then(res => {
                 this.setState({ categories: res.data });
-            })
+            });
+        this.receivedData('', '');
+    }
+
+    componentWillUnmount() {
+        this.setState({ servicesPaging: [] });
+    }
+
+    handlePageClick = (e) => {
+        window.scrollTo(0, 0);
+        const selectedPage = e.selected;
+        const offset = selectedPage * this.state.perPage;
+
+        this.setState({
+            currentPage: selectedPage,
+            offset: offset
+        }, () => {
+            this.receivedData('', '');
+        });
+
+    };
+
+    receivedData(serviceName, serviceCategory) {
+        axios.get(`/services/search?restaurantId=${restaurantId}&serviceName=${serviceName}&category=${serviceCategory}`)
+            .then(res => {
+                const data = res.data;
+                const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
+                const servicesPaging = slice.map((service, index) => {
+                    return <MyRestaurantServiceItem key={index} service={service} count={index + 1} restaurantId={restaurantId} />
+                })
+
+                this.setState({
+                    pageCount: Math.ceil(data.length / this.state.perPage),
+                    servicesPaging
+                })
+            });
     }
 
     onChangeName(e) {
@@ -90,10 +126,12 @@ export default class myRestaurantService extends Component {
 
     search() {
         const { nameSearch, categorySearch } = this.state;
-        axios.get(`/services/search?restaurantId=${restaurantId}&serviceName=${nameSearch}&category=${categorySearch}`)
-            .then(res => {
-                this.setState({ services: res.data });
-            })
+        this.setState({
+            currentPage: 0,
+            offset: 0
+        }, () => {
+            this.receivedData(nameSearch, categorySearch);
+        })
     }
 
     addService() {
@@ -167,10 +205,7 @@ export default class myRestaurantService extends Component {
                                 }).then(res => {
                                     this.toggle();
                                     this.updateImage(res.data.id);
-                                    axios.get(`/services/getServiceCategories`)
-                                        .then(res => {
-                                            this.setState({ categories: res.data });
-                                        })
+                                    this.receivedData('', '');
                                     Notify("Thêm dịch vụ thành công", "success", "top-right");
                                 })
                             } else {
@@ -197,14 +232,14 @@ export default class myRestaurantService extends Component {
         axios.post(`/images/upload?userId=0&dishId=0&serviceId=${serviceId}&comboId=0&restaurantId=0&promotionId=0&typeId=1`,
             formData, {
         }).then(res => {
-            window.location.reload();
+            this.receivedData('', '');
         }).catch(err => {
             document.getElementById('error-form4').style.display = "block";
         })
     }
 
     render() {
-        const { services, categorySearch, nameSearch, categories, modal,
+        const { categorySearch, nameSearch, categories, modal,
             images, category, description, name, price, status
         } = this.state;
 
@@ -454,10 +489,35 @@ export default class myRestaurantService extends Component {
                             </Modal>
                         </Col>
                     </Row>
-                    {
-                        services.length > 0 &&
-                        <MyRestaurantServiceItem services={services} restaurantId={restaurantId} />
-                    }
+                    <Table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Tên dịch vụ</th>
+                                <th>Giá</th>
+                                <th>Loại dịch vụ</th>
+                                <th>Trạng thái</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.state.servicesPaging}
+                        </tbody>
+                    </Table>
+                    <ReactPaginate
+                        previousLabel={"Trang trước"}
+                        nextLabel={"Trang sau"}
+                        breakLabel={"..."}
+                        breakClassName={"break-me"}
+                        pageCount={this.state.pageCount}
+                        marginPagesDisplayed={5}
+                        pageRangeDisplayed={5}
+                        onPageChange={this.handlePageClick}
+                        containerClassName={"pagination"}
+                        subContainerClassName={"pages pagination"}
+                        activeClassName={"active"}
+                    />
                 </Container>
                 <Footer />
             </div>

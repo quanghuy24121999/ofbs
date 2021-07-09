@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-    Button, Modal, ModalHeader,
+    Button, Modal, ModalHeader, Form,
     ModalBody, ModalFooter, Label, Input,
     CardImg, Alert
 } from 'reactstrap';
@@ -9,12 +9,14 @@ import axios from 'axios';
 import ImageUploading from "react-images-uploading";
 
 import { formatDate, formatDateForInput } from '../../common/formatDate';
+import { Notify } from '../../common/notify';
 
 export default function MyRestaurantPromotionItem(props) {
     const promotion = props.promotion;
     const restaurantId = props.restaurantId;
     let count = props.count;
     let statusPromotion = promotion.promotion_status;
+    const promotionName = promotion.promotion_name;
 
     const [modal, setModal] = useState(false);
     const [promotionModal, setPromotionModal] = useState();
@@ -80,28 +82,42 @@ export default function MyRestaurantPromotionItem(props) {
         axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
             .then(res => {
                 let restaurant = res.data;
-
                 updateImage();
 
-                axios.post(`/promotions/save`,
-                    {
-                        "id": promotion.promotion_id,
-                        "name": name,
-                        "restaurant": restaurant,
-                        "description": description,
-                        "discountPercentage": discount,
-                        "startDate": start,
-                        "endDate": end,
-                        "status": { id: 1, name: "active" }
-                    }, {
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                    }
-                }
-                )
+                axios.get(`/promotions/getPromotionsByRestaurantId?restaurantId=${restaurantId}&isActive=0`)
                     .then(res => {
-                        toggle();
-                        window.location.reload();
+                        let count = 0;
+                        res.data.forEach(promotion => {
+                            if (name === promotion.promotion_name) {
+                                count = count + 1;
+                            }
+                        });
+                        if (promotionName === name) {
+                            count = 0;
+                        }
+                        if (count === 0) {
+                            axios.post(`/promotions/save`,
+                                {
+                                    "id": promotion.promotion_id,
+                                    "name": name,
+                                    "restaurant": restaurant,
+                                    "description": description,
+                                    "discountPercentage": discount,
+                                    "startDate": start,
+                                    "endDate": end,
+                                    "status": { id: 1, name: "active" }
+                                }, {
+                                headers: {
+                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                }
+                            }).then(res => {
+                                toggle();
+                                window.location.reload();
+                                Notify("Cập nhật khuyến mãi thành công", "success", "top-right");
+                            })
+                        } else {
+                            Notify("Khuyến mãi này đã tồn tại", "error", "top-right");
+                        }
                     })
             })
     }
@@ -147,109 +163,120 @@ export default function MyRestaurantPromotionItem(props) {
             <Modal isOpen={modal} toggle={toggle} className={``}>
                 <ModalHeader toggle={toggle}>Cập nhật khuyến mãi</ModalHeader>
                 <ModalBody>
-                    {
-                        imageId && (
-                            <div>
-                                <ImageUploading
-                                    value={images}
-                                    onChange={onChange}
-                                    dataURLKey="data_url"
-                                >
-                                    {({
-                                        imageList,
-                                        onImageUpdate,
-                                        onImageRemove,
-                                    }) => (
-                                        <div className="upload__image-wrapper">
-                                            <CardImg id="user-image" className="promotion-profile-image" top src={`/images/${imageId}`} alt="khuyến mãi" />
-                                            {imageList.map((image, index) => (
-                                                // eslint-disable-next-line no-sequences
-                                                (document.getElementById("user-image").style.display = "none"),
-                                                (
-                                                    <div key={index} className="image-item">
-                                                        <CardImg className="dish-profile-image" top src={image.data_url} />
-                                                        <Alert color="danger" id="error-form4" className="error-form">
-                                                            Không thể tải ảnh lên, vui lòng chọn một ảnh khác !
-                                                        </Alert>
-                                                    </div>
+                    <Form onSubmit={(event) => {
+                        event.preventDefault();
+                        updatePromotion();
+                    }}>
+                        {
+                            imageId && (
+                                <div>
+                                    <ImageUploading
+                                        value={images}
+                                        onChange={onChange}
+                                        dataURLKey="data_url"
+                                    >
+                                        {({
+                                            imageList,
+                                            onImageUpdate,
+                                            onImageRemove,
+                                        }) => (
+                                            <div className="upload__image-wrapper">
+                                                <CardImg id="user-image" className="promotion-profile-image" top src={`/images/${imageId}`} alt="khuyến mãi" />
+                                                {imageList.map((image, index) => (
+                                                    // eslint-disable-next-line no-sequences
+                                                    (document.getElementById("user-image").style.display = "none"),
+                                                    (
+                                                        <div key={index} className="image-item">
+                                                            <CardImg className="dish-profile-image" top src={image.data_url} />
+                                                            <Alert color="danger" id="error-form4" className="error-form">
+                                                                Không thể tải ảnh lên, vui lòng chọn một ảnh khác !
+                                                            </Alert>
+                                                        </div>
+                                                    )
                                                 )
-                                            )
-                                            )}
+                                                )}
 
-                                            <div className="btn-change-image" onClick={onImageUpdate}>Thay đổi ảnh</div>
-                                        </div>
-                                    )}
-                                </ImageUploading>
+                                                <div className="btn-change-image" onClick={onImageUpdate}>Thay đổi ảnh</div>
+                                            </div>
+                                        )}
+                                    </ImageUploading>
+                                </div>
+                            )
+
+                        }
+                        {
+                            promotionModal && <div>
+                                <Label for="name"><b>Tên khuyến mãi: <span className="require-icon">*</span></b></Label>
+                                <Input
+                                    type="text"
+                                    name="name"
+                                    id="name"
+                                    placeholder="Nhập tên khuyến mãi"
+                                    onChange={onChangeName}
+                                    value={name}
+                                    required="required"
+                                />
+
+                                <Label for="discount"><b>Phần trăm khuyến mãi: <span className="require-icon">*</span></b></Label>
+                                <Input
+                                    type="number"
+                                    name="discount"
+                                    id="discount"
+                                    placeholder="Nhập phần trăm khuyến mãi"
+                                    onChange={onChangeDiscount}
+                                    value={discount}
+                                    required="required"
+                                />
+
+                                <Label for="start"><b>Ngày bắt đầu: <span className="require-icon">*</span></b></Label>
+                                <Input
+                                    type="date"
+                                    name="start"
+                                    id="start"
+                                    placeholder="Nhập ngày bắt đầu"
+                                    onChange={onChangeStart}
+                                    value={start}
+                                    required="required"
+                                />
+
+                                <Label for="end"><b>Ngày kết thúc: <span className="require-icon">*</span></b></Label>
+                                <Input
+                                    type="date"
+                                    name="end"
+                                    id="end"
+                                    placeholder="Nhập ngày kết thúc"
+                                    onChange={onChangeEnd}
+                                    value={end}
+                                    required="required"
+                                />
+
+                                <Label for="status"><b>Trạng thái: <span className="require-icon">*</span></b></Label>
+                                <Input
+                                    type="text"
+                                    name="status"
+                                    id="status"
+                                    onChange={onChangeStatus}
+                                    disabled
+                                    value={status}
+                                />
+
+                                <Label for="description"><b>Mô tả: <span className="require-icon">*</span></b></Label>
+                                <Input
+                                    type="textarea"
+                                    name="description"
+                                    id="description"
+                                    placeholder="Mô tả khuyến mãi"
+                                    onChange={onChangeDescription}
+                                    value={description}
+                                    required="required"
+                                />
                             </div>
-                        )
-
-                    }
-                    {
-                        promotionModal && <div>
-                            <Label for="name"><b>Tên khuyến mãi:</b></Label>
-                            <Input
-                                type="text"
-                                name="name"
-                                id="name"
-                                placeholder="Nhập tên khuyến mãi"
-                                onChange={onChangeName}
-                                value={name}
-                            />
-
-                            <Label for="discount"><b>Phần trăm khuyến mãi:</b></Label>
-                            <Input
-                                type="number"
-                                name="discount"
-                                id="discount"
-                                placeholder="Nhập phần trăm khuyến mãi"
-                                onChange={onChangeDiscount}
-                                value={discount}
-                            />
-
-                            <Label for="start"><b>Ngày bắt đầu:</b></Label>
-                            <Input
-                                type="date"
-                                name="start"
-                                id="start"
-                                placeholder="Nhập ngày bắt đầu"
-                                onChange={onChangeStart}
-                                value={start}
-                            />
-
-                            <Label for="end"><b>Ngày kết thúc:</b></Label>
-                            <Input
-                                type="date"
-                                name="end"
-                                id="end"
-                                placeholder="Nhập ngày kết thúc"
-                                onChange={onChangeEnd}
-                                value={end}
-                            />
-
-                            <Label for="status"><b>Trạng thái:</b></Label>
-                            <Input
-                                type="text"
-                                name="status"
-                                id="status"
-                                onChange={onChangeStatus}
-                                disabled
-                                value={status}
-                            />
-
-                            <Label for="description"><b>Mô tả:</b></Label>
-                            <Input
-                                type="textarea"
-                                name="description"
-                                id="description"
-                                placeholder="Mô tả khuyến mãi"
-                                onChange={onChangeDescription}
-                                value={description}
-                            />
-                        </div>
-                    }
+                        }
+                        <Input type="submit" value="Lưu" className="btn btn-success btn-save" />
+                    </Form>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="success" onClick={() => updatePromotion()}>Lưu</Button>{' '}
+                    {/* <Button color="success" onClick={() => updatePromotion()}>Lưu</Button>{' '} */}
                     <Button color="secondary" onClick={toggle}>Trở lại</Button>
                 </ModalFooter>
             </Modal>

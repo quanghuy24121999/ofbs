@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import {
-    Table, Button, Modal, ModalHeader,
+    Button, Modal, ModalHeader, Form,
     ModalBody, ModalFooter, Label, Input,
     CardImg, Alert
 } from 'reactstrap';
@@ -9,15 +9,24 @@ import ImageUploading from "react-images-uploading";
 import { FaEdit } from 'react-icons/fa';
 
 import { formatCurrency } from '../../common/formatCurrency';
+import { Notify } from '../../common/notify';
 
 export default function MyRestaurantServiceItem(props) {
-    const services = props.services;
+    const service = props.service;
     const restaurantId = props.restaurantId;
     let count = 1;
+    let serviceStatus = service.status_name;
+    if (serviceStatus === "active") {
+        serviceStatus = 'Đang hoạt động';
+    } else if (serviceStatus === 'inactive') {
+        serviceStatus = 'Ngừng hoạt động';
+    } else {
+        serviceStatus = 'Đã bị gỡ';
+    }
+    const serviceName = service.service_name;
 
     const [modal, setModal] = useState(false);
-    const [service, setService] = useState();
-
+    const [serviceModal, setServiceModal] = useState();
     const [name, setName] = useState('');
     const [price, setPrice] = useState(0);
     const [description, setDescription] = useState('');
@@ -32,16 +41,16 @@ export default function MyRestaurantServiceItem(props) {
             setCategories(res.data);
         })
 
-    const toggle = (serviceId, imageId) => {
-        setImageId(imageId);
+    const toggle = () => {
+        setImageId(service.image_service_id);
         setModal(!modal);
 
         if (modal === false) {
-            axios.get(`/services/getServiceById?serviceId=${serviceId}`)
+            axios.get(`/services/getServiceById?serviceId=${service.id}`)
                 .then(res => {
                     let service = res.data;
 
-                    setService(res.data);
+                    setServiceModal(res.data);
                     setName(service.name);
                     setPrice(service.price);
                     setDescription(service.description);
@@ -86,7 +95,7 @@ export default function MyRestaurantServiceItem(props) {
         }
     }
 
-    const updateService = (serviceId) => {
+    const updateService = () => {
         axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
             .then(res => {
                 let serviceStatus = '';
@@ -132,185 +141,174 @@ export default function MyRestaurantServiceItem(props) {
                     default:
                         break;
                 }
-
-                axios.post(`/services/update`,
-                    {
-                        "id": serviceId,
-                        "name": name,
-                        "description": description,
-                        "status": { id: status, name: serviceStatus },
-                        "price": price,
-                        "restaurant": restaurant,
-                        "serviceCategory": { id: category, name: serviceCategory }
-                    }, {
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                    }
-                }
-                )
+                axios.get(`/services/search?restaurantId=${restaurantId}&serviceName=&category=`)
                     .then(res => {
-                        toggle();
-                        window.location.reload();
+                        let count = 0;
+                        res.data.forEach(service => {
+                            if (name === service.service_name) {
+                                count = count + 1;
+                            }
+                        });
+                        if (serviceName === name) {
+                            count = 0;
+                        }
+                        if (count === 0) {
+                            axios.post(`/services/update`,
+                                {
+                                    "id": service.id,
+                                    "name": name,
+                                    "description": description,
+                                    "status": { id: status, name: serviceStatus },
+                                    "price": price,
+                                    "restaurant": restaurant,
+                                    "serviceCategory": { id: category, name: serviceCategory }
+                                }, {
+                                headers: {
+                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                }
+                            }
+                            )
+                                .then(res => {
+                                    toggle();
+                                    window.location.reload();
+                                    Notify("Cập nhật dịch vụ thành công", "success", "top-right");
+                                })
+                        } else {
+                            Notify("Dịch vụ này đã tồn tại", "error", "top-right");
+                        }
                     })
             })
     }
 
     return (
-        <div className="service-content">
+        <tr className="service-content">
+            <td>{count}</td>
+            <td>{service.service_name}</td>
+            <td>{formatCurrency(service.price) + ' VNĐ'}</td>
+            <td>{service.service_category_name}</td>
+            <td>{serviceStatus}</td>
+            <td>
+                <Button onClick={toggle} color="primary">
+                    <FaEdit className="icon-edit" />Sửa
+                </Button>
+                <Modal isOpen={modal} toggle={toggle} className={``}>
+                    <ModalHeader toggle={toggle}>Cập nhật dịch vụ</ModalHeader>
+                    <ModalBody>
+                        <Form onSubmit={(event) => {
+                            event.preventDefault();
+                            updateService();
+                        }}>
+                            {
+                                imageId && (
+                                    <div>
+                                        <ImageUploading
+                                            value={images}
+                                            onChange={onChange}
+                                            dataURLKey="data_url"
+                                        >
+                                            {({
+                                                imageList,
+                                                onImageUpdate,
+                                                onImageRemove,
+                                            }) => (
+                                                <div className="upload__image-wrapper">
+                                                    <CardImg id="user-image" className="service-image" top src={`/images/${imageId}`} alt="Dịch vụ" />
+                                                    {imageList.map((image, index) => (
+                                                        // eslint-disable-next-line no-sequences
+                                                        (document.getElementById("user-image").style.display = "none"),
+                                                        (
+                                                            <div key={index} className="image-item">
+                                                                <CardImg className="service-image" top src={image.data_url} />
+                                                                <Alert color="danger" id="error-form4" className="error-form">
+                                                                    Không thể tải ảnh lên, vui lòng chọn một ảnh khác !
+                                                                </Alert>
+                                                            </div>
+                                                        )
+                                                    )
+                                                    )}
 
-            <Table>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Tên dịch vụ</th>
-                        <th>Giá</th>
-                        <th>Loại dịch vụ</th>
-                        <th>Trạng thái</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        services.map((item, index) => {
-                            if (item.id) {
-                                let status = '';
-                                if (item.status_name === "active") {
-                                    status = 'Đang hoạt động';
-                                } else {
-                                    status = 'Ngừng hoạt động';
-                                }
-                                return (<tr key={index} className="od-dish-item">
-                                    <th>{count++}</th>
-                                    <td>{item.service_name}</td>
-                                    <td>{formatCurrency(item.price)} VNĐ</td>
-                                    <td>{item.service_category_name}</td>
-                                    <td>{status}</td>
-                                    <td><Button color="primary" onClick={() =>
-                                        toggle(
-                                            item.id,
-                                            item.image_service_id
-                                        )}
-                                    >
-                                        <FaEdit className="icon-edit" />Sửa
-                                    </Button></td>
-                                </tr>
-                                )
-                            } else {
-                                return <tr key={index}></tr>
-                            }
-                        })
-                    }
-                </tbody>
-            </Table>
-            <Modal isOpen={modal} toggle={toggle} className={``}>
-                <ModalHeader toggle={toggle}>Cập nhật dịch vụ</ModalHeader>
-                <ModalBody>
-                    {
-                        imageId && (
-                            <div>
-                                <ImageUploading
-                                    value={images}
-                                    onChange={onChange}
-                                    dataURLKey="data_url"
-                                >
-                                    {({
-                                        imageList,
-                                        onImageUpdate,
-                                        onImageRemove,
-                                    }) => (
-                                        <div className="upload__image-wrapper">
-                                            <CardImg id="user-image" className="service-image" top src={`/images/${imageId}`} alt="Dịch vụ" />
-                                            {imageList.map((image, index) => (
-                                                // eslint-disable-next-line no-sequences
-                                                (document.getElementById("user-image").style.display = "none"),
-                                                (
-                                                    <div key={index} className="image-item">
-                                                        <CardImg className="service-image" top src={image.data_url} />
-                                                        <Alert color="danger" id="error-form4" className="error-form">
-                                                            Không thể tải ảnh lên, vui lòng chọn một ảnh khác !
-                                                        </Alert>
-                                                    </div>
-                                                )
-                                            )
+                                                    <div className="btn-change-image" onClick={onImageUpdate}>Thay đổi ảnh</div>
+                                                </div>
                                             )}
+                                        </ImageUploading>
+                                    </div>
+                                )
 
-                                            <div className="btn-change-image" onClick={onImageUpdate}>Thay đổi ảnh</div>
-                                        </div>
-                                    )}
-                                </ImageUploading>
-                            </div>
-                        )
+                            }
+                            {
+                                serviceModal && <div>
+                                    <Label for="name"><b>Tên dịch vụ: <span className="require-icon">*</span></b></Label>
+                                    <Input
+                                        type="text"
+                                        name="name"
+                                        id="name"
+                                        placeholder="Nhập tên dịch vụ"
+                                        onChange={onChangeName}
+                                        value={name}
+                                        required="required"
+                                    />
 
-                    }
-                    {
-                        service && <div>
-                            <Label for="name"><b>Tên dịch vụ:</b></Label>
-                            <Input
-                                type="text"
-                                name="name"
-                                id="name"
-                                placeholder="Nhập tên dịch vụ"
-                                onChange={onChangeName}
-                                value={name}
-                            />
+                                    <Label for="category"><b>Loại hình: <span className="require-icon">*</span></b></Label>
+                                    <Input
+                                        type="select"
+                                        name="category"
+                                        id="category"
+                                        onChange={onChangeCategory}
+                                        value={category}
+                                    >
+                                        {categories.map((category) => {
+                                            return (
+                                                <option key={category.id} value={category.id}>
+                                                    {category.name}
+                                                </option>
+                                            );
+                                        })}
+                                    </Input>
 
-                            <Label for="category"><b>Loại hình:</b></Label>
-                            <Input
-                                type="select"
-                                name="category"
-                                id="category"
-                                onChange={onChangeCategory}
-                                value={category}
-                            >
-                                {categories.map((category) => {
-                                    return (
-                                        <option key={category.id} value={category.id}>
-                                            {category.name}
-                                        </option>
-                                    );
-                                })}
-                            </Input>
+                                    <Label for="status"><b>Trạng thái: <span className="require-icon">*</span></b></Label>
+                                    <Input
+                                        type="select"
+                                        name="status"
+                                        id="status"
+                                        onChange={onChangeStatus}
+                                        value={status}
+                                    >
+                                        <option value="1">Đang hoạt động</option>
+                                        <option value="2">Ngừng hoạt động</option>
+                                    </Input>
 
-                            <Label for="status"><b>Trạng thái:</b></Label>
-                            <Input
-                                type="select"
-                                name="status"
-                                id="status"
-                                onChange={onChangeStatus}
-                                value={status}
-                            >
-                                <option value="1">Đang hoạt động</option>
-                                <option value="2">Ngừng hoạt động</option>
-                            </Input>
+                                    <Label for="price"><b>Giá dịch vụ: <span className="require-icon">*</span></b></Label>
+                                    <Input
+                                        type="number"
+                                        name="price"
+                                        id="price"
+                                        placeholder="Nhập giá dịch vụ"
+                                        onChange={onChangePrice}
+                                        value={price}
+                                        required="required"
+                                    />
 
-                            <Label for="price"><b>Giá dịch vụ:</b></Label>
-                            <Input
-                                type="number"
-                                name="price"
-                                id="price"
-                                placeholder="Nhập giá dịch vụ"
-                                onChange={onChangePrice}
-                                value={price}
-                            />
-
-                            <Label for="description"><b>Mô tả:</b></Label>
-                            <Input
-                                type="textarea"
-                                name="description"
-                                id="description"
-                                placeholder="Mô tả dịch vụ"
-                                onChange={onChangeDescription}
-                                value={description}
-                            />
-                        </div>
-                    }
-                </ModalBody>
-                <ModalFooter>
-                    <Button color="success" onClick={() => updateService(service.id)}>Lưu</Button>{' '}
-                    <Button color="secondary" onClick={toggle}>Trở lại</Button>
-                </ModalFooter>
-            </Modal>
-        </div>
+                                    <Label for="description"><b>Mô tả: <span className="require-icon">*</span></b></Label>
+                                    <Input
+                                        type="textarea"
+                                        name="description"
+                                        id="description"
+                                        placeholder="Mô tả dịch vụ"
+                                        onChange={onChangeDescription}
+                                        value={description}
+                                        required="required"
+                                    />
+                                </div>
+                            }
+                            <Input type="submit" value="Lưu" className="btn btn-success btn-save" />
+                        </Form>
+                    </ModalBody>
+                    <ModalFooter>
+                        {/* <Button color="success" onClick={() => updateService(service.id)}>Lưu</Button>{' '} */}
+                        <Button color="secondary" onClick={toggle}>Trở lại</Button>
+                    </ModalFooter>
+                </Modal>
+            </td>
+        </tr>
     )
 }

@@ -482,11 +482,10 @@ export default class myRestaurantMenu extends Component {
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Tên dịch vụ</th>
+                                <th>Tên món ăn</th>
                                 <th>Giá</th>
-                                <th>Loại dịch vụ</th>
+                                <th>Loại món ăn</th>
                                 <th>Trạng thái</th>
-                                <th></th>
                                 <th></th>
                             </tr>
                         </thead>
