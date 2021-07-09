@@ -102,13 +102,9 @@ export default function MyRestaurantComboItem(props) {
         axios.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=${categoryId}&dishName=${nameSearch}&statusId=1`)
             .then(res => {
                 const data = res.data;
-                const slice = data.slice(offset, offset + perPage);
-                const dishes = slice.map((dish, index) => {
-                    return <AddDishComboItem key={index} dish={dish} count={index + 1} combo={combo} dishModal={dishesModal} />
-                });
-
-                setPageCount(Math.ceil(data.length / perPage));
-                setDishesPaging(dishes);
+                // const slice = data.slice(offset, offset + perPage);
+                // setPageCount(Math.ceil(data.length / perPage));
+                setDishesPaging(data);
             })
     }
 
@@ -117,7 +113,7 @@ export default function MyRestaurantComboItem(props) {
             .then(res => {
                 setDishModal(res.data);
             })
-    }, [dishesModal]);
+    }, [dishesModal, modal, modal1]);
 
     useEffect(() => {
         getDishes(category, nameSearch);
@@ -343,53 +339,54 @@ export default function MyRestaurantComboItem(props) {
                             <h5 className="price-tempt">{'Giá combo tạm tính: ' + formatCurrency(priceDish) + ' VNĐ'}</h5>
                             <Modal isOpen={modal1} toggle={toggle1} className="modal-add-dish-to-combo">
                                 <ModalHeader toggle={toggle1}>Thêm món ăn vào combo</ModalHeader>
-                                <ModalBody>
-                                    <Row className="menu-search">
-                                        <Col>
-                                            <Row>
-                                                <Col lg="5"><Label for="name"><b>Tên món ăn:</b></Label></Col>
-                                                <Col lg="7">
-                                                    <Input
-                                                        type="text"
-                                                        name="name"
-                                                        id="name"
-                                                        placeholder="Nhập tên món ăn"
-                                                        onChange={onChangeNameSearch}
-                                                        value={nameSearch}
-                                                    />
-                                                </Col>
-                                            </Row>
-                                        </Col>
+                                <Row className="menu-search">
+                                    <Col>
+                                        <Row>
+                                            <Col lg="5"><Label for="name"><b>Tên món ăn:</b></Label></Col>
+                                            <Col lg="7">
+                                                <Input
+                                                    type="text"
+                                                    name="name"
+                                                    id="name"
+                                                    placeholder="Nhập tên món ăn"
+                                                    onChange={onChangeNameSearch}
+                                                    value={nameSearch}
+                                                />
+                                            </Col>
+                                        </Row>
+                                    </Col>
 
-                                        <Col>
-                                            <Row>
-                                                <Col lg="4"><Label for="categorySearch"><b>Loại hình:</b></Label></Col>
-                                                <Col lg="8">
-                                                    <Input
-                                                        type="select"
-                                                        name="categorySearch"
-                                                        id="categorySearch"
-                                                        onChange={onChangeCategory}
-                                                        value={category}
-                                                    >
-                                                        <option value={0}>Tất cả</option>
-                                                        {categories.map((category) => {
-                                                            return (
-                                                                <option key={category.id} value={category.id}>
-                                                                    {category.name}
-                                                                </option>
-                                                            );
-                                                        })}
-                                                    </Input>
-                                                </Col>
-                                            </Row>
-                                        </Col>
-                                        <Col className="search-button-group">
-                                            <Button onClick={searchDish} className="btn-service-search" color="primary">
-                                                <FaSearch className="icon-search" />
-                                            </Button>
-                                        </Col>
-                                    </Row>
+                                    <Col lg="4">
+                                        <Row>
+                                            <Col><Label for="categorySearch"><b>Loại hình:</b></Label></Col>
+                                            <Col lg="7">
+                                                <Input
+                                                    type="select"
+                                                    name="categorySearch"
+                                                    id="categorySearch"
+                                                    onChange={onChangeCategory}
+                                                    value={category}
+                                                >
+                                                    <option value={0}>Tất cả</option>
+                                                    {categories.map((category) => {
+                                                        return (
+                                                            <option key={category.id} value={category.id}>
+                                                                {category.name}
+                                                            </option>
+                                                        );
+                                                    })}
+                                                </Input>
+                                            </Col>
+                                        </Row>
+                                    </Col>
+                                    <Col className="search-button-group">
+                                        <Button onClick={searchDish} className="btn-service-search" color="primary">
+                                            <FaSearch className="icon-search" />
+                                        </Button>
+                                    </Col>
+                                </Row>
+                                <ModalBody>
+
                                     <Table>
                                         <thead>
                                             <tr>
@@ -401,24 +398,13 @@ export default function MyRestaurantComboItem(props) {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {dishesPaging.length > 0 && dishesPaging}
+                                            {
+                                                dishesPaging && dishesPaging.map((dish, index) => {
+                                                    return <AddDishComboItem key={index} dish={dish} count={index + 1} combo={combo} dishModal={dishesModal} />
+                                                })
+                                            }
                                         </tbody>
                                     </Table>
-                                    <Container>
-                                        <ReactPaginate
-                                            previousLabel={"Trang trước"}
-                                            nextLabel={"Trang sau"}
-                                            breakLabel={"..."}
-                                            breakClassName={"break-me"}
-                                            pageCount={pageCount}
-                                            marginPagesDisplayed={2}
-                                            pageRangeDisplayed={5}
-                                            onPageChange={handlePageClick}
-                                            containerClassName={"pagination"}
-                                            subContainerClassName={"pages pagination"}
-                                            activeClassName={"active"}
-                                        />
-                                    </Container>
                                 </ModalBody>
                                 <ModalFooter>
                                     <Button color="success" onClick={toggle1}>Ok</Button>

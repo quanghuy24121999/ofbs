@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     Button
 } from 'reactstrap';
@@ -19,15 +19,24 @@ export default function AddDishComboItem(props) {
         dishModal && dishModal.forEach(item => {
             if (item.id === dish.id) {
                 check = check + 1;
+                let btn = null;
+                btn = document.getElementById('add-' + dish.id);
+                if (btn !== undefined && btn != null) {
+                    btn.disabled = true;
+                }
                 return;
             }
         });
     }
 
+    useEffect(() => {
+        checkExist();
+    }, [dishModal, check]);
+
     const addToCombo = () => {
         let comboApi = [];
         let dishApi = [];
-        checkExist();
+        document.getElementById('add-' + dish.id).disabled = true;
 
         if (check === 0) {
             axios.get(`/combos/getComboById?comboId=${combo.combo_id}`)
@@ -62,7 +71,22 @@ export default function AddDishComboItem(props) {
             <td>{dish.dish_name}</td>
             <td>{formatCurrency(dish.price) + ' VNĐ'}</td>
             <td>{dish.category_name}</td>
-            <td><Button color="primary" onClick={addToCombo} >Thêm</Button></td>
+            <td>
+                {
+                    check === 0 ? (<Button id={`add-${dish.id}`} color="primary" onClick={(e) => {
+                        e.preventDefault();
+                        checkExist();
+                        addToCombo();
+                    }}
+                    >
+                        Thêm
+                    </Button>) : (
+                        <Button id={`add-${dish.id}`} color="primary" disabled>
+                            Thêm
+                        </Button>
+                    )
+                }
+            </td>
         </tr >
     )
 }
