@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useCart } from 'react-use-cart';
 import {
-    Button, CardImg, Modal, Badge, Input,
+    Button, Modal, Badge, Input, Form,
     ModalHeader, ModalBody, ModalFooter,
     Label
 } from 'reactstrap';
@@ -11,13 +11,16 @@ import axios from 'axios';
 import CartDishItem from './cartDishItem';
 import CartComboItem from './cartComboItem';
 import CartServiceItem from './cartServiceItem';
+import { formatDateForInput } from '../../common/formatDate';
+import { formatCurrency } from '../../common/formatCurrency';
+import { Notify } from '../../common/notify';
 
 export default function Cart(props) {
     const [modal, setModal] = useState(false);
     const [modalConfirm, setModalComfirm] = useState(false);
-    const [typeTable, setTypeTable] = useState(0);
+    const [typeTable, setTypeTable] = useState(6);
     const [customerQuantity, setCustomerQuantity] = useState(1);
-    const [period, setPeriod] = useState('');
+    const [period, setPeriod] = useState('Trưa');
     const [time, setTime] = useState('');
     const [note, setNote] = useState('');
     const toggle = () => setModal(!modal);
@@ -75,8 +78,7 @@ export default function Cart(props) {
         })
     }
 
-    const onSubmitCart = (e) => {
-        e.preventDefault();
+    const onSubmitCart = () => {
         let customerId;
         const restaurantId = props.restaurantId;
 
@@ -171,6 +173,8 @@ export default function Cart(props) {
 
                                 emptyCart();
                                 setModalComfirm(!modalConfirm);
+                                toggle();
+                                Notify('Đặt hàng thành công', 'success', 'top-right');
                             })
                         })
                 })
@@ -215,102 +219,124 @@ export default function Cart(props) {
                 <Modal isOpen={modal} toggle={toggle} className="cart-modal">
                     <ModalHeader toggle={toggle}>Giỏ hàng</ModalHeader>
                     <ModalBody>
-                        <div className="cart-option">
-                            <h3>Tùy chọn</h3>
-                            <div className="cart-select">
-                                <Input
-                                    type="select"
-                                    name="type"
-                                    id="type"
-                                    onChange={onchangeTypeTable}
-                                    value={metadata.type}
-                                >
-                                    <option value={0}>Chọn loại bàn</option>
-                                    <option value={6}>Bàn 6</option>
-                                    <option value={8}>Bàn 8</option>
-                                </Input>
+                        <Form
+                            onSubmit={(event) => {
+                                event.preventDefault();
+                                onSubmitCart();
+                            }}
+                        >
+                            <div className="cart-option">
+                                <h3>Tùy chọn</h3>
+                                <div className="cart-other-option">
+                                    <div>
+                                        <Label for="type"><b>Loại bàn: <span className="require-icon">*</span></b></Label>
+                                        <Input
+                                            type="select"
+                                            name="type"
+                                            id="type"
+                                            onChange={onchangeTypeTable}
+                                            value={metadata.type}
+                                            required="required"
+                                        >
+                                            <option value={6}>Bàn 6</option>
+                                            <option value={8}>Bàn 8</option>
+                                        </Input>
+                                    </div>
 
-                                <Input
-                                    type="select"
-                                    name="period"
-                                    id="period"
-                                    onChange={onchangePeriod}
-                                    value={metadata.period}
-                                >
-                                    <option value={``}>Chọn buổi </option>
-                                    <option value={'Trưa'}>Trưa</option>
-                                    <option value={'Tối'}>Tối</option>
-                                </Input>
-                            </div>
-
-                            <div className="cart-other-option">
-                                <div>
-                                    <Label for="customer-quantity"><b>Số lượng khách:</b></Label>
-                                    <Input
-                                        type="number"
-                                        name="customer-quantity"
-                                        id="customer-quantity"
-                                        min={1}
-                                        onChange={onChangeCustomerQuantity}
-                                        value={metadata.customerQuantity}
-                                    />
+                                    <div>
+                                        <Label for="period"><b>Buổi: <span className="require-icon">*</span></b></Label>
+                                        <Input
+                                            type="select"
+                                            name="period"
+                                            id="period"
+                                            onChange={onchangePeriod}
+                                            value={metadata.period}
+                                            required="required"
+                                        >
+                                            <option value={'Trưa'}>Trưa</option>
+                                            <option value={'Tối'}>Tối</option>
+                                        </Input>
+                                    </div>
                                 </div>
 
-                                <div>
-                                    <Label for="choose-date"><b>Chọn ngày:</b></Label>
-                                    <Input
-                                        type="date"
-                                        name="choose-date"
-                                        id="choose-date"
-                                        onChange={onChangeTime}
-                                        value={metadata.time}
-                                    />
-                                </div>
-                            </div>
+                                <div className="cart-other-option">
+                                    <div>
+                                        <Label for="customer-quantity"><b>Số lượng khách: <span className="require-icon">*</span></b></Label>
+                                        <Input
+                                            type="number"
+                                            name="customer-quantity"
+                                            id="customer-quantity"
+                                            min={1}
+                                            onChange={onChangeCustomerQuantity}
+                                            value={metadata.customerQuantity}
+                                            required="required"
+                                        />
+                                    </div>
 
-                            <Label for="note"><b>Ghi chú:</b></Label>
-                            <Input
-                                type="textarea"
-                                name="note"
-                                id="note"
-                                placeholder="Yêu cầu cụ thể (nếu có)"
-                                onChange={onChangeNote}
-                                value={metadata.note}
-                            />
-                        </div>
-                        <hr></hr>
-                        <h3>Món ăn</h3>
-                        {
-                            items.map((item, index) => {
-                                return <CartDishItem key={index} dish={item} />
-                            })
-                        }
-                        <hr></hr>
-                        <h3>Combo món ăn</h3>
-                        {items.map((item, index) => {
-                            return <CartComboItem key={index} combo={item} />
-                        })}
-                        <hr></hr>
-                        <h3>Dịch vụ</h3>
-                        {items.map((item, index) => {
-                            return <CartServiceItem key={index} service={item} />
-                        })}
-                        <hr></hr>
-                        <div className="cart-total-price">Tổng tiền: {cartTotal + "  VNĐ"}</div>
+                                    <div>
+                                        <Label for="choose-date"><b>Chọn ngày: <span className="require-icon">*</span></b></Label>
+                                        <Input
+                                            type="date"
+                                            name="choose-date"
+                                            id="choose-date"
+                                            min={formatDateForInput(new Date())}
+                                            onChange={onChangeTime}
+                                            value={metadata.time}
+                                            required="required"
+                                        />
+                                    </div>
+                                </div>
+
+                                <Label for="note"><b>Ghi chú: </b></Label>
+                                <Input
+                                    type="textarea"
+                                    name="note"
+                                    id="note"
+                                    placeholder="Yêu cầu cụ thể (nếu có)"
+                                    onChange={onChangeNote}
+                                    value={metadata.note}
+                                />
+                            </div>
+                            <hr></hr>
+                            <h3>Món ăn</h3>
+                            {
+                                items.map((item, index) => {
+                                    return <CartDishItem key={index} dish={item} />
+                                })
+                            }
+                            <hr></hr>
+                            <h3>Combo món ăn</h3>
+                            {items.map((item, index) => {
+                                return <CartComboItem key={index} combo={item} />
+                            })}
+                            <hr></hr>
+                            <h3>Dịch vụ</h3>
+                            {items.map((item, index) => {
+                                return <CartServiceItem key={index} service={item} />
+                            })}
+                            <hr></hr>
+                            <div className="cart-total-price">Tổng tiền: {formatCurrency(cartTotal) + "  VNĐ"}</div>
+                            <Input type="submit" value="Đặt hàng" className="btn btn-success btn-save" />
+
+                        </Form>
                     </ModalBody>
                     <ModalFooter className="cart-footer">
-                        <Modal isOpen={modalConfirm} toggle={toggleConfirm} className="cart-modal">
+                        {/* <Modal isOpen={modalConfirm} toggle={toggleConfirm} className="cart-modal">
                             <ModalHeader toggle={toggleConfirm}>Thông báo</ModalHeader>
                             <ModalBody>
                                 Bạn có muốn lưu thay đổi ?
                             </ModalBody>
                             <ModalFooter>
-                                <Button color="success" onClick={onSubmitCart}>Lưu</Button>
+                                <Button color="success" onClick={(e) => {
+                                    e.preventDefault();
+                                    console.log(document.getElementById("cart-form"))
+                                    document.getElementById("cart-form").onSubmit();
+                                }}>Lưu</Button>
                                 <Button color="secondary" onClick={toggleConfirm}>Trở lại</Button>
                             </ModalFooter>
-                        </Modal>
+                        </Modal> */}
                         <div>
-                            <Button onClick={toggleConfirm} color="success">Thanh toán</Button>{' '}
+                            {/* <Button onClick={toggleConfirm} color="success">Thanh toán</Button>{' '} */}
                             <Button color="secondary" onClick={toggle}>Trở lại</Button>
                         </div>
                     </ModalFooter>

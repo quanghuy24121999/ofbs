@@ -341,7 +341,7 @@ export default class myRestaurantMenu extends Component {
 
                         <Col>
                             <Row>
-                                <Col lg="4"><Label for="categorySearch"><b>Loại hình:</b></Label></Col>
+                                <Col lg="4"><Label for="categorySearch"><b>Loại món ăn: </b></Label></Col>
                                 <Col lg="8">
                                     <Input
                                         type="select"

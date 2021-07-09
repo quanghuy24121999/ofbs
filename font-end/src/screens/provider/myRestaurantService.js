@@ -352,7 +352,7 @@ export default class myRestaurantService extends Component {
 
                         <Col>
                             <Row>
-                                <Col lg="4"><Label for="categorySearch"><b>Loại hình:</b></Label></Col>
+                                <Col lg="4"><Label for="categorySearch"><b>Loại dịch vụ:</b></Label></Col>
                                 <Col lg="8">
                                     <Input
                                         type="select"
