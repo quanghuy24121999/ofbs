@@ -591,9 +591,9 @@ label {
 
 /*================================================ CART ================================================*/
 
-.cart-modal {
+/* .cart-modal {
   max-width: 60%;
-}
+} */
 
 .cart-option {
   display: flex;
@@ -619,7 +619,9 @@ label {
   margin: 0 10px;
 }
 
+.cart-select > div,
 .cart-other-option > div {
+  width: 100%;
   display: flex;
   flex-direction: column;
   margin: 0 10px;
