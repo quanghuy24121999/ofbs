@@ -15,7 +15,7 @@ export default function CartServiceItem(props) {
     const [quantity, setQuantity] = useState(item.quantity);
 
     const onChangeQuantity = () => {
-        const e = document.getElementById('input-quantity-' + item.id);
+        const e = document.getElementById('input-quantity-' + item.image_service_id);
         item.quantity = parseInt(e.value);
 
         setQuantity(item.quantity);
@@ -61,7 +61,7 @@ export default function CartServiceItem(props) {
                         </Button>
                         <div className="cart-dish-quantity">
                             <Input
-                                id={`input-quantity-${item.id}`}
+                                id={`input-quantity-${item.image_service_id}`}
                                 className="cart-input-quantity"
                                 type="number"
                                 min={0}
