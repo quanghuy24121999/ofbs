@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {
-    Collapse,
-    Navbar,
-    NavbarToggler,
-    NavbarBrand,
-    Nav,
-    NavItem,
-    CardImg
+    Collapse, Modal, ModalHeader, ModalBody, ModalFooter,
+    Navbar, NavbarToggler, NavbarBrand, Nav, NavItem,
+    CardImg, Button
 } from "reactstrap";
 
 import { Link, Redirect } from "react-router-dom";
@@ -22,6 +18,9 @@ const TopMenu = () => {
     const [currentUser, setCurrentUser] = useState();
     const [notifications, setNotifications] = useState([]);
     const [isLogout, setIsLogout] = useState(false);
+    const [modal1, setModal1] = useState(false);
+
+    const toggle1 = () => setModal1(!modal1);
 
     const toggle = () => setIsOpen(!isOpen);
 
@@ -124,7 +123,17 @@ const TopMenu = () => {
                                     </Link>
                                 </NavItem>
                                 <NavItem>
-                                    <Link className="link" onClick={logout} to="/">Đăng xuất</Link>
+                                    <Link className="link" onClick={toggle1}>Đăng xuất</Link>
+                                    <Modal isOpen={modal1} toggle={toggle1} className={``}>
+                                        <ModalHeader toggle={toggle1}>Thông báo</ModalHeader>
+                                        <ModalBody>
+                                            Bạn có chắc chắn muốn đăng xuất ?
+                                        </ModalBody>
+                                        <ModalFooter>
+                                            <Link className="btn btn-success" onClick={logout} to="/">Đồng ý</Link>
+                                            <Button color="secondary" onClick={toggle1}>Quay lại</Button>
+                                        </ModalFooter>
+                                    </Modal>
                                 </NavItem>
                             </div>
                         ) : (
