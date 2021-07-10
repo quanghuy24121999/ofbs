@@ -226,7 +226,7 @@ export default function Cart(props) {
                             }}
                         >
                             <div className="cart-option">
-                                <h3>Tùy chọn</h3>
+                                <h4>Tùy chọn</h4>
                                 <div className="cart-other-option">
                                     <div>
                                         <Label for="type"><b>Loại bàn: <span className="require-icon">*</span></b></Label>
@@ -298,19 +298,19 @@ export default function Cart(props) {
                                 />
                             </div>
                             <hr></hr>
-                            <h3>Món ăn</h3>
+                            <h4>Món ăn</h4>
                             {
                                 items.map((item, index) => {
                                     return <CartDishItem key={index} dish={item} />
                                 })
                             }
                             <hr></hr>
-                            <h3>Combo món ăn</h3>
+                            <h4>Combo món ăn</h4>
                             {items.map((item, index) => {
                                 return <CartComboItem key={index} combo={item} />
                             })}
                             <hr></hr>
-                            <h3>Dịch vụ</h3>
+                            <h4>Dịch vụ</h4>
                             {items.map((item, index) => {
                                 return <CartServiceItem key={index} service={item} />
                             })}

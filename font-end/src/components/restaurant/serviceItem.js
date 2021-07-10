@@ -5,6 +5,7 @@ import {
     ModalBody, ModalFooter
 } from 'reactstrap';
 import { useCart } from 'react-use-cart';
+import { formatCurrency } from '../../common/formatCurrency';
 
 export default function ServiceItem(props) {
     const { addItem, items } = useCart();
@@ -31,7 +32,7 @@ export default function ServiceItem(props) {
                 <CardImg className="service-img" top width="150px" height="200px" src={`/images/${service.image_service_id}`} alt="Dịch vụ" />
                 <CardBody className="service-content">
                     <CardTitle tag="h5">{service.service_name}</CardTitle>
-                    <CardText className="service-price">{service.price + ' VNĐ'}</CardText>
+                    <CardText className="service-price">{formatCurrency(service.price) + ' VNĐ'}</CardText>
                     <Button color="success" onClick={() => checkAddItem(service)}>
                         Thêm vào giỏ
                     </Button>

@@ -37,10 +37,10 @@ body {
   font-weight: 400;
   line-height: 1.6;
   text-decoration: none;
-  font-size: 15px;
+  font-size: 0.9rem;
   margin: 0 6px;
   padding: 3px 15px;
-  border: 2px solid #737373;
+  border: 1.9px solid #737373;
   border-radius: 20px;
 }
 
@@ -94,7 +94,7 @@ body {
   color: #000;
   font-size: 10px;
   top: 37px;
-  left: -135px;
+  left: -145px;
   cursor: text;
   display: none;
   flex-direction: column;
@@ -569,7 +569,7 @@ label {
   justify-content: flex-start;
   align-items: center;
   flex-direction: row;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
 }
 
 .user-username > div:nth-child(1),
@@ -585,7 +585,7 @@ label {
 
 .btn-edit,
 .btn-user-change-password {
-  width: 20%;
+  width: 22%;
   margin: 10px;
 }
 
@@ -692,12 +692,16 @@ label {
   align-items: center;
 }
 
+.btn-outline-primary {
+  border-color: #fff;
+}
+
 .cart-display {
   position: fixed;
   width: 50px;
   height: 50px;
-  right: 100px;
-  top: 110px;
+  right: 30px;
+  top: 90px;
   box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
   border-radius: 50%;
   padding-top: 10px;
@@ -1310,7 +1314,14 @@ hr {
 
 .star-rating-nav > .nav-item > .active,
 .order-nav-status > .nav-item > .active {
-  background-color: var(--color-primary);
+  /* background-color: var(--color-primary); */
+  border-radius: 0;
+  border-bottom: 3px solid #198754;
+}
+
+.star-rating-nav > .nav-item > .active {
+  background-color: #fff !important;
+  color: #000 !important;
 }
 
 .nav-link {
@@ -1398,11 +1409,21 @@ hr {
 }
 
 .order-content > div {
-  font-size: 1.07rem;
+  font-size: 1rem;
   font-weight: 500;
   margin: 5px 0;
 }
 
+.order-nav-status > .nav-item > .nav-link {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.order-nav-status > .nav-item > .nav-link.active {
+  color: #000 !important;
+  background-color: #fff !important;
+  border-radius: 0;
+}
 /*=============================================== ORDER DETAIL ===========================================*/
 .od-content-detail {
   justify-content: center;
@@ -1420,7 +1441,7 @@ hr {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .order-detail-restaurant {
@@ -2238,17 +2259,17 @@ a {
 
 .i-facebook:hover {
   color: #0572e6;
-  transition: 500ms linear;
+  transition: 300ms linear;
 }
 
 .i-youtube:hover {
   color: #ff0000;
-  transition: 500ms linear;
+  transition: 300ms linear;
 }
 
 .i-twitter:hover {
   color: #00b6f1;
-  transition: 500ms linear;
+  transition: 300ms linear;
 }
 
 .all-rights {

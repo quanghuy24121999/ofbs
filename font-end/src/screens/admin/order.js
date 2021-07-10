@@ -140,8 +140,8 @@ function Order() {
                             </Row>
                             <div className="order-detail-footer">
                                 <div className="order-detail-amount">
-                                    <h4>Tổng tiền: {formatCurrency(orderDetailInfo.total_amount)} VNĐ</h4>
-                                    <h4 >Tiền đặt cọc (10%): {formatCurrency(orderDetailInfo.total_amount * 10 / 100)} VNĐ</h4>
+                                    <h5>Tổng tiền: {formatCurrency(orderDetailInfo.total_amount)} VNĐ</h5>
+                                    <h5 >Tiền đặt cọc (10%): {formatCurrency(orderDetailInfo.total_amount * 10 / 100)} VNĐ</h5>
                                 </div>
                             </div>
                         </div>)
