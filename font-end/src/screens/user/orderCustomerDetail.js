@@ -90,25 +90,24 @@ export default class orderCustomerDetail extends Component {
                             .then(res => {
                                 axios.post(`/notifications/insertNotification`,
                                     {
-                                        "content": `Đơn hàng ${orderDetailInfo.order_code} đã bị hủy`,
+                                        "content": `Đơn hàng ${orderDetailInfo.order_code} của ${restaurantInfo.restaurant_name} đã bị hủy`,
                                         "customer": null,
                                         "provider": res.data,
                                         "forAdmin": false,
                                         "type": "order",
                                         "read": false
                                     }
-                                )
-                                    .then(res => {
-                                        window.location.reload();
-                                        Notify('Hủy đơn thành công', 'success', 'top-left');
-                                    })
+                                ).then(res => {
+                                    window.location.reload();
+                                    Notify('Hủy đơn thành công', 'success', 'top-right');
+                                })
                             })
                     })
             }).catch(err => {
-                Notify('Hủy đơn không thành công', 'error', 'top-left');
+                Notify('Hủy đơn không thành công', 'error', 'top-right');
             })
         }).catch(err => {
-            Notify('Mật khẩu không đúng', 'error', 'top-left');
+            Notify('Mật khẩu không đúng', 'error', 'top-right');
         })
     }
 
