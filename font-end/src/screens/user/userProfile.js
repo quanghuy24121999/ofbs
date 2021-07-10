@@ -61,6 +61,7 @@ export default class userProfile extends Component {
         this.validateConfirmPassword = this.validateConfirmPassword.bind(this);
         this.onChange = this.onChange.bind(this);
         this.updateImage = this.updateImage.bind(this);
+        this.validate = this.validate.bind(this);
     }
 
     componentDidMount() {
@@ -87,6 +88,19 @@ export default class userProfile extends Component {
                     this.setState({ userImage: res.data.image_id })
                 }
             })
+    }
+
+    validate() {
+        const { username, phone } = this.state;
+        if (username === '') {
+            Notify('Vui lòng nhập tên đầy đủ', 'error', 'top-right');
+            return false;
+        } else if (phone === '') {
+            Notify('Vui lòng nhập số điện thoại', 'error', 'top-right');
+            return false;
+        } else {
+            return true;
+        }
     }
 
     toggle() {
@@ -188,6 +202,7 @@ export default class userProfile extends Component {
                         this.setState({ userImage: '' });
                     }
                     this.toggle();
+                    this.toggleNested();
                     Notify('Cập nhật thành công', 'success', 'top-right');
                 }).catch(() => {
                     Notify('Cập nhật không thành công', 'error', 'top-right');
@@ -303,10 +318,11 @@ export default class userProfile extends Component {
                     <Modal isOpen={modal} toggle={this.toggle} className="">
                         <ModalHeader toggle={this.toggle}>Chỉnh sửa</ModalHeader>
                         <ModalBody>
-                            <Form onSubmit={(event) => {
+                            {/* <Form onSubmit={(event) => {
                                 event.preventDefault();
                                 this.onSubmit();
-                            }}>
+                            }}> */}
+                            <Form id="myForm" noValidate={false}>
                                 <Label for="username"><b>Tên người dùng: <span className="require-icon">*</span></b></Label>
                                 <Input
                                     type="text"
@@ -366,20 +382,27 @@ export default class userProfile extends Component {
                                     value={dob}
                                     onChange={this.onChangeDob}
                                 />
-                                <Input type="submit" value="Lưu" className="btn btn-success btn-save" />
+                                {/* <Input type="submit" value="Lưu" className="btn btn-success btn-save" /> */}
                             </Form>
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="secondary" onClick={this.toggle}>Trờ lại</Button>
-                            {/* <Button color="success" onClick={this.toggleNested}>Lưu lại</Button> */}
-                            {/* <Modal isOpen={nestedModal} toggle={this.toggleNested} onClosed={closeAll ? this.toggle : undefined}>
-                                    <ModalHeader>Thông báo</ModalHeader>
-                                    <ModalBody>Lưu thay đổi ?</ModalBody>
-                                    <ModalFooter>
-                                        <Button color="secondary" onClick={this.toggleNested}>Hủy</Button>{' '}
-                                        <Button color="success" onClick={this.toggleAll}>Lưu</Button>
-                                    </ModalFooter>
-                                </Modal> */}
+                            <Button color="success" onClick={() => {
+                                if (this.validate()) {
+                                    this.toggleNested();
+                                }
+                            }}
+                            >
+                                Lưu lại
+                            </Button>
+                            <Button color="secondary" onClick={this.toggle}>Quay lại</Button>
+                            <Modal isOpen={nestedModal} toggle={this.toggleNested} onClosed={closeAll ? this.toggle : undefined}>
+                                <ModalHeader>Thông báo</ModalHeader>
+                                <ModalBody>Lưu thay đổi ?</ModalBody>
+                                <ModalFooter>
+                                    <Button color="success" type="submit" form="myForm" onClick={this.onSubmit}>Đồng ý</Button>
+                                    <Button color="secondary" onClick={this.toggleNested}>Quay lại</Button>{' '}
+                                </ModalFooter>
+                            </Modal>
                         </ModalFooter>
                     </Modal>
                 </div>

@@ -202,7 +202,7 @@ export default class myRestaurantMenu extends Component {
             currentPage: selectedPage,
             offset: offset
         }, () => {
-           this.receivedData(0, '');
+            this.receivedData(0, '');
         });
 
     };
@@ -322,162 +322,155 @@ export default class myRestaurantMenu extends Component {
                 <Container>
                     <h3>Món ăn</h3>
                     <hr />
-                    <Row className="menu-search">
-                        <Col>
-                            <Row>
-                                <Col lg="5"><Label for="name"><b>Tên món ăn:</b></Label></Col>
-                                <Col lg="7">
-                                    <Input
-                                        type="text"
-                                        name="name"
-                                        id="name"
-                                        placeholder="Nhập tên món ăn"
-                                        onChange={this.onChangeNameSearch}
-                                        value={nameSearch}
-                                    />
-                                </Col>
-                            </Row>
-                        </Col>
+                    <div className="menu-search">
+                        <div>
+                            <Input
+                                type="text"
+                                name="name"
+                                id="name"
+                                placeholder="Nhập tên món ăn"
+                                onChange={this.onChangeNameSearch}
+                                value={nameSearch}
+                            />
+                        </div>
+                        <div>
+                            <Input
+                                type="select"
+                                name="categorySearch"
+                                id="categorySearch"
+                                onChange={this.onChangeCategorySearch}
+                                value={categorySearch}
+                            >
+                                <option value={0}>Tất cả</option>
+                                {categories.map((category) => {
+                                    return (
+                                        <option key={category.id} value={category.id}>
+                                            {category.name}
+                                        </option>
+                                    );
+                                })}
+                            </Input>
+                        </div>
 
-                        <Col>
-                            <Row>
-                                <Col lg="4"><Label for="categorySearch"><b>Loại món ăn: </b></Label></Col>
-                                <Col lg="8">
-                                    <Input
-                                        type="select"
-                                        name="categorySearch"
-                                        id="categorySearch"
-                                        onChange={this.onChangeCategorySearch}
-                                        value={categorySearch}
-                                    >
-                                        <option value={0}>Tất cả</option>
-                                        {categories.map((category) => {
-                                            return (
-                                                <option key={category.id} value={category.id}>
-                                                    {category.name}
-                                                </option>
-                                            );
-                                        })}
-                                    </Input>
-                                </Col>
-                            </Row>
-                        </Col>
-                        <Col className="search-button-group">
-                            <Button onClick={this.search} className="btn-service-search" color="success">
+                        <div>
+                            <Button onClick={this.search} className="btn-menu-search" color="success">
                                 <FaSearch className="icon-search" />
                             </Button>
+                        </div>
+                        <div>
                             <Button color="primary" onClick={this.toggle}>
                                 <FaRegPlusSquare className="icon-add-service" />Thêm món ăn
                             </Button>
-                            <Modal isOpen={modal} toggle={this.toggle} className={``}>
-                                <ModalHeader toggle={this.toggle}>Thêm món ăn</ModalHeader>
-                                <ModalBody>
-                                    <Form onSubmit={(event) => {
-                                        event.preventDefault();
-                                        this.addDish();
-                                    }}>
-                                        <div>
-                                            <ImageUploading
-                                                value={images}
-                                                onChange={this.onChange}
-                                                dataURLKey="data_url"
-                                            >
-                                                {({
-                                                    imageList,
-                                                    onImageUpdate,
-                                                    onImageRemove,
-                                                }) => (
-                                                    <div className="upload__image-wrapper">
-                                                        {imageList.map((image, index) => (
-                                                            (
-                                                                <div key={index} className="image-item">
-                                                                    <CardImg className="business-image" top src={image.data_url} />
-                                                                    <Alert color="danger" id="error-form4" className="error-form">
-                                                                        Không thể tải ảnh lên, vui lòng chọn một ảnh khác !
-                                                                    </Alert>
-                                                                </div>
-                                                            )
+                        </div>
+                        <Modal isOpen={modal} toggle={this.toggle} className={``}>
+                            <ModalHeader toggle={this.toggle}>Thêm món ăn</ModalHeader>
+                            <ModalBody>
+                                <Form onSubmit={(event) => {
+                                    event.preventDefault();
+                                    this.addDish();
+                                }}>
+                                    <div>
+                                        <ImageUploading
+                                            value={images}
+                                            onChange={this.onChange}
+                                            dataURLKey="data_url"
+                                        >
+                                            {({
+                                                imageList,
+                                                onImageUpdate,
+                                                onImageRemove,
+                                            }) => (
+                                                <div className="upload__image-wrapper">
+                                                    {imageList.map((image, index) => (
+                                                        (
+                                                            <div key={index} className="image-item">
+                                                                <CardImg className="business-image" top src={image.data_url} />
+                                                                <Alert color="danger" id="error-form4" className="error-form">
+                                                                    Không thể tải ảnh lên, vui lòng chọn một ảnh khác !
+                                                                </Alert>
+                                                            </div>
                                                         )
-                                                        )}
+                                                    )
+                                                    )}
 
-                                                        <div className="btn-change-image" onClick={onImageUpdate}>Chọn hoặc đổi ảnh</div>
-                                                    </div>
-                                                )}
-                                            </ImageUploading>
-                                        </div>
-                                        <div>
-                                            <Label for="name"><b>Tên món ăn: <span className="require-icon">*</span></b></Label>
-                                            <Input
-                                                type="text"
-                                                name="name"
-                                                id="name"
-                                                placeholder="Nhập tên món ăn"
-                                                onChange={this.onChangeName}
-                                                value={name}
-                                                required="required"
-                                            />
+                                                    <div className="btn-change-image" onClick={onImageUpdate}>Chọn hoặc đổi ảnh</div>
+                                                </div>
+                                            )}
+                                        </ImageUploading>
+                                    </div>
+                                    <div>
+                                        <Label for="name"><b>Tên món ăn: <span className="require-icon">*</span></b></Label>
+                                        <Input
+                                            type="text"
+                                            name="name"
+                                            id="name"
+                                            placeholder="Nhập tên món ăn"
+                                            onChange={this.onChangeName}
+                                            value={name}
+                                            required="required"
+                                        />
 
-                                            <Label for="category"><b>Loại hình: <span className="require-icon">*</span></b></Label>
-                                            <Input
-                                                type="select"
-                                                name="category"
-                                                id="category"
-                                                onChange={this.onChangeCategory}
-                                                value={category}
-                                            >
-                                                {categories.map((category) => {
-                                                    return (
-                                                        <option key={category.id} value={category.id}>
-                                                            {category.name}
-                                                        </option>
-                                                    );
-                                                })}
-                                            </Input>
+                                        <Label for="category"><b>Loại hình: <span className="require-icon">*</span></b></Label>
+                                        <Input
+                                            type="select"
+                                            name="category"
+                                            id="category"
+                                            onChange={this.onChangeCategory}
+                                            value={category}
+                                        >
+                                            {categories.map((category) => {
+                                                return (
+                                                    <option key={category.id} value={category.id}>
+                                                        {category.name}
+                                                    </option>
+                                                );
+                                            })}
+                                        </Input>
 
-                                            <Label for="status"><b>Trạng thái: <span className="require-icon">*</span></b></Label>
-                                            <Input
-                                                type="select"
-                                                name="status"
-                                                id="status"
-                                                onChange={this.onChangeStatus}
-                                                value={status}
-                                            >
-                                                <option value="1">Đang kinh doanh</option>
-                                                <option value="2">Ngừng kinh doanh</option>
-                                            </Input>
+                                        <Label for="status"><b>Trạng thái: <span className="require-icon">*</span></b></Label>
+                                        <Input
+                                            type="select"
+                                            name="status"
+                                            id="status"
+                                            onChange={this.onChangeStatus}
+                                            value={status}
+                                        >
+                                            <option value="1">Đang kinh doanh</option>
+                                            <option value="2">Ngừng kinh doanh</option>
+                                        </Input>
 
-                                            <Label for="price"><b>Giá món ăn: <span className="require-icon">*</span></b></Label>
-                                            <Input
-                                                type="number"
-                                                name="price"
-                                                id="price"
-                                                placeholder="Nhập giá món ăn"
-                                                onChange={this.onChangePrice}
-                                                value={price}
-                                                required="required"
-                                            />
+                                        <Label for="price"><b>Giá món ăn: <span className="require-icon">*</span></b></Label>
+                                        <Input
+                                            type="number"
+                                            name="price"
+                                            id="price"
+                                            placeholder="Nhập giá món ăn"
+                                            onChange={this.onChangePrice}
+                                            value={price}
+                                            required="required"
+                                        />
 
-                                            <Label for="description"><b>Mô tả: <span className="require-icon">*</span></b></Label>
-                                            <Input
-                                                type="textarea"
-                                                name="description"
-                                                id="description"
-                                                placeholder="Mô tả món ăn"
-                                                onChange={this.onChangeDescription}
-                                                value={description}
-                                                required="required"
-                                            />
-                                        </div>
-                                        <Input type="submit" value="Lưu" className="btn btn-success btn-save" />
-                                    </Form>
-                                </ModalBody>
-                                <ModalFooter>
-                                    {/* <Button color="success" onClick={() => this.addDish()}>Lưu</Button>{' '} */}
-                                    <Button color="secondary" onClick={this.toggle}>Trở lại</Button>
-                                </ModalFooter>
-                            </Modal>
-                        </Col>
-                    </Row>
+                                        <Label for="description"><b>Mô tả: <span className="require-icon">*</span></b></Label>
+                                        <Input
+                                            type="textarea"
+                                            name="description"
+                                            id="description"
+                                            placeholder="Mô tả món ăn"
+                                            onChange={this.onChangeDescription}
+                                            value={description}
+                                            required="required"
+                                        />
+                                    </div>
+                                    <Input type="submit" value="Lưu" className="btn btn-success btn-save" />
+                                </Form>
+                            </ModalBody>
+                            <ModalFooter>
+                                {/* <Button color="success" onClick={() => this.addDish()}>Lưu</Button>{' '} */}
+                                <Button color="secondary" onClick={this.toggle}>Trở lại</Button>
+                            </ModalFooter>
+                        </Modal>
+
+                    </div>
                     <Table>
                         <thead>
                             <tr>

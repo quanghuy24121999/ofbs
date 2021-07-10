@@ -1104,12 +1104,13 @@ hr {
 .restaurant-detail-nav > .active {
   padding: 7px 15px;
   margin: 0 10px;
-  background-color: var(--color-primary) !important;
-  border-radius: 5px;
+  /* background-color: var(--color-primary) !important; */
+  /* border-radius: 5px; */
+  border-bottom: 3px solid #198754;
 }
 
 .restaurant-detail-nav > .active > a {
-  color: #fff !important;
+  color: #000 !important;
 }
 
 .image-slide {
@@ -1189,6 +1190,10 @@ hr {
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
+.combo-card > hr {
+  margin: 10px auto;
+}
+
 .combo-card:hover {
   box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px,
     rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
@@ -1204,17 +1209,16 @@ hr {
 .combo-price {
   font-size: 1.2rem;
   font-weight: 500;
-  border-top: 2px solid #000000;
   color: #0572e6;
+  text-align: center;
 }
 
 .dish-lists {
   height: auto;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   flex-direction: column;
-  margin-top: -70px;
 }
 
 .dish-item {
@@ -1443,19 +1447,37 @@ table {
 thead {
   background-color: var(--color-primary);
   color: #ffff;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+tr > td:nth-child(2) {
+  font-size: 1.1rem;
+  font-weight: 500;
 }
 
 tr > th:nth-child(3),
 tr > th:nth-child(4),
+tr > th:nth-child(3),
+tr > th:nth-child(4),
+tr > th:nth-child(5),
+tr > th:nth-child(6),
 tr > td:nth-child(3),
-tr > td:nth-child(4) {
+tr > td:nth-child(4),
+tr > td:nth-child(3),
+tr > td:nth-child(4),
+tr > td:nth-child(5),
+tr > td:nth-child(6) {
   text-align: center;
 }
 
-tr > td:nth-child(2),
+tr > td:nth-child(1),
 tr > td:nth-child(3),
-tr > td:nth-child(4) {
-  font-weight: 500;
+tr > td:nth-child(4),
+tr > td:nth-child(5),
+tr > td:nth-child(6) {
+  font-size: 1.1rem;
+  font-weight: 490;
 }
 
 /* .od-dish-item > td:nth-child(3),
@@ -1744,33 +1766,21 @@ tr > td:nth-child(4) {
 }
 
 .service-search {
-  width: 68%;
-  margin-bottom: 20px;
-}
-
-.service-search > .col > .row {
+  width: 100%;
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-}
-
-.service-search > .col > .row > div:nth-child(1) > label {
-  margin: 0;
+  margin-bottom: 15px;
 }
 
 .service-search > div {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  margin: 0 10px;
 }
 
-.search-button-group {
-  width: 70%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around !important;
-  align-items: center;
+.btn-service-search {
+  width: 100%;
+  margin: 0 15px;
 }
 
 .icon-edit {
@@ -1782,10 +1792,6 @@ tr > td:nth-child(4) {
   margin: 0 5px;
 }
 
-.btn-service-search {
-  width: 25%;
-}
-
 /*=============================================== MY RESTAURANT MENU ===========================================*/
 
 .myRes-menu .restaurant-detail-nav {
@@ -1794,21 +1800,22 @@ tr > td:nth-child(4) {
   align-items: center;
 }
 
-.menu-search > .col > .row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.menu-search > .col > .row > div:nth-child(1) > label {
-  margin: 0;
-}
-
-.menu-search > div {
+.menu-search {
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin-bottom: 15px;
+}
+
+.menu-search > div {
+  margin: 0 10px;
+}
+
+.btn-menu-search {
+  width: 100%;
+  margin: 0 15px;
 }
 
 /*=============================================== MY RESTAURANT COMBO ===========================================*/
@@ -1819,21 +1826,23 @@ tr > td:nth-child(4) {
   align-items: center;
 }
 
-.combo-search > .col > .row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.combo-search > .col > .row > div:nth-child(1) > label {
-  margin: 0;
-}
-
-.combo-search > div {
+.combo-menu-search {
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  padding: 10px;
+  box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+}
+
+.combo-menu-search > div {
+  margin: 0 10px;
+}
+
+.btn-combo-menu-search {
+  width: 100%;
+  margin: 0 15px;
 }
 
 .custome-modal {
@@ -1860,7 +1869,7 @@ tr > td:nth-child(4) {
   overflow-y: auto;
 }
 
-.menu-search {
+.combo-search {
   padding: 10px;
   box-shadow: rgb(0 0 0 / 9%) 0px 2px 1px, rgb(0 0 0 / 9%) 0px 4px 2px,
     rgb(0 0 0 / 9%) 0px 8px 4px, rgb(0 0 0 / 9%) 0px 16px 8px,
@@ -1871,7 +1880,7 @@ tr > td:nth-child(4) {
   margin: 20px 0;
 }
 
-/*=============================================== MY RESTAURANT COMBO ===========================================*/
+/*=============================================== MY RESTAURANT PROMOTION ===========================================*/
 
 .myRes-promotion .restaurant-detail-nav {
   display: flex;
@@ -1907,7 +1916,7 @@ tr > td:nth-child(4) {
   margin: 0 5px;
 }
 
-/*=============================================== MY RESTAURANT COMBO ===========================================*/
+/*=============================================== MY RESTAURANT ORDER ===========================================*/
 
 .myRes-order .restaurant-detail-nav {
   display: flex;

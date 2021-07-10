@@ -9,6 +9,7 @@ import axios from 'axios';
 import ImageUploading from "react-images-uploading";
 
 import { Notify } from '../../common/notify';
+import { formatCurrency } from '../../common/formatCurrency';
 
 export default function MyRestaurantMenuItem(props) {
     const dish = props.dish;
@@ -168,7 +169,7 @@ export default function MyRestaurantMenuItem(props) {
         <tr>
             <td>{count}</td>
             <td>{dish.dish_name}</td>
-            <td>{dish.price}</td>
+            <td>{formatCurrency(dish.price) + ' VNĐ'}</td>
             <td>{dish.category_name}</td>
             <td>{statusDish}</td>
             <td>

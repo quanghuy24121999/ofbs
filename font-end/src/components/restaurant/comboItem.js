@@ -35,6 +35,7 @@ export default function ComboItem(props) {
     return <Card className="combo-card">
         <div className="combo-name">{combo.combo_name}</div>
         <CardImg className="combo-image" top width="100%" src={'/images/' + combo.image_dish_id} />
+        <hr />
         <div className="dish-lists">
             {
                 dishes.map((dish, index) => {
@@ -44,6 +45,7 @@ export default function ComboItem(props) {
                 })
             }
         </div>
+        <hr />
         <div className="combo-price">{"Giá combo:  " + combo.price + ' VNĐ'}</div>
         <Button
             className="btn-order"
