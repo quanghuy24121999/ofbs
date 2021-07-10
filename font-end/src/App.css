@@ -1189,6 +1189,10 @@ hr {
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
+.combo-card > hr {
+  margin: 10px auto;
+}
+
 .combo-card:hover {
   box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px,
     rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
@@ -1204,17 +1208,16 @@ hr {
 .combo-price {
   font-size: 1.2rem;
   font-weight: 500;
-  border-top: 2px solid #000000;
   color: #0572e6;
+  text-align: center;
 }
 
 .dish-lists {
   height: auto;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   flex-direction: column;
-  margin-top: -70px;
 }
 
 .dish-item {
