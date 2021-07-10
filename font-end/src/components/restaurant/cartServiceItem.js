@@ -3,6 +3,7 @@ import {
     CardImg, Button, Input
 } from 'reactstrap';
 import { useCart } from 'react-use-cart';
+import { formatCurrency } from '../../common/formatCurrency';
 
 export default function CartServiceItem(props) {
     const item = props.service;
@@ -53,7 +54,7 @@ export default function CartServiceItem(props) {
                     />
                     <div className="cart-detail">
                         <div className="cart-dish-name">{item.service_name}</div>
-                        <div className="cart-dish-price">{item.price + ' VNĐ'}</div>
+                        <div className="cart-dish-price">{formatCurrency(item.price) + ' VNĐ'}</div>
                     </div>
                     <div className="cart-group-btn">
                         <Button className="btn-sub" onClick={() => { decrese() }}>

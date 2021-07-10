@@ -5,6 +5,7 @@ import {
 } from 'reactstrap';
 import { useCart } from 'react-use-cart';
 import axios from 'axios';
+import { formatCurrency } from '../../common/formatCurrency';
 
 export default function ComboItem(props) {
     const { addItem, items } = useCart();
@@ -46,7 +47,7 @@ export default function ComboItem(props) {
             }
         </div>
         <hr />
-        <div className="combo-price">{"Giá combo:  " + combo.price + ' VNĐ'}</div>
+        <div className="combo-price">{"Giá combo:  " + formatCurrency(combo.price) + ' VNĐ'}</div>
         <Button
             className="btn-order"
             color="success"

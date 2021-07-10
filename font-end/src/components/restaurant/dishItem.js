@@ -5,6 +5,7 @@ import {
     ModalBody, ModalFooter
 } from 'reactstrap';
 import { useCart } from 'react-use-cart';
+import { formatCurrency } from '../../common/formatCurrency';
 
 export default function Dish(props) {
     const [modal, setModal] = useState(false);
@@ -28,7 +29,7 @@ export default function Dish(props) {
                 <CardImg className="dish-img" top width="150px" height="200px" src={'/images/' + dish.image_dish_id} alt="Nhà hàng" />
                 <CardBody className="dish-content">
                     <CardTitle tag="h5">{dish.dish_name}</CardTitle>
-                    <CardText className="dish-price">{dish.price + ' VNĐ'}</CardText>
+                    <CardText className="dish-price">{formatCurrency(dish.price) + ' VNĐ'}</CardText>
                     <Button color="success" onClick={() => checkAddItem(dish)}>
                         Thêm vào giỏ
                     </Button>

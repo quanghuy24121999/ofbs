@@ -361,7 +361,7 @@ export default class restaurantDetail extends Component {
                             <div className="feedback-title">Bài đánh giá {restaurant.restaurant_name} từ khách hàng</div>
                             <div className="feedback-sub-title">
                                 <StarRating rate={restaurant.rate} starDimension="30" starSpacing="4" />
-                                <div className="feedback-description"><b>{restaurant.rate}/5</b> dựa trên {numberRates} đánh giá</div>
+                                <div className="feedback-description"><b>{Math.round(restaurant.rate*100)/100}/5</b> dựa trên {numberRates} đánh giá</div>
                             </div>
                             <hr />
                             <div className="send-feedback">
