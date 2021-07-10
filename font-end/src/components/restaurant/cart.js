@@ -171,10 +171,26 @@ export default function Cart(props) {
                                     type: 0
                                 })
 
-                                emptyCart();
-                                setModalComfirm(!modalConfirm);
-                                toggle();
-                                Notify('Đặt hàng thành công', 'success', 'top-right');
+
+                                axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
+                                    .then(res => {
+                                        const restaurant = res.data;
+                                        axios.post(`/notifications/insertNotification`,
+                                            {
+                                                "content": `Có đơn hàng mới của ${restaurant.restaurantName}`,
+                                                "customer": null,
+                                                "provider": restaurant.provider,
+                                                "forAdmin": false,
+                                                "type": "order",
+                                                "read": false
+                                            }
+                                        ).then(res => {
+                                            emptyCart();
+                                            setModalComfirm(!modalConfirm);
+                                            toggle();
+                                            Notify('Đặt hàng thành công', 'success', 'top-right');
+                                        })
+                                    })
                             })
                         })
                 })

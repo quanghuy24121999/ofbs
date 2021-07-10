@@ -73,10 +73,13 @@ export default class userProfile extends Component {
             }
         })
             .then(res => {
+                let phone = res.data.phone_number; console.log(phone);
+                phone = '0' + phone.substring(3, phone.length);
+
                 this.setState({
                     user: res.data,
                     username: res.data.user_name,
-                    phone: res.data.phone_number,
+                    phone: phone,
                     email: res.data.email,
                     address: res.data.address,
                     gender: res.data.gender,
@@ -170,11 +173,13 @@ export default class userProfile extends Component {
         let { address, email, phone, username,
             gender, dob
         } = this.state;
+        let phoneSubmit = phone;
+        phoneSubmit = '+84' + phoneSubmit.substring(1, phoneSubmit.length);
 
         axios.patch(`/users/profile/update?userId=${userId}`, {
             "address": address,
             "email": email,
-            "phoneNumber": phone,
+            "phoneNumber": phoneSubmit,
             "name": username,
             "gender": gender,
             "dateOfBirth": dob
@@ -189,10 +194,13 @@ export default class userProfile extends Component {
                 }
             })
                 .then(res => {
+                    let phone = res.data.phone_number; console.log(phone);
+                    phone = '0' + phone.substring(3, phone.length);
+
                     this.setState({
                         user: res.data,
                         username: res.data.user_name,
-                        phone: res.data.phone_number,
+                        phone: phone,
                         email: res.data.email,
                         address: res.data.address,
                         gender: res.data.gender,
@@ -289,7 +297,11 @@ export default class userProfile extends Component {
             nestedModalChange, closeAllChange, images
         } = this.state;
 
-
+        let phoneNumber = '';
+        if (user.phone_number !== null && user.phone_number !== undefined) {
+            phoneNumber = user.phone_number;
+            phoneNumber = '0' + phoneNumber.substring(3, phoneNumber.length);
+        }
         let image;
         if (userImage === '') {
             image = <CardImg id="user-image" className="user-profile-image" top src={imageUser} />
@@ -459,7 +471,7 @@ export default class userProfile extends Component {
                                 </div>
                                 <div className="user-phone-number">
                                     <div>Số điện thoại:</div>
-                                    <div>{user.phone_number}</div>
+                                    <div>{phoneNumber}</div>
                                 </div>
                                 <div className="user-email">
                                     <div>Email:</div>
