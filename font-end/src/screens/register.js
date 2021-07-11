@@ -7,6 +7,7 @@ import axios from "axios";
 
 import TopMenu from '../components/common/topMenu';
 import { Notify } from '../common/notify';
+import { validatePassword, validatePhoneNumber, validateUsername } from "../common/validate";
 
 let recap = null;
 let event = '';
@@ -66,69 +67,84 @@ class register extends Component {
     validateConfirmPassword() {
         const { password, rePassword } = this.state;
 
-        if (password !== rePassword) {
-            return false;
+        if (validatePassword(password)) {
+            if (password !== rePassword) {
+                Notify("Mật khẩu không khớp !", "error", "top-right");
+                return false;
+            } else {
+                return true;
+            }
         } else {
-            return true;
+            Notify('Mật khẩu phải ít nhất 3 kí tự và không bao gồm khoảng trắng', 'error', 'top-right')
         }
     }
 
     handleClick(e) {
         e.preventDefault();
 
-        const phone = '+84' + this.state.phoneNumber.substring(1, this.state.phoneNumber.length);
-        axios.get('/users/findByPhoneNumber/' + phone)
-            .then(res => {
-                if (res.data === null || res.data === '') {
-                    if (this.validateConfirmPassword() === true) {
-                        let recapcha = new firebase.auth.RecaptchaVerifier("recaptcha");
-                        firebase.auth().signInWithPhoneNumber(phone, recapcha)
-                            .then(function (e) {
-                                recap = recapcha;
-                                event = e;
-                                phoneCapcha = phone;
+        if (validateUsername(this.state.name)) {
+            if (validatePhoneNumber(this.state.phoneNumber)) {
+                const phone = '+84' + this.state.phoneNumber.substring(1, this.state.phoneNumber.length);
+                axios.get('/users/findByPhoneNumber/' + phone)
+                    .then(res => {
+                        if (res.data === null || res.data === '') {
+                            if (this.validateConfirmPassword() === true) {
+                                let recapcha = new firebase.auth.RecaptchaVerifier("recaptcha");
+                                firebase.auth().signInWithPhoneNumber(phone, recapcha)
+                                    .then(function (e) {
+                                        recap = recapcha;
+                                        event = e;
+                                        phoneCapcha = phone;
 
-                                document.getElementById('verify-code').style.display = "flex";
-                                document.getElementById('recaptcha').style.display = "none";
-                                document.getElementById('btn-forget-password').style.display = "none";
-                            }).catch((error) => {
-                                recapcha.clear();
-                                console.log(error);
-                                Notify("Lỗi hệ thống !", "error", "top-right");
-                            });
-                    } else {
-                        Notify("Mật khẩu không khớp !", "error", "top-right");
-                    }
-                } else {
-                    Notify("Số điện thoại đã tồn tại !", "error", "top-right");
-                }
-            });
+                                        document.getElementById('verify-code').style.display = "flex";
+                                        document.getElementById('recaptcha').style.display = "none";
+                                        document.getElementById('btn-forget-password').style.display = "none";
+                                    }).catch((error) => {
+                                        recapcha.clear();
+                                        console.log(error);
+                                        Notify("Lỗi hệ thống !", "error", "top-right");
+                                    });
+                            }
+                        } else {
+                            Notify("Số điện thoại đã tồn tại !", "error", "top-right");
+                        }
+                    });
+            } else {
+                Notify('Số điện thoại của bạn không đúng định dạng', 'error', 'top-right');
+            }
+        } else {
+            Notify('Tên của bạn quá dài', 'error', 'top-right');
+        }
     }
 
     verifyCode(phoneCapcha, recapcha, e) {
-        let code = this.state.code;
-        let password = this.state.password;
-        let name = this.state.name;
-        if (code === null || code === '') return;
+        if (this.state.code !== '') {
+            let code = this.state.code;
+            let password = this.state.password;
+            let name = this.state.name;
+            if (code === null || code === '') return;
 
-        e.confirm(code)
-            .then(function (result) {
-                axios.post('/users/register', {
-                    name: name,
-                    phoneLogin: phoneCapcha,
-                    password: password,
-                    phoneNumber: phoneCapcha
+            e.confirm(code)
+                .then(function (result) {
+                    axios.post('/users/register', {
+                        name: name.trim(),
+                        phoneLogin: phoneCapcha,
+                        password: password,
+                        phoneNumber: phoneCapcha
+                    })
+                    Notify("Đăng ký thành công !", "success", "top-right");
+                    recapcha.clear();
+                    window.location.reload();
                 })
-                Notify("Đăng ký thành công !", "success", "top-right");
-                recapcha.clear();
-                window.location.reload();
-            })
-            .catch((error) => {
-                console.log(error);
-                Notify("Đăng ký thất bại !", "error", "top-right");
-                recapcha.clear();
-                window.location.reload();
-            });
+                .catch((error) => {
+                    console.log(error);
+                    Notify("Đăng ký thất bại !", "error", "top-right");
+                    recapcha.clear();
+                    window.location.reload();
+                });
+        } else {
+            Notify("Vui lòng nhập mã OTP !", "error", "top-right");
+        }
     }
 
     render() {
@@ -160,7 +176,7 @@ class register extends Component {
                             <b>Số điện thoại: <span className="require-icon">*</span></b>
                         </Label>
                         <div className="phone-number-input">
-                            <span className="prefix-phone-input">(+84)</span>
+                            {/* <span className="prefix-phone-input">(+84)</span> */}
                             <Input
                                 className="input-phone-number"
                                 type="tel"
@@ -185,7 +201,6 @@ class register extends Component {
                             value={password}
                             onChange={this.onchangePassword}
                             required="required"
-                            pattern={`[A-Za-z\d@$!%*#?&]{3,127}$]`}
                         />
                     </FormGroup>
                     <FormGroup>
@@ -200,7 +215,6 @@ class register extends Component {
                             value={rePassword}
                             onChange={this.onchangeRePassword}
                             required="required"
-                            pattern={`[A-Za-z\d@$!%*#?&]{3,127}$]`}
                         // onBlur={this.onBlurRePassword(password, rePassword)}
                         />
                     </FormGroup>

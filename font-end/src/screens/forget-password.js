@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify';
 import firebase from "../config/firebase";
 import TopMenu from '../components/common/topMenu';
 import { Notify } from '../common/notify';
+import { validatePassword } from '../common/validate';
 
 let userId = '';
 let recap = null;
@@ -87,8 +88,6 @@ export default class forgetPassword extends Component {
                                 console.log(error);
                                 Notify("Lỗi hệ thống !", "error", "top-right");
                             });
-                    } else {
-                        Notify("Mật khẩu không khớp !", "error", "top-right");
                     }
                 } else {
                     Notify("Số điện thoại không đúng !", "error", "top-right");
@@ -99,34 +98,43 @@ export default class forgetPassword extends Component {
     validateConfirmPassword() {
         const { password, rePassword } = this.state;
 
-        if (password !== rePassword) {
-            return false;
+        if (validatePassword(password)) {
+            if (password !== rePassword) {
+                Notify("Mật khẩu không khớp !", "error", "top-right");
+                return false;
+            } else {
+                return true;
+            }
         } else {
-            return true;
+            Notify('Mật khẩu phải ít nhất 3 kí tự và không bao gồm khoảng trắng', 'error', 'top-right')
         }
     }
 
     verifyCode(userId, recapcha, e) {
-        let code = this.state.code;
-        let password = this.state.password;
-        if (code === null || code === '') return;
+        if (this.state.code !== '') {
+            let code = this.state.code;
+            let password = this.state.password;
+            if (code === null || code === '') return;
 
-        e.confirm(code)
-            .then(function (result) {
-                axios.patch('/users/update/' + userId, {
-                    "password": password
-                }).then(res => {
-                    Notify("Đổi mật khẩu thành công !", "success", "top-right");
+            e.confirm(code)
+                .then(function (result) {
+                    axios.patch('/users/update/' + userId, {
+                        "password": password
+                    }).then(res => {
+                        Notify("Đổi mật khẩu thành công !", "success", "top-right");
+                        recapcha.clear();
+                        window.location.reload();
+                    })
+                })
+                .catch((error) => {
+                    console.log(error);
+                    Notify("Mã OTP không chính xác !", "error", "top-right");
                     recapcha.clear();
                     window.location.reload();
-                })
-            })
-            .catch((error) => {
-                console.log(error);
-                Notify("Mã OTP không chính xác !", "error", "top-right");
-                recapcha.clear();
-                window.location.reload();
-            });
+                });
+        } else {
+            Notify("Vui lòng nhập mã OTP !", "error", "top-right");
+        }
     }
 
     render() {
@@ -142,7 +150,7 @@ export default class forgetPassword extends Component {
                             <b>Số điện thoại: <span className="require-icon">*</span></b>
                         </Label>
                         <div className="phone-number-input">
-                            <span className="prefix-phone-input">(+84)</span>
+                            {/* <span className="prefix-phone-input">(+84)</span> */}
                             <Input
                                 className="input-phone-number"
                                 type="text"
@@ -168,7 +176,6 @@ export default class forgetPassword extends Component {
                             value={password}
                             onChange={this.onchangePassword}
                             required="required"
-                            pattern={`[A-Za-z\d@$!%*#?&]{3,127}$]`}
                         />
                     </FormGroup>
                     {' '}
@@ -184,7 +191,6 @@ export default class forgetPassword extends Component {
                             value={rePassword}
                             onChange={this.onchangeRePassword}
                             required="required"
-                            pattern={`[A-Za-z\d@$!%*#?&]{3,127}$]`}
                         />
                     </FormGroup>
                     {' '}

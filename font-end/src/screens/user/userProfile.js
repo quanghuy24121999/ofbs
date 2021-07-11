@@ -14,6 +14,7 @@ import Footer from '../../components/common/footer';
 import imageUser from '../../images/default-avatar-user.png';
 import { formatDate } from '../../common/formatDate';
 import { Notify } from '../../common/notify';
+import { validatePassword, validateUsername } from '../../common/validate';
 
 let userId = '';
 export default class userProfile extends Component {
@@ -176,70 +177,77 @@ export default class userProfile extends Component {
         let phoneSubmit = phone;
         phoneSubmit = '+84' + phoneSubmit.substring(1, phoneSubmit.length);
 
-        axios.patch(`/users/profile/update?userId=${userId}`, {
-            "address": address,
-            "email": email,
-            "phoneNumber": phoneSubmit,
-            "name": username,
-            "gender": gender,
-            "dateOfBirth": dob
-        }, {
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
-            }
-        }).then(res => {
-            axios.get(`/users/profile/?userId=${userId}`, {
+        if (validateUsername(username)) {
+            axios.patch(`/users/profile/update?userId=${userId}`, {
+                "address": address,
+                "email": email,
+                "phoneNumber": phoneSubmit,
+                "name": username.trim(),
+                "gender": gender,
+                "dateOfBirth": dob
+            }, {
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                 }
-            })
-                .then(res => {
-                    let phone = res.data.phone_number; console.log(phone);
-                    phone = '0' + phone.substring(3, phone.length);
-
-                    this.setState({
-                        user: res.data,
-                        username: res.data.user_name,
-                        phone: phone,
-                        email: res.data.email,
-                        address: res.data.address,
-                        gender: res.data.gender,
-                        dob: res.data.date_of_birth
-                    });
-                    if (res.data.image_id === null) {
-                        this.setState({ userImage: '' });
+            }).then(res => {
+                axios.get(`/users/profile/?userId=${userId}`, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
-                    this.toggle();
-                    this.toggleNested();
-                    Notify('Cập nhật thành công', 'success', 'top-right');
-                }).catch(() => {
-                    Notify('Cập nhật không thành công', 'error', 'top-right');
                 })
-        })
+                    .then(res => {
+                        let phone = res.data.phone_number; console.log(phone);
+                        phone = '0' + phone.substring(3, phone.length);
+
+                        this.setState({
+                            user: res.data,
+                            username: res.data.user_name,
+                            phone: phone,
+                            email: res.data.email,
+                            address: res.data.address,
+                            gender: res.data.gender,
+                            dob: res.data.date_of_birth
+                        });
+                        if (res.data.image_id === null) {
+                            this.setState({ userImage: '' });
+                        }
+                        this.toggle();
+                        this.toggleNested();
+                        Notify('Cập nhật thành công', 'success', 'top-right');
+                    }).catch(() => {
+                        Notify('Cập nhật không thành công', 'error', 'top-right');
+                    })
+            })
+        } else {
+            Notify('Tên của bạn quá dài', 'error', 'top-right');
+        }
     }
 
     validateConfirmPassword() {
         const { oldPassword, newPassword, reNewPassword } = this.state;
         let phoneNumber = localStorage.getItem("currentUser");
 
-        axios.post(`/users/login`, {
-            phoneLogin: phoneNumber,
-            password: oldPassword
-        }).then(res => {
-            if (newPassword === reNewPassword) {
-                this.onSubmitChangePassword();
-                this.setState({
-                    oldPassword: '',
-                    newPassword: '',
-                    reNewPassword: ''
-                })
-            } else {
-                Notify('Mật khẩu không khớp', 'error', 'top-right');
-            }
-        }).catch(err => {
-            Notify('Mật khẩu cũ không đúng', 'error', 'top-right');
-        })
-
+        if (validatePassword(newPassword)) {
+            axios.post(`/users/login`, {
+                phoneLogin: phoneNumber,
+                password: oldPassword
+            }).then(res => {
+                if (newPassword === reNewPassword) {
+                    this.onSubmitChangePassword();
+                    this.setState({
+                        oldPassword: '',
+                        newPassword: '',
+                        reNewPassword: ''
+                    })
+                } else {
+                    Notify('Mật khẩu không khớp', 'error', 'top-right');
+                }
+            }).catch(err => {
+                Notify('Mật khẩu cũ không đúng', 'error', 'top-right');
+            })
+        } else {
+            Notify('Mật khẩu mới phải ít nhất 3 kí tự và không bao gồm khoảng trắng', 'error', 'top-right')
+        }
     }
 
     onSubmitChangePassword() {
