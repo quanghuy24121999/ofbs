@@ -14,7 +14,7 @@ import Footer from '../../components/common/footer';
 import imageUser from '../../images/default-avatar-user.png';
 import { formatDate } from '../../common/formatDate';
 import { Notify } from '../../common/notify';
-import { validatePassword, validateUsername } from '../../common/validate';
+import { validatePassword, validatePhoneNumber, validateUsername } from '../../common/validate';
 
 let userId = '';
 export default class userProfile extends Component {
@@ -96,11 +96,18 @@ export default class userProfile extends Component {
 
     validate() {
         const { username, phone } = this.state;
+
         if (username === '') {
             Notify('Vui lòng nhập tên đầy đủ', 'error', 'top-right');
             return false;
+        } if (!validateUsername(username)) {
+            Notify('Tên của bạn quá dài', 'error', 'top-right');
+            return false;
         } else if (phone === '') {
             Notify('Vui lòng nhập số điện thoại', 'error', 'top-right');
+            return false;
+        } else if (!validatePhoneNumber(phone)) { 
+            Notify('Số điện thoại sai định dạng', 'error', 'top-right');
             return false;
         } else {
             return true;
@@ -177,50 +184,47 @@ export default class userProfile extends Component {
         let phoneSubmit = phone;
         phoneSubmit = '+84' + phoneSubmit.substring(1, phoneSubmit.length);
 
-        if (validateUsername(username)) {
-            axios.patch(`/users/profile/update?userId=${userId}`, {
-                "address": address,
-                "email": email,
-                "phoneNumber": phoneSubmit,
-                "name": username.trim(),
-                "gender": gender,
-                "dateOfBirth": dob
-            }, {
+
+        axios.patch(`/users/profile/update?userId=${userId}`, {
+            "address": address,
+            "email": email,
+            "phoneNumber": phoneSubmit,
+            "name": username.trim(),
+            "gender": gender,
+            "dateOfBirth": dob
+        }, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        }).then(res => {
+            axios.get(`/users/profile/?userId=${userId}`, {
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                 }
-            }).then(res => {
-                axios.get(`/users/profile/?userId=${userId}`, {
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                    }
-                })
-                    .then(res => {
-                        let phone = res.data.phone_number; console.log(phone);
-                        phone = '0' + phone.substring(3, phone.length);
-
-                        this.setState({
-                            user: res.data,
-                            username: res.data.user_name,
-                            phone: phone,
-                            email: res.data.email,
-                            address: res.data.address,
-                            gender: res.data.gender,
-                            dob: res.data.date_of_birth
-                        });
-                        if (res.data.image_id === null) {
-                            this.setState({ userImage: '' });
-                        }
-                        this.toggle();
-                        this.toggleNested();
-                        Notify('Cập nhật thành công', 'success', 'top-right');
-                    }).catch(() => {
-                        Notify('Cập nhật không thành công', 'error', 'top-right');
-                    })
             })
-        } else {
-            Notify('Tên của bạn quá dài', 'error', 'top-right');
-        }
+                .then(res => {
+                    let phone = res.data.phone_number;
+                    phone = '0' + phone.substring(3, phone.length);
+
+                    this.setState({
+                        user: res.data,
+                        username: res.data.user_name,
+                        phone: phone,
+                        email: res.data.email,
+                        address: res.data.address,
+                        gender: res.data.gender,
+                        dob: res.data.date_of_birth
+                    });
+                    if (res.data.image_id === null) {
+                        this.setState({ userImage: '' });
+                    }
+                    this.toggle();
+                    this.toggleNested();
+                    Notify('Cập nhật thành công', 'success', 'top-right');
+                }).catch(() => {
+                    Notify('Cập nhật không thành công', 'error', 'top-right');
+                })
+        })
     }
 
     validateConfirmPassword() {
