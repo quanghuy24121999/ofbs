@@ -7,6 +7,7 @@ import axios from 'axios';
 
 import TopMenu from '../components/common/topMenu';
 import { Notify } from '../common/notify';
+import { validatePhoneNumber } from '../common/validate';
 
 class login extends Component {
   constructor(props) {
@@ -37,35 +38,38 @@ class login extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    const phone = '+84' + this.state.phoneLogin.substring(1, this.state.phoneLogin.length);
-    axios.post('/users/login', {
-      phoneLogin: phone,
-      password: this.state.password
-    })
-      .then(res => {
-        if (res.data.user.role.id === 1) {
-          Notify("Đăng nhập thành công !", "success", "top-right");
-          localStorage.setItem('currentAdmin', phone);
-          localStorage.setItem('token', res.data.token);
-          localStorage.setItem('setTime', new Date().getTime());
-          this.setState({
-            redirectAdmin: true
-          });
-        } else {
-          Notify("Đăng nhập thành công !", "success", "top-right");
-          localStorage.setItem('currentUser', phone);
-          localStorage.setItem('userId', '');
-          localStorage.setItem('resId', '');
-          localStorage.setItem('token', res.data.token);
-          localStorage.setItem('setTime', new Date().getTime());
-          this.setState({
-            redirect: true
-          });
-        }
-      }).catch((error) => {
-        console.log(error)
-        Notify("Tài khoản hoặc mật khẩu không chính xác !", "error", "top-right");
-      });
+    if (validatePhoneNumber(this.state.phoneLogin.trim())) {
+      const phone = '+84' + this.state.phoneLogin.substring(1, this.state.phoneLogin.length);
+      axios.post('/users/login', {
+        phoneLogin: phone,
+        password: this.state.password
+      })
+        .then(res => {
+          if (res.data.user.role.id === 1) {
+            Notify("Đăng nhập thành công !", "success", "top-right");
+            localStorage.setItem('currentAdmin', phone);
+            localStorage.setItem('token', res.data.token);
+            localStorage.setItem('setTime', new Date().getTime());
+            this.setState({
+              redirectAdmin: true
+            });
+          } else {            
+            localStorage.setItem('currentUser', phone);
+            localStorage.setItem('userId', '');
+            localStorage.setItem('resId', '');
+            localStorage.setItem('token', res.data.token);
+            localStorage.setItem('setTime', new Date().getTime());
+            this.setState({
+              redirect: true
+            });
+          }
+        }).catch((error) => {
+          console.log(error)
+          Notify("Tài khoản hoặc mật khẩu không chính xác !", "error", "top-right");
+        });
+    } else {
+      Notify('Số điện thoại của bạn không đúng định dạng', 'error', 'top-right');
+    }
   }
 
   render() {
@@ -87,7 +91,7 @@ class login extends Component {
                 Số điện thoại: <span className="require-icon">*</span>
               </b></Label>
             <div className="phone-number-input">
-              <span className="prefix-phone-input">(+84)</span>
+              {/* <span className="prefix-phone-input">(+84)</span> */}
               <Input
                 className="input-phone-number"
                 type="text"
@@ -113,7 +117,6 @@ class login extends Component {
               value={password}
               onChange={this.onchangePassword}
               required="required"
-              pattern={`[A-Za-z@$!%*#?&]{3,127}$]`}
             />
           </FormGroup>
           <Input type="submit" value="Đăng nhập" className="btn-login btn btn-success" />

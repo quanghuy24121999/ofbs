@@ -772,7 +772,7 @@ hr {
   align-items: flex-start;
   justify-content: center;
   flex-direction: column;
-  margin: 10px 10px;
+  margin: 5px 10px;
 }
 
 .form-group Label {
@@ -861,13 +861,14 @@ hr {
 }
 
 .phone-number-input {
+  width: 100%;
   display: flex;
   align-items: center;
 }
 
-.input-phone-number {
+/* .input-phone-number {
   width: 222px;
-}
+} */
 
 .prefix-phone-input {
   margin: 0 10px 0 0;
