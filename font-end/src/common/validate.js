@@ -13,3 +13,16 @@ export function validateUsername(username) {
     let patt = new RegExp(/^(?=.*).{1,100}$/);
     return patt.test(username);
 }
+
+export function validateCapacity(size) {
+    let patt = new RegExp(/^(?=.*\d).{1,10}$/);
+    return patt.test(size);
+}
+
+export function validateEmpty(text) {
+    if (text !== '') {  
+        return true;
+    } else {
+        return false;
+    }
+}
