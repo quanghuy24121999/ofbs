@@ -25,6 +25,8 @@ export default function Cart(props) {
     const [note, setNote] = useState('');
     const toggle = () => setModal(!modal);
     const toggleConfirm = () => setModalComfirm(!modalConfirm);
+    let maxDate = new Date();
+    maxDate.setFullYear(maxDate.getFullYear() + 1);
 
     const {
         isEmpty,
@@ -296,6 +298,7 @@ export default function Cart(props) {
                                             name="choose-date"
                                             id="choose-date"
                                             min={formatDateForInput(new Date())}
+                                            max={formatDateForInput(maxDate)}
                                             onChange={onChangeTime}
                                             value={metadata.time}
                                             required="required"
