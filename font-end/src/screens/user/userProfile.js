@@ -14,6 +14,7 @@ import Footer from '../../components/common/footer';
 import imageUser from '../../images/default-avatar-user.png';
 import { formatDate } from '../../common/formatDate';
 import { Notify } from '../../common/notify';
+import { validatePassword, validatePhoneNumber, validateUsername } from '../../common/validate';
 
 let userId = '';
 export default class userProfile extends Component {
@@ -95,11 +96,18 @@ export default class userProfile extends Component {
 
     validate() {
         const { username, phone } = this.state;
+
         if (username === '') {
             Notify('Vui lòng nhập tên đầy đủ', 'error', 'top-right');
             return false;
+        } if (!validateUsername(username)) {
+            Notify('Tên của bạn quá dài', 'error', 'top-right');
+            return false;
         } else if (phone === '') {
             Notify('Vui lòng nhập số điện thoại', 'error', 'top-right');
+            return false;
+        } else if (!validatePhoneNumber(phone)) { 
+            Notify('Số điện thoại sai định dạng', 'error', 'top-right');
             return false;
         } else {
             return true;
@@ -176,11 +184,12 @@ export default class userProfile extends Component {
         let phoneSubmit = phone;
         phoneSubmit = '+84' + phoneSubmit.substring(1, phoneSubmit.length);
 
+
         axios.patch(`/users/profile/update?userId=${userId}`, {
             "address": address,
             "email": email,
             "phoneNumber": phoneSubmit,
-            "name": username,
+            "name": username.trim(),
             "gender": gender,
             "dateOfBirth": dob
         }, {
@@ -194,7 +203,7 @@ export default class userProfile extends Component {
                 }
             })
                 .then(res => {
-                    let phone = res.data.phone_number; console.log(phone);
+                    let phone = res.data.phone_number;
                     phone = '0' + phone.substring(3, phone.length);
 
                     this.setState({
@@ -222,24 +231,27 @@ export default class userProfile extends Component {
         const { oldPassword, newPassword, reNewPassword } = this.state;
         let phoneNumber = localStorage.getItem("currentUser");
 
-        axios.post(`/users/login`, {
-            phoneLogin: phoneNumber,
-            password: oldPassword
-        }).then(res => {
-            if (newPassword === reNewPassword) {
-                this.onSubmitChangePassword();
-                this.setState({
-                    oldPassword: '',
-                    newPassword: '',
-                    reNewPassword: ''
-                })
-            } else {
-                Notify('Mật khẩu không khớp', 'error', 'top-right');
-            }
-        }).catch(err => {
-            Notify('Mật khẩu cũ không đúng', 'error', 'top-right');
-        })
-
+        if (validatePassword(newPassword)) {
+            axios.post(`/users/login`, {
+                phoneLogin: phoneNumber,
+                password: oldPassword
+            }).then(res => {
+                if (newPassword === reNewPassword) {
+                    this.onSubmitChangePassword();
+                    this.setState({
+                        oldPassword: '',
+                        newPassword: '',
+                        reNewPassword: ''
+                    })
+                } else {
+                    Notify('Mật khẩu không khớp', 'error', 'top-right');
+                }
+            }).catch(err => {
+                Notify('Mật khẩu cũ không đúng', 'error', 'top-right');
+            })
+        } else {
+            Notify('Mật khẩu mới phải ít nhất 3 kí tự và không bao gồm khoảng trắng', 'error', 'top-right')
+        }
     }
 
     onSubmitChangePassword() {
