@@ -14,6 +14,7 @@ import CartServiceItem from './cartServiceItem';
 import { formatDateForInput } from '../../common/formatDate';
 import { formatCurrency } from '../../common/formatCurrency';
 import { Notify } from '../../common/notify';
+import { validateCapacity, validateItemCart } from '../../common/validate';
 
 export default function Cart(props) {
     const [modal, setModal] = useState(false);
@@ -78,6 +79,26 @@ export default function Cart(props) {
         updateCartMetadata({
             note: e.target.value
         })
+    }
+
+    const validateCart = () => {
+        let count = 0;
+
+        items.forEach(item => {
+            if (!validateItemCart(item.quantity)) {
+                count = count + 1;
+            }
+        })
+
+        if (!validateCapacity(customerQuantity)) {
+            Notify('Số lượng khách quá lớn', 'error', 'top-right');
+            return false;
+        } else if (count > 0) {
+            Notify('Số lượng quá lớn', 'error', 'top-right');
+            return false;
+        } else {
+            return true;
+        }
     }
 
     const onSubmitCart = () => {
@@ -240,7 +261,9 @@ export default function Cart(props) {
                         <Form
                             onSubmit={(event) => {
                                 event.preventDefault();
-                                onSubmitCart();
+                                if (validateCart()) {
+                                    onSubmitCart();
+                                }
                             }}
                         >
                             <div className="cart-option">

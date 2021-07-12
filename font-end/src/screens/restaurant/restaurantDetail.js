@@ -23,6 +23,7 @@ import FeedbackItem from '../../components/common/feedbackItem';
 import PromotionItemRes from '../../components/restaurant/promotionItemRes';
 import { onChangeRate } from '../../common/changeLink';
 import { Notify } from '../../common/notify';
+import { validateFeedback } from '../../common/validate';
 
 export default class restaurantDetail extends Component {
     constructor(props) {
@@ -145,8 +146,7 @@ export default class restaurantDetail extends Component {
 
         if (!isAuthen) {
             this.toggleModal();
-
-        } else {
+        } else if (validateFeedback(this.state.textFeedback)) {
             axios.get(`/users/findByPhoneNumber/${localStorage.getItem('currentUser')}`)
                 .then(res => {
                     const currentUser = res.data;
@@ -165,10 +165,12 @@ export default class restaurantDetail extends Component {
                             "restaurant_id": this.props.match.params.restaurantId
                         }
                     }).then(res => {
-                        this.receivedData()
+                        this.receivedData();
                     }
                     );
                 })
+        } else {
+            Notify('Nội dung đánh giá phải ít hơn 250 ký tự', 'error', 'top-right');
         }
     }
 

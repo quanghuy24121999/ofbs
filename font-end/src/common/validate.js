@@ -3,6 +3,11 @@ export function validatePhoneNumber(number) {
     return patt.test(number);
 }
 
+export function validateEmail (email) {
+    let patt = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    return patt.test(email);
+}
+
 export function validatePassword(password) {
     let patt = new RegExp(/^[^\s]{3,32}$/);
     return patt.test(password);
@@ -19,10 +24,25 @@ export function validateCapacity(size) {
     return patt.test(size);
 }
 
+export function validateItemCart(number) {
+    let patt = new RegExp(/^(?=.*\d).{1,5}$/);
+    return patt.test(number);
+}
+
 export function validateEmpty(text) {
     if (text !== '') {  
         return true;
     } else {
         return false;
     }
+}
+
+export function validateFeedback(feedback) {
+    let patt = new RegExp(/^(?=.*).{1,250}$/);
+    return patt.test(feedback);
+}
+
+export function validateTextSearch(text) {
+    let patt = new RegExp(/^(?=.*).{0,100}$/);
+    return patt.test(text);
 }
