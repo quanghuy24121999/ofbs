@@ -22,4 +22,6 @@ public interface IRestaurantDTO {
 	String getRestaurant_status();
 	
 	long getProvider_id();
+	
+	String getBusiness_license_id();
 }

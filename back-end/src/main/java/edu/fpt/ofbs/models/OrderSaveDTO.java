@@ -27,4 +27,6 @@ public class OrderSaveDTO {
 	private String note;
 	
 	private Date organizeDate;
+	
+	private String orderCode;
 }

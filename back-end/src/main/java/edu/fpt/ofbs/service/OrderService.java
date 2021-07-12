@@ -29,9 +29,9 @@ public class OrderService {
 	public void insertOrder(OrderSaveDTO order) {
 		Date orderDate = new Date();
 		
-		String orderCode = "FBS" + order.getCustomerId() + order.getRestaurantId() + "OD" + orderDate.getTime();
+		order.setOrderCode("FBS" + order.getCustomerId() + order.getRestaurantId() + "OD" + orderDate.getTime());
 		
-		orderRepository.insertOrder(order.getTime(), orderDate, order.getCustomerId(), order.getRestaurantId(), order.getTableType(), order.getNumberOfGuests(), order.getNote(), order.getOrganizeDate(), orderCode);
+		orderRepository.insertOrder(order.getTime(), orderDate, order.getCustomerId(), order.getRestaurantId(), order.getTableType(), order.getNumberOfGuests(), order.getNote(), order.getOrganizeDate(), order.getOrderCode());
 	}
 	
 	public void deleteOrder(long orderId) {
