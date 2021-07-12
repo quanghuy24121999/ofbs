@@ -119,7 +119,7 @@ const TopMenu = () => {
                                             state: { userId: localStorage.getItem('userId') }
                                         }}
                                     >
-                                        {currentUser.phoneNumber}
+                                        {currentUser.name}
                                     </Link>
                                 </NavItem>
                                 <NavItem>

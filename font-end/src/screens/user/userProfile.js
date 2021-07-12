@@ -14,7 +14,7 @@ import Footer from '../../components/common/footer';
 import imageUser from '../../images/default-avatar-user.png';
 import { formatDate } from '../../common/formatDate';
 import { Notify } from '../../common/notify';
-import { validatePassword, validatePhoneNumber, validateUsername } from '../../common/validate';
+import { validateEmail, validatePassword, validatePhoneNumber, validateUsername } from '../../common/validate';
 
 let userId = '';
 export default class userProfile extends Component {
@@ -95,19 +95,28 @@ export default class userProfile extends Component {
     }
 
     validate() {
-        const { username, phone } = this.state;
+        const { username, phone, email, address, dob } = this.state;
 
         if (username === '') {
             Notify('Vui lòng nhập tên đầy đủ', 'error', 'top-right');
             return false;
         } if (!validateUsername(username)) {
-            Notify('Tên của bạn quá dài', 'error', 'top-right');
+            Notify('Tên của bạn quá dài (nhỏ hơn 100 ký tự)', 'error', 'top-right');
             return false;
         } else if (phone === '') {
             Notify('Vui lòng nhập số điện thoại', 'error', 'top-right');
             return false;
-        } else if (!validatePhoneNumber(phone)) { 
+        } else if (!validatePhoneNumber(phone)) {
             Notify('Số điện thoại sai định dạng', 'error', 'top-right');
+            return false;
+        } else if (!validateUsername(email)) {
+            Notify('Email của bạn quá dài (nhỏ hơn 100 ký tự)', 'error', 'top-right');
+            return false;
+        } else if (!validateEmail(email)) {
+            Notify('Email sai định dạng', 'error', 'top-right');
+            return false;
+        } else if (!validateUsername(address)) {
+            Notify('Địa chỉ quá dài (nhỏ hơn 100 ký tự)', 'error', 'top-right');
             return false;
         } else {
             return true;

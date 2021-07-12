@@ -12,6 +12,8 @@ import axios from 'axios';
 import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
 import RestaurantAvater from '../../images/default-restaurant.png';
+import { validateCapacity, validateEmpty, validatePhoneNumber, validateUsername } from '../../common/validate';
+import { Notify } from '../../common/notify';
 
 let restaurantId = '';
 export default class myRestaurantDetail extends Component {
@@ -61,7 +63,6 @@ export default class myRestaurantDetail extends Component {
         this.onChangeRestaurantDescription = this.onChangeRestaurantDescription.bind(this);
         this.onSubmitUpdate = this.onSubmitUpdate.bind(this);
         this.toggle = this.toggle.bind(this);
-        this.toggle1 = this.toggle1.bind(this);
         this.onChange = this.onChange.bind(this);
     }
 
@@ -248,6 +249,61 @@ export default class myRestaurantDetail extends Component {
         this.setState({ restaurantDescription: e.target.value });
     }
 
+    checkRequire() {
+        const { restaurantAddress, restaurantBusinessCode,
+            restaurantDescription, restaurantName, restaurantPhone, restaurantSize,
+        } = this.state;
+        let checkbox = '';
+        checkbox = document.getElementById('cb-accept');
+        if (checkbox !== '' && checkbox !== undefined) {
+            if (!validateEmpty(restaurantName)) {
+                Notify('Tên nhà hàng không được để trống', 'error', 'top-right');
+                return false;
+            } else if (!validateEmpty(restaurantAddress)) {
+                Notify('Địa chỉ không được để trống', 'error', 'top-right');
+                return false;
+            } else if (!validateEmpty(restaurantPhone)) {
+                Notify('Số điện thoại không được để trống', 'error', 'top-right');
+                return false;
+            } else if (!validateEmpty(restaurantSize)) {
+                Notify('Sức chứa không được để trống', 'error', 'top-right');
+                return false;
+            } else if (!validateEmpty(restaurantBusinessCode)) {
+                Notify('Mã giấy phép kinh doanh không được để trống', 'error', 'top-right');
+                return false;
+            } else if (!validateEmpty(restaurantDescription)) {
+                Notify('Mô tả không được để trống', 'error', 'top-right');
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+
+    validate() {
+        const { restaurantAddress, restaurantName,
+            restaurantPhone, restaurantSize
+        } = this.state;
+
+        if (this.checkRequire()) {
+            if (!validateUsername(restaurantName)) {
+                Notify('Tên nhà hàng quá dài (nhỏ hơn 100 ký tự)', 'error', 'top-right');
+                return false;
+            } else if (!validateUsername(restaurantAddress)) {
+                Notify('Tên địa chỉ quá dài (nhỏ hơn 100 ký tự)', 'error', 'top-right');
+                return false;
+            } else if (!validatePhoneNumber(restaurantPhone)) {
+                Notify('Số điện thoại sai định dạng', 'error', 'top-right');
+                return false;
+            } else if (!validateCapacity(restaurantSize)) {
+                Notify('Sức chứa quá lớn', 'error', 'top-right');
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+
     onSubmitUpdate() {
         const {
             districtName, provinceName, restaurantAddress, restaurantDescription, user,
@@ -275,16 +331,12 @@ export default class myRestaurantDetail extends Component {
         )
             .then(res => {
                 this.toggle();
-                this.toggle1();
+                Notify('Cập nhật thành công', 'success', 'top-right');
             })
     }
 
     toggle() {
         this.setState({ modal: !this.state.modal })
-    }
-
-    toggle1() {
-        this.setState({ modal1: !this.state.modal1 })
     }
 
     onChange = (imageList, addUpdateIndex) => {
@@ -474,7 +526,7 @@ export default class myRestaurantDetail extends Component {
                         <Col lg="6" md="12" sm="12" className="myRes-detail-content-info">
                             <Row>
                                 <Col lg="3">
-                                    <Label for="restaurant-name"><b>Tên nhà hàng:</b></Label>
+                                    <Label for="restaurant-name"><b>Tên nhà hàng: <span className="require-icon">*</span></b></Label>
                                 </Col>
                                 <Col lg="9">
                                     <Input
@@ -490,7 +542,7 @@ export default class myRestaurantDetail extends Component {
 
                             <Row>
                                 <Col lg="3">
-                                    <Label for="restaurant-name"><b>Loại hình:</b></Label>
+                                    <Label for="restaurant-name"><b>Loại hình: <span className="require-icon">*</span></b></Label>
                                 </Col>
                                 <Col lg="9">
                                     <Input
@@ -500,7 +552,6 @@ export default class myRestaurantDetail extends Component {
                                         onChange={this.onChangeRestaurantType}
                                         value={restaurantType.id}
                                     >
-                                        <option value={0}>Chọn loại hình:</option>
                                         {types.map((type) => {
                                             return (
                                                 <option key={type.id} value={type.id}>
@@ -514,7 +565,7 @@ export default class myRestaurantDetail extends Component {
 
                             <Row>
                                 <Col lg="3">
-                                    <Label for="restaurant-name"><b>Trạng thái:</b></Label>
+                                    <Label for="restaurant-name"><b>Trạng thái: <span className="require-icon">*</span></b></Label>
                                 </Col>
                                 <Col lg="9">
                                     <Input
@@ -537,7 +588,7 @@ export default class myRestaurantDetail extends Component {
 
                             <Row>
                                 <Col lg="4">
-                                    <Label for="citySelect"><b>Chọn tỉnh/ thành phố:</b></Label>
+                                    <Label for="citySelect"><b>Chọn tỉnh/ thành phố: <span className="require-icon">*</span></b></Label>
                                 </Col>
                                 <Col lg="8">
                                     <Input
@@ -547,7 +598,6 @@ export default class myRestaurantDetail extends Component {
                                         value={provinceCode}
                                         onChange={this.onProvinceClick}
                                     >
-                                        <option value={''}>Tỉnh/ Thành phố</option>
                                         {provinces.map((province) => {
                                             return (
                                                 <option key={province.code} value={province.code}>
@@ -561,7 +611,7 @@ export default class myRestaurantDetail extends Component {
 
                             <Row>
                                 <Col lg="4">
-                                    <Label for="districtSelect"><b>Chọn quận/ huyện: </b></Label>
+                                    <Label for="districtSelect"><b>Chọn quận/ huyện: <span className="require-icon">*</span></b></Label>
                                 </Col>
                                 <Col lg="8">
                                     <Input
@@ -571,7 +621,6 @@ export default class myRestaurantDetail extends Component {
                                         value={districtCode}
                                         onChange={this.onDistrictClick}
                                     >
-                                        <option value={''}>Quận/ Huyện</option>
                                         {districts.map((district) => {
                                             return (
                                                 <option key={district.code} value={district.code}>
@@ -585,7 +634,7 @@ export default class myRestaurantDetail extends Component {
 
                             <Row>
                                 <Col lg="3">
-                                    <Label for="restaurant-address"><b>Địa chỉ:</b></Label>
+                                    <Label for="restaurant-address"><b>Địa chỉ: <span className="require-icon">*</span></b></Label>
                                 </Col>
                                 <Col lg="9">
                                     <Input
@@ -601,7 +650,7 @@ export default class myRestaurantDetail extends Component {
 
                             <Row>
                                 <Col lg="3">
-                                    <Label for="restaurant-phoneNumber"><b>Số điện thoại:</b></Label>
+                                    <Label for="restaurant-phoneNumber"><b>Số điện thoại: <span className="require-icon">*</span></b></Label>
                                 </Col>
                                 <Col lg="9">
                                     <Input
@@ -617,7 +666,7 @@ export default class myRestaurantDetail extends Component {
 
                             <Row>
                                 <Col lg="3">
-                                    <Label for="restaurant-size"><b>Sức chứa (Khách):</b></Label>
+                                    <Label for="restaurant-size"><b>Sức chứa (Khách): <span className="require-icon">*</span></b></Label>
                                 </Col>
                                 <Col lg="9">
                                     <Input
@@ -634,7 +683,7 @@ export default class myRestaurantDetail extends Component {
 
                             <Row>
                                 <Col lg="5">
-                                    <Label for="restaurant-code-legal"><b>Mã giấy phép kinh doanh:</b></Label>
+                                    <Label for="restaurant-code-legal"><b>Mã giấy phép kinh doanh: <span className="require-icon">*</span></b></Label>
                                 </Col>
                                 <Col lg="7">
                                     <Input
@@ -650,7 +699,7 @@ export default class myRestaurantDetail extends Component {
 
                             <Row>
                                 <Col lg="2">
-                                    <Label for="restaurant-description"><b>Mô tả:</b></Label>
+                                    <Label for="restaurant-description"><b>Mô tả: <span className="require-icon">*</span></b></Label>
                                 </Col>
                                 <Col lg="10">
                                     <Input
@@ -665,7 +714,11 @@ export default class myRestaurantDetail extends Component {
                             </Row>
                             <Row>
                                 <Col className="update-restaurant">
-                                    <Button className="btn-update-restaurant" onClick={this.toggle} color="success">Cập nhật</Button>
+                                    <Button className="btn-update-restaurant" onClick={() => {
+                                        if (this.validate()) {
+                                            this.toggle();
+                                        }
+                                    }} color="success">Cập nhật</Button>
                                 </Col>
                             </Row>
 
@@ -677,15 +730,6 @@ export default class myRestaurantDetail extends Component {
                                 <ModalFooter>
                                     <Button color="success" onClick={this.onSubmitUpdate}>Có</Button>{' '}
                                     <Button color="secondary" onClick={this.toggle}>Trở lại</Button>
-                                </ModalFooter>
-                            </Modal>
-                            <Modal isOpen={modal1} toggle={this.toggle1} className={``}>
-                                <ModalHeader toggle={this.toggle1}>Thông báo</ModalHeader>
-                                <ModalBody>
-                                    Cập nhật thành công !
-                                </ModalBody>
-                                <ModalFooter>
-                                    <Button onClick={this.toggle1} color="success">Ok</Button>{' '}
                                 </ModalFooter>
                             </Modal>
                         </Col>

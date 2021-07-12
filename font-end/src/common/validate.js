@@ -3,6 +3,11 @@ export function validatePhoneNumber(number) {
     return patt.test(number);
 }
 
+export function validateEmail (email) {
+    let patt = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    return patt.test(email);
+}
+
 export function validatePassword(password) {
     let patt = new RegExp(/^[^\s]{3,32}$/);
     return patt.test(password);
