@@ -132,6 +132,7 @@ export default function Cart(props) {
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
                 }).then(res => {
+                    console.log(res.data);
                     items.forEach(item => {
                         if (item.dish_name) {
                             object = {};

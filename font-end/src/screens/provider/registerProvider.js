@@ -23,6 +23,7 @@ export default class registerPromotion extends Component {
             districts: subVn.getDistrictsByProvinceCode('01'),
             types: [],
             images: [],
+            listCheck: [],
             user: {},
             modal: false,
             modal1: false,
@@ -59,6 +60,7 @@ export default class registerPromotion extends Component {
         this.updateImage = this.updateImage.bind(this);
         this.validate = this.validate.bind(this);
         this.checkRequire = this.checkRequire.bind(this);
+        this.checkCodeExist = this.checkCodeExist.bind(this);
     }
 
     onChangeRestaurantName(e) {
@@ -127,6 +129,21 @@ export default class registerPromotion extends Component {
             .then(res => {
                 this.setState({ user: res.data })
             })
+
+        axios.get(`/restaurants?type=0&province=&district=&restaurantName=`)
+            .then(res => {
+                this.setState({ listCheck: res.data });
+            });
+    }
+
+    checkSpace(text) {
+        let textValidate = text.trim();
+        textValidate = textValidate.replace(/\s\s+/g, '');
+        if (textValidate === '') {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     checkRequire() {
@@ -135,11 +152,12 @@ export default class registerPromotion extends Component {
         } = this.state;
         let checkbox = '';
         checkbox = document.getElementById('cb-accept');
+
         if (checkbox !== '' && checkbox !== undefined) {
-            if (!validateEmpty(restaurantName)) {
+            if (!validateEmpty(restaurantName) || !this.checkSpace(restaurantName)) {
                 Notify('Tên nhà hàng không được để trống', 'error', 'top-right');
                 return false;
-            } else if (!validateEmpty(restaurantAddress)) {
+            } else if (!validateEmpty(restaurantAddress) || !this.checkSpace(restaurantAddress)) {
                 Notify('Địa chỉ không được để trống', 'error', 'top-right');
                 return false;
             } else if (!validateEmpty(restaurantPhone)) {
@@ -151,7 +169,7 @@ export default class registerPromotion extends Component {
             } else if (!validateEmpty(restaurantBusinessCode)) {
                 Notify('Mã giấy phép kinh doanh không được để trống', 'error', 'top-right');
                 return false;
-            } else if (!validateEmpty(restaurantDescription)) {
+            } else if (!validateEmpty(restaurantDescription) || !this.checkSpace(restaurantDescription)) {
                 Notify('Mô tả không được để trống', 'error', 'top-right');
                 return false;
             } else if (images.length === 0) {
@@ -166,29 +184,52 @@ export default class registerPromotion extends Component {
         }
     }
 
+    checkCodeExist() {
+        let list = this.state.listCheck;
+        let count = 0;
+
+        list.forEach(restaurant => {
+            if (restaurant.business_license_id === this.state.restaurantBusinessCode) {
+                count = count + 1;
+            }
+        });
+
+        if (count === 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     validate() {
         const { restaurantAddress, restaurantBusinessCode, restaurantName,
             restaurantPhone, restaurantSize
         } = this.state;
+        console.log(this.checkCodeExist());
 
         if (this.checkRequire()) {
-            if (!validateUsername(restaurantName)) {
-                Notify('Tên nhà hàng quá dài', 'error', 'top-right');
-                return false;
-            } else if (!validateUsername(restaurantAddress)) {
-                Notify('Tên địa chỉ quá dài', 'error', 'top-right');
-                return false;
-            } else if (!validatePhoneNumber(restaurantPhone)) {
-                Notify('Số điện thoại sai định dạng', 'error', 'top-right');
-                return false;
-            } else if (!validateCapacity(restaurantSize)) {
-                Notify('Sức chứa quá lớn', 'error', 'top-right');
-                return false;
-            } else if (!validateUsername(restaurantBusinessCode)) {
-                Notify('Mã giấy phép kinh doanh quá dài', 'error', 'top-right');
-                return false;
+            if (this.checkCodeExist() === true) {
+                if (!validateUsername(restaurantName)) {
+                    Notify('Tên nhà hàng quá dài', 'error', 'top-right');
+                    return false;
+                } else if (!validateUsername(restaurantAddress)) {
+                    Notify('Tên địa chỉ quá dài', 'error', 'top-right');
+                    return false;
+                } else if (!validatePhoneNumber(restaurantPhone)) {
+                    Notify('Số điện thoại sai định dạng', 'error', 'top-right');
+                    return false;
+                } else if (!validateCapacity(restaurantSize)) {
+                    Notify('Sức chứa quá lớn', 'error', 'top-right');
+                    return false;
+                } else if (!validateUsername(restaurantBusinessCode)) {
+                    Notify('Mã giấy phép kinh doanh quá dài', 'error', 'top-right');
+                    return false;
+                } else {
+                    return true;
+                }
             } else {
-                return true;
+                Notify('Mã giấy phép kinh doanh đã tồn tại', 'error', 'top-right');
+                return false;
             }
         }
     }
@@ -208,7 +249,7 @@ export default class registerPromotion extends Component {
                 "bussinessLicenseId": restaurantBusinessCode,
                 "restaurantName": restaurantName,
                 "description": restaurantDescription,
-                "size": restaurantSize,
+                "size": parseInt(restaurantSize),
                 "providerType": restaurantType
             }, {
             headers: {
@@ -247,7 +288,7 @@ export default class registerPromotion extends Component {
     };
 
     updateImage(restaurantId) {
-        document.getElementById('error-form4').style.display = "none";
+        // document.getElementById('error-form4').style.display = "none";
         axios.delete(`/images/deleteCertificate?restaurantId=${restaurantId}`)
             .then(res => {
                 let formData = new FormData();
@@ -257,7 +298,8 @@ export default class registerPromotion extends Component {
                 }).then(res => {
                     // window.location.reload();
                 }).catch(err => {
-                    document.getElementById('error-form4').style.display = "block";
+                    Notify('Không thể tải ảnh lên, vui lòng chọn một ảnh khác', 'error', 'top-right');
+                    // document.getElementById('error-form4').style.display = "block";
                 })
             })
     }
@@ -435,9 +477,6 @@ export default class registerPromotion extends Component {
                                                         (
                                                             <div key={index} className="image-item">
                                                                 <CardImg className="business-image" top src={image.data_url} />
-                                                                <Alert color="danger" id="error-form4" className="error-form">
-                                                                    Không thể tải ảnh lên, vui lòng chọn một ảnh khác !
-                                                                </Alert>
                                                             </div>
                                                         )
                                                     )
