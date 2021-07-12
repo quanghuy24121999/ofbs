@@ -174,7 +174,7 @@ export default class menu extends Component {
 
                 {this.state.dishSearch ? (
                     <Container>
-                        <Row>
+                        <Row className="dish-search-row">
                             {this.state.dishSearch}
                         </Row>
                         <ReactPaginate

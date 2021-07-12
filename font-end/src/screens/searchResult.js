@@ -169,7 +169,7 @@ export default class searchResult extends Component {
             districtName = '';
         }
 
-        axios.get(`/restaurants?type=${type}&province=${provinceName}&district=${districtName}&restaurantName=${restaurantText}`)
+        axios.get(`/restaurants?type=${type}&province=${provinceName}&district=${districtName}&restaurantName=${restaurantText.trim()}`)
             .then(res => {
                 this.setState({ loading: false });
                 const data = res.data;
@@ -266,7 +266,7 @@ export default class searchResult extends Component {
                         </Container>
                     ) : (
                         <Container className="search-content">
-                            <Row>
+                            <Row className="result-search-row">
                                 {this.state.restaurants}
                             </Row>
                             <ReactPaginate
