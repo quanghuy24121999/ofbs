@@ -55,8 +55,8 @@ public class OrderController {
 		try {
 			orderService.insertOrder(order);
 
-			message = "Insert the order successfully !";
-			return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+//			message = "Insert the order successfully !";
+			return ResponseEntity.status(HttpStatus.OK).body(order);
 		} catch (Exception e) {
 			message = "Could not insert order !";
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
