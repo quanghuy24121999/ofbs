@@ -272,6 +272,8 @@ export default function MyRestaurantOrderItem(props) {
                                         <h2>Thông tin đơn hàng</h2>
                                         <hr />
                                         <div className="od-info-code"><b>Mã số đơn hàng: </b>{orderDetailInfo.order_code}</div>
+                                        <div className="od-info-name"><b>Tên khách hàng: </b>{user.name}</div>
+                                        <div className="od-info-phone"><b>Số điện thoại: </b>{order.customer_phone_number}</div>
                                         <div className="od-info-type"><b>Loại bàn: </b>{orderDetailInfo.table_type}</div>
                                         <div className="od-info-guest-number"><b>Số lượng khách: </b>{orderDetailInfo.number_of_guests}</div>
                                         <div className="od-info-order-date"><b>Thời gian đặt: </b>{formatDate(orderDetailInfo.order_date)}</div>
