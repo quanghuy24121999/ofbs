@@ -12,7 +12,7 @@ import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
 
 import imageUser from '../../images/default-avatar-user.png';
-import { formatDate } from '../../common/formatDate';
+import { formatDate, formatDateForInput } from '../../common/formatDate';
 import { Notify } from '../../common/notify';
 import { validateEmail, validatePassword, validatePhoneNumber, validateUsername } from '../../common/validate';
 
@@ -74,7 +74,7 @@ export default class userProfile extends Component {
             }
         })
             .then(res => {
-                let phone = res.data.phone_number; console.log(phone);
+                let phone = res.data.phone_number; 
                 phone = '0' + phone.substring(3, phone.length);
 
                 this.setState({
@@ -96,7 +96,7 @@ export default class userProfile extends Component {
 
     validate() {
         const { username, phone, email, address, dob } = this.state;
-
+        
         if (username === '') {
             Notify('Vui lòng nhập tên đầy đủ', 'error', 'top-right');
             return false;
@@ -117,6 +117,9 @@ export default class userProfile extends Component {
             return false;
         } else if (!validateUsername(address)) {
             Notify('Địa chỉ quá dài (nhỏ hơn 100 ký tự)', 'error', 'top-right');
+            return false;
+        } else if (dob > formatDateForInput(new Date())) {
+            Notify('Ngày sinh phải nhỏ hơn này hiện tại', 'error', 'top-right');
             return false;
         } else {
             return true;

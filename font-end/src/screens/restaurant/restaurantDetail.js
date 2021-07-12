@@ -231,48 +231,53 @@ export default class restaurantDetail extends Component {
     sendReport(e) {
         e.preventDefault();
         let isAuthen = this.isAuthentication();
-
+        let reportContent = this.state.report.trim();
+        reportContent = reportContent.replace(/\s\s+/g, ' ');
 
         if (!isAuthen) {
             this.toggleModal();
 
         } else {
-            axios.get(`/users/findByPhoneNumber/${localStorage.getItem('currentUser')}`)
-                .then(res => {
-                    const currentUser = res.data;
-                    const { report } = this.state;
-                    axios({
-                        method: 'post',
-                        url: `/feedbacks/insertFeedback`,
-                        headers: {
-                            'Authorization': 'Bearer ' + localStorage.getItem('token')
-                        }
-                        ,
-                        data: {
-                            "feedback_content": report,
-                            "user_id": currentUser.id,
-                            "rate": 0,
-                            "restaurant_id": this.props.match.params.restaurantId
-                        }
-                    }).then(res => {
-                        axios.post(`/notifications/insertNotification`,
-                            {
-                                "content": report,
-                                "customer": null,
-                                "provider": null,
-                                "forAdmin": true,
-                                "type": "report",
-                                "read": false
+            if (reportContent !== "") {
+                axios.get(`/users/findByPhoneNumber/${localStorage.getItem('currentUser')}`)
+                    .then(res => {
+                        const currentUser = res.data;
+                        const { report } = this.state;
+                        axios({
+                            method: 'post',
+                            url: `/feedbacks/insertFeedback`,
+                            headers: {
+                                'Authorization': 'Bearer ' + localStorage.getItem('token')
                             }
-                        )
-                            .then(res => {
-                                this.toggle();
-                                Notify("Gửi báo cáo thành công", "success", "top-right");
-                            })
-                    }).catch(err => {
-                        Notify("Gửi báo cáo không thành công", "error", "top-right");
-                    });
-                })
+                            ,
+                            data: {
+                                "feedback_content": report,
+                                "user_id": currentUser.id,
+                                "rate": 0,
+                                "restaurant_id": this.props.match.params.restaurantId
+                            }
+                        }).then(res => {
+                            axios.post(`/notifications/insertNotification`,
+                                {
+                                    "content": report,
+                                    "customer": null,
+                                    "provider": null,
+                                    "forAdmin": true,
+                                    "type": "report",
+                                    "read": false
+                                }
+                            )
+                                .then(res => {
+                                    this.toggle();
+                                    Notify("Gửi báo cáo thành công", "success", "top-right");
+                                })
+                        }).catch(err => {
+                            Notify("Gửi báo cáo không thành công", "error", "top-right");
+                        });
+                    })
+            } else {
+                Notify("Vui lòng nhập nội dung báo cáo", "error", "top-right");
+            }
         }
     }
 
