@@ -461,8 +461,8 @@ export default class myRestaurantService extends Component {
                                             onChange={this.onChangeStatus}
                                             value={status}
                                         >
-                                            <option value="1">Đang hoạt động</option>
-                                            <option value="2">Ngừng hoạt động</option>
+                                            <option value="1">Đang kinh doanh</option>
+                                            <option value="2">Ngừng kinh doanh</option>
                                         </Input>
 
                                         <Label for="price"><b>Giá dịch vụ: <span className="require-icon">*</span></b></Label>

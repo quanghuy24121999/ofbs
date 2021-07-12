@@ -451,6 +451,10 @@ body {
   width: 40%;
 }
 
+.dish-search-row {
+  width: 100%;
+}
+
 .search-dish-title,
 .input-dish-name,
 .btn-search-dish {
@@ -949,6 +953,10 @@ hr {
 
 .search-item {
   margin: 15px 0;
+}
+
+.result-search-row {
+  width: 100%;
 }
 
 .result-search {
@@ -1628,6 +1636,7 @@ tr > td:nth-child(6) {
 /*=============================================== MY RESTAURANT ===========================================*/
 
 .restaurant-row {
+  width: 100%;
   display: flex;
   margin-bottom: 50px;
 }

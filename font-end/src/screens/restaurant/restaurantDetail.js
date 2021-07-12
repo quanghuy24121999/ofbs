@@ -142,36 +142,48 @@ export default class restaurantDetail extends Component {
     onSubmitFeedback(e) {
         e.preventDefault();
         let isAuthen = this.isAuthentication();
-
+        let feedbackContent = this.state.textFeedback.trim();
+        feedbackContent = feedbackContent.replace(/\s\s+/g, ' ');
 
         if (!isAuthen) {
             this.toggleModal();
-        } else if (validateFeedback(this.state.textFeedback)) {
-            axios.get(`/users/findByPhoneNumber/${localStorage.getItem('currentUser')}`)
-                .then(res => {
-                    const currentUser = res.data;
-                    const { textFeedback, rating } = this.state;
-                    axios({
-                        method: 'post',
-                        url: `/feedbacks/insertFeedback`,
-                        headers: {
-                            'Authorization': 'Bearer ' + localStorage.getItem('token')
-                        }
-                        ,
-                        data: {
-                            "feedback_content": textFeedback,
-                            "user_id": currentUser.id,
-                            "rate": rating,
-                            "restaurant_id": this.props.match.params.restaurantId
-                        }
-                    }).then(res => {
-                        this.receivedData();
-                    }
-                    );
-                })
-        } else {
-            Notify('Nội dung đánh giá phải ít hơn 250 ký tự', 'error', 'top-right');
-        }
+        } else
+            if (feedbackContent !== '') {
+                if (validateFeedback(feedbackContent)) {
+                    axios.get(`/users/findByPhoneNumber/${localStorage.getItem('currentUser')}`)
+                        .then(res => {
+                            const currentUser = res.data;
+                            const { textFeedback, rating } = this.state;
+                            axios({
+                                method: 'post',
+                                url: `/feedbacks/insertFeedback`,
+                                headers: {
+                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                }
+                                ,
+                                data: {
+                                    "feedback_content": textFeedback,
+                                    "user_id": currentUser.id,
+                                    "rate": rating,
+                                    "restaurant_id": this.props.match.params.restaurantId
+                                }
+                            }).then(res => {
+                                const restaurantId = this.props.match.params.restaurantId;
+                                this.receivedData();
+                                axios.get(`/feedbacks/getFeedbacksByRestaurantId?restaurantId=${restaurantId}&rate=0`)
+                                    .then(res => {
+                                        this.setState({ numberRates: res.data.length });
+                                    })
+                                Notify('Viết đánh giá thành công', 'success', 'top-right');
+                            }
+                            );
+                        })
+                } else {
+                    Notify('Nội dung đánh giá phải ít hơn 250 ký tự', 'error', 'top-right');
+                }
+            } else {
+                Notify('Vui lòng nhập nội dung đánh giá', 'error', 'top-right');
+            }
     }
 
     handlePageClick = (e) => {
@@ -363,7 +375,7 @@ export default class restaurantDetail extends Component {
                             <div className="feedback-title">Bài đánh giá {restaurant.restaurant_name} từ khách hàng</div>
                             <div className="feedback-sub-title">
                                 <StarRating rate={restaurant.rate} starDimension="30" starSpacing="4" />
-                                <div className="feedback-description"><b>{Math.round(restaurant.rate*100)/100}/5</b> dựa trên {numberRates} đánh giá</div>
+                                <div className="feedback-description"><b>{Math.round(restaurant.rate * 100) / 100}/5</b> dựa trên {numberRates} đánh giá</div>
                             </div>
                             <hr />
                             <div className="send-feedback">
