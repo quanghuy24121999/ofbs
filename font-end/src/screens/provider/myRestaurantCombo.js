@@ -14,6 +14,7 @@ import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
 import MyRestaurantMenuItem from '../../components/provider/myRestaurantComboItem';
 import { Notify } from '../../common/notify';
+import { validateCapacity, validateUsername } from '../../common/validate';
 
 let restaurantId = ''
 export default class myRestaurantCombo extends Component {
@@ -111,43 +112,57 @@ export default class myRestaurantCombo extends Component {
         })
     }
 
+    validate() {
+        if (!validateUsername(this.state.name)) {
+            Notify('Tên combo phải ít hơn 100 ký tự', 'error', 'top-right');
+            return false;
+        } else if (!validateCapacity(this.state.price)) {
+            Notify('Giá combo phải ít hơn 10 ký tự', 'error', 'top-right');
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     addCombo() {
         const { name, price, description, images } = this.state;
         if (images.length > 0) {
-            axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
-                .then(res => {
-                    let restaurant = res.data;
-                    axios.get(`/combos/getCombosByRestaurantId?restaurantId=${restaurantId}&isActive=0`)
-                        .then(res => {
-                            let count = 0
-                            res.data.forEach(combo => {
-                                if (name === combo.combo_name) {
-                                    count = count + 1;
-                                }
-                            });
-                            if (count === 0) {
-                                axios.post(`/combos/save`,
-                                    {
-                                        "name": name,
-                                        "status": { id: 2, name: 'inactive' },
-                                        "description": description,
-                                        "price": price,
-                                        "restaurant": restaurant
-                                    }, {
-                                    headers: {
-                                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+            if (this.validate()) {
+                axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
+                    .then(res => {
+                        let restaurant = res.data;
+                        axios.get(`/combos/getCombosByRestaurantId?restaurantId=${restaurantId}&isActive=0`)
+                            .then(res => {
+                                let count = 0
+                                res.data.forEach(combo => {
+                                    if (name === combo.combo_name) {
+                                        count = count + 1;
                                     }
-                                }).then(res => {
-                                    this.toggle();
-                                    this.updateImage(res.data.id);
-                                    this.receivedData();
-                                    Notify("Thêm combo thành công", "success", "top-right");
-                                })
-                            } else {
-                                Notify("Combo món ăn này đã tồn tại", "error", "top-right");
-                            }
-                        })
-                })
+                                });
+                                if (count === 0) {
+                                    axios.post(`/combos/save`,
+                                        {
+                                            "name": name,
+                                            "status": { id: 2, name: 'inactive' },
+                                            "description": description,
+                                            "price": price,
+                                            "restaurant": restaurant
+                                        }, {
+                                        headers: {
+                                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                        }
+                                    }).then(res => {
+                                        this.toggle();
+                                        this.updateImage(res.data.id);
+                                        this.receivedData();
+                                        Notify("Thêm combo thành công", "success", "top-right");
+                                    })
+                                } else {
+                                    Notify("Combo món ăn này đã tồn tại", "error", "top-right");
+                                }
+                            })
+                    })
+            }
         } else {
             Notify('Vui lòng thêm ảnh của combo', 'warning', 'top-right');
         }

@@ -10,6 +10,7 @@ import ImageUploading from "react-images-uploading";
 
 import { formatDate, formatDateForInput } from '../../common/formatDate';
 import { Notify } from '../../common/notify';
+import { validatePromotionPercentage, validateUsername } from '../../common/validate';
 
 export default function MyRestaurantPromotionItem(props) {
     const promotion = props.promotion;
@@ -78,48 +79,62 @@ export default function MyRestaurantPromotionItem(props) {
         }
     }
 
-    const updatePromotion = () => {
-        axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
-            .then(res => {
-                let restaurant = res.data;
-                updateImage();
+    const validate = () => {
+        if (!validateUsername(name)) {
+            Notify('Tên khuyến mãui phải ít hơn 100 ký tự', 'error', 'top-right');
+            return false;
+        } else if (!validatePromotionPercentage(discount)) {
+            Notify('Phần trăm khuyến mãi phải ít hơn 3 ký tự', 'error', 'top-right');
+            return false;
+        } else {
+            return true;
+        }
+    }
 
-                axios.get(`/promotions/getPromotionsByRestaurantId?restaurantId=${restaurantId}&isActive=0`)
-                    .then(res => {
-                        let count = 0;
-                        res.data.forEach(promotion => {
-                            if (name === promotion.promotion_name) {
-                                count = count + 1;
-                            }
-                        });
-                        if (promotionName === name) {
-                            count = 0;
-                        }
-                        if (count === 0) {
-                            axios.post(`/promotions/save`,
-                                {
-                                    "id": promotion.promotion_id,
-                                    "name": name,
-                                    "restaurant": restaurant,
-                                    "description": description,
-                                    "discountPercentage": discount,
-                                    "startDate": start,
-                                    "endDate": end,
-                                    "status": { id: 1, name: "active" }
-                                }, {
-                                headers: {
-                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+    const updatePromotion = () => {
+        if (validate()) {
+            axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
+                .then(res => {
+                    let restaurant = res.data;
+                    updateImage();
+
+                    axios.get(`/promotions/getPromotionsByRestaurantId?restaurantId=${restaurantId}&isActive=0`)
+                        .then(res => {
+                            let count = 0;
+                            res.data.forEach(promotion => {
+                                if (name === promotion.promotion_name) {
+                                    count = count + 1;
                                 }
-                            }).then(res => {
-                                toggle();
-                                window.location.reload();
-                                Notify("Cập nhật khuyến mãi thành công", "success", "top-right");
-                            })
-                        } else {
-                            Notify("Khuyến mãi này đã tồn tại", "error", "top-right");
-                        }
-                    })
-            })
+                            });
+                            if (promotionName === name) {
+                                count = 0;
+                            }
+                            if (count === 0) {
+                                axios.post(`/promotions/save`,
+                                    {
+                                        "id": promotion.promotion_id,
+                                        "name": name,
+                                        "restaurant": restaurant,
+                                        "description": description,
+                                        "discountPercentage": discount,
+                                        "startDate": start,
+                                        "endDate": end,
+                                        "status": { id: 1, name: "active" }
+                                    }, {
+                                    headers: {
+                                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                    }
+                                }).then(res => {
+                                    toggle();
+                                    window.location.reload();
+                                    Notify("Cập nhật khuyến mãi thành công", "success", "top-right");
+                                })
+                            } else {
+                                Notify("Khuyến mãi này đã tồn tại", "error", "top-right");
+                            }
+                        })
+                })
+        }
     }
 
     const updateImage = () => {
@@ -222,6 +237,8 @@ export default function MyRestaurantPromotionItem(props) {
                                     type="number"
                                     name="discount"
                                     id="discount"
+                                    min={1}
+                                    max={100}
                                     placeholder="Nhập phần trăm khuyến mãi"
                                     onChange={onChangeDiscount}
                                     value={discount}
@@ -233,6 +250,7 @@ export default function MyRestaurantPromotionItem(props) {
                                     type="date"
                                     name="start"
                                     id="start"
+                                    min={formatDateForInput(new Date())}
                                     placeholder="Nhập ngày bắt đầu"
                                     onChange={onChangeStart}
                                     value={start}
@@ -244,6 +262,7 @@ export default function MyRestaurantPromotionItem(props) {
                                     type="date"
                                     name="end"
                                     id="end"
+                                    min={start}
                                     placeholder="Nhập ngày kết thúc"
                                     onChange={onChangeEnd}
                                     value={end}
