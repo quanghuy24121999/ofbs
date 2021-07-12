@@ -20,6 +20,7 @@ function Order() {
     const [toggled, setToggled] = useState(false);
     const [orderCode, setOrderCode] = useState('');
     const [restaurantInfo, setRestaurantInfo] = useState('');
+    const [customerName, setCustomerName] = useState('');
     const [orderDetailInfo, setOrderDetailInfo] = useState('');
     const [listOrderDetails, setListOrderDetails] = useState([]);
 
@@ -41,6 +42,10 @@ function Order() {
                 setRestaurantInfo(res.data[0]);
                 setOrderDetailInfo(res.data[0]);
                 setListOrderDetails(res.data);
+                axios.get(`/users/findByPhoneNumber/${res.data[0].phone_number}`)
+                    .then(res => {
+                        setCustomerName(res.data.name);
+                    })
             })
     }
 
@@ -98,7 +103,7 @@ function Order() {
                     </Row>
 
                     {
-                        listOrderDetails.length > 0 && (<div>
+                        listOrderDetails.length > 0 ? (<div>
                             <Row className="od-content-header">
                                 <Col lg="6" sm="12" className="order-detail-restaurant">
                                     <CardImg
@@ -118,6 +123,8 @@ function Order() {
                                     </div>
                                     <hr />
                                     <div className="od-info-code"><b>Mã số đơn hàng: </b>{orderDetailInfo.order_code}</div>
+                                    <div className="od-info-name"><b>Tên khách hàng: </b>{customerName}</div>
+                                    <div className="od-info-phone"><b>Số điện thoại: </b>{orderDetailInfo.phone_number}</div>
                                     <div className="od-info-type"><b>Loại bàn: </b>{orderDetailInfo.table_type}</div>
                                     <div className="od-info-guest-number"><b>Số lượng khách: </b>{orderDetailInfo.number_of_guests}</div>
                                     <div className="od-info-order-date"><b>Thời gian đặt: </b>{formatDate(orderDetailInfo.order_date)}</div>
@@ -144,7 +151,9 @@ function Order() {
                                     <h5 >Tiền đặt cọc (10%): {formatCurrency(orderDetailInfo.total_amount * 10 / 100)} VNĐ</h5>
                                 </div>
                             </div>
-                        </div>)
+                        </div>) : (
+                            <h4>Không có thông tin</h4>
+                        )
                     }
                 </Container>
             </div>

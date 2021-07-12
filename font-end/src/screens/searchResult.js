@@ -115,12 +115,17 @@ export default class searchResult extends Component {
 
     onSubmit(e) {
         e.preventDefault();
-        this.setState({
-            currentPage: 0,
-            offset: 0
-        }, () => {
-            this.receivedData();
-        })
+        console.log(localStorage.getItem('restaurantText'))
+        if (localStorage.getItem('restaurantText') && !validateTextSearch(localStorage.getItem('restaurantText'))) {
+            Notify('Tìm kiếm phải nhỏ hơn 100 ký tự', 'error', 'top-right');
+        } else {
+            this.setState({
+                currentPage: 0,
+                offset: 0
+            }, () => {
+                this.receivedData();
+            })
+        }
     }
 
     handlePageClick = (e) => {
@@ -251,13 +256,7 @@ export default class searchResult extends Component {
                                 </Label>
                             </FormGroup>
                         </div>
-                        <Input onClick={() => {
-                            if (validateTextSearch(localStorage.getItem("restaurantText"))) {
-                                this.onSubmit();
-                            } else {
-                                Notify('Tìm kiếm phải nhỏ hơn 100 ký tự', 'error', 'top-right');
-                            }
-                        }} type="submit" className="btn btn-success btn-result-search" value="Tìm kiếm" />
+                        <Input onClick={this.onSubmit} type="submit" className="btn btn-success btn-result-search" value="Tìm kiếm" />
                     </Form>
                 </div>
                 {
