@@ -26,3 +26,13 @@ export function validateEmpty(text) {
         return false;
     }
 }
+
+export function validateFeedback(feedback) {
+    let patt = new RegExp(/^(?=.*).{1,250}$/);
+    return patt.test(feedback);
+}
+
+export function validateTextSearch(text) {
+    let patt = new RegExp(/^(?=.*).{0,100}$/);
+    return patt.test(text);
+}

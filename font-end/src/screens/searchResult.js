@@ -11,6 +11,8 @@ import TopMenu from '../components/common/topMenu';
 import Footer from '../components/common/footer';
 import RestaurantItem from '../components/restaurant/restaurantItem';
 import Spinner from '../components/common/spinner';
+import { validateTextSearch } from '../common/validate';
+import { Notify } from '../common/notify';
 
 export default class searchResult extends Component {
     constructor(props) {
@@ -112,7 +114,6 @@ export default class searchResult extends Component {
     }
 
     onSubmit(e) {
-
         e.preventDefault();
         this.setState({
             currentPage: 0,
@@ -250,7 +251,13 @@ export default class searchResult extends Component {
                                 </Label>
                             </FormGroup>
                         </div>
-                        <Input onClick={this.onSubmit} type="submit" className="btn btn-success btn-result-search" value="Tìm kiếm" />
+                        <Input onClick={() => {
+                            if (validateTextSearch(localStorage.getItem("restaurantText"))) {
+                                this.onSubmit();
+                            } else {
+                                Notify('Tìm kiếm phải nhỏ hơn 100 ký tự', 'error', 'top-right');
+                            }
+                        }} type="submit" className="btn btn-success btn-result-search" value="Tìm kiếm" />
                     </Form>
                 </div>
                 {

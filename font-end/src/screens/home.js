@@ -13,6 +13,8 @@ import Footer from '../components/common/footer';
 import wallpaper from '../images/wallpaper.png';
 import RestaurantItem from '../components/restaurant/restaurantItem';
 import Spinner from '../components/common/spinner';
+import { validateTextSearch } from '../common/validate';
+import { Notify } from '../common/notify';
 
 const responsive = {
     desktop: {
@@ -243,14 +245,20 @@ export default class home extends Component {
                                 </Label>
                             </FormGroup>
                         </div>
-                        <Input onClick={this.onSubmit} type="submit" className="btn btn-success btn-search" value="Tìm kiếm" />
+                        <Input onClick={() => {
+                            if (validateTextSearch(localStorage.getItem("restaurantText"))) {
+                                this.onSubmit();
+                            } else {
+                                Notify('Tìm kiếm phải nhỏ hơn 100 ký tự', 'error', 'top-right');
+                            }
+                        }} type="submit" className="btn btn-success btn-search" value="Tìm kiếm" />
                     </Form>
 
                 </div>
                 {
                     loading ? (
                         <div className="home-content">
-                            <Spinner/>
+                            <Spinner />
                         </div>
                     ) : (<div className="home-content">
                         <div className="content-title">Trung tâm tổ chức sự kiện nổi bật</div>
