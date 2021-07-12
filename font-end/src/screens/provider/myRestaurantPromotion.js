@@ -15,6 +15,7 @@ import Footer from '../../components/common/footer';
 import MyRestaurantPromotionItem from '../../components/provider/myRestaurantPromotionItem';
 import { formatDateForInput } from '../../common/formatDate';
 import { Notify } from '../../common/notify';
+import { validatePromotionPercentage, validateUsername } from '../../common/validate';
 
 let restaurantId = '';
 export default class myRestaurantPromotion extends Component {
@@ -121,46 +122,60 @@ export default class myRestaurantPromotion extends Component {
             });
     }
 
+    validate() {
+        if (!validateUsername(this.state.name)) {
+            Notify('Tên khuyến mãui phải ít hơn 100 ký tự', 'error', 'top-right');
+            return false;
+        } else if (!validatePromotionPercentage(this.state.discount)) {
+            Notify('Phần trăm khuyến mãi phải ít hơn 3 ký tự', 'error', 'top-right');
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     addPromotion() {
         const { discount, name, description, start, end, images } = this.state;
         if (images.length > 0) {
-            axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
-                .then(res => {
-                    let restaurant = res.data;
-                    axios.get(`/promotions/getPromotionsByRestaurantId?restaurantId=${restaurantId}&isActive=0`)
-                        .then(res => {
-                            let count = 0;
-                            res.data.forEach(promotion => {
-                                if (name === promotion.promotion_name) {
-                                    count = count + 1;
-                                }
-                            });
-
-                            if (count === 0) {
-                                axios.post(`/promotions/save`,
-                                    {
-                                        "name": name,
-                                        "restaurant": restaurant,
-                                        "description": description,
-                                        "discountPercentage": discount,
-                                        "startDate": start,
-                                        "endDate": end,
-                                        "status": { id: 1, name: 'active' }
-                                    }, {
-                                    headers: {
-                                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+            if (this.validate()) {
+                axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
+                    .then(res => {
+                        let restaurant = res.data;
+                        axios.get(`/promotions/getPromotionsByRestaurantId?restaurantId=${restaurantId}&isActive=0`)
+                            .then(res => {
+                                let count = 0;
+                                res.data.forEach(promotion => {
+                                    if (name === promotion.promotion_name) {
+                                        count = count + 1;
                                     }
-                                }).then(res => {
-                                    this.toggle();
-                                    this.updateImage(res.data.id);
-                                    this.receivedData();
-                                    Notify('Thêm khuyến mãi thành công', 'success', 'top-right');
-                                })
-                            } else {
-                                Notify("Khuyến mãi này đã tồn tại", "error", "top-right");
-                            }
-                        })
-                })
+                                });
+
+                                if (count === 0) {
+                                    axios.post(`/promotions/save`,
+                                        {
+                                            "name": name,
+                                            "restaurant": restaurant,
+                                            "description": description,
+                                            "discountPercentage": discount,
+                                            "startDate": start,
+                                            "endDate": end,
+                                            "status": { id: 1, name: 'active' }
+                                        }, {
+                                        headers: {
+                                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                        }
+                                    }).then(res => {
+                                        this.toggle();
+                                        this.updateImage(res.data.id);
+                                        this.receivedData();
+                                        Notify('Thêm khuyến mãi thành công', 'success', 'top-right');
+                                    })
+                                } else {
+                                    Notify("Khuyến mãi này đã tồn tại", "error", "top-right");
+                                }
+                            })
+                    })
+            }
         } else {
             Notify('Vui lòng thêm ảnh của khuyến mãi', 'warning', 'top-right');
         }

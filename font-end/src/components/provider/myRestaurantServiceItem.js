@@ -10,6 +10,7 @@ import { FaEdit } from 'react-icons/fa';
 
 import { formatCurrency } from '../../common/formatCurrency';
 import { Notify } from '../../common/notify';
+import { validateCapacity, validateUsername } from '../../common/validate';
 
 export default function MyRestaurantServiceItem(props) {
     const service = props.service;
@@ -95,89 +96,103 @@ export default function MyRestaurantServiceItem(props) {
         }
     }
 
+    const validate = () => {
+        if (!validateUsername(name)) {
+            Notify('Tên dịch vụ phải ít hơn 100 ký tự', 'error', 'top-right');
+            return false;
+        } else if (!validateCapacity(price)) {
+            Notify('Giá dịch vụ phải ít hơn 10 ký tự', 'error', 'top-right');
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     const updateService = () => {
-        axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
-            .then(res => {
-                let serviceStatus = '';
-                let serviceCategory = '';
-                let restaurant = res.data;
-                updateImage();
+        if (validate()) {
+            axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
+                .then(res => {
+                    let serviceStatus = '';
+                    let serviceCategory = '';
+                    let restaurant = res.data;
+                    updateImage();
 
-                if (status === 1) {
-                    serviceStatus = 'active';
-                } else {
-                    serviceStatus = 'inactive';
-                }
+                    if (status === 1) {
+                        serviceStatus = 'active';
+                    } else {
+                        serviceStatus = 'inactive';
+                    }
 
-                switch (category) {
-                    case 1:
-                        serviceCategory = 'Trang trí';
-                        break;
+                    switch (category) {
+                        case 1:
+                            serviceCategory = 'Trang trí';
+                            break;
 
-                    case 2:
-                        serviceCategory = 'Ban nhạc';
-                        break;
+                        case 2:
+                            serviceCategory = 'Ban nhạc';
+                            break;
 
-                    case 3:
-                        serviceCategory = 'Vũ đoàn';
-                        break;
+                        case 3:
+                            serviceCategory = 'Vũ đoàn';
+                            break;
 
-                    case 4:
-                        serviceCategory = 'Ca sĩ';
-                        break;
+                        case 4:
+                            serviceCategory = 'Ca sĩ';
+                            break;
 
-                    case 5:
-                        serviceCategory = 'MC';
-                        break;
+                        case 5:
+                            serviceCategory = 'MC';
+                            break;
 
-                    case 6:
-                        serviceCategory = 'Quay phim - chụp ảnh';
-                        break;
+                        case 6:
+                            serviceCategory = 'Quay phim - chụp ảnh';
+                            break;
 
-                    case 7:
-                        serviceCategory = 'Xe cưới';
-                        break;
+                        case 7:
+                            serviceCategory = 'Xe cưới';
+                            break;
 
-                    default:
-                        break;
-                }
-                axios.get(`/services/search?restaurantId=${restaurantId}&serviceName=&category=`)
-                    .then(res => {
-                        let count = 0;
-                        res.data.forEach(service => {
-                            if (name === service.service_name) {
-                                count = count + 1;
-                            }
-                        });
-                        if (serviceName === name) {
-                            count = 0;
-                        }
-                        if (count === 0) {
-                            axios.post(`/services/update`,
-                                {
-                                    "id": service.id,
-                                    "name": name,
-                                    "description": description,
-                                    "status": { id: status, name: serviceStatus },
-                                    "price": price,
-                                    "restaurant": restaurant,
-                                    "serviceCategory": { id: category, name: serviceCategory }
-                                }, {
-                                headers: {
-                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                        default:
+                            break;
+                    }
+                    axios.get(`/services/search?restaurantId=${restaurantId}&serviceName=&category=`)
+                        .then(res => {
+                            let count = 0;
+                            res.data.forEach(service => {
+                                if (name === service.service_name) {
+                                    count = count + 1;
                                 }
+                            });
+                            if (serviceName === name) {
+                                count = 0;
                             }
-                            )
-                                .then(res => {
-                                    toggle();
-                                    window.location.reload();
-                                    Notify("Cập nhật dịch vụ thành công", "success", "top-right");
-                                })
-                        } else {
-                            Notify("Dịch vụ này đã tồn tại", "error", "top-right");
-                        }
-                    })
-            })
+                            if (count === 0) {
+                                axios.post(`/services/update`,
+                                    {
+                                        "id": service.id,
+                                        "name": name,
+                                        "description": description,
+                                        "status": { id: status, name: serviceStatus },
+                                        "price": price,
+                                        "restaurant": restaurant,
+                                        "serviceCategory": { id: category, name: serviceCategory }
+                                    }, {
+                                    headers: {
+                                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                    }
+                                }
+                                )
+                                    .then(res => {
+                                        toggle();
+                                        window.location.reload();
+                                        Notify("Cập nhật dịch vụ thành công", "success", "top-right");
+                                    })
+                            } else {
+                                Notify("Dịch vụ này đã tồn tại", "error", "top-right");
+                            }
+                        })
+                })
+        }
     }
 
     return (

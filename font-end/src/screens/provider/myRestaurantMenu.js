@@ -14,6 +14,7 @@ import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
 import MyRestaurantMenuItem from '../../components/provider/myRestaurantMenuItem';
 import { Notify } from '../../common/notify';
+import { validateCapacity, validateUsername } from '../../common/validate';
 
 let restaurantId = '';
 export default class myRestaurantMenu extends Component {
@@ -116,72 +117,86 @@ export default class myRestaurantMenu extends Component {
         })
     }
 
+    validate() {
+        if (!validateUsername(this.state.name)) {
+            Notify('Tên món ăn phải ít hơn 100 ký tự', 'error', 'top-right');
+            return false;
+        } else if (!validateCapacity(this.state.price)) {
+            Notify('Giá món ăn phải ít hơn 10 ký tự', 'error', 'top-right');
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     addDish() {
         const { category, name, price, status, description, images } = this.state;
         if (images.length > 0) {
-            axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
-                .then(res => {
-                    let dishStatus = '';
-                    let menuCategory = '';
-                    let restaurant = res.data;
+            if (this.validate()) {
+                axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
+                    .then(res => {
+                        let dishStatus = '';
+                        let menuCategory = '';
+                        let restaurant = res.data;
 
-                    if (status === 1) {
-                        dishStatus = 'active';
-                    } else {
-                        dishStatus = 'inactive';
-                    }
+                        if (status === 1) {
+                            dishStatus = 'active';
+                        } else {
+                            dishStatus = 'inactive';
+                        }
 
-                    switch (category) {
-                        case 1:
-                            menuCategory = 'Khai vị';
-                            break;
+                        switch (category) {
+                            case 1:
+                                menuCategory = 'Khai vị';
+                                break;
 
-                        case 2:
-                            menuCategory = 'Món chính';
-                            break;
+                            case 2:
+                                menuCategory = 'Món chính';
+                                break;
 
-                        case 3:
-                            menuCategory = 'Tráng miệng';
-                            break;
+                            case 3:
+                                menuCategory = 'Tráng miệng';
+                                break;
 
-                        case 4:
-                            menuCategory = 'Đồ uống';
-                            break;
-                        default:
-                            break;
-                    }
-                    axios.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=0&dishName=&statusId=0`)
-                        .then(res => {
-                            let count = 0
-                            res.data.forEach(dish => {
-                                if (name === dish.dish_name) {
-                                    count = count + 1;
-                                }
-                            });
-                            if (count === 0) {
-                                axios.post(`/dishes/save`,
-                                    {
-                                        "name": name,
-                                        "status": { id: status, name: dishStatus },
-                                        "description": description,
-                                        "price": price,
-                                        "restaurant": restaurant,
-                                        "menuCategory": { id: category, name: menuCategory }
-                                    }, {
-                                    headers: {
-                                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                            case 4:
+                                menuCategory = 'Đồ uống';
+                                break;
+                            default:
+                                break;
+                        }
+                        axios.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=0&dishName=&statusId=0`)
+                            .then(res => {
+                                let count = 0
+                                res.data.forEach(dish => {
+                                    if (name === dish.dish_name) {
+                                        count = count + 1;
                                     }
-                                }).then(res => {
-                                    this.toggle();
-                                    this.updateImage(res.data.id);
-                                    this.receivedData(0, '');
-                                    Notify("Thêm món ăn thành công", "success", "top-right");
-                                })
-                            } else {
-                                Notify("Món ăn này đã tồn tại", "error", "top-right");
-                            }
-                        })
-                })
+                                });
+                                if (count === 0) {
+                                    axios.post(`/dishes/save`,
+                                        {
+                                            "name": name,
+                                            "status": { id: status, name: dishStatus },
+                                            "description": description,
+                                            "price": price,
+                                            "restaurant": restaurant,
+                                            "menuCategory": { id: category, name: menuCategory }
+                                        }, {
+                                        headers: {
+                                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                        }
+                                    }).then(res => {
+                                        this.toggle();
+                                        this.updateImage(res.data.id);
+                                        this.receivedData(0, '');
+                                        Notify("Thêm món ăn thành công", "success", "top-right");
+                                    })
+                                } else {
+                                    Notify("Món ăn này đã tồn tại", "error", "top-right");
+                                }
+                            })
+                    })
+            }
         } else {
             Notify('Vui lòng thêm ảnh của món ăn', 'warning', 'top-right');
         }

@@ -13,6 +13,7 @@ import DishComboItem from '../restaurant/dishComboItem';
 import { formatCurrency } from '../../common/formatCurrency';
 import AddDishComboItem from '../restaurant/addDishComboItem';
 import { Notify } from '../../common/notify';
+import { validateCapacity, validateUsername } from '../../common/validate';
 
 export default function MyRestaurantComboItem(props) {
     const combo = props.combo;
@@ -159,52 +160,66 @@ export default function MyRestaurantComboItem(props) {
         }
     }
 
-    const updateCombo = () => {
-        axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
-            .then(res => {
-                let dishStatus = '';
-                let restaurant = res.data;
-                updateImage();
+    const validate = () => {
+        if (!validateUsername(name)) {
+            Notify('Tên combo phải ít hơn 100 ký tự', 'error', 'top-right');
+            return false;
+        } else if (!validateCapacity(price)) {
+            Notify('Giá combo phải ít hơn 10 ký tự', 'error', 'top-right');
+            return false;
+        } else {
+            return true;
+        }
+    }
 
-                if (status === 1) {
-                    dishStatus = 'active';
-                } else {
-                    dishStatus = 'inactive';
-                }
-                axios.get(`/combos/getCombosByRestaurantId?restaurantId=${restaurantId}&isActive=0`)
-                    .then(res => {
-                        let count = 0
-                        res.data.forEach(combo => {
-                            if (name === combo.combo_name) {
-                                count = count + 1;
-                            }
-                        });
-                        if (comboName === name) {
-                            count = 0;
-                        }
-                        if (count === 0) {
-                            axios.post(`/combos/save`,
-                                {
-                                    "id": combo.combo_id,
-                                    "name": name,
-                                    "description": description,
-                                    "price": price,
-                                    "restaurant": restaurant,
-                                    "status": { id: status, name: dishStatus }
-                                }, {
-                                headers: {
-                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+    const updateCombo = () => {
+        if (validate()) {
+            axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
+                .then(res => {
+                    let dishStatus = '';
+                    let restaurant = res.data;
+                    updateImage();
+
+                    if (status === 1) {
+                        dishStatus = 'active';
+                    } else {
+                        dishStatus = 'inactive';
+                    }
+                    axios.get(`/combos/getCombosByRestaurantId?restaurantId=${restaurantId}&isActive=0`)
+                        .then(res => {
+                            let count = 0
+                            res.data.forEach(combo => {
+                                if (name === combo.combo_name) {
+                                    count = count + 1;
                                 }
-                            }).then(res => {
-                                toggle();
-                                window.location.reload();
-                                Notify("Cập nhật Combo thành công", "success", "top-right");
-                            })
-                        } else {
-                            Notify("Combo này đã tồn tại", "error", "top-right");
-                        }
-                    })
-            })
+                            });
+                            if (comboName === name) {
+                                count = 0;
+                            }
+                            if (count === 0) {
+                                axios.post(`/combos/save`,
+                                    {
+                                        "id": combo.combo_id,
+                                        "name": name,
+                                        "description": description,
+                                        "price": price,
+                                        "restaurant": restaurant,
+                                        "status": { id: status, name: dishStatus }
+                                    }, {
+                                    headers: {
+                                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                    }
+                                }).then(res => {
+                                    toggle();
+                                    window.location.reload();
+                                    Notify("Cập nhật Combo thành công", "success", "top-right");
+                                })
+                            } else {
+                                Notify("Combo này đã tồn tại", "error", "top-right");
+                            }
+                        })
+                })
+        }
     }
 
     return (
