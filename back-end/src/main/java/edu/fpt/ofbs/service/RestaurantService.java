@@ -71,4 +71,8 @@ public class RestaurantService {
 	public String getProviderPhoneLoginFromRestaurantId(long restaurantId) {
 		return restaurantRepository.getProviderPhoneLoginFromRestaurantId(restaurantId);
 	}
+	
+	public int getTotalRestaurantsByStatus(String status) {
+		return restaurantRepository.getTotalRestaurantsByStatus(status);
+	}
 }

@@ -146,9 +146,16 @@ public class OrderController {
 		}
 	}
 
-	@GetMapping("/searchOrder")
-	public ResponseEntity<?> searchOrder(@PathParam("orderCode") String orderCode) {
-		List<IOrderDetailDTO> orders = orderDetailService.getOrderDetailByOrderCode(orderCode);
+//	@GetMapping("/searchOrder")
+//	public ResponseEntity<?> searchOrder(@PathParam("orderCode") String orderCode) {
+//		List<IOrderDetailDTO> orders = orderDetailService.getOrderDetailByOrderCode(orderCode);
+//		return ResponseEntity.status(HttpStatus.OK).body(orders);
+//	}
+
+	@GetMapping("/getOrders")
+	public ResponseEntity<?> getOrders(@PathParam("orderCode") String orderCode, @PathParam("fromDate") String fromDate,
+			@PathParam("toDate") String toDate, @PathParam("status") String status) {
+		List<IOrderDTO> orders = orderService.getOrders(orderCode, fromDate, toDate, status);
 		return ResponseEntity.status(HttpStatus.OK).body(orders);
 	}
 

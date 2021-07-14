@@ -156,4 +156,10 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	@GetMapping("/numberOfUsersActive")
+	public ResponseEntity<?> getNumberOfUsersActive() {
+		int numberOfUsersActive = userService.getNumberOfUsersActive();
+		return ResponseEntity.status(HttpStatus.OK).body(numberOfUsersActive);
+	}
 }
