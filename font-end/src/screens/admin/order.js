@@ -1,28 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SlideBar from '../../components/admin/SlideBar';
 import { FaBars, FaSearch } from 'react-icons/fa';
 import {
-    Container, Input, Row, Col,
-    Button, CardImg
+    Container, Input,
+    Button, Table
 } from 'reactstrap';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
-import OrderDetailDishItem from '../../components/order/orderDetailDishItem';
-import OrderDetailComboItem from '../../components/order/orderDetailComboItem';
-import OrderDetailServiceItem from '../../components/order/orderDetailServiceItem';
-import { formatDate } from '../../common/formatDate';
-import { formatCurrency } from '../../common/formatCurrency';
+import ReactPaginate from 'react-paginate';
 
 import Notification from '../../components/admin/Notification';
+import OrderItem from '../../components/admin/OrderItem';
 
 function Order() {
     const [toggled, setToggled] = useState(false);
     const [orderCode, setOrderCode] = useState('');
-    const [restaurantInfo, setRestaurantInfo] = useState('');
-    const [customerName, setCustomerName] = useState('');
-    const [orderDetailInfo, setOrderDetailInfo] = useState('');
-    const [listOrderDetails, setListOrderDetails] = useState([]);
+    const [from, setFrom] = useState('');
+    const [to, setTo] = useState('');
+    const [status, setStatus] = useState('');
+    const [offset, setOffset] = useState(0);
+    const [perPage, setPerpage] = useState(10);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [orders, setOrders] = useState([]);
+    const [pageCount, setPageCount] = useState(0);
 
     const handleToggleSidebar = (value) => {
         setToggled(value);
@@ -32,35 +32,50 @@ function Order() {
         setOrderCode(e.target.value)
     };
 
-    const search = () => {
-        axios.get(`/orders/searchOrder?orderCode=${orderCode}`, {
+    const onChangeFrom = (e) => {        
+        setFrom(e.target.value);
+    };
+
+    const onChangeTo = (e) => {        
+        setTo(e.target.value);
+    };
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        receivedData('', '', '', '');
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentPage])
+
+    const handlePageClick = (e) => {
+        const selectedPage = e.selected;
+        const offset = selectedPage * perPage;
+
+        setCurrentPage(selectedPage);
+        setOffset(offset);
+        // receivedData(0, '');
+    };
+
+    const receivedData = (orderCode, from, to, status) => {
+        window.scrollTo(0, 0);
+        axios.get(`/orders/getOrders?orderCode=${orderCode}&fromDate=${from}&toDate=${to}&status=${status}`, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
         })
             .then(res => {
-                setRestaurantInfo(res.data[0]);
-                setOrderDetailInfo(res.data[0]);
-                setListOrderDetails(res.data);
-                axios.get(`/users/findByPhoneNumber/${res.data[0].phone_number}`)
-                    .then(res => {
-                        setCustomerName(res.data.name);
-                    })
+                const data = res.data;
+                const slice = data.slice(offset, offset + perPage)
+                const ordersPaging = slice.map((order, index) => {
+                    return <OrderItem key={index} order={order} />
+                })
+
+                setOrders(ordersPaging);
+                setPageCount(Math.ceil(data.length / perPage));
             })
     }
 
-    let orderStatus = '';
-    if (orderDetailInfo.order_status === 'pending') {
-        orderStatus = 'Chờ duyệt';
-    }
-    if (orderDetailInfo.order_status === 'preparing') {
-        orderStatus = 'Chưa diễn ra';
-    }
-    if (orderDetailInfo.order_status === 'accomplished') {
-        orderStatus = 'Đã diễn ra';
-    }
-    if (orderDetailInfo.order_status === 'cancelled') {
-        orderStatus = 'Đã hủy';
+    const search = () => {
+        receivedData(orderCode, from, to, status);
     }
 
     const Logout = () => {
@@ -84,77 +99,65 @@ function Order() {
                     <Link className="btn btn-primary" to='/login' onClick={Logout}>Đăng xuất</Link>
                 </div>
                 <Container>
-                    <Row className="search-order">
-                        <Col lg="4" md="12" sm="12"><b>Mã đơn hàng:</b></Col>
-                        <Col lg="6" md="12" sm="12">
+                    <div className="search-order-admin">
+                        <div>
                             <Input
-                                id="order-code"
                                 type="text"
-                                placeholder="Nhập mã đơn hàng"
+                                id="order-id"
                                 value={orderCode}
+                                placeholder="Nhập mã đơn hàng"
                                 onChange={onChangeOrderCode}
                             />
-                        </Col>
-                        <Col lg="2" md="12" sm="12">
-                            <Button className="btn-search-order-code" color="success" onClick={() => search()}>
-                                <FaSearch />
-                            </Button>
-                        </Col>
-                    </Row>
-
-                    {
-                        listOrderDetails.length > 0 ? (<div>
-                            <Row className="od-content-header">
-                                <Col lg="6" sm="12" className="order-detail-restaurant">
-                                    <CardImg
-                                        className="od-restaurant-img"
-                                        src={`/images/${restaurantInfo.image_restaurant_id}`}
-                                        alt="Nhà hàng"
-                                        width="100px"
-                                        height="200px"
-                                    />
-                                </Col>
-
-                                <Col lg="6" sm="12" className="od-info">
-                                    <div className="od-restaurant-content">
-                                        <div className="od-restaurant-name"><b>Tên nhà hàng: </b>{restaurantInfo.restaurant_name}</div>
-                                        <div className="od-restaurant-address"><b>Địa chỉ: </b>{restaurantInfo.province}</div>
-                                        <div className="od-restaurant-type"><b>Loại hình: </b>{restaurantInfo.restaurant_type}</div>
-                                    </div>
-                                    <hr />
-                                    <div className="od-info-code"><b>Mã số đơn hàng: </b>{orderDetailInfo.order_code}</div>
-                                    <div className="od-info-name"><b>Tên khách hàng: </b>{customerName}</div>
-                                    <div className="od-info-phone"><b>Số điện thoại: </b>{orderDetailInfo.phone_number}</div>
-                                    <div className="od-info-type"><b>Loại bàn: </b>{orderDetailInfo.table_type}</div>
-                                    <div className="od-info-guest-number"><b>Số lượng khách: </b>{orderDetailInfo.number_of_guests}</div>
-                                    <div className="od-info-order-date"><b>Thời gian đặt: </b>{formatDate(orderDetailInfo.order_date)}</div>
-                                    <div className="od-info-organize-date">
-                                        <b>Thời gian tổ chức: </b>{orderDetailInfo.time + ' ' + formatDate(orderDetailInfo.organize_date)}
-                                    </div>
-                                    <div className="od-info-note"><b>Ghi chú: </b>{orderDetailInfo.note}</div>
-                                    <div className="od-info-status"><b>Trạng thái: </b>{orderStatus}</div>
-                                </Col>
-                            </Row>
-
-                            <hr></hr>
-
-                            <Row className="od-content-detail">
-                                <Col><OrderDetailDishItem listOrderDetails={listOrderDetails} /></Col>
-                                <Row>
-                                    <Col><OrderDetailComboItem listOrderDetails={listOrderDetails} /></Col>
-                                    <Col><OrderDetailServiceItem listOrderDetails={listOrderDetails} /></Col>
-                                </Row>
-                            </Row>
-                            <div className="order-detail-footer">
-                                <div className="order-detail-amount">
-                                    <h5>Tổng tiền: {formatCurrency(orderDetailInfo.total_amount)} VNĐ</h5>
-                                    <h5 >Tiền đặt cọc (10%): {formatCurrency(orderDetailInfo.total_amount * 10 / 100)} VNĐ</h5>
-                                </div>
-                            </div>
-                        </div>) : (
-                            <h4>Không có thông tin</h4>
-                        )
-                    }
+                        </div>
+                        <div className="order-from">
+                            <div><b>Từ </b></div>
+                            <Input
+                                type="date"
+                                value={from}
+                                max={to}
+                                onChange={onChangeFrom}
+                            />
+                        </div>
+                        <div className="order-to">
+                            <div><b>Đến </b></div>
+                            <Input
+                                type="date"
+                                value={to}
+                                min={from}
+                                onChange={onChangeTo}
+                            />
+                        </div>
+                        <div>
+                            <Button color="success" className="btn-search-order" onClick={search}><FaSearch className="icon-search" /></Button>
+                        </div>
+                    </div>
+                    <Table className="order-table">
+                        <thead>
+                            <tr>
+                                <th>Mã đơn</th>
+                                <th>Tổng tiền (VNĐ)</th>
+                                <th>Ngày đặt</th>
+                                <th>Trạng thái</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {orders.length > 0 && orders}
+                        </tbody>
+                    </Table>
+                    <ReactPaginate
+                        previousLabel={"Trang trước"}
+                        nextLabel={"Trang sau"}
+                        breakLabel={"..."}
+                        breakClassName={"break-me"}
+                        pageCount={pageCount}
+                        marginPagesDisplayed={5}
+                        pageRangeDisplayed={5}
+                        onPageChange={handlePageClick}
+                        containerClassName={"pagination"}
+                        subContainerClassName={"pages pagination"}
+                        activeClassName={"active"}
+                    />
                 </Container>
             </div>
 

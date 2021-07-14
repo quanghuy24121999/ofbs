@@ -188,11 +188,11 @@ export default class myRestaurantOrder extends Component {
                             <Button color="success" className="btn-search-order" onClick={this.search}><FaSearch className="icon-search" /></Button>
                         </Col>
                     </Row>
-                    <Table>
+                    <Table className="order-table">
                         <thead>
                             <tr>
                                 <th>Mã đơn</th>
-                                <th>Tổng tiền</th>
+                                <th>Tổng tiền (VNĐ)</th>
                                 <th>Ngày đặt</th>
                                 <th>Trạng thái</th>
                                 <th></th>

@@ -226,7 +226,7 @@ export default function MyRestaurantComboItem(props) {
         <tr>
             <td>{count}</td>
             <td>{combo.combo_name}</td>
-            <td>{formatCurrency(combo.combo_price)} VNĐ</td>
+            <td>{formatCurrency(combo.combo_price)}</td>
             <td>{statusCombo}</td>
             <td>
                 <Button onClick={toggle} color="primary">
@@ -279,7 +279,7 @@ export default function MyRestaurantComboItem(props) {
                                 }
                                 {
                                     comboModal && <div>
-                                        <Label for="name"><b>Tên combo: <span className="require-icon">*</span></b></Label>
+                                        <Label for="name"><b>Tên combo <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="text"
                                             name="name"
@@ -290,7 +290,7 @@ export default function MyRestaurantComboItem(props) {
                                             required="required"
                                         />
 
-                                        <Label for="status"><b>Trạng thái: <span className="require-icon">*</span></b></Label>
+                                        <Label for="status"><b>Trạng thái <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="select"
                                             name="status"
@@ -302,7 +302,7 @@ export default function MyRestaurantComboItem(props) {
                                             <option value="2">Ngừng kinh doanh</option>
                                         </Input>
 
-                                        <Label for="price"><b>Giá combo: <span className="require-icon">*</span></b></Label>
+                                        <Label for="price"><b>Giá combo <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="number"
                                             name="price"
@@ -313,7 +313,7 @@ export default function MyRestaurantComboItem(props) {
                                             required="required"
                                         />
 
-                                        <Label for="description"><b>Mô tả: <span className="require-icon">*</span></b></Label>
+                                        <Label for="description"><b>Mô tả <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="textarea"
                                             name="description"
@@ -397,7 +397,7 @@ export default function MyRestaurantComboItem(props) {
                                             <tr>
                                                 <th>#</th>
                                                 <th>Tên món ăn</th>
-                                                <th>Giá</th>
+                                                <th>Giá (VNĐ)</th>
                                                 <th>Loại món ăn</th>
                                                 <th></th>
                                             </tr>

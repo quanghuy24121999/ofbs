@@ -9,13 +9,13 @@ export default function OrderDetailDishItem(props) {
 
     return (
         <div className="order-detail-dish">
-            <h2>Món ăn</h2>
-            <Table>
+            <h4>Món ăn</h4>
+            <Table className="order-detail-table">
                 <thead>
                     <tr>
                         <th>#</th>
                         <th>Tên món ăn</th>
-                        <th>Giá</th>
+                        <th>Giá (VNĐ)</th>
                         <th>Số lượng</th>
                     </tr>
                 </thead>
@@ -27,7 +27,7 @@ export default function OrderDetailDishItem(props) {
                                 return (<tr key={index} className="od-dish-item">
                                     <th>{count++}</th>
                                     <td>{item.dish_name}</td>
-                                    <td>{formatCurrency(item.price)} VNĐ</td>
+                                    <td>{formatCurrency(item.price)}</td>
                                     <td>{item.quantity}</td>
                                 </tr>
                                 )

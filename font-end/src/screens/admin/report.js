@@ -53,7 +53,7 @@ export default function Report() {
                 <Container>
                     <h3>Các nhà hàng đang chờ duyệt</h3>
                     <hr />
-                    <Table>
+                    <Table className="report-table">
                         <thead>
                             <tr>
                                 <th>#</th>

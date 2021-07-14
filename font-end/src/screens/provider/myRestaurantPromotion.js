@@ -335,7 +335,7 @@ export default class myRestaurantPromotion extends Component {
                                         </ImageUploading>
                                     </div>
                                     <div>
-                                        <Label for="name"><b>Tên khuyến mãi: <span className="require-icon">*</span></b></Label>
+                                        <Label for="name"><b>Tên khuyến mãi <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="text"
                                             name="name"
@@ -346,7 +346,7 @@ export default class myRestaurantPromotion extends Component {
                                             required="required"
                                         />
 
-                                        <Label for="discount"><b>Phần trăm khuyến mãi: <span className="require-icon">*</span></b></Label>
+                                        <Label for="discount"><b>Phần trăm khuyến mãi <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="number"
                                             name="discount"
@@ -359,7 +359,7 @@ export default class myRestaurantPromotion extends Component {
                                             required="required"
                                         />
 
-                                        <Label for="start"><b>Ngày bắt đầu: <span className="require-icon">*</span></b></Label>
+                                        <Label for="start"><b>Ngày bắt đầu <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="date"
                                             name="start"
@@ -371,7 +371,7 @@ export default class myRestaurantPromotion extends Component {
                                             required="required"
                                         />
 
-                                        <Label for="end"><b>Ngày kết thúc: <span className="require-icon">*</span></b></Label>
+                                        <Label for="end"><b>Ngày kết thúc <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="date"
                                             name="end"
@@ -383,7 +383,7 @@ export default class myRestaurantPromotion extends Component {
                                             required="required"
                                         />
 
-                                        <Label for="description"><b>Mô tả: <span className="require-icon">*</span></b></Label>
+                                        <Label for="description"><b>Mô tả <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="textarea"
                                             name="description"
@@ -405,7 +405,7 @@ export default class myRestaurantPromotion extends Component {
                         </Modal>
 
                     </div>
-                    <Table>
+                    <Table className="promotion-table">
                         <thead>
                             <tr>
                                 <th>#</th>

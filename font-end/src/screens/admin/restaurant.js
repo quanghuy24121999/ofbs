@@ -49,7 +49,7 @@ function Restaurant() {
                 <Container>
                     <h3>Các nhà hàng đang chờ duyệt</h3>
                     <hr />
-                    <Table>
+                    <Table className="restaurant-table">
                         <thead>
                             <tr>
                                 <th>#</th>

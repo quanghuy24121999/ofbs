@@ -193,7 +193,7 @@ export default class menu extends Component {
                 ) : (
                     <div className="list">
                         <div className="list-dishes">
-                            <Container className="list-dishes-title">Món khai vị: </Container>
+                            <Container className="list-dishes-title">Món khai vị </Container>
                             <Container className="content-restaurant-list">
                                 <Row className="content-restaurant-row">
                                     <Carousel
@@ -219,7 +219,7 @@ export default class menu extends Component {
                         </div >
 
                         <div className="list-dishes">
-                            <Container className="list-dishes-title">Món chính: </Container>
+                            <Container className="list-dishes-title">Món chính </Container>
                             <Container className="content-restaurant-list">
                                 <Row className="content-restaurant-row">
                                     <Carousel
@@ -245,7 +245,7 @@ export default class menu extends Component {
                         </div>
 
                         <div className="list-dishes">
-                            <Container className="list-dishes-title">Món tráng miệng: </Container>
+                            <Container className="list-dishes-title">Món tráng miệng </Container>
                             <Container className="content-restaurant-list">
                                 <Row className="content-restaurant-row">
                                     <Carousel
@@ -271,7 +271,7 @@ export default class menu extends Component {
                         </div>
 
                         <div className="list-dishes">
-                            <Container className="list-dishes-title">Đồ uống: </Container>
+                            <Container className="list-dishes-title">Đồ uống </Container>
                             <Container className="content-restaurant-list">
                                 <Row className="content-restaurant-row">
                                     <Carousel

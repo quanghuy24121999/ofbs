@@ -255,7 +255,7 @@ export default function MyRestaurantOrderItem(props) {
     return (
         <tr>
             <td>{order.order_code}</td>
-            <td>{formatCurrency(order.amount) + ' VNĐ'}</td>
+            <td>{formatCurrency(order.amount)}</td>
             <td>{formatDate(order.order_date)}</td>
             <td>{displayOrderStatus}</td>
             <td>
@@ -269,7 +269,7 @@ export default function MyRestaurantOrderItem(props) {
                             orderDetailInfo && <Container>
                                 <Row>
                                     <Col lg="6" md="6" sm="12" className="info-order">
-                                        <h2>Thông tin đơn hàng</h2>
+                                        <h4>Thông tin đơn hàng</h4>
                                         <hr />
                                         <div className="od-info-code"><b>Mã số đơn hàng: </b>{orderDetailInfo.order_code}</div>
                                         <div className="od-info-name"><b>Tên khách hàng: </b>{user.name}</div>

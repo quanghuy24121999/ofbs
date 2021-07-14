@@ -134,7 +134,7 @@ export default function RestaurantDish(props) {
                             <tr>
                                 <th>#</th>
                                 <th>Tên món ăn</th>
-                                <th>Giá</th>
+                                <th>Giá (VNĐ)</th>
                                 <th>Loại món ăn</th>
                                 <th>Trạng thái</th>
                                 <th></th>

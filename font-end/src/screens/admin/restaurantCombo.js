@@ -133,7 +133,7 @@ export default function RestaurantCombo(props) {
                             <tr>
                                 <th>#</th>
                                 <th>Tên combo</th>
-                                <th>Giá</th>
+                                <th>Giá (VNĐ)</th>
                                 <th>Trạng thái</th>
                                 <th></th>
                             </tr>

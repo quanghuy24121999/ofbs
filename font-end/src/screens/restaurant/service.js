@@ -141,7 +141,7 @@ export default class service extends Component {
                 <Cart restaurantId={this.props.match.params.restaurantId}/>
                 <div className="services">
                     <div className="list-services">
-                        <Container className="list-dishes-title">Trang trí: </Container>
+                        <Container className="list-dishes-title">Trang trí </Container>
                         <Container className="content-restaurant-list">
                             <Row className="content-restaurant-row">
                                 <Carousel
@@ -167,7 +167,7 @@ export default class service extends Component {
                     </div >
 
                     <div className="list-services">
-                        <Container className="list-dishes-title">Ban nhạc: </Container>
+                        <Container className="list-dishes-title">Ban nhạc </Container>
                         <Container className="content-restaurant-list">
                             <Row className="content-restaurant-row">
                                 <Carousel
@@ -193,7 +193,7 @@ export default class service extends Component {
                     </div >
 
                     <div className="list-services">
-                        <Container className="list-dishes-title">Vũ đoàn: </Container>
+                        <Container className="list-dishes-title">Vũ đoàn </Container>
                         <Container className="content-restaurant-list">
                             <Row className="content-restaurant-row">
                                 <Carousel
@@ -219,7 +219,7 @@ export default class service extends Component {
                     </div >
 
                     <div className="list-services">
-                        <Container className="list-dishes-title">Ca sĩ: </Container>
+                        <Container className="list-dishes-title">Ca sĩ </Container>
                         <Container className="content-restaurant-list">
                             <Row className="content-restaurant-row">
                                 <Carousel
@@ -245,7 +245,7 @@ export default class service extends Component {
                     </div >
 
                     <div className="list-services">
-                        <Container className="list-dishes-title">MC (Dẫn chương trình): </Container>
+                        <Container className="list-dishes-title">MC (Dẫn chương trình) </Container>
                         <Container className="content-restaurant-list">
                             <Row className="content-restaurant-row">
                                 <Carousel
@@ -271,7 +271,7 @@ export default class service extends Component {
                     </div >
 
                     <div className="list-services">
-                        <Container className="list-dishes-title">Quay phim - chụp ảnh: </Container>
+                        <Container className="list-dishes-title">Quay phim - chụp ảnh </Container>
                         <Container className="content-restaurant-list">
                             <Row className="content-restaurant-row">
                                 <Carousel
@@ -297,7 +297,7 @@ export default class service extends Component {
                     </div >
 
                     <div className="list-services">
-                        <Container className="list-dishes-title">Xe cưới: </Container>
+                        <Container className="list-dishes-title">Xe cưới </Container>
                         <Container className="content-restaurant-list">
                             <Row className="content-restaurant-row">
                                 <Carousel

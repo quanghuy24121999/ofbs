@@ -359,7 +359,7 @@ export default class userProfile extends Component {
                                 this.onSubmit();
                             }}> */}
                             <Form id="myForm" noValidate={false}>
-                                <Label for="username"><b>Tên người dùng: <span className="require-icon">*</span></b></Label>
+                                <Label for="username"><b>Tên người dùng <span className="require-icon">*</span></b></Label>
                                 <Input
                                     type="text"
                                     name="username"
@@ -369,7 +369,7 @@ export default class userProfile extends Component {
                                     required="required"
                                 />
 
-                                <Label for="phonenumber"><b>Số điện thoại: <span className="require-icon">*</span></b></Label>
+                                <Label for="phonenumber"><b>Số điện thoại <span className="require-icon">*</span></b></Label>
                                 <Input
                                     type="tel"
                                     name="phonenumber"
@@ -379,7 +379,7 @@ export default class userProfile extends Component {
                                     required="required"
                                 />
 
-                                <Label for="email"><b>Email:</b></Label>
+                                <Label for="email"><b>Email</b></Label>
                                 <Input
                                     type="email"
                                     name="email"
@@ -388,7 +388,7 @@ export default class userProfile extends Component {
                                     value={email}
                                 />
 
-                                <Label for="address"><b>Địa chỉ:</b></Label>
+                                <Label for="address"><b>Địa chỉ</b></Label>
                                 <Input
                                     type="text"
                                     name="address"
@@ -397,7 +397,7 @@ export default class userProfile extends Component {
                                     value={address}
                                 />
 
-                                <Label for="gender"><b>Giới tính:</b></Label>
+                                <Label for="gender"><b>Giới tính</b></Label>
                                 <Input
                                     type="select"
                                     name="gender"
@@ -410,7 +410,7 @@ export default class userProfile extends Component {
                                     <option value="">Khác</option>
                                 </Input>
 
-                                <Label for="dateOfBirth"><b>Ngày sinh: </b></Label>
+                                <Label for="dateOfBirth"><b>Ngày sinh </b></Label>
                                 <Input
                                     type="date"
                                     name="date"
@@ -522,7 +522,7 @@ export default class userProfile extends Component {
                                             event.preventDefault();
                                             this.validateConfirmPassword();
                                         }}>
-                                            <Label for="oldPassword"><b>Mật khẩu cũ: <span className="require-icon">*</span></b></Label>
+                                            <Label for="oldPassword"><b>Mật khẩu cũ <span className="require-icon">*</span></b></Label>
                                             <Input
                                                 type="password"
                                                 name="oldPassword"
@@ -532,7 +532,7 @@ export default class userProfile extends Component {
                                                 value={oldPassword}
                                                 required="required"
                                             />
-                                            <Label for="newPassword"><b>Mật khẩu mới: <span className="require-icon">*</span></b></Label>
+                                            <Label for="newPassword"><b>Mật khẩu mới <span className="require-icon">*</span></b></Label>
                                             <Input
                                                 type="password"
                                                 name="newPassword"
@@ -542,7 +542,7 @@ export default class userProfile extends Component {
                                                 value={newPassword}
                                                 required="required"
                                             />
-                                            <Label for="reNewPassword"><b>Nhập lại mật khẩu mới: <span className="require-icon">*</span></b></Label>
+                                            <Label for="reNewPassword"><b>Nhập lại mật khẩu mới <span className="require-icon">*</span></b></Label>
                                             <Input
                                                 type="password"
                                                 name="reNewPassword"

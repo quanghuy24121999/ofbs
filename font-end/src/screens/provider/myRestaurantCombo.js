@@ -303,7 +303,7 @@ export default class myRestaurantCombo extends Component {
                                         </ImageUploading>
                                     </div>
                                     <div>
-                                        <Label for="name"><b>Tên combo: <span className="require-icon">*</span></b></Label>
+                                        <Label for="name"><b>Tên combo <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="text"
                                             name="name"
@@ -314,7 +314,7 @@ export default class myRestaurantCombo extends Component {
                                             required="required"
                                         />
 
-                                        <Label for="price"><b>Giá combo: <span className="require-icon">*</span></b></Label>
+                                        <Label for="price"><b>Giá combo <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="number"
                                             name="price"
@@ -325,7 +325,7 @@ export default class myRestaurantCombo extends Component {
                                             required="required"
                                         />
 
-                                        <Label for="description"><b>Mô tả: <span className="require-icon">*</span></b></Label>
+                                        <Label for="description"><b>Mô tả <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="textarea"
                                             name="description"
@@ -350,7 +350,7 @@ export default class myRestaurantCombo extends Component {
                             <tr>
                                 <th>#</th>
                                 <th>Tên combo</th>
-                                <th>Giá</th>
+                                <th>Giá (VNĐ)</th>
                                 <th>Trạng thái</th>
                                 <th></th>
                             </tr>

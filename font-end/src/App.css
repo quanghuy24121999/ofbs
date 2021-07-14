@@ -249,7 +249,7 @@ body {
 
 .home-title {
   position: absolute;
-  top: 50%;
+  top: 14%;
   text-align: center;
   left: 50%;
   font-size: 100px;
@@ -286,6 +286,7 @@ body {
 }
 
 .search-form {
+  top: 280px;
   background: white;
   border-radius: 5px;
   padding: 50px 20px;
@@ -355,7 +356,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-top: 240px;
+  margin-top: 40px;
 }
 
 .content-title {
@@ -1448,9 +1449,18 @@ hr {
 .od-restaurant-content {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   flex-direction: column;
   font-size: 1rem;
+  padding-left: 125px;
+}
+
+.od-restaurant-content {
+  padding-left: 0;
+}
+
+.od-info > hr {
+  margin: 20px 0;
 }
 
 .order-detail-restaurant {
@@ -1486,19 +1496,18 @@ tr > td:nth-child(2) {
   font-weight: 500;
 }
 
-tr > th:nth-child(3),
-tr > th:nth-child(4),
-tr > th:nth-child(3),
 tr > th:nth-child(4),
 tr > th:nth-child(5),
 tr > th:nth-child(6),
-tr > td:nth-child(3),
-tr > td:nth-child(4),
-tr > td:nth-child(3),
 tr > td:nth-child(4),
 tr > td:nth-child(5),
 tr > td:nth-child(6) {
-  text-align: center;
+  text-align: left;
+}
+
+tr > th:nth-child(3),
+tr > td:nth-child(3) {
+  text-align: right;
 }
 
 tr > td:nth-child(1),
@@ -1508,6 +1517,38 @@ tr > td:nth-child(5),
 tr > td:nth-child(6) {
   font-size: 1.1rem;
   font-weight: 490;
+}
+
+.promotion-table > tbody > tr > td:nth-child(3),
+.promotion-table > tbody > tr > td:nth-child(4),
+.promotion-table > thead > tr > th:nth-child(3),
+.promotion-table > thead > tr > th:nth-child(4) {
+  text-align: center !important;
+}
+
+.restaurant-table > thead > tr > th:nth-child(3),
+.restaurant-table > tbody > tr > td:nth-child(3) {
+  text-align: left;
+}
+
+.report-table > thead > tr > th:nth-child(3),
+.report-table > tbody > tr > td:nth-child(3) {
+  text-align: center;
+}
+
+.order-table > thead > tr > th:nth-child(2),
+.order-table > tbody > tr > td:nth-child(2) {
+  text-align: right;
+}
+
+.order-table > thead > tr > th:nth-child(3),
+.order-table > tbody > tr > td:nth-child(3) {
+  text-align: center;
+}
+
+.order-detail-table > thead > tr > th:nth-child(4),
+.order-detail-table > tbody > tr > td:nth-child(4) {
+  text-align: right;
 }
 
 /* .od-dish-item > td:nth-child(3),
@@ -1964,10 +2005,10 @@ tr > td:nth-child(6) {
 }
 
 .info-order {
-  padding: 18px 0 0 30px;
+  padding: 18px 0 0 60px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .info-order-amount {
@@ -1986,6 +2027,10 @@ tr > td:nth-child(6) {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.info-order > hr {
+  margin: 20px 0;
 }
 
 .search-order {
@@ -2215,6 +2260,35 @@ tr > td:nth-child(6) {
 .admin-notify-message {
   font-size: 1rem;
   font-weight: 500;
+}
+
+.search-order-admin {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.search-order-admin > div:nth-child(2),
+.search-order-admin > div:nth-child(3) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-order-admin > div:nth-child(4) {
+  width: 20%;
+}
+
+.search-order-admin > div {
+  width: 100%;
+  margin: 0 10px;
+}
+
+.order-from > div,
+.order-to > div {
+  margin: 0 10px;
 }
 
 /*=============================================== NOT FOUND ===========================================*/

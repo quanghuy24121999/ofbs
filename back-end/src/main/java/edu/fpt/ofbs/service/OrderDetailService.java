@@ -57,7 +57,7 @@ public class OrderDetailService {
 		return orderDetailRepository.getOrderDetailByOrderId(orderId, customerId, restaurantId);
 	}
 	
-//	public List<IOrderDetailDTO> getOrderDetailByOrderCode(String orderCode){
-//		return orderDetailRepository.getOrderIdByOrderCode(orderCode);
-//	}
+	public List<IOrderDetailDTO> getOrderDetailByOrderCode(String orderCode){
+		return orderDetailRepository.getOrderIdByOrderCode(orderCode);
+	}
 }
