@@ -152,20 +152,19 @@ export default class myRestaurantDetail extends Component {
                     }
 
                     if (count === 0) {
+                        let tempObj1 = { id: 1, name: 'Đang hoạt động' };
+                        let tempObj2 = { id: 2, name: 'Ngừng hoạt động' };
+                        tempArr.push(tempObj1);
+                        tempArr.push(tempObj2);
+
                         if (statusName === 'active') {
-                            tempObj.id = 1;
-                            tempObj.name = 'Đang hoạt động'
-                            this.setState({ restaurantStatus: tempObj })
-                            tempArr.push(tempObj);
+                            this.setState({ restaurantStatus: tempObj1 });
+                        }
+                        if (statusName === 'inactive') {
+                            this.setState({ restaurantStatus: tempObj2 });
                         }
 
-                        if (statusName === 'inactive') {
-                            tempObj.id = 2;
-                            tempObj.name = 'Ngừng hoặt động';
-                            this.setState({ restaurantStatus: tempObj });
-                            tempArr.push(tempObj);
-                        }
-                        this.setState({ status: tempArr })
+                        this.setState({ status: tempArr });
                     }
                 })
             })
@@ -526,7 +525,7 @@ export default class myRestaurantDetail extends Component {
                         <Col lg="6" md="12" sm="12" className="myRes-detail-content-info">
                             <Row>
                                 <Col lg="3">
-                                    <Label for="restaurant-name"><b>Tên nhà hàng: <span className="require-icon">*</span></b></Label>
+                                    <Label for="restaurant-name"><b>Tên nhà hàng <span className="require-icon">*</span></b></Label>
                                 </Col>
                                 <Col lg="9">
                                     <Input
@@ -542,7 +541,7 @@ export default class myRestaurantDetail extends Component {
 
                             <Row>
                                 <Col lg="3">
-                                    <Label for="restaurant-name"><b>Loại hình: <span className="require-icon">*</span></b></Label>
+                                    <Label for="restaurant-name"><b>Loại hình <span className="require-icon">*</span></b></Label>
                                 </Col>
                                 <Col lg="9">
                                     <Input
@@ -565,7 +564,7 @@ export default class myRestaurantDetail extends Component {
 
                             <Row>
                                 <Col lg="3">
-                                    <Label for="restaurant-name"><b>Trạng thái: <span className="require-icon">*</span></b></Label>
+                                    <Label for="restaurant-name"><b>Trạng thái <span className="require-icon">*</span></b></Label>
                                 </Col>
                                 <Col lg="9">
                                     <Input
@@ -588,7 +587,7 @@ export default class myRestaurantDetail extends Component {
 
                             <Row>
                                 <Col lg="4">
-                                    <Label for="citySelect"><b>Chọn tỉnh/ thành phố: <span className="require-icon">*</span></b></Label>
+                                    <Label for="citySelect"><b>Chọn tỉnh/ thành phố <span className="require-icon">*</span></b></Label>
                                 </Col>
                                 <Col lg="8">
                                     <Input
@@ -611,7 +610,7 @@ export default class myRestaurantDetail extends Component {
 
                             <Row>
                                 <Col lg="4">
-                                    <Label for="districtSelect"><b>Chọn quận/ huyện: <span className="require-icon">*</span></b></Label>
+                                    <Label for="districtSelect"><b>Chọn quận/ huyện <span className="require-icon">*</span></b></Label>
                                 </Col>
                                 <Col lg="8">
                                     <Input
@@ -634,7 +633,7 @@ export default class myRestaurantDetail extends Component {
 
                             <Row>
                                 <Col lg="3">
-                                    <Label for="restaurant-address"><b>Địa chỉ: <span className="require-icon">*</span></b></Label>
+                                    <Label for="restaurant-address"><b>Địa chỉ <span className="require-icon">*</span></b></Label>
                                 </Col>
                                 <Col lg="9">
                                     <Input
@@ -650,7 +649,7 @@ export default class myRestaurantDetail extends Component {
 
                             <Row>
                                 <Col lg="3">
-                                    <Label for="restaurant-phoneNumber"><b>Số điện thoại: <span className="require-icon">*</span></b></Label>
+                                    <Label for="restaurant-phoneNumber"><b>Số điện thoại <span className="require-icon">*</span></b></Label>
                                 </Col>
                                 <Col lg="9">
                                     <Input
@@ -666,7 +665,7 @@ export default class myRestaurantDetail extends Component {
 
                             <Row>
                                 <Col lg="3">
-                                    <Label for="restaurant-size"><b>Sức chứa (Khách): <span className="require-icon">*</span></b></Label>
+                                    <Label for="restaurant-size"><b>Sức chứa (Khách) <span className="require-icon">*</span></b></Label>
                                 </Col>
                                 <Col lg="9">
                                     <Input
@@ -683,7 +682,7 @@ export default class myRestaurantDetail extends Component {
 
                             <Row>
                                 <Col lg="5">
-                                    <Label for="restaurant-code-legal"><b>Mã giấy phép kinh doanh: <span className="require-icon">*</span></b></Label>
+                                    <Label for="restaurant-code-legal"><b>Mã giấy phép kinh doanh <span className="require-icon">*</span></b></Label>
                                 </Col>
                                 <Col lg="7">
                                     <Input
@@ -699,7 +698,7 @@ export default class myRestaurantDetail extends Component {
 
                             <Row>
                                 <Col lg="2">
-                                    <Label for="restaurant-description"><b>Mô tả: <span className="require-icon">*</span></b></Label>
+                                    <Label for="restaurant-description"><b>Mô tả <span className="require-icon">*</span></b></Label>
                                 </Col>
                                 <Col lg="10">
                                     <Input

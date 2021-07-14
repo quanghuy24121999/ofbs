@@ -221,7 +221,7 @@ export default function MyRestaurantPromotionItem(props) {
                         }
                         {
                             promotionModal && <div>
-                                <Label for="name"><b>Tên khuyến mãi: <span className="require-icon">*</span></b></Label>
+                                <Label for="name"><b>Tên khuyến mãi <span className="require-icon">*</span></b></Label>
                                 <Input
                                     type="text"
                                     name="name"
@@ -232,7 +232,7 @@ export default function MyRestaurantPromotionItem(props) {
                                     required="required"
                                 />
 
-                                <Label for="discount"><b>Phần trăm khuyến mãi: <span className="require-icon">*</span></b></Label>
+                                <Label for="discount"><b>Phần trăm khuyến mãi <span className="require-icon">*</span></b></Label>
                                 <Input
                                     type="number"
                                     name="discount"
@@ -245,7 +245,7 @@ export default function MyRestaurantPromotionItem(props) {
                                     required="required"
                                 />
 
-                                <Label for="start"><b>Ngày bắt đầu: <span className="require-icon">*</span></b></Label>
+                                <Label for="start"><b>Ngày bắt đầu <span className="require-icon">*</span></b></Label>
                                 <Input
                                     type="date"
                                     name="start"
@@ -257,7 +257,7 @@ export default function MyRestaurantPromotionItem(props) {
                                     required="required"
                                 />
 
-                                <Label for="end"><b>Ngày kết thúc: <span className="require-icon">*</span></b></Label>
+                                <Label for="end"><b>Ngày kết thúc <span className="require-icon">*</span></b></Label>
                                 <Input
                                     type="date"
                                     name="end"
@@ -269,7 +269,7 @@ export default function MyRestaurantPromotionItem(props) {
                                     required="required"
                                 />
 
-                                <Label for="status"><b>Trạng thái: <span className="require-icon">*</span></b></Label>
+                                <Label for="status"><b>Trạng thái <span className="require-icon">*</span></b></Label>
                                 <Input
                                     type="text"
                                     name="status"
@@ -279,7 +279,7 @@ export default function MyRestaurantPromotionItem(props) {
                                     value={status}
                                 />
 
-                                <Label for="description"><b>Mô tả: <span className="require-icon">*</span></b></Label>
+                                <Label for="description"><b>Mô tả <span className="require-icon">*</span></b></Label>
                                 <Input
                                     type="textarea"
                                     name="description"

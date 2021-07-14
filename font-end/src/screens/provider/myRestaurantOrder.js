@@ -192,7 +192,7 @@ export default class myRestaurantOrder extends Component {
                         <thead>
                             <tr>
                                 <th>Mã đơn</th>
-                                <th>Tổng tiền</th>
+                                <th>Tổng tiền (VNĐ)</th>
                                 <th>Ngày đặt</th>
                                 <th>Trạng thái</th>
                                 <th></th>

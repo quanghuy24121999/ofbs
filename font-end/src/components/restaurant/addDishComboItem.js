@@ -69,7 +69,7 @@ export default function AddDishComboItem(props) {
         <tr>
             <td>{count}</td>
             <td>{dish.dish_name}</td>
-            <td>{formatCurrency(dish.price) + ' VNĐ'}</td>
+            <td>{formatCurrency(dish.price)}</td>
             <td>{dish.category_name}</td>
             <td>
                 {

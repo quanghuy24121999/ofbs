@@ -10,13 +10,13 @@ export default function OrderDetailComboItem(props) {
     return (
         <div>
             <div className="order-detail-combo">
-                <h2>Combo món ăn</h2>
+                <h4>Combo món ăn</h4>
                 <Table>
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Tên Combo</th>
-                            <th>Giá</th>
+                            <th>Giá (VNĐ)</th>
                             <th>Số lượng</th>
                         </tr>
                     </thead>
@@ -28,7 +28,7 @@ export default function OrderDetailComboItem(props) {
                                     return (<tr key={index} className="od-combo-item">
                                         <th>{count++}</th>
                                         <td>{item.combo_name}</td>
-                                        <td>{formatCurrency(item.price)} VNĐ</td>
+                                        <td>{formatCurrency(item.price)}</td>
                                         <td>{item.quantity}</td>
                                     </tr>
                                     )

@@ -184,7 +184,7 @@ export default function MyRestaurantMenuItem(props) {
         <tr>
             <td>{count}</td>
             <td>{dish.dish_name}</td>
-            <td>{formatCurrency(dish.price) + ' VNĐ'}</td>
+            <td>{formatCurrency(dish.price)}</td>
             <td>{dish.category_name}</td>
             <td>{statusDish}</td>
             <td>
@@ -237,7 +237,7 @@ export default function MyRestaurantMenuItem(props) {
                             }
                             {
                                 dishModal && <div>
-                                    <Label for="name"><b>Tên món ăn: <span className="require-icon">*</span></b></Label>
+                                    <Label for="name"><b>Tên món ăn <span className="require-icon">*</span></b></Label>
                                     <Input
                                         type="text"
                                         name="name"
@@ -248,7 +248,7 @@ export default function MyRestaurantMenuItem(props) {
                                         required="required"
                                     />
 
-                                    <Label for="category"><b>Loại hình: <span className="require-icon">*</span></b></Label>
+                                    <Label for="category"><b>Loại hình <span className="require-icon">*</span></b></Label>
                                     <Input
                                         type="select"
                                         name="category"
@@ -265,7 +265,7 @@ export default function MyRestaurantMenuItem(props) {
                                         })}
                                     </Input>
 
-                                    <Label for="status"><b>Trạng thái: <span className="require-icon">*</span></b></Label>
+                                    <Label for="status"><b>Trạng thái <span className="require-icon">*</span></b></Label>
                                     <Input
                                         type="select"
                                         name="status"
@@ -277,7 +277,7 @@ export default function MyRestaurantMenuItem(props) {
                                         <option value="2">Ngừng kinh doanh</option>
                                     </Input>
 
-                                    <Label for="price"><b>Giá món ăn: <span className="require-icon">*</span></b></Label>
+                                    <Label for="price"><b>Giá món ăn <span className="require-icon">*</span></b></Label>
                                     <Input
                                         type="number"
                                         name="price"
@@ -288,7 +288,7 @@ export default function MyRestaurantMenuItem(props) {
                                         required="required"
                                     />
 
-                                    <Label for="description"><b>Mô tả: <span className="require-icon">*</span></b></Label>
+                                    <Label for="description"><b>Mô tả <span className="require-icon">*</span></b></Label>
                                     <Input
                                         type="textarea"
                                         name="description"

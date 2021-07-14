@@ -425,7 +425,7 @@ export default class myRestaurantService extends Component {
                                         </ImageUploading>
                                     </div>
                                     <div>
-                                        <Label for="name"><b>Tên dịch vụ: <span className="require-icon">*</span></b></Label>
+                                        <Label for="name"><b>Tên dịch vụ <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="text"
                                             name="name"
@@ -436,7 +436,7 @@ export default class myRestaurantService extends Component {
                                             required="required"
                                         />
 
-                                        <Label for="category"><b>Loại hình: <span className="require-icon">*</span></b></Label>
+                                        <Label for="category"><b>Loại hình <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="select"
                                             name="category"
@@ -453,7 +453,7 @@ export default class myRestaurantService extends Component {
                                             })}
                                         </Input>
 
-                                        <Label for="status"><b>Trạng thái: <span className="require-icon">*</span></b></Label>
+                                        <Label for="status"><b>Trạng thái <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="select"
                                             name="status"
@@ -465,7 +465,7 @@ export default class myRestaurantService extends Component {
                                             <option value="2">Ngừng kinh doanh</option>
                                         </Input>
 
-                                        <Label for="price"><b>Giá dịch vụ: <span className="require-icon">*</span></b></Label>
+                                        <Label for="price"><b>Giá dịch vụ <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="number"
                                             name="price"
@@ -476,7 +476,7 @@ export default class myRestaurantService extends Component {
                                             required="required"
                                         />
 
-                                        <Label for="description"><b>Mô tả: <span className="require-icon">*</span></b></Label>
+                                        <Label for="description"><b>Mô tả <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="textarea"
                                             name="description"
@@ -502,7 +502,7 @@ export default class myRestaurantService extends Component {
                             <tr>
                                 <th>#</th>
                                 <th>Tên dịch vụ</th>
-                                <th>Giá</th>
+                                <th>Giá (VNĐ)</th>
                                 <th>Loại dịch vụ</th>
                                 <th>Trạng thái</th>
                                 <th></th>

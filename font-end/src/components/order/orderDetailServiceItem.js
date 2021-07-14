@@ -8,13 +8,13 @@ export default function OrderDetailServiceItem(props) {
     let count = 1;
 
     return (<div className="order-detail-service">
-        <h2>Dịch vụ</h2>
+        <h4>Dịch vụ</h4>
         <Table>
             <thead>
                 <tr>
                     <th>#</th>
                     <th>Tên dịch vụ</th>
-                    <th>Giá</th>
+                    <th>Giá (VNĐ)</th>
                     <th>Số lượng</th>
                 </tr>
             </thead>
@@ -26,7 +26,7 @@ export default function OrderDetailServiceItem(props) {
                             return (<tr key={index} className="od-service-item">
                                 <th>{count++}</th>
                                 <td>{item.service_name}</td>
-                                <td>{formatCurrency(item.price)} VNĐ</td>
+                                <td>{formatCurrency(item.price)}</td>
                                 <td>{item.quantity}</td>
                             </tr>
                             )
