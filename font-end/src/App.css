@@ -1496,7 +1496,6 @@ tr > td:nth-child(2) {
   font-weight: 500;
 }
 
-
 tr > th:nth-child(4),
 tr > th:nth-child(5),
 tr > th:nth-child(6),
@@ -1535,6 +1534,21 @@ tr > td:nth-child(6) {
 .report-table > thead > tr > th:nth-child(3),
 .report-table > tbody > tr > td:nth-child(3) {
   text-align: center;
+}
+
+.order-table > thead > tr > th:nth-child(2),
+.order-table > tbody > tr > td:nth-child(2) {
+  text-align: right;
+}
+
+.order-table > thead > tr > th:nth-child(3),
+.order-table > tbody > tr > td:nth-child(3) {
+  text-align: center;
+}
+
+.order-detail-table > thead > tr > th:nth-child(4),
+.order-detail-table > tbody > tr > td:nth-child(4) {
+  text-align: right;
 }
 
 /* .od-dish-item > td:nth-child(3),
@@ -2246,6 +2260,35 @@ tr > td:nth-child(6) {
 .admin-notify-message {
   font-size: 1rem;
   font-weight: 500;
+}
+
+.search-order-admin {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.search-order-admin > div:nth-child(2),
+.search-order-admin > div:nth-child(3) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-order-admin > div:nth-child(4) {
+  width: 20%;
+}
+
+.search-order-admin > div {
+  width: 100%;
+  margin: 0 10px;
+}
+
+.order-from > div,
+.order-to > div {
+  margin: 0 10px;
 }
 
 /*=============================================== NOT FOUND ===========================================*/

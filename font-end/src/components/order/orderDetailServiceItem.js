@@ -9,7 +9,7 @@ export default function OrderDetailServiceItem(props) {
 
     return (<div className="order-detail-service">
         <h4>Dịch vụ</h4>
-        <Table>
+        <Table className="order-detail-table">
             <thead>
                 <tr>
                     <th>#</th>

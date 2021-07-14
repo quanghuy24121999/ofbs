@@ -11,7 +11,7 @@ export default function OrderDetailComboItem(props) {
         <div>
             <div className="order-detail-combo">
                 <h4>Combo món ăn</h4>
-                <Table>
+                <Table className="order-detail-table">
                     <thead>
                         <tr>
                             <th>#</th>

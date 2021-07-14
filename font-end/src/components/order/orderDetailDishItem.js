@@ -10,7 +10,7 @@ export default function OrderDetailDishItem(props) {
     return (
         <div className="order-detail-dish">
             <h4>Món ăn</h4>
-            <Table>
+            <Table className="order-detail-table">
                 <thead>
                     <tr>
                         <th>#</th>

@@ -23,6 +23,6 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long>{
 	@Query(value = "exec sp_getOrderDetailByOrderId ?1, ?2, ?3", nativeQuery = true)
 	List<IOrderDetailDTO> getOrderDetailByOrderId(long orderId, long customerId, long restaurantId);
 	
-//	@Query(value = "exec sp_adminSearchOrder ?1", nativeQuery = true)
-//	List<IOrderDetailDTO> getOrderIdByOrderCode(String orderCode);
+	@Query(value = "exec sp_adminSearchOrder ?1", nativeQuery = true)
+	List<IOrderDetailDTO> getOrderIdByOrderCode(String orderCode);
 }
