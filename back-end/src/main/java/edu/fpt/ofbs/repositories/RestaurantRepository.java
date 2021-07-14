@@ -36,4 +36,7 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long>{
 			+ "  join users u on res.provider_id = u.id\r\n"
 			+ "  where res.id = ?1", nativeQuery = true)
 	String getProviderPhoneLoginFromRestaurantId(long restaurantId);
+	
+	@Query(value = "exec sp_getTotalRestaurantsByStatus ?1", nativeQuery = true)
+	int getTotalRestaurantsByStatus(String status);
 }

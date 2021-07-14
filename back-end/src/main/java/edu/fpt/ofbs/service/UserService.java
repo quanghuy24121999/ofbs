@@ -56,4 +56,8 @@ public class UserService implements UserDetailsService{
 		}
 		return new CustomUserDetails(user);
 	}
+	
+	public int getNumberOfUsersActive() {
+		return userRepository.getNumberOfUsersActive();
+	}
 }

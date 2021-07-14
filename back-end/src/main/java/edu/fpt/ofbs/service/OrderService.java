@@ -49,4 +49,8 @@ public class OrderService {
 	public int getTotalOrderByStatus(String status, String fromDate, String toDate) {
 		return orderRepository.getTotalOrderByStatus(status, fromDate, toDate);
 	}
+	
+	public List<IOrderDTO> getOrders(String orderCode, String fromDate, String toDate, String status){
+		return orderRepository.getOrders(orderCode, fromDate, toDate, status);
+	}
 }

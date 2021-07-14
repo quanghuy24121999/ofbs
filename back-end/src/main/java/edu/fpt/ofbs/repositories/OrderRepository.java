@@ -33,4 +33,7 @@ public interface OrderRepository extends JpaRepository<Order, Long>{
 	
 	@Query(value = "exec sp_getTotalOrderByStatus ?1, ?2, ?3", nativeQuery = true)
 	int getTotalOrderByStatus(String status, String fromDate, String toDate);
+	
+	@Query(value = "exec sp_adminGetOrders ?1, ?2, ?3, ?4", nativeQuery = true)
+	List<IOrderDTO> getOrders(String orderCode, String fromDate, String toDate, String status);
 }

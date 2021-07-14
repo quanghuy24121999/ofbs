@@ -124,4 +124,10 @@ public class RestaurantController {
 		String phoneLogin = restaurantService.getProviderPhoneLoginFromRestaurantId(restaurantId);
 		return ResponseEntity.status(HttpStatus.OK).body(phoneLogin);
 	}
+	
+	@GetMapping("/getTotalRestaurantsByStatus")
+	public ResponseEntity<?> getTotalRestaurantsByStatus(@PathParam("status") String status) {
+		int numberOfRestaurants = restaurantService.getTotalRestaurantsByStatus(status);
+		return ResponseEntity.status(HttpStatus.OK).body(numberOfRestaurants);
+	}
 }
