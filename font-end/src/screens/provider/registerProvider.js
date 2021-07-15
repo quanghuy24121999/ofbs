@@ -205,7 +205,6 @@ export default class registerPromotion extends Component {
         const { restaurantAddress, restaurantBusinessCode, restaurantName,
             restaurantPhone, restaurantSize
         } = this.state;
-        console.log(this.checkCodeExist());
 
         if (this.checkRequire()) {
             if (this.checkCodeExist() === true) {
@@ -257,21 +256,28 @@ export default class registerPromotion extends Component {
             }
         }
         ).then(res => {
-            axios.post(`/notifications/insertNotification`,
-                {
-                    "content": `Có nhà hàng ${restaurantName} mới đăng ký`,
-                    "customer": null,
-                    "provider": null,
-                    "forAdmin": true,
-                    "type": "restaurant",
-                    "read": false
+            axios.patch(`/users/updateRoleProvider`, user, {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
                 }
-            )
-            this.updateImage(res.data.id);
-            this.toggle();
-            this.toggle1();
-            Notify('Đăng ký nhà hàng thành công', 'success', 'top-right');
-            this.setState({ redirect: true });
+            }).then(res => {
+                axios.post(`/notifications/insertNotification`,
+                    {
+                        "content": `Có nhà hàng ${restaurantName} mới đăng ký`,
+                        "customer": null,
+                        "provider": null,
+                        "forAdmin": true,
+                        "type": "restaurant",
+                        "read": false
+                    }
+                );
+
+                this.updateImage(res.data.id);
+                this.toggle();
+                this.toggle1();
+                Notify('Đăng ký nhà hàng thành công', 'success', 'top-right');
+                this.setState({ redirect: true });
+            })
         })
     }
 
