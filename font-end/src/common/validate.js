@@ -19,6 +19,11 @@ export function validateUsername(username) {
     return patt.test(username);
 }
 
+export function validateDescription(description) {
+    let patt = new RegExp(/^(?=.*).{1,2000}$/);
+    return patt.test(description);
+}
+
 export function validatePromotionPercentage(percentage) {
     let patt = new RegExp(/^(?=.*).{1,3}$/);
     return patt.test(percentage);

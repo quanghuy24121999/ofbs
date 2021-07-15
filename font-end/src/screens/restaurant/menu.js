@@ -13,8 +13,6 @@ import { Link } from 'react-router-dom';
 
 import DishItem from '../../components/restaurant/dishItem';
 import Cart from '../../components/restaurant/cart';
-import { validateTextSearch } from '../../common/validate';
-import { Notify } from '../../common/notify';
 
 const responsive = {
     desktop: {
@@ -104,8 +102,7 @@ export default class menu extends Component {
         if (inputDishName === null || inputDishName === undefined) {
             inputDishName = '';
         }
-        if (validateTextSearch(inputDishName)){
-            axios.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=0&dishName=${inputDishName}&statusId=1`)
+        axios.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=0&dishName=${inputDishName}&statusId=1`)
             .then(res => {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
@@ -119,9 +116,6 @@ export default class menu extends Component {
                     dishSearch
                 })
             });
-        } else {
-            Notify('Tìm kiếm phải nhỏ hơn 100 ký tự', 'error', 'top-right');
-        }
     }
 
     handlePageClick = (e) => {
@@ -159,7 +153,7 @@ export default class menu extends Component {
                     </NavItem>
                 </Nav>
 
-                <Cart restaurantId={this.props.match.params.restaurantId}/>
+                <Cart restaurantId={this.props.match.params.restaurantId} />
                 <Container className="menu-search-dish">
                     <Input
                         type="text"

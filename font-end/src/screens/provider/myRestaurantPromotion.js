@@ -15,7 +15,7 @@ import Footer from '../../components/common/footer';
 import MyRestaurantPromotionItem from '../../components/provider/myRestaurantPromotionItem';
 import { formatDateForInput } from '../../common/formatDate';
 import { Notify } from '../../common/notify';
-import { validatePromotionPercentage, validateUsername } from '../../common/validate';
+import { validateDescription, validatePromotionPercentage, validateUsername } from '../../common/validate';
 
 let restaurantId = '';
 export default class myRestaurantPromotion extends Component {
@@ -128,6 +128,9 @@ export default class myRestaurantPromotion extends Component {
             return false;
         } else if (!validatePromotionPercentage(this.state.discount)) {
             Notify('Phần trăm khuyến mãi phải ít hơn 3 ký tự', 'error', 'top-right');
+            return false;
+        } else if (!validateDescription(this.state.description)) {
+            Notify('Mô tả khuyến mãi phải ít hơn 2000 ký tự', 'error', 'top-right');
             return false;
         } else {
             return true;

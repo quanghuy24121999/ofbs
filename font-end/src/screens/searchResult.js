@@ -11,8 +11,6 @@ import TopMenu from '../components/common/topMenu';
 import Footer from '../components/common/footer';
 import RestaurantItem from '../components/restaurant/restaurantItem';
 import Spinner from '../components/common/spinner';
-import { validateTextSearch } from '../common/validate';
-import { Notify } from '../common/notify';
 
 export default class searchResult extends Component {
     constructor(props) {
@@ -116,16 +114,12 @@ export default class searchResult extends Component {
     onSubmit(e) {
         e.preventDefault();
         console.log(localStorage.getItem('restaurantText'))
-        if (localStorage.getItem('restaurantText') && !validateTextSearch(localStorage.getItem('restaurantText'))) {
-            Notify('Tìm kiếm phải nhỏ hơn 100 ký tự', 'error', 'top-right');
-        } else {
-            this.setState({
-                currentPage: 0,
-                offset: 0
-            }, () => {
-                this.receivedData();
-            })
-        }
+        this.setState({
+            currentPage: 0,
+            offset: 0
+        }, () => {
+            this.receivedData();
+        })
     }
 
     handlePageClick = (e) => {
@@ -212,7 +206,7 @@ export default class searchResult extends Component {
                         </FormGroup>
                         <div className="result-search-location">
                             <FormGroup className="result-search-citySelect">
-                                <Label for="citySelect"><b>Chọn tỉnh/ thành phố:</b></Label>
+                                <Label for="citySelect"><b>Chọn tỉnh/ thành phố </b></Label>
                                 <Input
                                     type="select"
                                     name="citySelect"
@@ -231,7 +225,7 @@ export default class searchResult extends Component {
                                 </Input>
                             </FormGroup>
                             <FormGroup className="result-search-districtSelect">
-                                <Label for="districtSelect"><b>Chọn quận/ huyện: </b></Label>
+                                <Label for="districtSelect"><b>Chọn quận/ huyện </b></Label>
                                 <Input type="select" name="districtSelect" id="districtSelect" onChange={this.onDistrictClick}>
                                     <option>Quận/ Huyện</option>
                                     {districts.map((district) => {

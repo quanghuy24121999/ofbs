@@ -88,7 +88,7 @@ class login extends Component {
           <FormGroup className="mb-2 mr-sm-2 mb-sm-0 form-group">
             <Label for="phone-number" hidden>
               <b>
-                Số điện thoại: <span className="require-icon">*</span>
+                Số điện thoại <span className="require-icon">*</span>
               </b></Label>
             <div className="phone-number-input">
               {/* <span className="prefix-phone-input">(+84)</span> */}
@@ -107,7 +107,7 @@ class login extends Component {
           {' '}
           <FormGroup className="mb-2 mr-sm-2 mb-sm-0 form-group">
             <Label for="examplePassword" className="mr-sm-2 ">
-              <b>Mật khẩu: <span className="require-icon">*</span></b>
+              <b>Mật khẩu <span className="require-icon">*</span></b>
             </Label>
             <Input
               type="password"
