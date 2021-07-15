@@ -147,7 +147,7 @@ export default class forgetPassword extends Component {
                     <div className="title-foget-password">Quên mật khẩu</div>
                     <FormGroup>
                         <Label for="phone-number">
-                            <b>Số điện thoại: <span className="require-icon">*</span></b>
+                            <b>Số điện thoại <span className="require-icon">*</span></b>
                         </Label>
                         <div className="phone-number-input">
                             {/* <span className="prefix-phone-input">(+84)</span> */}
@@ -166,7 +166,7 @@ export default class forgetPassword extends Component {
                     {' '}
                     <FormGroup>
                         <Label for="new-password">
-                            <b>Mật khẩu mới: <span className="require-icon">*</span></b>
+                            <b>Mật khẩu mới <span className="require-icon">*</span></b>
                         </Label>
                         <Input
                             type="password"
@@ -181,7 +181,7 @@ export default class forgetPassword extends Component {
                     {' '}
                     <FormGroup>
                         <Label for="re-new-password">
-                            <b>Nhập lại mật khẩu mới: <span className="require-icon">*</span></b>
+                            <b>Nhập lại mật khẩu mới <span className="require-icon">*</span></b>
                         </Label>
                         <Input
                             type="password"

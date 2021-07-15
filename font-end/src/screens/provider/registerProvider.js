@@ -12,7 +12,7 @@ import axios from 'axios';
 import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
 import { Notify } from '../../common/notify';
-import { validateCapacity, validateEmpty, validatePhoneNumber, validateUsername } from '../../common/validate';
+import { validateCapacity, validateDescription, validateEmpty, validatePhoneNumber, validateUsername } from '../../common/validate';
 
 export default class registerPromotion extends Component {
     constructor(props) {
@@ -203,9 +203,8 @@ export default class registerPromotion extends Component {
 
     validate() {
         const { restaurantAddress, restaurantBusinessCode, restaurantName,
-            restaurantPhone, restaurantSize
+            restaurantPhone, restaurantSize, restaurantDescription
         } = this.state;
-        console.log(this.checkCodeExist());
 
         if (this.checkRequire()) {
             if (this.checkCodeExist() === true) {
@@ -223,6 +222,9 @@ export default class registerPromotion extends Component {
                     return false;
                 } else if (!validateUsername(restaurantBusinessCode)) {
                     Notify('Mã giấy phép kinh doanh quá dài', 'error', 'top-right');
+                    return false;
+                } else if (!validateDescription(restaurantDescription)) {
+                    Notify('Mô tả phải nhỏ hơn 2000 ký tự', 'error', 'top-right');
                     return false;
                 } else {
                     return true;
@@ -257,21 +259,28 @@ export default class registerPromotion extends Component {
             }
         }
         ).then(res => {
-            axios.post(`/notifications/insertNotification`,
-                {
-                    "content": `Có nhà hàng ${restaurantName} mới đăng ký`,
-                    "customer": null,
-                    "provider": null,
-                    "forAdmin": true,
-                    "type": "restaurant",
-                    "read": false
+            axios.patch(`/users/updateRoleProvider`, user, {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
                 }
-            )
-            this.updateImage(res.data.id);
-            this.toggle();
-            this.toggle1();
-            Notify('Đăng ký nhà hàng thành công', 'success', 'top-right');
-            this.setState({ redirect: true });
+            }).then(res => {
+                axios.post(`/notifications/insertNotification`,
+                    {
+                        "content": `Có nhà hàng ${restaurantName} mới đăng ký`,
+                        "customer": null,
+                        "provider": null,
+                        "forAdmin": true,
+                        "type": "restaurant",
+                        "read": false
+                    }
+                );
+
+                this.updateImage(res.data.id);
+                this.toggle();
+                this.toggle1();
+                Notify('Đăng ký nhà hàng thành công', 'success', 'top-right');
+                this.setState({ redirect: true });
+            })
         })
     }
 
@@ -322,7 +331,7 @@ export default class registerPromotion extends Component {
                             <Form id="register-restaurant">
                                 <Row className="content-row-1">
                                     <Col lg="8" className="input-restaurant-name">
-                                        <Label for="restaurant-name"><b>Tên nhà hàng: <span className="require-icon">*</span></b></Label>
+                                        <Label for="restaurant-name"><b>Tên nhà hàng <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="text"
                                             name="restaurant-name"
@@ -354,7 +363,7 @@ export default class registerPromotion extends Component {
 
                                 <Row className="content-row-2">
                                     <Col>
-                                        <Label for="citySelect"><b>Chọn tỉnh/ thành phố: <span className="require-icon">*</span></b></Label>
+                                        <Label for="citySelect"><b>Chọn tỉnh/ thành phố <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="select"
                                             name="citySelect"
@@ -374,7 +383,7 @@ export default class registerPromotion extends Component {
                                     </Col>
 
                                     <Col>
-                                        <Label for="districtSelect"><b>Chọn quận/ huyện: <span className="require-icon">*</span></b></Label>
+                                        <Label for="districtSelect"><b>Chọn quận/ huyện <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="select"
                                             name="districtSelect"
@@ -396,7 +405,7 @@ export default class registerPromotion extends Component {
 
                                 <Row className="content-row-3">
                                     <Col>
-                                        <Label for="restaurant-address"><b>Địa chỉ: <span className="require-icon">*</span></b></Label>
+                                        <Label for="restaurant-address"><b>Địa chỉ <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="text"
                                             name="restaurant-address"
@@ -410,7 +419,7 @@ export default class registerPromotion extends Component {
 
                                 <Row className="content-row-4">
                                     <Col>
-                                        <Label for="restaurant-phoneNumber"><b>Số điện thoại: <span className="require-icon">*</span></b></Label>
+                                        <Label for="restaurant-phoneNumber"><b>Số điện thoại <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="tel"
                                             name="restaurant-phoneNumber"
@@ -421,7 +430,7 @@ export default class registerPromotion extends Component {
                                         />
                                     </Col>
                                     <Col>
-                                        <Label for="restaurant-size"><b>Sức chứa: <span className="require-icon">*</span></b></Label>
+                                        <Label for="restaurant-size"><b>Sức chứa <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="number"
                                             name="restaurant-size"
@@ -436,7 +445,7 @@ export default class registerPromotion extends Component {
 
                                 <Row className="content-row-5">
                                     <Col>
-                                        <Label for="restaurant-code-legal"><b>Mã giấy phép kinh doanh: <span className="require-icon">*</span></b></Label>
+                                        <Label for="restaurant-code-legal"><b>Mã giấy phép kinh doanh <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="text"
                                             name="restaurant-code-legal"
@@ -447,7 +456,7 @@ export default class registerPromotion extends Component {
                                         />
                                     </Col>
                                     <Col>
-                                        <Label for="restaurant-description"><b>Mô tả: <span className="require-icon">*</span></b></Label>
+                                        <Label for="restaurant-description"><b>Mô tả <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="textarea"
                                             name="restaurant-description"
@@ -461,7 +470,7 @@ export default class registerPromotion extends Component {
 
                                 <Row className="content-row-6">
                                     <Col>
-                                        <Label className="business-title"><b>Giấy chứng nhận vệ sinh an toàn thực phẩm: <span className="require-icon">*</span></b></Label>
+                                        <Label className="business-title"><b>Giấy chứng nhận vệ sinh an toàn thực phẩm <span className="require-icon">*</span></b></Label>
                                         <ImageUploading
                                             value={images}
                                             onChange={this.onChange}

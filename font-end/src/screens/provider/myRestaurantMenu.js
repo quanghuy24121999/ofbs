@@ -14,7 +14,7 @@ import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
 import MyRestaurantMenuItem from '../../components/provider/myRestaurantMenuItem';
 import { Notify } from '../../common/notify';
-import { validateCapacity, validateUsername } from '../../common/validate';
+import { validateCapacity, validateDescription, validateUsername } from '../../common/validate';
 
 let restaurantId = '';
 export default class myRestaurantMenu extends Component {
@@ -123,6 +123,9 @@ export default class myRestaurantMenu extends Component {
             return false;
         } else if (!validateCapacity(this.state.price)) {
             Notify('Giá món ăn phải ít hơn 10 ký tự', 'error', 'top-right');
+            return false;
+        } else if (!validateDescription(this.state.description)) {
+            Notify('Mô tả món ăn phải ít hơn 2000 ký tự', 'error', 'top-right');
             return false;
         } else {
             return true;

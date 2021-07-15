@@ -13,8 +13,6 @@ import Footer from '../components/common/footer';
 import wallpaper from '../images/wallpaper.png';
 import RestaurantItem from '../components/restaurant/restaurantItem';
 import Spinner from '../components/common/spinner';
-import { validateTextSearch } from '../common/validate';
-import { Notify } from '../common/notify';
 
 const responsive = {
     desktop: {
@@ -187,7 +185,7 @@ export default class home extends Component {
                         </FormGroup>
                         <div className="search-location">
                             <FormGroup className="citySelect">
-                                <Label for="citySelect"><b>Chọn tỉnh/ thành phố:</b></Label>
+                                <Label for="citySelect"><b>Chọn tỉnh/ thành phố</b></Label>
                                 <Input
                                     type="select"
                                     name="citySelect"
@@ -206,7 +204,7 @@ export default class home extends Component {
                                 </Input>
                             </FormGroup>
                             <FormGroup className="districtSelect">
-                                <Label for="districtSelect"><b>Chọn quận/ huyện: </b></Label>
+                                <Label for="districtSelect"><b>Chọn quận/ huyện </b></Label>
                                 <Input
                                     type="select"
                                     name="districtSelect"
@@ -246,11 +244,7 @@ export default class home extends Component {
                             </FormGroup>
                         </div>
                         <Input onClick={() => {
-                            if (validateTextSearch(localStorage.getItem("restaurantText"))) {
-                                this.onSubmit();
-                            } else {
-                                Notify('Tìm kiếm phải nhỏ hơn 100 ký tự', 'error', 'top-right');
-                            }
+                            this.onSubmit();
                         }} type="submit" className="btn btn-success btn-search" value="Tìm kiếm" />
                     </Form>
 

@@ -159,7 +159,7 @@ class register extends Component {
                     <div className="title-register">Đăng ký</div>
                     <FormGroup>
                         <Label for="name">
-                            <b>Họ và tên: <span className="require-icon">*</span></b>
+                            <b>Họ và tên <span className="require-icon">*</span></b>
                         </Label>
                         <Input
                             type="text"
@@ -173,7 +173,7 @@ class register extends Component {
                     </FormGroup>
                     <FormGroup>
                         <Label for="phone-number" hidden>
-                            <b>Số điện thoại: <span className="require-icon">*</span></b>
+                            <b>Số điện thoại <span className="require-icon">*</span></b>
                         </Label>
                         <div className="phone-number-input">
                             {/* <span className="prefix-phone-input">(+84)</span> */}
@@ -191,7 +191,7 @@ class register extends Component {
                     </FormGroup>
                     <FormGroup>
                         <Label for="password">
-                            <b>Mật khẩu: <span className="require-icon">*</span></b>
+                            <b>Mật khẩu <span className="require-icon">*</span></b>
                         </Label>
                         <Input
                             type="password"
@@ -205,7 +205,7 @@ class register extends Component {
                     </FormGroup>
                     <FormGroup>
                         <Label for="re-password">
-                            <b>Nhập lại mật khẩu: <span className="require-icon">*</span></b>
+                            <b>Nhập lại mật khẩu <span className="require-icon">*</span></b>
                         </Label>
                         <Input
                             type="password"
