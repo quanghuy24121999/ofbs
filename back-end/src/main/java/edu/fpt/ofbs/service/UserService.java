@@ -1,5 +1,6 @@
 package edu.fpt.ofbs.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import edu.fpt.ofbs.entities.Role;
 import edu.fpt.ofbs.entities.User;
 import edu.fpt.ofbs.models.CustomUserDetails;
 import edu.fpt.ofbs.models.IUserDTO;
@@ -18,6 +20,9 @@ import edu.fpt.ofbs.repositories.UserRepository;
 public class UserService implements UserDetailsService{
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private RoleService roleService;
 
 	public List<User> findAll() {
 		return userRepository.findAll();
@@ -37,6 +42,15 @@ public class UserService implements UserDetailsService{
 
 	public IUserDTO getUserProfileById(long userId) {
 		return userRepository.getUserProfileById(userId);
+	}
+	
+	public User updateRoleProvider(User user) {
+		Role role = roleService.findByName("ROLE_PROVIDER");
+		
+		user.setRole(role);
+		user.setLastModified(new Date());
+		
+		return userRepository.save(user);
 	}
 
 	@Override
