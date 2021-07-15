@@ -2068,7 +2068,7 @@ tr > td:nth-child(6) {
 .navbar-top {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-top: 0;
 }
 
@@ -2094,6 +2094,19 @@ tr > td:nth-child(6) {
 .admin-res-avatar {
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+
+.admin-nav-number-user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+}
+
+.admin-nav-infor {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -2139,6 +2152,10 @@ tr > td:nth-child(6) {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.restaurant-row {
+  width: 100%;
 }
 
 .input-search-chart {
