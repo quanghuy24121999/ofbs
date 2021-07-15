@@ -64,7 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors().and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and().authorizeRequests()
-				.antMatchers("/orders/orderDetail/infor").hasAnyRole("PROVIDER", "CUSTOMER", "ADMIN")
+				.antMatchers("/orders/orderDetail/infor", "/orders/searchOrder").hasAnyRole("PROVIDER", "CUSTOMER", "ADMIN")
 				.antMatchers(HttpMethod.POST, "/restaurants").hasAnyRole("PROVIDER", "ADMIN")
 				.antMatchers("/users/profile", "/users/profile/**", "/orders/updateStatus", "/orders/setStatus",
 						"/orders/customer", "/restaurants/registerRestaurant", "/orders/insertOrderDetail", "/feedbacks/insertFeedback").hasAnyRole("PROVIDER", "CUSTOMER")
@@ -74,7 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, "/dishes").hasRole("PROVIDER")
 				.antMatchers(HttpMethod.DELETE, "/dishes").hasRole("PROVIDER")
 				.antMatchers("/combos/save", "/services/update", "/promotions/save", "/orders/restaurant").hasRole("PROVIDER")
-//				.antMatchers("/orders/customer").hasRole("CUSTOMER")
+				.antMatchers("/users/updateRoleProvider").hasRole("CUSTOMER")
 				.anyRequest().authenticated();
 		
 		// Thêm một lớp Filter kiểm tra jwt

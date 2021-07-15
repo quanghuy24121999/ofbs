@@ -33,6 +33,7 @@ import edu.fpt.ofbs.models.CustomUserDetails;
 import edu.fpt.ofbs.models.IUserDTO;
 import edu.fpt.ofbs.models.RegisterUserDTO;
 import edu.fpt.ofbs.models.ResponseJwt;
+import edu.fpt.ofbs.models.ResponseMessage;
 import edu.fpt.ofbs.service.RoleService;
 import edu.fpt.ofbs.service.StatusService;
 import edu.fpt.ofbs.service.UserService;
@@ -95,7 +96,7 @@ public class UserController {
 				// Nếu không xảy ra exception tức là thông tin hợp lệ
 				// Set thông tin authentication vào Security Context
 				SecurityContextHolder.getContext().setAuthentication(authentication);
-				
+
 				// Trả về jwt cho người dùng.
 				String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
 
@@ -156,10 +157,21 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
+
 	@GetMapping("/numberOfUsersActive")
 	public ResponseEntity<?> getNumberOfUsersActive() {
 		int numberOfUsersActive = userService.getNumberOfUsersActive();
 		return ResponseEntity.status(HttpStatus.OK).body(numberOfUsersActive);
+	}
+
+	@PatchMapping("/updateRoleProvider")
+	public ResponseEntity<?> updateRoleProvider(@RequestBody User user) {
+		try {
+			userService.updateRoleProvider(user);
+			
+			return ResponseEntity.status(HttpStatus.OK).body(user);
+		}catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage("Update role fail !"));
+		}
 	}
 }
