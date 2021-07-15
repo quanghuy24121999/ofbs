@@ -70,8 +70,11 @@ export default function RestaurantDish(props) {
                     <div className="btn-toggle" onClick={() => handleToggleSidebar(true)}>
                         <FaBars />
                     </div>
-                    <Notification />
-                    <Link className="btn btn-primary" to='/login' onClick={Logout}>Đăng xuất</Link>
+                    <div className="admin-nav-number-user"></div>
+                    <div className="admin-nav-infor">
+                        <Notification />
+                        <Link className="btn btn-primary" to='/login' onClick={Logout}>Đăng xuất</Link>
+                    </div>
                 </div>
                 <Nav pills className="restaurant-detail-nav admin-res-nav container">
                     <NavItem >

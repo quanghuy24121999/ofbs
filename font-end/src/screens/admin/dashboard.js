@@ -3,7 +3,7 @@ import SlideBar from '../../components/admin/SlideBar';
 import { FaBars } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Input, Label } from 'reactstrap';
-import { Pie } from 'react-chartjs-2';
+import { Bar, Pie } from 'react-chartjs-2';
 import axios from 'axios';
 
 import { formatDateForInput } from '../../common/formatDate';
@@ -21,6 +21,13 @@ function Dashboard() {
     const [accomplished, setAccomplished] = useState(0);
     const [cancelled, setCancelled] = useState(0);
 
+    const [resPending, setResPending] = useState(0);
+    const [resActive, setResActive] = useState(0);
+    const [resInactive, setResInactive] = useState(0);
+    const [resCancelled, setResCancelled] = useState(0);
+
+    const [totalUser, setTotalUser] = useState(0);
+
     const onChangeFrom = (e) => {
         setFrom(e.target.value);
     }
@@ -28,6 +35,8 @@ function Dashboard() {
     useEffect(() => {
         window.scrollTo(0, 0);
         search();
+        getRestaurant();
+        getTotalUser();
     })
 
     const onChangeTo = (e) => {
@@ -53,11 +62,47 @@ function Dashboard() {
             })
     }
 
+    const getTotalRestaurant = (status) => {
+        axios.get(`/restaurants/getTotalRestaurantsByStatus?status=${status}`, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+            .then(res => {
+                if (status === 'pending') {
+                    setResPending(res.data);
+                } else if (status === 'active') {
+                    setResActive(res.data);
+                } else if (status === 'inactive') {
+                    setResInactive(res.data);
+                } else if (status === 'cancelled') {
+                    setResCancelled(res.data);
+                }
+            })
+    }
+
+    const getTotalUser = () => {
+        axios.get(`/users/numberOfUsersActive`, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        }).then(res => {
+            setTotalUser(res.data);
+        })
+    }
+
     const search = () => {
         getTotalOrder('pending');
         getTotalOrder('preparing');
         getTotalOrder('accomplished');
         getTotalOrder('cancelled');
+    }
+
+    const getRestaurant = () => {
+        getTotalRestaurant('pending');
+        getTotalRestaurant('active');
+        getTotalRestaurant('inactive');
+        getTotalRestaurant('cancelled');
     }
 
     const handleToggleSidebar = (value) => {
@@ -80,8 +125,11 @@ function Dashboard() {
                     <div className="btn-toggle" onClick={() => handleToggleSidebar(true)}>
                         <FaBars />
                     </div>
-                    <Notification />
-                    <Link className="btn btn-primary" to='/login' onClick={Logout}>Đăng xuất</Link>
+                    <div className="admin-nav-number-user">Số người đang sử dụng hệ thống: {totalUser}</div>
+                    <div className="admin-nav-infor">
+                        <Notification />
+                        <Link className="btn btn-primary" to='/login' onClick={Logout}>Đăng xuất</Link>
+                    </div>
                 </div>
                 <Container>
                     <Row className="dashboard-row">
@@ -154,6 +202,56 @@ function Dashboard() {
                             {/* <Button className="btn-search-chart" color="success" onClick={() => search()}>
                                 <FaSearch />
                             </Button> */}
+                        </Col>
+                    </Row>
+                    <hr />
+                    <Row className="restaurant-row">
+                        <Col>
+                            <div>
+                                {(resPending !== 0 || resActive !== 0 || resInactive !== 0
+                                    || resCancelled !== 0) ? < Bar
+                                    id="myChart"
+                                    data={{
+                                        labels: ["Đang chờ duyệt", "Đang hoạt động", "Ngừng hoạt động", "Đã hủy"],
+                                        datasets: [
+                                            {
+                                                label: ["Nhà hàng"],
+                                                data: [resPending, resActive, resInactive, resCancelled],
+                                                backgroundColor: [
+                                                    '#831ae4d9',
+                                                    '#12c32fd9',
+                                                    '#5771cfd9',
+                                                    '#db4646d9'
+                                                ],
+                                                borderColor: [
+                                                    '#831ae4d9',
+                                                    '#12c32fd9',
+                                                    '#5771cfd9',
+                                                    '#db4646d9'
+                                                ],
+                                                borderWidth: 1,
+                                            }
+                                        ]
+                                    }}
+                                    width={50}
+                                    height={300}
+                                    options={{
+                                        maintainAspectRatio: false,
+                                        responsive: true,
+                                        // scales: {
+                                        //     yAxes: [{
+                                        //         ticks: {
+                                        //             beginAtZero: true
+                                        //         }
+                                        //     }]
+                                        // }
+                                    }}
+                                /> : <p className="chart-title">
+                                    Không có nhà hàng nào
+                                </p>
+                                }
+                            </div>
+                            <p className="chart-title">Thống kê các nhà hàng trong hệ thống</p>
                         </Col>
                     </Row>
                 </Container>
