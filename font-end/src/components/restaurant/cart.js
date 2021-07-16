@@ -270,7 +270,7 @@ export default function Cart(props) {
                                 <h4>Tùy chọn</h4>
                                 <div className="cart-other-option">
                                     <div>
-                                        <Label for="type"><b>Loại bàn: <span className="require-icon">*</span></b></Label>
+                                        <Label for="type"><b>Loại bàn <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="select"
                                             name="type"
@@ -285,7 +285,7 @@ export default function Cart(props) {
                                     </div>
 
                                     <div>
-                                        <Label for="period"><b>Buổi: <span className="require-icon">*</span></b></Label>
+                                        <Label for="period"><b>Buổi <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="select"
                                             name="period"
@@ -302,7 +302,7 @@ export default function Cart(props) {
 
                                 <div className="cart-other-option">
                                     <div>
-                                        <Label for="customer-quantity"><b>Số lượng khách: <span className="require-icon">*</span></b></Label>
+                                        <Label for="customer-quantity"><b>Số lượng khách <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="number"
                                             name="customer-quantity"
@@ -315,7 +315,7 @@ export default function Cart(props) {
                                     </div>
 
                                     <div>
-                                        <Label for="choose-date"><b>Chọn ngày: <span className="require-icon">*</span></b></Label>
+                                        <Label for="choose-date"><b>Chọn ngày <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="date"
                                             name="choose-date"
@@ -329,7 +329,7 @@ export default function Cart(props) {
                                     </div>
                                 </div>
 
-                                <Label for="note"><b>Ghi chú: </b></Label>
+                                <Label for="note"><b>Ghi chú </b></Label>
                                 <Input
                                     type="textarea"
                                     name="note"

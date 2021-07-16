@@ -12,13 +12,13 @@ import edu.fpt.ofbs.models.IPromotionDTO;
 
 @Repository
 public interface PromotionRepository extends JpaRepository<Promotion, Long>{
-	@Query(value = "call sp_searchPromotionByProvince (?1)", nativeQuery = true)
+	@Query(value = "exec sp_searchPromotionByProvince ?1", nativeQuery = true)
 	List<IPromotionDTO> searchPromotionByProvince(String province);
 	
-	@Query(value = "call sp_getPromotionsByRestaurantId (?1, ?2)", nativeQuery = true)
+	@Query(value = "exec sp_getPromotionsByRestaurantId ?1, ?2", nativeQuery = true)
 	List<IPromotionDTO> getPromotionsByRestaurantId(long restaurantId, boolean isActive);
 	
 	@Modifying
-	@Query(value = "call sp_updateStatusPromotion", nativeQuery = true)
+	@Query(value = "exec sp_updateStatusPromotion", nativeQuery = true)
 	void updatePromotionStatus();
 }

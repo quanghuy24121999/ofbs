@@ -96,6 +96,7 @@ export default class menu extends Component {
     }
 
     searchDishByName() {
+        window.scrollTo(0, 0);
         const restaurantId = this.props.match.params.restaurantId;
         let inputDishName = '';
         inputDishName = localStorage.getItem("inputDishName");

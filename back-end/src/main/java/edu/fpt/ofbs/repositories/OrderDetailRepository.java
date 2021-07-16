@@ -13,16 +13,16 @@ import edu.fpt.ofbs.models.IOrderDetailDTO;
 @Repository
 public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long>{
 	@Modifying
-	@Query(value = "call sp_insertOrderDetail (?1, ?2, ?3, ?4, ?5, ?6)", nativeQuery = true)
+	@Query(value = "exec sp_insertOrderDetail ?1, ?2, ?3, ?4, ?5, ?6", nativeQuery = true)
 	void insertOrderDetail(int quantity, long dishId, long comboId, long serviceId, long customerId, long restaurantId);
 	
 	@Modifying
 	@Query(value = "DELETE FROM order_details WHERE order_id = ?1", nativeQuery = true)
 	void deleteOrderDetail(long orderId);
 	
-	@Query(value = "call sp_getOrderDetailByOrderId (?1, ?2, ?3)", nativeQuery = true)
+	@Query(value = "exec sp_getOrderDetailByOrderId ?1, ?2, ?3", nativeQuery = true)
 	List<IOrderDetailDTO> getOrderDetailByOrderId(long orderId, long customerId, long restaurantId);
 	
-	@Query(value = "call sp_adminSearchOrder (?1)", nativeQuery = true)
+	@Query(value = "exec sp_adminSearchOrder ?1", nativeQuery = true)
 	List<IOrderDetailDTO> getOrderIdByOrderCode(String orderCode);
 }
