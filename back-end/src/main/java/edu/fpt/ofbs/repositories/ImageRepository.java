@@ -12,7 +12,7 @@ import edu.fpt.ofbs.models.IImageDTO;
 
 @Repository
 public interface ImageRepository extends JpaRepository<Image, String>{
-	@Query(value = "exec sp_getImagesByRestaurantId ?1", nativeQuery = true)
+	@Query(value = "call sp_getImagesByRestaurantId (?1)", nativeQuery = true)
 	List<IImageDTO> getImagesByRestaurantId(long restaurantId);
 	
 	@Modifying
@@ -23,6 +23,6 @@ public interface ImageRepository extends JpaRepository<Image, String>{
 	@Query(value = "delete from Images where restaurant_id = ?1 and type_id = 3", nativeQuery = true)
 	void deleteRestaurantCertificate(long restaurantId);
 	
-	@Query(value = "exec sp_getImagesRestaurant ?1", nativeQuery = true)
+	@Query(value = "call sp_getImagesRestaurant (?1)", nativeQuery = true)
 	List<IImageDTO> getImagesRestaurant(long restaurantId);
 }
