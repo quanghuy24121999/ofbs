@@ -9,10 +9,10 @@ import edu.fpt.ofbs.models.IUserDTO;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
-	@Query(value = "exec sp_findByPhoneNumber ?1", nativeQuery = true)
+	@Query(value = "call sp_findByPhoneNumber (?1)", nativeQuery = true)
 	User findByPhoneNumberLogin(String phoneNumber);
 	
-	@Query(value = "exec sp_getUserProfileById ?1", nativeQuery = true)
+	@Query(value = "call sp_getUserProfileById (?1)", nativeQuery = true)
 	IUserDTO getUserProfileById(long userId);
 	
 	@Query(value = "select count(u.id) as numberOfUsersActive\r\n"
