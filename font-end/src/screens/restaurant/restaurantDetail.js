@@ -170,10 +170,18 @@ export default class restaurantDetail extends Component {
                             }).then(res => {
                                 const restaurantId = this.props.match.params.restaurantId;
                                 this.receivedData();
+                                axios.get(`/restaurants/detail?restaurantId=${restaurantId}`)
+                                    .then(res => {
+                                        this.setState({ restaurant: res.data })
+                                    })
                                 axios.get(`/feedbacks/getFeedbacksByRestaurantId?restaurantId=${restaurantId}&rate=0`)
                                     .then(res => {
                                         this.setState({ numberRates: res.data.length });
                                     })
+                                this.setState({
+                                    textFeedback: '',
+                                    rating: 1
+                                })
                                 Notify('Viết đánh giá thành công', 'success', 'top-right');
                             }
                             );

@@ -7,7 +7,6 @@ import {
 import { FaEdit, FaSearch } from 'react-icons/fa';
 import axios from 'axios';
 import ImageUploading from "react-images-uploading";
-import ReactPaginate from 'react-paginate';
 
 import DishComboItem from '../restaurant/dishComboItem';
 import { formatCurrency } from '../../common/formatCurrency';

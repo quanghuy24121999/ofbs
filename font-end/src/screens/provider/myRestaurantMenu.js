@@ -371,7 +371,7 @@ export default class myRestaurantMenu extends Component {
                         </div>
 
                         <div>
-                            <Button onClick={this.search} className="btn-menu-search" color="success">
+                            <Button onClick={this.search} className="btn-menu-search" color="primary">
                                 <FaSearch className="icon-search" />
                             </Button>
                         </div>
