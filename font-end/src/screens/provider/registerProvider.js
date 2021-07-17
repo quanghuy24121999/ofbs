@@ -259,28 +259,22 @@ export default class registerPromotion extends Component {
             }
         }
         ).then(res => {
-            axios.patch(`/users/updateRoleProvider`, user, {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+            axios.post(`/notifications/insertNotification`,
+                {
+                    "content": `Có nhà hàng ${restaurantName} mới đăng ký`,
+                    "customer": null,
+                    "provider": null,
+                    "forAdmin": true,
+                    "type": "restaurant",
+                    "read": false
                 }
-            }).then(res => {
-                axios.post(`/notifications/insertNotification`,
-                    {
-                        "content": `Có nhà hàng ${restaurantName} mới đăng ký`,
-                        "customer": null,
-                        "provider": null,
-                        "forAdmin": true,
-                        "type": "restaurant",
-                        "read": false
-                    }
-                );
+            );
 
-                this.updateImage(res.data.id);
-                this.toggle();
-                this.toggle1();
-                Notify('Đăng ký nhà hàng thành công', 'success', 'top-right');
-                this.setState({ redirect: true });
-            })
+            this.updateImage(res.data.id);
+            this.toggle();
+            this.toggle1();
+            Notify('Đăng ký nhà hàng thành công', 'success', 'top-right');
+            this.setState({ redirect: true });
         })
     }
 
