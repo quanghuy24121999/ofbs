@@ -14,7 +14,7 @@ import Footer from '../../components/common/footer';
 import imageUser from '../../images/default-avatar-user.png';
 import { formatDate, formatDateForInput } from '../../common/formatDate';
 import { Notify } from '../../common/notify';
-import { validateEmail, validatePassword, validatePhoneNumber, validateUsername } from '../../common/validate';
+import { validateEmail, validateEmpty, validatePassword, validatePhoneNumber, validateUsername } from '../../common/validate';
 
 let userId = '';
 export default class userProfile extends Component {
@@ -74,7 +74,7 @@ export default class userProfile extends Component {
             }
         })
             .then(res => {
-                let phone = res.data.phone_number; 
+                let phone = res.data.phone_number;
                 phone = '0' + phone.substring(3, phone.length);
 
                 this.setState({
@@ -96,8 +96,8 @@ export default class userProfile extends Component {
 
     validate() {
         const { username, phone, email, address, dob } = this.state;
-        
-        if (username === '') {
+
+        if (!validateEmpty(username.trim())) {
             Notify('Vui lòng nhập tên đầy đủ', 'error', 'top-right');
             return false;
         } if (!validateUsername(username)) {

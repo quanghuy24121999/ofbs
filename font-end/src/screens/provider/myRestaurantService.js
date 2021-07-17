@@ -382,7 +382,7 @@ export default class myRestaurantService extends Component {
                             </Input>
                         </div>
                         <div>
-                            <Button onClick={this.search} className="btn-service-search" color="success">
+                            <Button onClick={this.search} className="btn-service-search" color="primary">
                                 <FaSearch className="icon-search" />
                             </Button>
                         </div>

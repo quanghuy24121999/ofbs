@@ -2,10 +2,11 @@ import axios from 'axios';
 import React, { Component } from 'react'
 import {
     Container, Row, Form, FormGroup,
-    Input, Label, Col
+    Input, Label, Col, Button
 } from 'reactstrap';
 import subVn from "sub-vn";
 import ReactPaginate from 'react-paginate';
+import { FaSearch } from 'react-icons/fa';
 
 import TopMenu from '../components/common/topMenu';
 import Footer from '../components/common/footer';
@@ -250,7 +251,7 @@ export default class searchResult extends Component {
                                 </Label>
                             </FormGroup>
                         </div>
-                        <Input onClick={this.onSubmit} type="submit" className="btn btn-success btn-result-search" value="Tìm kiếm" />
+                        <Button onClick={this.onSubmit} type="submit" className="btn-result-search" color="primary"><FaSearch className="icon-search" /></Button> 
                     </Form>
                 </div>
                 {

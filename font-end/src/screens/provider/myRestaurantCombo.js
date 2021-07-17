@@ -14,7 +14,7 @@ import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
 import MyRestaurantMenuItem from '../../components/provider/myRestaurantComboItem';
 import { Notify } from '../../common/notify';
-import { validateCapacity, validateDescription, validateUsername } from '../../common/validate';
+import { validateCapacity, validateDescription, validateEmpty, validateUsername } from '../../common/validate';
 
 let restaurantId = ''
 export default class myRestaurantCombo extends Component {
@@ -112,18 +112,32 @@ export default class myRestaurantCombo extends Component {
         })
     }
 
-    validate() {
-        if (!validateUsername(this.state.name)) {
-            Notify('Tên combo phải ít hơn 100 ký tự', 'error', 'top-right');
+    checkRequire() {
+        if (!validateEmpty(this.state.name.trim())) {
+            Notify('Vui lòng nhập tên combo', 'error', 'top-right');
             return false;
-        } else if (!validateCapacity(this.state.price)) {
-            Notify('Giá combo phải ít hơn 10 ký tự', 'error', 'top-right');
-            return false;
-        } else if (!validateDescription(this.state.description)) {
-            Notify('Mô tả combo phải ít hơn 2000 ký tự', 'error', 'top-right');
+        } else if (!validateEmpty(this.state.description.trim())) {
+            Notify('Vui lòng nhập mô tả combo', 'error', 'top-right');
             return false;
         } else {
             return true;
+        }
+    }
+
+    validate() {
+        if (this.checkRequire()) {
+            if (!validateUsername(this.state.name)) {
+                Notify('Tên combo phải ít hơn 100 ký tự', 'error', 'top-right');
+                return false;
+            } else if (!validateCapacity(this.state.price)) {
+                Notify('Giá combo phải ít hơn 10 ký tự', 'error', 'top-right');
+                return false;
+            } else if (!validateDescription(this.state.description)) {
+                Notify('Mô tả combo phải ít hơn 2000 ký tự', 'error', 'top-right');
+                return false;
+            } else {
+                return true;
+            }
         }
     }
 

@@ -252,20 +252,10 @@ export default class myRestaurantImage extends Component {
                             </ModalBody>
                             <ModalFooter>
                                 {imageUploads.length > 0 &&
-                                    <Button color="success" onClick={this.toggle}>
-                                        Ok
+                                    <Button color="success" onClick={this.addImage}>
+                                        Đồng ý
                                     </Button>}
-                                <Button color="secondary" onClick={this.toggle1}>Hủy</Button>{' '}
-                            </ModalFooter>
-                        </Modal>
-                        <Modal isOpen={modal} toggle={this.toggle} className={``}>
-                            <ModalHeader toggle={this.toggle}>Thông báo</ModalHeader>
-                            <ModalBody>
-                                Bạn có chắc chắn thêm ảnh này ?
-                            </ModalBody>
-                            <ModalFooter>
-                                <Button color="success" onClick={this.addImage}>Có</Button>{' '}
-                                <Button color="secondary" onClick={this.toggle}>Trở lại</Button>
+                                <Button color="secondary" onClick={this.toggle1}>Quay lại</Button>{' '}
                             </ModalFooter>
                         </Modal>
                     </div>

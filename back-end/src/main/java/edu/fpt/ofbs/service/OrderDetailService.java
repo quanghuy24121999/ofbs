@@ -25,9 +25,15 @@ public class OrderDetailService {
 		Configuration config = new Configuration();
 
 		config.setProperty("hibernate.connection.driver_class", "com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        config.setProperty("hibernate.connection.url", "jdbc:sqlserver://ofbs-2.ci8radjxbse2.us-east-2.rds.amazonaws.com;databaseName=OFBS");
-        config.setProperty("hibernate.connection.username", "admin");
-        config.setProperty("hibernate.connection.password", "root_123");
+		
+//        config.setProperty("hibernate.connection.url", "jdbc:sqlserver://ofbs-2.ci8radjxbse2.us-east-2.rds.amazonaws.com;databaseName=OFBS");
+//        config.setProperty("hibernate.connection.username", "admin");
+//        config.setProperty("hibernate.connection.password", "root_123");
+        
+        config.setProperty("hibernate.connection.url", "jdbc:sqlserver://localhost;databaseName=OFBS");
+        config.setProperty("hibernate.connection.username", "root");
+        config.setProperty("hibernate.connection.password", "root");
+        
         config.setProperty("hibernate.order_inserts", "true");
         config.setProperty("hibernate.order_updates", "true");
         config.setProperty("hibernate.batch_versioned_data", "true");
