@@ -62,6 +62,7 @@ export default class registerPromotion extends Component {
         this.validate = this.validate.bind(this);
         this.checkRequire = this.checkRequire.bind(this);
         this.checkCodeExist = this.checkCodeExist.bind(this);
+        this.validatePhoneExist = this.validatePhoneExist.bind(this);
     }
 
     onChangeRestaurantName(e) {
@@ -202,18 +203,28 @@ export default class registerPromotion extends Component {
         }
     }
 
+    validatePhoneExist() {
+        let userId = '';
+        let check = true;
+
+        api.get(`/restaurants/getProviderIdByPhoneNumber/${this.state.restaurantPhone}`)
+            .then(res => {
+                userId = res.data;
+                if (userId !== this.state.user.id) {
+                    Notify('Số điện thoại đã tồn tại', 'error', 'top-right');
+                    check = false;
+                }
+            })
+
+        return check;
+    }
+
     validate() {
         const { restaurantAddress, restaurantBusinessCode, restaurantName,
             restaurantPhone, restaurantSize, restaurantDescription, user
         } = this.state;
         let isAuthen = this.isAuthentication();
-        let userId = '';
-        api.get(`/restaurants/getProviderIdByPhoneNumber/${restaurantPhone}`)
-            .then(res => {
-                console.log(res.data);
-                // this.setState({ userId: res.data });
-                userId = res.data;
-            })
+        let checkPhone = this.validatePhoneExist();
 
         if (isAuthen) {
             if (this.checkRequire()) {
@@ -226,9 +237,6 @@ export default class registerPromotion extends Component {
                         return false;
                     } else if (!validatePhoneNumber(restaurantPhone)) {
                         Notify('Số điện thoại sai định dạng', 'error', 'top-right');
-                        return false;
-                    } else if (userId !== user.id) {
-                        Notify('Số điện thoại đã tồn tại', 'error', 'top-right');
                         return false;
                     } else if (!validateCapacity(restaurantSize)) {
                         Notify('Sức chứa quá lớn', 'error', 'top-right');
@@ -530,10 +538,20 @@ export default class registerPromotion extends Component {
                                 </Row>
                             </Form>
                             <Button onClick={() => {
-                                console.log(this.validate())
-                                if (this.validate()) {
-                                    this.toggle();
-                                }
+                                let userId = '';
+
+                                api.get(`/restaurants/getProviderIdByPhoneNumber/${this.state.restaurantPhone}`)
+                                    .then(res => {
+                                        userId = res.data;
+                                        if (userId !== this.state.user.id) {
+                                            Notify('Số điện thoại đã tồn tại', 'error', 'top-right');
+                                        } else {
+                                            if (this.validate()) {
+                                                this.toggle();
+                                            }
+                                        }
+
+                                    })
                             }} className="btn-register-restaurant" color="success">Đăng ký</Button>
                             <Modal isOpen={modal} toggle={this.toggle} className={``}>
                                 <ModalHeader toggle={this.toggle}>Thông báo</ModalHeader>
