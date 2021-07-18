@@ -4,7 +4,6 @@ import {
     Input, Label, Container
 } from 'reactstrap';
 import { Redirect } from 'react-router';
-import axios from 'axios';
 import subVn from "sub-vn";
 import Carousel from 'react-multi-carousel';
 
@@ -13,6 +12,7 @@ import Footer from '../components/common/footer';
 import wallpaper from '../images/wallpaper.png';
 import RestaurantItem from '../components/restaurant/restaurantItem';
 import Spinner from '../components/common/spinner';
+import { api } from '../config/axios';
 
 const responsive = {
     desktop: {
@@ -143,14 +143,14 @@ export default class home extends Component {
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        axios.get('/restaurants/1')
+        api.get('/restaurants/1')
             .then(res => {
                 this.setState({
                     restaurantsType1: res.data,
                     loading: false
                 });
             })
-        axios.get('/restaurants/2')
+        api.get('/restaurants/2')
             .then(res => {
                 this.setState({
                     restaurantsType2: res.data,

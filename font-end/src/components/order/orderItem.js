@@ -3,6 +3,7 @@ import { CardImg, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 import { formatDate } from '../../common/formatDate';
+import { url } from '../../config/axios';
 
 export default function OrderItem(props) {
     const order = props.order;
@@ -10,7 +11,7 @@ export default function OrderItem(props) {
     return (
         <Col className="order-col" lg="6" md="12" sm="12">
             <div className="order-item item">
-                <CardImg className="order-img" src={`/images/${order.image_restaurant_id}`} width="200px" height="300px" alt="order" />
+                <CardImg className="order-img" src={url + `/images/${order.image_restaurant_id}`} width="200px" height="300px" alt="order" />
                 <div className="order-content">
                     <div className="order-code">Mã số đơn hàng: {order.order_code} </div>
                     <div className="order-restaurant-name">Tên nhà hàng: {order.restaurant_name}</div>

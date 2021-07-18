@@ -3,6 +3,7 @@ import { CardImg } from 'reactstrap';
 import { FaTags } from 'react-icons/fa';
 
 import { formatDate } from '../../common/formatDate';
+import { url } from '../../config/axios';
 
 export default function PromotionItem(props) {
     const promotion = props.promotion;
@@ -34,7 +35,7 @@ export default function PromotionItem(props) {
                 top
                 width="200px"
                 height="300px"
-                src={'/images/' + promotion.image_id} alt=""
+                src={url + '/images/' + promotion.image_id} alt=""
             />
         </div>
     )

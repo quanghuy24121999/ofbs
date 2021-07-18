@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import {
-    Button, Modal, ModalHeader, Container,
+    Button, Modal, ModalHeader, 
     ModalBody, ModalFooter, Label, Input,
     CardImg, Alert, Row, Col, Table, Form
 } from 'reactstrap';
 import { FaEdit, FaSearch } from 'react-icons/fa';
-import axios from 'axios';
+import { api, url } from '../../config/axios';
 import ImageUploading from "react-images-uploading";
 
 import DishComboItem from '../restaurant/dishComboItem';
@@ -63,7 +63,7 @@ export default function MyRestaurantComboItem(props) {
         setModal(!modal);
 
         if (modal === false) {
-            axios.get(`/combos/getComboById?comboId=${combo.combo_id}`)
+            api.get(`/combos/getComboById?comboId=${combo.combo_id}`)
                 .then(res => {
                     let combo = res.data;
 
@@ -73,7 +73,7 @@ export default function MyRestaurantComboItem(props) {
                     setDescription(combo.description);
                     setStatus(combo.status.id);
                 })
-            axios.get(`/dishes/getDishesByComboId?comboId=${combo.combo_id}`)
+            api.get(`/dishes/getDishesByComboId?comboId=${combo.combo_id}`)
                 .then(res => {
                     setDishModal(res.data);
                 })
@@ -81,7 +81,7 @@ export default function MyRestaurantComboItem(props) {
     }
 
     useEffect(() => {
-        axios.get(`/dishes/getCategories`)
+        api.get(`/dishes/getCategories`)
             .then(res => {
                 setCategories(res.data);
             })
@@ -91,7 +91,7 @@ export default function MyRestaurantComboItem(props) {
         setModa1(!modal1);
         getDishes(0, '');
         if (modal1 === true) {
-            axios.get(`/dishes/getDishesByComboId?comboId=${combo.combo_id}`)
+            api.get(`/dishes/getDishesByComboId?comboId=${combo.combo_id}`)
                 .then(res => {
                     setDishModal(res.data);
                 })
@@ -99,7 +99,7 @@ export default function MyRestaurantComboItem(props) {
     }
 
     const getDishes = (categoryId, nameSearch) => {
-        axios.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=${categoryId}&dishName=${nameSearch}&statusId=1`)
+        api.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=${categoryId}&dishName=${nameSearch}&statusId=1`)
             .then(res => {
                 const data = res.data;
                 // const slice = data.slice(offset, offset + perPage);
@@ -109,7 +109,7 @@ export default function MyRestaurantComboItem(props) {
     }
 
     useEffect(() => {
-        axios.get(`/dishes/getDishesByComboId?comboId=${combo.combo_id}`)
+        api.get(`/dishes/getDishesByComboId?comboId=${combo.combo_id}`)
             .then(res => {
                 setDishModal(res.data);
             })
@@ -140,7 +140,7 @@ export default function MyRestaurantComboItem(props) {
             document.getElementById('error-form4').style.display = "none";
 
             if (imageId === null || imageId === '') {
-                axios.post(`/images/upload?userId=0&dishId=0&serviceId=0&comboId=${combo.combo_id}&restaurantId=0&promotionId=0&typeId=1`,
+                api.post(url + `/images/upload?userId=0&dishId=0&serviceId=0&comboId=${combo.combo_id}&restaurantId=0&promotionId=0&typeId=1`,
                     formData, {
                 }).then(res => {
                     // window.location.reload();
@@ -148,7 +148,7 @@ export default function MyRestaurantComboItem(props) {
                     document.getElementById('error-form4').style.display = "block";
                 })
             } else {
-                axios.post(`/images/update?imageId=${imageId}`,
+                api.post(url + `/images/update?imageId=${imageId}`,
                     formData, {
                 }).then(res => {
                     // window.location.reload();
@@ -173,7 +173,7 @@ export default function MyRestaurantComboItem(props) {
 
     const updateCombo = () => {
         if (validate()) {
-            axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
+            api.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
                 .then(res => {
                     let dishStatus = '';
                     let restaurant = res.data;
@@ -184,7 +184,7 @@ export default function MyRestaurantComboItem(props) {
                     } else {
                         dishStatus = 'inactive';
                     }
-                    axios.get(`/combos/getCombosByRestaurantId?restaurantId=${restaurantId}&isActive=0`)
+                    api.get(`/combos/getCombosByRestaurantId?restaurantId=${restaurantId}&isActive=0`)
                         .then(res => {
                             let count = 0
                             res.data.forEach(combo => {
@@ -196,7 +196,7 @@ export default function MyRestaurantComboItem(props) {
                                 count = 0;
                             }
                             if (count === 0) {
-                                axios.post(`/combos/save`,
+                                api.post(`/combos/save`,
                                     {
                                         "id": combo.combo_id,
                                         "name": name,
@@ -256,7 +256,7 @@ export default function MyRestaurantComboItem(props) {
                                                     onImageRemove,
                                                 }) => (
                                                     <div className="upload__image-wrapper">
-                                                        <CardImg id="user-image" className="dish-profile-image" top src={`/images/${imageId}`} alt="combo" />
+                                                        <CardImg id="user-image" className="dish-profile-image" top src={url + `/images/${imageId}`} alt="combo" />
                                                         {imageList.map((image, index) => (
                                                             (document.getElementById("user-image").style.display = "none"),
                                                             (

@@ -5,7 +5,7 @@ import {
     Container, Input,
     Button, Table
 } from 'reactstrap';
-import axios from 'axios';
+import { api } from '../../config/axios';
 import { Link } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 
@@ -57,7 +57,7 @@ function Order() {
 
     const receivedData = (orderCode, from, to, status) => {
         window.scrollTo(0, 0);
-        axios.get(`/orders/getOrders?orderCode=${orderCode}&fromDate=${from}&toDate=${to}&status=${status}`, {
+        api.get(`/orders/getOrders?orderCode=${orderCode}&fromDate=${from}&toDate=${to}&status=${status}`, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }

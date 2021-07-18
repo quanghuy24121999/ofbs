@@ -4,6 +4,7 @@ import {
 } from 'reactstrap';
 import { useCart } from 'react-use-cart';
 import { formatCurrency } from '../../common/formatCurrency';
+import { url } from '../../config/axios';
 
 export default function CartComboItem(props) {
     const item = props.combo;
@@ -49,7 +50,7 @@ export default function CartComboItem(props) {
                     <CardImg
                         className="cart-dish-img"
                         top
-                        src={'/images/' + item.image_dish_id}
+                        src={url + '/images/' + item.image_dish_id}
                         alt=""
                     />
                     <div className="cart-detail">

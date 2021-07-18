@@ -4,7 +4,7 @@ import {
     ModalBody, ModalFooter
 } from 'reactstrap';
 import { useCart } from 'react-use-cart';
-import axios from 'axios';
+import { api, url } from '../../config/axios';
 import { formatCurrency } from '../../common/formatCurrency';
 
 export default function ComboItem(props) {
@@ -27,7 +27,7 @@ export default function ComboItem(props) {
     }
 
     useEffect(() => {
-        axios.get(`/dishes/getDishesByComboId?comboId=${comboId}`)
+        api.get(`/dishes/getDishesByComboId?comboId=${comboId}`)
             .then(res => {
                 setDishes(res.data);
             })
@@ -35,7 +35,7 @@ export default function ComboItem(props) {
 
     return <Card className="combo-card">
         <div className="combo-name">{combo.combo_name}</div>
-        <CardImg className="combo-image" top width="100%" src={'/images/' + combo.image_dish_id} />
+        <CardImg className="combo-image" top width="100%" src={url + '/images/' + combo.image_dish_id} />
         <hr />
         <div className="dish-lists">
             {

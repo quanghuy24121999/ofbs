@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container } from 'reactstrap';
 import ReactPaginate from 'react-paginate';
-import axios from 'axios';
+import { api } from '../../config/axios';
 
 import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
@@ -41,7 +41,7 @@ export default class promotion extends Component {
     };
 
     receivedData() {
-        axios.get(`/promotions/searchPromotionByProvince`)
+        api.get(`/promotions/searchPromotionByProvince`)
             .then(res => {
                 this.setState({ loading: false })
                 const data = res.data;

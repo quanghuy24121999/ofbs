@@ -5,7 +5,7 @@ import {
     CardImg, Alert
 } from 'reactstrap';
 import { FaEdit } from 'react-icons/fa';
-import axios from 'axios';
+import { api, url } from '../../config/axios';
 import ImageUploading from "react-images-uploading";
 
 import { formatDate, formatDateForInput } from '../../common/formatDate';
@@ -55,7 +55,7 @@ export default function MyRestaurantPromotionItem(props) {
         setModal(!modal);
 
         if (modal === false) {
-            axios.get(`/promotions/getPromotionById?promotionId=${promotion.promotion_id}`)
+            api.get(`/promotions/getPromotionById?promotionId=${promotion.promotion_id}`)
                 .then(res => {
                     let promotion = res.data;
                     let statusPromotion = promotion.status.name;
@@ -93,12 +93,12 @@ export default function MyRestaurantPromotionItem(props) {
 
     const updatePromotion = () => {
         if (validate()) {
-            axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
+            api.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
                 .then(res => {
                     let restaurant = res.data;
                     updateImage();
 
-                    axios.get(`/promotions/getPromotionsByRestaurantId?restaurantId=${restaurantId}&isActive=0`)
+                    api.get(`/promotions/getPromotionsByRestaurantId?restaurantId=${restaurantId}&isActive=0`)
                         .then(res => {
                             let count = 0;
                             res.data.forEach(promotion => {
@@ -110,7 +110,7 @@ export default function MyRestaurantPromotionItem(props) {
                                 count = 0;
                             }
                             if (count === 0) {
-                                axios.post(`/promotions/save`,
+                                api.post(`/promotions/save`,
                                     {
                                         "id": promotion.promotion_id,
                                         "name": name,
@@ -144,7 +144,7 @@ export default function MyRestaurantPromotionItem(props) {
             document.getElementById('error-form4').style.display = "none";
 
             if (imageId === null || imageId === '') {
-                axios.post(`/images/upload?userId=0&dishId=0&serviceId=0&comboId=0&restaurantId=0&promotionId=${promotion.promotion_id}&typeId=1`,
+                api.post(url + `/images/upload?userId=0&dishId=0&serviceId=0&comboId=0&restaurantId=0&promotionId=${promotion.promotion_id}&typeId=1`,
                     formData, {
                 }).then(res => {
                     // window.location.reload();
@@ -152,7 +152,7 @@ export default function MyRestaurantPromotionItem(props) {
                     document.getElementById('error-form4').style.display = "block";
                 })
             } else {
-                axios.post(`/images/update?imageId=${imageId}`,
+                api.post(url + `/images/update?imageId=${imageId}`,
                     formData, {
                 }).then(res => {
                     // window.location.reload();
@@ -197,7 +197,7 @@ export default function MyRestaurantPromotionItem(props) {
                                             onImageRemove,
                                         }) => (
                                             <div className="upload__image-wrapper">
-                                                <CardImg id="user-image" className="promotion-profile-image" top src={`/images/${imageId}`} alt="khuyến mãi" />
+                                                <CardImg id="user-image" className="promotion-profile-image" top src={url + `/images/${imageId}`} alt="khuyến mãi" />
                                                 {imageList.map((image, index) => (
                                                     // eslint-disable-next-line no-sequences
                                                     (document.getElementById("user-image").style.display = "none"),

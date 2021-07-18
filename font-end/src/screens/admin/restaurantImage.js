@@ -4,7 +4,7 @@ import { FaBars } from 'react-icons/fa';
 import {
     Row, Col, NavItem, Nav, Container, CardImg
 } from 'reactstrap';
-import axios from 'axios';
+import { api, url } from '../../config/axios';
 import ReactPaginate from 'react-paginate';
 import { Link } from 'react-router-dom';
 
@@ -38,13 +38,13 @@ export default function RestaurantImage(props) {
     };
 
     const receivedData = () => {
-        axios.get(`/images/getRestaurantImages?restaurantId=${restaurantId}`)
+        api.get(url + `/images/getRestaurantImages?restaurantId=${restaurantId}`)
             .then(res => {
                 const data = res.data;
                 const slice = data.slice(offset, offset + perPage)
                 const imageList = slice.map((image, index) => {
                     return <Col className="myRes-detail-img-item" key={index} lg="3" md="4" sm="12">
-                        <CardImg className="image-description" src={`/images/${image.image_id}`} />
+                        <CardImg className="image-description" src={url + `/images/${image.image_id}`} />
                     </Col>
                 })
 

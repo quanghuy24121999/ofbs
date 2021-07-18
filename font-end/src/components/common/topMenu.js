@@ -7,7 +7,7 @@ import {
 
 import { Link, Redirect } from "react-router-dom";
 import image from '../../images/logo_header-removebg-preview.png';
-import axios from "axios";
+import { api } from '../../config/axios';
 import { FaBell } from "react-icons/fa";
 
 import NotificationItem from "./notificationItem";
@@ -29,14 +29,14 @@ const TopMenu = () => {
     }, [])
 
     const loadData = () => {
-        axios.get(`/users/findByPhoneNumber/${localStorage.getItem('currentUser')}`)
+        api.get(`/users/findByPhoneNumber/${localStorage.getItem('currentUser')}`)
             .then(res => {
                 let user = res.data;
                 setCurrentUser(user);
                 if (user !== null && user !== undefined && user !== '') {
                     localStorage.setItem('userId', user.id);
                     if (user.role.name === 'ROLE_PROVIDER') {
-                        axios.get(`/notifications/getNotifications?customerId=${user.id}&providerId=${user.id}&isAdmin=0`)
+                        api.get(`/notifications/getNotifications?customerId=${user.id}&providerId=${user.id}&isAdmin=0`)
                             .then(res => {
                                 setNotifications(res.data);
                             })

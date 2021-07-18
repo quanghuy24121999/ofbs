@@ -4,7 +4,7 @@ import { FaBars } from 'react-icons/fa';
 import {
     Container, Table
 } from 'reactstrap';
-import axios from 'axios';
+import { api } from '../../config/axios';
 import { Link } from 'react-router-dom';
 
 import RestaurantPendingItem from '../../components/admin/RestaurantPendingItem';
@@ -20,7 +20,7 @@ function Restaurant() {
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        axios.get(`/restaurants/getRestaurantPending`)
+        api.get(`/restaurants/getRestaurantPending`)
             .then(res => {
                 setRestaurants(res.data);
             })

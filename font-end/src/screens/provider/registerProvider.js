@@ -7,7 +7,7 @@ import {
 import subVn from "sub-vn";
 import { Link, Redirect } from 'react-router-dom';
 import ImageUploading from "react-images-uploading";
-import axios from 'axios';
+import { api, url } from '../../config/axios';
 
 import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
@@ -42,6 +42,7 @@ export default class registerPromotion extends Component {
             restaurantSize: '',
             restaurantBusinessCode: '',
             restaurantDescription: '',
+            userId: ''
         }
 
         this.onProvinceClick = this.onProvinceClick.bind(this);
@@ -120,17 +121,17 @@ export default class registerPromotion extends Component {
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        axios.get(`/restaurants/providerTypes`)
+        api.get(`/restaurants/providerTypes`)
             .then(res => {
                 this.setState({ types: res.data })
             })
 
-        axios.get(`/users/findByPhoneNumber/${localStorage.getItem("currentUser")}`)
+        api.get(`/users/findByPhoneNumber/${localStorage.getItem("currentUser")}`)
             .then(res => {
                 this.setState({ user: res.data })
             })
 
-        axios.get(`/restaurants?type=0&province=&district=&restaurantName=`)
+        api.get(`/restaurants?type=0&province=&district=&restaurantName=`)
             .then(res => {
                 this.setState({ listCheck: res.data });
             });
@@ -203,20 +204,15 @@ export default class registerPromotion extends Component {
 
     validate() {
         const { restaurantAddress, restaurantBusinessCode, restaurantName,
-            restaurantPhone, restaurantSize, restaurantDescription
+            restaurantPhone, restaurantSize, restaurantDescription, user
         } = this.state;
         let isAuthen = this.isAuthentication();
         let userId = '';
-        let currentUserId = '';
-
-        axios.get(``)
+        api.get(`/restaurants/getProviderIdByPhoneNumber/${restaurantPhone}`)
             .then(res => {
+                console.log(res.data);
+                // this.setState({ userId: res.data });
                 userId = res.data;
-            })
-
-        axios.get(`/users/findByPhoneNumber/${localStorage.getItem("currentUser")}`)
-            .then(res => {
-                currentUserId = res.data.id
             })
 
         if (isAuthen) {
@@ -231,7 +227,7 @@ export default class registerPromotion extends Component {
                     } else if (!validatePhoneNumber(restaurantPhone)) {
                         Notify('Số điện thoại sai định dạng', 'error', 'top-right');
                         return false;
-                    } else if (userId !== currentUserId) {
+                    } else if (userId !== user.id) {
                         Notify('Số điện thoại đã tồn tại', 'error', 'top-right');
                         return false;
                     } else if (!validateCapacity(restaurantSize)) {
@@ -273,7 +269,7 @@ export default class registerPromotion extends Component {
             restaurantDescription, restaurantName, restaurantPhone, restaurantSize, restaurantType
         } = this.state;
         e.preventDefault();
-        axios.post(`/restaurants/registerRestaurant`,
+        api.post(`/restaurants/registerRestaurant`,
             {
                 "provider": user,
                 "province": provinceName,
@@ -291,7 +287,7 @@ export default class registerPromotion extends Component {
             }
         }
         ).then(res => {
-            axios.post(`/notifications/insertNotification`,
+            api.post(`/notifications/insertNotification`,
                 {
                     "content": `Có nhà hàng ${restaurantName} mới đăng ký`,
                     "customer": null,
@@ -324,11 +320,11 @@ export default class registerPromotion extends Component {
 
     updateImage(restaurantId) {
         // document.getElementById('error-form4').style.display = "none";
-        axios.delete(`/images/deleteCertificate?restaurantId=${restaurantId}`)
+        api.delete(url + `/images/deleteCertificate?restaurantId=${restaurantId}`)
             .then(res => {
                 let formData = new FormData();
                 formData.append('file', this.state.images[0].file);
-                axios.post(`/images/upload?userId=0&dishId=0&serviceId=0&comboId=0&restaurantId=${restaurantId}&promotionId=0&typeId=3`,
+                api.post(url + `/images/upload?userId=0&dishId=0&serviceId=0&comboId=0&restaurantId=${restaurantId}&promotionId=0&typeId=3`,
                     formData, {
                 }).then(res => {
                     // window.location.reload();
@@ -534,6 +530,7 @@ export default class registerPromotion extends Component {
                                 </Row>
                             </Form>
                             <Button onClick={() => {
+                                console.log(this.validate())
                                 if (this.validate()) {
                                     this.toggle();
                                 }

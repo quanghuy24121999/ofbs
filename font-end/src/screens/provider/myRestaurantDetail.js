@@ -7,7 +7,7 @@ import {
 import subVn from "sub-vn";
 import { Link } from 'react-router-dom';
 import ImageUploading from "react-images-uploading";
-import axios from 'axios';
+import { api, url } from '../../config/axios';
 
 import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
@@ -89,17 +89,17 @@ export default class myRestaurantDetail extends Component {
         window.scrollTo(0, 0);
         restaurantId = localStorage.getItem('resId');
 
-        axios.get(`/restaurants/providerTypes`)
+        api.get(`/restaurants/providerTypes`)
             .then(res => {
                 this.setState({ types: res.data })
             })
 
-        axios.get(`/users/findByPhoneNumber/${localStorage.getItem("currentUser")}`)
+        api.get(`/users/findByPhoneNumber/${localStorage.getItem("currentUser")}`)
             .then(res => {
                 this.setState({ user: res.data })
             })
 
-        axios.get(`/images/getImagesRestaurant?restaurantId=${restaurantId}`)
+        api.get(url + `/images/getImagesRestaurant?restaurantId=${restaurantId}`)
             .then(res => {
                 let tempArr = res.data;
                 tempArr.forEach(item => {
@@ -112,7 +112,7 @@ export default class myRestaurantDetail extends Component {
 
             })
 
-        axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
+        api.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
             .then(res => {
                 let restaurant = res.data;
                 this.findProvinceAndDistrictCode(restaurant.province, restaurant.district);
@@ -308,7 +308,7 @@ export default class myRestaurantDetail extends Component {
             districtName, provinceName, restaurantAddress, restaurantDescription, user,
             restaurantName, restaurantPhone, restaurantSize, restaurantStatus, restaurantType,
         } = this.state;
-        axios.post(`/restaurants/updateInforRestaurant`,
+        api.post(`/restaurants/updateInforRestaurant`,
             {
                 "id": restaurantId,
                 "provider": user,
@@ -349,7 +349,7 @@ export default class myRestaurantDetail extends Component {
         document.getElementById('error-form4').style.display = "none";
 
         if (imageId === null || imageId === '') {
-            axios.post(`/images/upload?userId=0&dishId=0&serviceId=0&comboId=0&restaurantId=${restaurantId}&promotionId=0&typeId=1`,
+            api.post(url + `/images/upload?userId=0&dishId=0&serviceId=0&comboId=0&restaurantId=${restaurantId}&promotionId=0&typeId=1`,
                 formData, {
             }).then(res => {
                 window.location.reload();
@@ -357,7 +357,7 @@ export default class myRestaurantDetail extends Component {
                 document.getElementById('error-form4').style.display = "block";
             })
         } else {
-            axios.post(`/images/update?imageId=${imageId}`,
+            api.post(url + `/images/update?imageId=${imageId}`,
                 formData, {
             }).then(res => {
                 window.location.reload();
@@ -382,7 +382,7 @@ export default class myRestaurantDetail extends Component {
         if (restaurantAvatar === '') {
             image = <CardImg id="user-image" className="restaurant-profile-image" top src={RestaurantAvater} />
         } else {
-            image = <CardImg id="user-image" className="restaurant-profile-image" top src={'/images/' + restaurantAvatar} />
+            image = <CardImg id="user-image" className="restaurant-profile-image" top src={url + '/images/' + restaurantAvatar} />
         }
 
         return (
@@ -518,7 +518,7 @@ export default class myRestaurantDetail extends Component {
                                     </ImageUploading>
                                 </Col>
                                 <Col lg="12" md="12" sm="12">
-                                    <CardImg id="user-image" className="restaurant-profile-image" top src={'/images/' + restaurantCertificate} />
+                                    <CardImg id="user-image" className="restaurant-profile-image" top src={url + '/images/' + restaurantCertificate} />
                                     <h5 className="img-title">Giấy chứng nhận vệ sinh an toàn thực phẩm</h5>
                                 </Col>
                             </Row>

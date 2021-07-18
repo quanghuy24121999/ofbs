@@ -1,7 +1,7 @@
 import React from 'react';
 import { formatDateForNotify } from '../../common/formatDate';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { api } from '../../config/axios';
 
 export default function NotificationItem(props) {
     const notification = props.notification;
@@ -25,10 +25,10 @@ export default function NotificationItem(props) {
     }
 
     const read = () => {
-        axios.get(`/notifications/getNotificationById?id=${notification.id}`)
+        api.get(`/notifications/getNotificationById?id=${notification.id}`)
             .then(res => {
                 const notification = res.data;
-                axios.post(`/notifications/insertNotification`, {
+                api.post(`/notifications/insertNotification`, {
                     "id": notification.id,
                     "content": notification.content,
                     "customer": notification.customer,

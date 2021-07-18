@@ -3,7 +3,7 @@ import firebase from "../config/firebase";
 import {
     Form, FormGroup, Label, Input, Button
 } from 'reactstrap';
-import axios from "axios";
+import { api } from '../config/axios';
 
 import TopMenu from '../components/common/topMenu';
 import { Notify } from '../common/notify';
@@ -86,7 +86,7 @@ class register extends Component {
             if (validateUsername(this.state.name)) {
                 if (validatePhoneNumber(this.state.phoneNumber)) {
                     const phone = '+84' + this.state.phoneNumber.substring(1, this.state.phoneNumber.length);
-                    axios.get('/users/findByPhoneNumber/' + phone)
+                    api.get('/users/findByPhoneNumber/' + phone)
                         .then(res => {
                             if (res.data === null || res.data === '') {
                                 if (this.validateConfirmPassword() === true) {
@@ -130,7 +130,7 @@ class register extends Component {
 
             e.confirm(code)
                 .then(function (result) {
-                    axios.post('/users/register', {
+                    api.post('/users/register', {
                         name: name.trim(),
                         phoneLogin: phoneCapcha,
                         password: password,

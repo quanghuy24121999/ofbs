@@ -131,8 +131,8 @@ public class RestaurantController {
 		return ResponseEntity.status(HttpStatus.OK).body(numberOfRestaurants);
 	}
 	
-	@GetMapping("/getProviderIdByPhoneNumber")
-	public ResponseEntity<?> getProviderIdByPhoneNumber(@PathParam("phoneNumber") String phoneNumber) {
+	@GetMapping("/getProviderIdByPhoneNumber/{phoneNumber}")
+	public ResponseEntity<?> getProviderIdByPhoneNumber(@PathVariable("phoneNumber") String phoneNumber) {
 		long providerId = restaurantService.getProviderIdByPhoneNumber(phoneNumber);
 		return ResponseEntity.status(HttpStatus.OK).body(providerId);
 	}

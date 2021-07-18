@@ -5,7 +5,7 @@ import {
     CardImg, Row, Col
 } from 'reactstrap';
 import { FaEye } from 'react-icons/fa';
-import axios from 'axios';
+import { api, url } from '../../config/axios';
 import { Notify } from '../../common/notify';
 
 export default function RestaurantServiceItem(props) {
@@ -31,7 +31,7 @@ export default function RestaurantServiceItem(props) {
         setModal(!modal);
 
         if (modal === false) {
-            axios.get(`/services/getServiceById?serviceId=${service.id}`)
+            api.get(`/services/getServiceById?serviceId=${service.id}`)
                 .then(res => {
                     setServiceModal(res.data);
                 })
@@ -43,17 +43,17 @@ export default function RestaurantServiceItem(props) {
     }
 
     const ban = () => {
-        axios.get(`/restaurants/getRestaurantById?restaurantId=${service.restaurant_id}`)
+        api.get(`/restaurants/getRestaurantById?restaurantId=${service.restaurant_id}`)
             .then(res => {
                 const restaurant = res.data;
-                axios({
+                api({
                     method: 'POST',
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
                     },
                     url: `/services/updateStatus?serviceId=${service.id}`
                 });
-                axios.post(`/notifications/insertNotification`,
+                api.post(`/notifications/insertNotification`,
                     {
                         "content": `Dịch vụ ${service.service_name} của nhà hàng ${restaurant.restaurantName} đã bị gỡ do vi phạm chính sách của FBS`,
                         "customer": null,
@@ -90,7 +90,7 @@ export default function RestaurantServiceItem(props) {
                     <Row>
                         {
                             imageId && (<Col>
-                                <CardImg id="user-image" className="service-image" top src={`/images/${imageId}`} alt="dịch vụ" />
+                                <CardImg id="user-image" className="service-image" top src={url + `/images/${imageId}`} alt="dịch vụ" />
                             </Col>
                             )
                         }

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { api } from '../config/axios';
 import React, { Component } from 'react'
 import {
     Container, Row, Form, FormGroup,
@@ -164,7 +164,7 @@ export default class searchResult extends Component {
             districtName = '';
         }
 
-        axios.get(`/restaurants?type=${type}&province=${provinceName}&district=${districtName}&restaurantName=${restaurantText.trim()}`)
+        api.get(`/restaurants?type=${type}&province=${provinceName}&district=${districtName}&restaurantName=${restaurantText.trim()}`)
             .then(res => {
                 this.setState({ loading: false });
                 const data = res.data;

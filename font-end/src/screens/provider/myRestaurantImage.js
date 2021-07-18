@@ -6,7 +6,7 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import ImageUploading from "react-images-uploading";
-import axios from 'axios';
+import { api, url } from '../../config/axios';
 import ReactPaginate from 'react-paginate';
 import { FaTrashAlt, FaRegPlusSquare } from 'react-icons/fa';
 
@@ -49,7 +49,7 @@ export default class myRestaurantImage extends Component {
     };
 
     deleteImage(imageId) {
-        axios.delete(`/images/deleteImageById?imageId=${imageId}`)
+        api.delete(url + `/images/deleteImageById?imageId=${imageId}`)
             .then(res => {
                 this.toggle2(imageId);
                 this.receivedData();
@@ -61,7 +61,7 @@ export default class myRestaurantImage extends Component {
         document.getElementById('error-form4').style.display = "none";
         let formData = new FormData();
         formData.append('file', this.state.imageUploads[0].file);
-        axios.post(`/images/upload?userId=0&dishId=0&serviceId=0&comboId=0&restaurantId=${restaurantId}&promotionId=0&typeId=2`,
+        api.post(url + `/images/upload?userId=0&dishId=0&serviceId=0&comboId=0&restaurantId=${restaurantId}&promotionId=0&typeId=2`,
             formData, {
         }).then(res => {
             this.receivedData();
@@ -98,13 +98,13 @@ export default class myRestaurantImage extends Component {
     };
 
     receivedData() {
-        axios.get(`/images/getRestaurantImages?restaurantId=${restaurantId}`)
+        api.get(url + `/images/getRestaurantImages?restaurantId=${restaurantId}`)
             .then(res => {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
                 const imageList = slice.map((image, index) => {
                     return <Col className="myRes-detail-img-item" key={index} lg="3" md="4" sm="12">
-                        <CardImg className="image-description" src={`/images/${image.image_id}`} />
+                        <CardImg className="image-description" src={url + `/images/${image.image_id}`} />
                         <div className="icon-del"
                             onClick={(event) => {
                                 event.preventDefault();

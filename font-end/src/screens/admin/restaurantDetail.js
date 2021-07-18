@@ -5,7 +5,7 @@ import {
     Row, Col, NavItem, Nav, Container,
     Label,CardImg
 } from 'reactstrap';
-import axios from 'axios';
+import { api, url } from '../../config/axios';
 import { Link } from 'react-router-dom';
 
 import RestaurantAvatar from '../../images/default-restaurant.png';
@@ -25,7 +25,7 @@ export default function RestaurantDetail(props) {
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        axios.get(`/images/getImagesRestaurant?restaurantId=${restaurantId}`)
+        api.get(url + `/images/getImagesRestaurant?restaurantId=${restaurantId}`)
             .then(res => {
                 let tempArr = res.data;
                 tempArr.forEach(item => {
@@ -38,7 +38,7 @@ export default function RestaurantDetail(props) {
 
             })
 
-        axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
+        api.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
             .then(res => {
                 setRestaurant(res.data);
                 if (res.data.status.name === 'pending') {
@@ -51,7 +51,7 @@ export default function RestaurantDetail(props) {
     if (restaurantAvatar === '') {
         image = <CardImg id="user-image" className="restaurant-profile-image" top src={RestaurantAvatar} />
     } else {
-        image = <CardImg id="user-image" className="restaurant-profile-image" top src={'/images/' + restaurantAvatar} />
+        image = <CardImg id="user-image" className="restaurant-profile-image" top src={url + '/images/' + restaurantAvatar} />
     }
 
     const Logout = () => {
@@ -142,7 +142,7 @@ export default function RestaurantDetail(props) {
                                             {image}
                                         </Col>
                                         <Col lg="12" md="12" sm="12">
-                                            <CardImg id="user-image" className="restaurant-profile-image" top src={'/images/' + restaurantCertificate} />
+                                            <CardImg id="user-image" className="restaurant-profile-image" top src={url + '/images/' + restaurantCertificate} />
                                             <h5 className="img-title">Giấy chứng nhận vệ sinh an toàn thực phẩm</h5>
                                         </Col>
                                     </Row>

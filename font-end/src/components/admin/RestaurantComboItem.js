@@ -5,7 +5,7 @@ import {
     CardImg, Row, Col, Table
 } from 'reactstrap';
 import { FaEye } from 'react-icons/fa';
-import axios from 'axios';
+import { api, url } from '../../config/axios';
 
 import DishComboItem from '../restaurant/dishComboItem';
 import { Notify } from '../../common/notify';
@@ -34,12 +34,12 @@ export default function RestaurantComboItem(props) {
         setModal(!modal);
 
         if (modal === false) {
-            axios.get(`/combos/getComboById?comboId=${combo.combo_id}`)
+            api.get(`/combos/getComboById?comboId=${combo.combo_id}`)
                 .then(res => {
                     setComboModal(res.data);
                 });
 
-            axios.get(`/dishes/getDishesByComboId?comboId=${combo.combo_id}`)
+            api.get(`/dishes/getDishesByComboId?comboId=${combo.combo_id}`)
                 .then(res => {
                     setDishModal(res.data);
                 });
@@ -51,17 +51,17 @@ export default function RestaurantComboItem(props) {
     }
 
     const ban = () => {
-        axios.get(`/restaurants/getRestaurantById?restaurantId=${combo.restaurant_id}`)
+        api.get(`/restaurants/getRestaurantById?restaurantId=${combo.restaurant_id}`)
             .then(res => {
                 const restaurant = res.data;
-                axios({
+                api({
                     method: 'POST',
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
                     },
                     url: `/combos/updateStatus?comboId=${combo.combo_id}`
                 });
-                axios.post(`/notifications/insertNotification`,
+                api.post(`/notifications/insertNotification`,
                     {
                         "content": `Dịch vụ ${combo.combo_name} của nhà hàng ${restaurant.restaurantName} đã bị gỡ do vi phạm chính sách của FBS`,
                         "customer": null,
@@ -98,7 +98,7 @@ export default function RestaurantComboItem(props) {
                         <Col lg="6" md="6" sm="12">
                             {
                                 imageId && (
-                                    <CardImg id="user-image" className="dish-profile-image" top src={`/images/${imageId}`} alt="dịch vụ" />
+                                    <CardImg id="user-image" className="dish-profile-image" top src={url + `/images/${imageId}`} alt="dịch vụ" />
                                 )
                             }
                             {
