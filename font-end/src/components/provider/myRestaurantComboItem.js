@@ -248,6 +248,7 @@ export default function MyRestaurantComboItem(props) {
                                                 value={images}
                                                 onChange={onChange}
                                                 dataURLKey="data_url"
+                                                acceptType={['jpg', 'jpeg', 'gif', 'png']}
                                             >
                                                 {({
                                                     imageList,

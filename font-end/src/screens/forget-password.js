@@ -106,7 +106,7 @@ export default class forgetPassword extends Component {
                 return true;
             }
         } else {
-            Notify('Mật khẩu phải ít nhất 3 kí tự và không bao gồm khoảng trắng', 'error', 'top-right')
+            Notify('Vui lòng nhập mật khẩu từ 3-32 ký tự và không bao gồm khoảng trắng', 'error', 'top-right')
         }
     }
 

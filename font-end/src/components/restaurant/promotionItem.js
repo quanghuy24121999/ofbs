@@ -1,6 +1,7 @@
 import React from 'react';
 import { CardImg } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { FaTags } from 'react-icons/fa';
 
 import { formatDate } from '../../common/formatDate';
 
@@ -18,7 +19,10 @@ export default function PromotionItem(props) {
         <div className="promotion-item">
             <div className="promotion-item-info">
                 <div>
-                    <div className="promotion-item-header">{promotion.promotion_name}</div>
+                    <div className="promotion-item-header">
+                        {promotion.promotion_name} {`  `}
+                        (<FaTags/> {promotion.discount_percentage} %);
+                    </div>
                     <div className="promotion-item-description">{promotion.description}</div>
                     <div className="promotion-item-date">
                         {"Ưu đãi từ " + formatDate(promotion.start_date) + " đến " + formatDate(promotion.end_date)}

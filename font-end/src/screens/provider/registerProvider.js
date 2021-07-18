@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
     Container, Input, Label, Button,
     Row, Col, Modal, ModalHeader, ModalBody,
-    ModalFooter, Form, CardImg, Alert
+    ModalFooter, Form, CardImg
 } from 'reactstrap';
 import subVn from "sub-vn";
 import { Link, Redirect } from 'react-router-dom';
@@ -12,7 +12,7 @@ import axios from 'axios';
 import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
 import { Notify } from '../../common/notify';
-import { validateCapacity, validateDescription, validateEmpty, validatePhoneNumber, validateUsername } from '../../common/validate';
+import { validateCapacity, validateDescription, validateECapacity, validateEmpty, validatePhoneNumber, validateUsername } from '../../common/validate';
 
 export default class registerPromotion extends Component {
     constructor(props) {
@@ -154,22 +154,22 @@ export default class registerPromotion extends Component {
         checkbox = document.getElementById('cb-accept');
 
         if (checkbox !== '' && checkbox !== undefined) {
-            if (!validateEmpty(restaurantName) || !this.checkSpace(restaurantName)) {
+            if (!validateEmpty(restaurantName.trim()) || !this.checkSpace(restaurantName.trim())) {
                 Notify('Tên nhà hàng không được để trống', 'error', 'top-right');
                 return false;
-            } else if (!validateEmpty(restaurantAddress) || !this.checkSpace(restaurantAddress)) {
+            } else if (!validateEmpty(restaurantAddress.trim()) || !this.checkSpace(restaurantAddress.trim())) {
                 Notify('Địa chỉ không được để trống', 'error', 'top-right');
                 return false;
-            } else if (!validateEmpty(restaurantPhone)) {
+            } else if (!validateEmpty(restaurantPhone.trim())) {
                 Notify('Số điện thoại không được để trống', 'error', 'top-right');
                 return false;
-            } else if (!validateEmpty(restaurantSize)) {
-                Notify('Sức chứa không được để trống', 'error', 'top-right');
+            } else if (!validateEmpty(restaurantSize) || restaurantSize === '0') {
+                Notify('Vui lòng nhập sức chứa hoặc sức chứa không hợp lệ', 'error', 'top-right');
                 return false;
-            } else if (!validateEmpty(restaurantBusinessCode)) {
+            } else if (!validateEmpty(restaurantBusinessCode.trim())) {
                 Notify('Mã giấy phép kinh doanh không được để trống', 'error', 'top-right');
                 return false;
-            } else if (!validateEmpty(restaurantDescription) || !this.checkSpace(restaurantDescription)) {
+            } else if (!validateEmpty(restaurantDescription.trim()) || !this.checkSpace(restaurantDescription.trim())) {
                 Notify('Mô tả không được để trống', 'error', 'top-right');
                 return false;
             } else if (images.length === 0) {
@@ -205,34 +205,66 @@ export default class registerPromotion extends Component {
         const { restaurantAddress, restaurantBusinessCode, restaurantName,
             restaurantPhone, restaurantSize, restaurantDescription
         } = this.state;
+        let isAuthen = this.isAuthentication();
+        let userId = '';
+        let currentUserId = '';
 
-        if (this.checkRequire()) {
-            if (this.checkCodeExist() === true) {
-                if (!validateUsername(restaurantName)) {
-                    Notify('Tên nhà hàng quá dài', 'error', 'top-right');
-                    return false;
-                } else if (!validateUsername(restaurantAddress)) {
-                    Notify('Tên địa chỉ quá dài', 'error', 'top-right');
-                    return false;
-                } else if (!validatePhoneNumber(restaurantPhone)) {
-                    Notify('Số điện thoại sai định dạng', 'error', 'top-right');
-                    return false;
-                } else if (!validateCapacity(restaurantSize)) {
-                    Notify('Sức chứa quá lớn', 'error', 'top-right');
-                    return false;
-                } else if (!validateUsername(restaurantBusinessCode)) {
-                    Notify('Mã giấy phép kinh doanh quá dài', 'error', 'top-right');
-                    return false;
-                } else if (!validateDescription(restaurantDescription)) {
-                    Notify('Mô tả phải nhỏ hơn 2000 ký tự', 'error', 'top-right');
-                    return false;
+        axios.get(``)
+            .then(res => {
+                userId = res.data;
+            })
+
+        axios.get(`/users/findByPhoneNumber/${localStorage.getItem("currentUser")}`)
+            .then(res => {
+                currentUserId = res.data.id
+            })
+
+        if (isAuthen) {
+            if (this.checkRequire()) {
+                if (this.checkCodeExist() === true) {
+                    if (!validateUsername(restaurantName)) {
+                        Notify('Tên nhà hàng quá dài', 'error', 'top-right');
+                        return false;
+                    } else if (!validateUsername(restaurantAddress)) {
+                        Notify('Tên địa chỉ quá dài', 'error', 'top-right');
+                        return false;
+                    } else if (!validatePhoneNumber(restaurantPhone)) {
+                        Notify('Số điện thoại sai định dạng', 'error', 'top-right');
+                        return false;
+                    } else if (userId !== currentUserId) {
+                        Notify('Số điện thoại đã tồn tại', 'error', 'top-right');
+                        return false;
+                    } else if (!validateCapacity(restaurantSize)) {
+                        Notify('Sức chứa quá lớn', 'error', 'top-right');
+                        return false;
+                    } else if (!validateECapacity(restaurantSize)) {
+                        Notify('Sức chứa sai định dạng', 'error', 'top-right');
+                        return false;
+                    } else if (!validateUsername(restaurantBusinessCode)) {
+                        Notify('Mã giấy phép kinh doanh quá dài', 'error', 'top-right');
+                        return false;
+                    } else if (!validateDescription(restaurantDescription)) {
+                        Notify('Mô tả phải nhỏ hơn 2000 ký tự', 'error', 'top-right');
+                        return false;
+                    } else {
+                        return true;
+                    }
                 } else {
-                    return true;
+                    Notify('Mã giấy phép kinh doanh đã tồn tại', 'error', 'top-right');
+                    return false;
                 }
-            } else {
-                Notify('Mã giấy phép kinh doanh đã tồn tại', 'error', 'top-right');
-                return false;
             }
+        } else {
+            Notify('Bạn phải đăng nhập để thực hiện chức năng này', 'error', 'top-right');
+        }
+    }
+
+    isAuthentication() {
+        const currentUser = localStorage.getItem("currentUser");
+        if (currentUser !== null && currentUser !== undefined) {
+            return true
+        } else {
+            return false;
         }
     }
 
@@ -469,6 +501,7 @@ export default class registerPromotion extends Component {
                                             value={images}
                                             onChange={this.onChange}
                                             dataURLKey="data_url"
+                                            acceptType={['jpg', 'jpeg', 'gif', 'png']}
                                         >
                                             {({
                                                 imageList,

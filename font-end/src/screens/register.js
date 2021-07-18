@@ -7,7 +7,7 @@ import axios from "axios";
 
 import TopMenu from '../components/common/topMenu';
 import { Notify } from '../common/notify';
-import { validatePassword, validatePhoneNumber, validateUsername } from "../common/validate";
+import { validateEmpty, validatePassword, validatePhoneNumber, validateUsername } from "../common/validate";
 
 let recap = null;
 let event = '';
@@ -75,45 +75,49 @@ class register extends Component {
                 return true;
             }
         } else {
-            Notify('Mật khẩu phải ít nhất 3 kí tự và không bao gồm khoảng trắng', 'error', 'top-right')
+            Notify('Vui lòng nhập mật khẩu từ 3-32 ký tự và không bao gồm khoảng trắng', 'error', 'top-right')
         }
     }
 
     handleClick(e) {
         e.preventDefault();
 
-        if (validateUsername(this.state.name)) {
-            if (validatePhoneNumber(this.state.phoneNumber)) {
-                const phone = '+84' + this.state.phoneNumber.substring(1, this.state.phoneNumber.length);
-                axios.get('/users/findByPhoneNumber/' + phone)
-                    .then(res => {
-                        if (res.data === null || res.data === '') {
-                            if (this.validateConfirmPassword() === true) {
-                                let recapcha = new firebase.auth.RecaptchaVerifier("recaptcha");
-                                firebase.auth().signInWithPhoneNumber(phone, recapcha)
-                                    .then(function (e) {
-                                        recap = recapcha;
-                                        event = e;
-                                        phoneCapcha = phone;
+        if (validateEmpty(this.state.name.trim())) {
+            if (validateUsername(this.state.name)) {
+                if (validatePhoneNumber(this.state.phoneNumber)) {
+                    const phone = '+84' + this.state.phoneNumber.substring(1, this.state.phoneNumber.length);
+                    axios.get('/users/findByPhoneNumber/' + phone)
+                        .then(res => {
+                            if (res.data === null || res.data === '') {
+                                if (this.validateConfirmPassword() === true) {
+                                    let recapcha = new firebase.auth.RecaptchaVerifier("recaptcha");
+                                    firebase.auth().signInWithPhoneNumber(phone, recapcha)
+                                        .then(function (e) {
+                                            recap = recapcha;
+                                            event = e;
+                                            phoneCapcha = phone;
 
-                                        document.getElementById('verify-code').style.display = "flex";
-                                        document.getElementById('recaptcha').style.display = "none";
-                                        document.getElementById('btn-forget-password').style.display = "none";
-                                    }).catch((error) => {
-                                        recapcha.clear();
-                                        console.log(error);
-                                        Notify("Lỗi hệ thống !", "error", "top-right");
-                                    });
+                                            document.getElementById('verify-code').style.display = "flex";
+                                            document.getElementById('recaptcha').style.display = "none";
+                                            document.getElementById('btn-forget-password').style.display = "none";
+                                        }).catch((error) => {
+                                            recapcha.clear();
+                                            console.log(error);
+                                            Notify("Lỗi hệ thống !", "error", "top-right");
+                                        });
+                                }
+                            } else {
+                                Notify("Số điện thoại đã tồn tại !", "error", "top-right");
                             }
-                        } else {
-                            Notify("Số điện thoại đã tồn tại !", "error", "top-right");
-                        }
-                    });
+                        });
+                } else {
+                    Notify('Số điện thoại của bạn không đúng định dạng', 'error', 'top-right');
+                }
             } else {
-                Notify('Số điện thoại của bạn không đúng định dạng', 'error', 'top-right');
+                Notify('Tên của bạn quá dài', 'error', 'top-right');
             }
         } else {
-            Notify('Tên của bạn quá dài', 'error', 'top-right');
+            Notify('Vui lòng nhập tên đầy đủ', 'error', 'top-right');
         }
     }
 

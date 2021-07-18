@@ -220,6 +220,7 @@ export default function MyRestaurantServiceItem(props) {
                                             value={images}
                                             onChange={onChange}
                                             dataURLKey="data_url"
+                                            acceptType={['jpg', 'jpeg', 'gif', 'png']}
                                         >
                                             {({
                                                 imageList,

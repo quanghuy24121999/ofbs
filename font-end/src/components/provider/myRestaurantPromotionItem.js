@@ -189,6 +189,7 @@ export default function MyRestaurantPromotionItem(props) {
                                         value={images}
                                         onChange={onChange}
                                         dataURLKey="data_url"
+                                        acceptType={['jpg', 'jpeg', 'gif', 'png']}
                                     >
                                         {({
                                             imageList,

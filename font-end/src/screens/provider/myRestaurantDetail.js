@@ -481,6 +481,7 @@ export default class myRestaurantDetail extends Component {
                                         value={images}
                                         onChange={this.onChange}
                                         dataURLKey="data_url"
+                                        acceptType={['jpg', 'jpeg', 'gif', 'png']}
                                     >
                                         {({
                                             imageList,

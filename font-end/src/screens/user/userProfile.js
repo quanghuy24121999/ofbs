@@ -262,7 +262,7 @@ export default class userProfile extends Component {
                 Notify('Mật khẩu cũ không đúng', 'error', 'top-right');
             })
         } else {
-            Notify('Mật khẩu mới phải ít nhất 3 kí tự và không bao gồm khoảng trắng', 'error', 'top-right')
+            Notify('Vui lòng nhập mật khẩu từ 3-32 ký tự và không bao gồm khoảng trắng', 'error', 'top-right')
         }
     }
 
@@ -449,6 +449,7 @@ export default class userProfile extends Component {
                                 value={images}
                                 onChange={this.onChange}
                                 dataURLKey="data_url"
+                                acceptType={['jpg', 'jpeg', 'gif', 'png']}
                             >
                                 {({
                                     imageList,
