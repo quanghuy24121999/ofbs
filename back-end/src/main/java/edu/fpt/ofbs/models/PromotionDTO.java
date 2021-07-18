@@ -29,4 +29,6 @@ public class PromotionDTO {
 	private Date end_date;
 	
 	private String promotion_status;
+	
+	private float discount_percentage;
 }
