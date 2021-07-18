@@ -4,7 +4,7 @@ import {
 } from 'reactstrap';
 import { FaBars } from 'react-icons/fa';
 import SlideBar from '../../components/admin/SlideBar';
-import axios from 'axios';
+import { api } from '../../config/axios';
 import { Link } from 'react-router-dom';
 
 import Notification from '../../components/admin/Notification';
@@ -24,7 +24,7 @@ export default function Report() {
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        axios.get(`/feedbacks/getReport`, {
+        api.get(`/feedbacks/getReport`, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }

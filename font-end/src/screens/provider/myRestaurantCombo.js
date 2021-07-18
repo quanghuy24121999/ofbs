@@ -6,7 +6,7 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
-import axios from 'axios';
+import { api, url } from '../../config/axios';
 import { FaRegPlusSquare } from 'react-icons/fa';
 import ImageUploading from "react-images-uploading";
 
@@ -77,7 +77,7 @@ export default class myRestaurantCombo extends Component {
     };
 
     receivedData() {
-        axios.get(`/combos/getCombosByRestaurantId?restaurantId=${restaurantId}&isActive=0`)
+        api.get(`/combos/getCombosByRestaurantId?restaurantId=${restaurantId}&isActive=0`)
             .then(res => {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
@@ -103,7 +103,7 @@ export default class myRestaurantCombo extends Component {
         formData.append('file', this.state.images[0].file);
         document.getElementById('error-form4').style.display = "none";
 
-        axios.post(`/images/upload?userId=0&dishId=0&serviceId=0&comboId=${comboId}&restaurantId=0&promotionId=0&typeId=1`,
+        api.post(url + `/images/upload?userId=0&dishId=0&serviceId=0&comboId=${comboId}&restaurantId=0&promotionId=0&typeId=1`,
             formData, {
         }).then(res => {
             this.receivedData();
@@ -145,10 +145,10 @@ export default class myRestaurantCombo extends Component {
         const { name, price, description, images } = this.state;
         if (images.length > 0) {
             if (this.validate()) {
-                axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
+                api.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
                     .then(res => {
                         let restaurant = res.data;
-                        axios.get(`/combos/getCombosByRestaurantId?restaurantId=${restaurantId}&isActive=0`)
+                        api.get(`/combos/getCombosByRestaurantId?restaurantId=${restaurantId}&isActive=0`)
                             .then(res => {
                                 let count = 0
                                 res.data.forEach(combo => {
@@ -157,7 +157,7 @@ export default class myRestaurantCombo extends Component {
                                     }
                                 });
                                 if (count === 0) {
-                                    axios.post(`/combos/save`,
+                                    api.post(`/combos/save`,
                                         {
                                             "name": name,
                                             "status": { id: 2, name: 'inactive' },
@@ -295,6 +295,7 @@ export default class myRestaurantCombo extends Component {
                                             value={images}
                                             onChange={this.onChange}
                                             dataURLKey="data_url"
+                                            acceptType={['jpg', 'jpeg', 'gif', 'png']}
                                         >
                                             {({
                                                 imageList,

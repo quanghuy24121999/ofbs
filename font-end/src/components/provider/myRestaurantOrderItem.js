@@ -5,7 +5,7 @@ import {
     Col, Container, Label, Input
 } from 'reactstrap';
 import { FaEye } from 'react-icons/fa';
-import axios from 'axios';
+import { api } from '../../config/axios';
 import { ToastContainer, toast } from 'react-toastify';
 
 import { formatDate } from '../../common/formatDate';
@@ -52,7 +52,7 @@ export default function MyRestaurantOrderItem(props) {
     const toggle = () => {
         setModal(!modal);
         if (modal === false) {
-            axios.get(`/orders/orderDetail/infor?orderId=${order.order_id}&customerId=0&restaurantId=${restaurantId}`, {
+            api.get(`/orders/orderDetail/infor?orderId=${order.order_id}&customerId=0&restaurantId=${restaurantId}`, {
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                 }
@@ -60,7 +60,7 @@ export default function MyRestaurantOrderItem(props) {
                 .then(res => {
                     setOrderDetailInfo(res.data[0]);
                     setListOrderDetails(res.data);
-                    axios.get(`/users/findByPhoneNumber/${order.customer_phone_number}`)
+                    api.get(`/users/findByPhoneNumber/${order.customer_phone_number}`)
                         .then(res => {
                             setUser(res.data);
                         })
@@ -79,18 +79,18 @@ export default function MyRestaurantOrderItem(props) {
     }
 
     const acceptOrder = () => {
-        axios.post('/users/login', {
+        api.post('/users/login', {
             phoneLogin: currentUser,
             password: password
         }).then(res => {
-            axios({
+            api({
                 method: 'PATCH',
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                 },
                 url: `/orders/updateStatus?orderId=${order.order_id}&status=preparing`
             }).then(res => {
-                axios.post(`/notifications/insertNotification`,
+                api.post(`/notifications/insertNotification`,
                     {
                         "content": `Đơn hàng ${order.order_code} đã được chấp nhận`,
                         "customer": user,
@@ -137,18 +137,18 @@ export default function MyRestaurantOrderItem(props) {
     }
 
     const cancelOrder = () => {
-        axios.post('/users/login', {
+        api.post('/users/login', {
             phoneLogin: currentUser,
             password: password
         }).then(res => {
-            axios({
+            api({
                 method: 'PATCH',
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                 },
                 url: `/orders/updateStatus?orderId=${order.order_id}&status=cancelled`
             }).then(res => {
-                axios.post(`/notifications/insertNotification`,
+                api.post(`/notifications/insertNotification`,
                     {
                         "content": `Đơn hàng ${order.order_code} đã bị hủy`,
                         "customer": user,
@@ -195,18 +195,18 @@ export default function MyRestaurantOrderItem(props) {
     }
 
     const completeOrder = () => {
-        axios.post('/users/login', {
+        api.post('/users/login', {
             phoneLogin: currentUser,
             password: password
         }).then(res => {
-            axios({
+            api({
                 method: 'PATCH',
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                 },
                 url: `/orders/updateStatus?orderId=${order.order_id}&status=accomplished`
             }).then(res => {
-                axios.post(`/notifications/insertNotification`,
+                api.post(`/notifications/insertNotification`,
                     {
                         "content": `Đơn hàng ${order.order_code} đã hoàn thành`,
                         "customer": user,

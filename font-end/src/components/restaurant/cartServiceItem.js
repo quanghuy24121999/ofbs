@@ -4,6 +4,7 @@ import {
 } from 'reactstrap';
 import { useCart } from 'react-use-cart';
 import { formatCurrency } from '../../common/formatCurrency';
+import { url } from '../../config/axios';
 
 export default function CartServiceItem(props) {
     const item = props.service;
@@ -49,7 +50,7 @@ export default function CartServiceItem(props) {
                     <CardImg
                         className="cart-dish-img"
                         top
-                        src={'/images/' + item.image_service_id}
+                        src={url + '/images/' + item.image_service_id}
                         alt=""
                     />
                     <div className="cart-detail">

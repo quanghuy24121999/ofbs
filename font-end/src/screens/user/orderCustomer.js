@@ -4,7 +4,7 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
-import axios from 'axios';
+import { api } from '../../config/axios';
 
 import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
@@ -35,7 +35,7 @@ export default class orderCustomer extends Component {
     }
 
     receivedData() {
-        axios.get(`/orders/customer?customerId=${userId}&statusId=${this.state.status}`, {
+        api.get(`/orders/customer?customerId=${userId}&statusId=${this.state.status}`, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
@@ -72,7 +72,7 @@ export default class orderCustomer extends Component {
             offset: 0,
             status: status
         }, () => {
-            axios.get(`/orders/customer?customerId=${userId}&statusId=${this.state.status}`, {
+            api.get(`/orders/customer?customerId=${userId}&statusId=${this.state.status}`, {
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                 }

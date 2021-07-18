@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { api } from '../../config/axios';
 import React, { useEffect } from 'react';
 import {
     Button
@@ -39,13 +39,13 @@ export default function AddDishComboItem(props) {
         document.getElementById('add-' + dish.id).disabled = true;
 
         if (check === 0) {
-            axios.get(`/combos/getComboById?comboId=${combo.combo_id}`)
+            api.get(`/combos/getComboById?comboId=${combo.combo_id}`)
                 .then(res => {
                     comboApi = res.data;
-                    axios.get(`/dishes/getDishesById?dishId=${dish.id}`)
+                    api.get(`/dishes/getDishesById?dishId=${dish.id}`)
                         .then(res => {
                             dishApi = res.data;
-                            axios.post(`/dishes/addDishToCombo`,
+                            api.post(`/dishes/addDishToCombo`,
                                 {
                                     "combo": comboApi,
                                     "dish": dishApi

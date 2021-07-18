@@ -4,7 +4,7 @@ import {
     Input, Button,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { api } from '../../config/axios';
 import ReactPaginate from 'react-paginate';
 import { FaSearch } from 'react-icons/fa';
 
@@ -56,7 +56,7 @@ export default class myRestaurantOrder extends Component {
 
     receivedData(orderCode) {
         window.scrollTo(0, 0);
-        axios.get(`/orders/restaurant?restaurantId=${restaurantId}&orderCode=${orderCode}`, {
+        api.get(`/orders/restaurant?restaurantId=${restaurantId}&orderCode=${orderCode}`, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }

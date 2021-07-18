@@ -4,7 +4,7 @@ import { FaBars } from 'react-icons/fa';
 import {
     NavItem, Nav, Container, Table
 } from 'reactstrap';
-import axios from 'axios';
+import { api } from '../../config/axios';
 import ReactPaginate from 'react-paginate';
 import { Link } from 'react-router-dom';
 
@@ -39,7 +39,7 @@ export default function RestaurantCombo(props) {
     };
 
     const receivedData = () => {
-        axios.get(`/combos/getCombosByRestaurantId?restaurantId=${restaurantId}&isActive=0`)
+        api.get(`/combos/getCombosByRestaurantId?restaurantId=${restaurantId}&isActive=0`)
             .then(res => {
                 const data = res.data;
                 const slice = data.slice(offset, offset + perPage)

@@ -5,7 +5,7 @@ import {
     Row
 } from 'reactstrap';
 import { FaEye } from 'react-icons/fa';
-import axios from 'axios';
+import { api, url } from '../../config/axios';
 import { Notify } from '../../common/notify';
 
 export default function RestaurantDishItem(props) {
@@ -31,7 +31,7 @@ export default function RestaurantDishItem(props) {
         setModal(!modal);
 
         if (modal === false) {
-            axios.get(`/dishes/getDishesById?dishId=${dish.id}`)
+            api.get(`/dishes/getDishesById?dishId=${dish.id}`)
                 .then(res => {
                     setDishModal(res.data);
                 })
@@ -43,17 +43,17 @@ export default function RestaurantDishItem(props) {
     }
 
     const ban = () => {
-        axios.get(`/restaurants/getRestaurantById?restaurantId=${dish.restaurant_id}`)
+        api.get(`/restaurants/getRestaurantById?restaurantId=${dish.restaurant_id}`)
             .then(res => {
                 const restaurant = res.data;
-                axios({
+                api({
                     method: 'POST',
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
                     },
                     url: `/dishes/updateStatus?dishId=${dish.id}`
                 });
-                axios.post(`/notifications/insertNotification`,
+                api.post(`/notifications/insertNotification`,
                     {
                         "content": `Món ăn ${dish.dish_name} của nhà hàng ${restaurant.restaurantName} đã bị gỡ do vi phạm chính sách của FBS`,
                         "customer": null,
@@ -91,7 +91,7 @@ export default function RestaurantDishItem(props) {
                         {
                             imageId && (
                                 <Col>
-                                    <CardImg id="user-image" className="dish-image" top src={`/images/${imageId}`} alt="món ăn" />
+                                    <CardImg id="user-image" className="dish-image" top src={url + `/images/${imageId}`} alt="món ăn" />
                                 </Col>
                             )
                         }

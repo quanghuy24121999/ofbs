@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { api, url } from '../../config/axios';
 import {
-    Nav, NavItem, Container, Row, Col, Form,
+    Nav, NavItem, Container,Form,
     Label, Input, Button, Modal, ModalHeader,
     ModalBody, ModalFooter, Alert, CardImg,
     Table
@@ -56,7 +56,7 @@ export default class myRestaurantService extends Component {
     componentDidMount() {
         window.scrollTo(0, 0);
         restaurantId = localStorage.getItem('resId');
-        axios.get(`/services/getServiceCategories`)
+        api.get(`/services/getServiceCategories`)
             .then(res => {
                 this.setState({ categories: res.data });
             });
@@ -82,7 +82,7 @@ export default class myRestaurantService extends Component {
     };
 
     receivedData(serviceName, serviceCategory) {
-        axios.get(`/services/search?restaurantId=${restaurantId}&serviceName=${serviceName}&category=${serviceCategory}`)
+        api.get(`/services/search?restaurantId=${restaurantId}&serviceName=${serviceName}&category=${serviceCategory}`)
             .then(res => {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
@@ -154,7 +154,7 @@ export default class myRestaurantService extends Component {
         const { category, description, name, price, status, images } = this.state;
         if (images.length > 0) {
             if (this.validate()) {
-                axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
+                api.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
                     .then(res => {
                         let serviceStatus = '';
                         let serviceCategory = '';
@@ -198,7 +198,7 @@ export default class myRestaurantService extends Component {
                             default:
                                 break;
                         }
-                        axios.get(`/services/search?restaurantId=${restaurantId}`)
+                        api.get(`/services/search?restaurantId=${restaurantId}`)
                             .then(res => {
                                 let count = 0
                                 res.data.forEach(service => {
@@ -207,7 +207,7 @@ export default class myRestaurantService extends Component {
                                     }
                                 });
                                 if (count === 0) {
-                                    axios.post(`/services/update`,
+                                    api.post(`/services/update`,
                                         {
                                             "name": name,
                                             "description": description,
@@ -247,7 +247,7 @@ export default class myRestaurantService extends Component {
         formData.append('file', this.state.images[0].file);
         document.getElementById('error-form4').style.display = "none";
 
-        axios.post(`/images/upload?userId=0&dishId=0&serviceId=${serviceId}&comboId=0&restaurantId=0&promotionId=0&typeId=1`,
+        api.post(url + `/images/upload?userId=0&dishId=0&serviceId=${serviceId}&comboId=0&restaurantId=0&promotionId=0&typeId=1`,
             formData, {
         }).then(res => {
             this.receivedData('', '');
@@ -403,6 +403,7 @@ export default class myRestaurantService extends Component {
                                             value={images}
                                             onChange={this.onChange}
                                             dataURLKey="data_url"
+                                            acceptType={['jpg', 'jpeg', 'gif', 'png']}
                                         >
                                             {({
                                                 imageList,

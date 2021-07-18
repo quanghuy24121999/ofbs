@@ -3,7 +3,7 @@ import {
   Form, FormGroup, Label, Input
 } from 'reactstrap';
 import { Link, Redirect } from "react-router-dom";
-import axios from 'axios';
+import { api } from '../config/axios';
 
 import TopMenu from '../components/common/topMenu';
 import { Notify } from '../common/notify';
@@ -40,7 +40,7 @@ class login extends Component {
     e.preventDefault();
     if (validatePhoneNumber(this.state.phoneLogin.trim())) {
       const phone = '+84' + this.state.phoneLogin.substring(1, this.state.phoneLogin.length);
-      axios.post('/users/login', {
+      api.post('/users/login', {
         phoneLogin: phone,
         password: this.state.password
       })

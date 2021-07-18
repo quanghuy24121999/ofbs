@@ -5,7 +5,7 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { FaEye } from 'react-icons/fa';
-import axios from 'axios';
+import { api } from '../../config/axios';
 
 export default function RestaurantPendingItem(props) {
     const restaurant = props.restaurant;
@@ -23,18 +23,18 @@ export default function RestaurantPendingItem(props) {
     }
 
     const acceptRestaurant = () => {
-        axios({
+        api({
             method: 'PATCH',
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             },
             url: `/restaurants/updateStatus?restaurantId=${restaurant.restaurant_id}&status=${restaurant.restaurant_status}&statusUpdate=active`
         }).then(res => {
-            axios.get(`/restaurants/getProviderPhoneLogin?restaurantId=${restaurant.restaurant_id}`)
+            api.get(`/restaurants/getProviderPhoneLogin?restaurantId=${restaurant.restaurant_id}`)
                 .then(res => {
-                    axios.get(`/users/findByPhoneNumber/${res.data}`)
+                    api.get(`/users/findByPhoneNumber/${res.data}`)
                         .then(res => {
-                            axios.post(`/notifications/insertNotification`,
+                            api.post(`/notifications/insertNotification`,
                                 {
                                     "content": `Nhà hàng ${restaurant.restaurant_name} của bạn đã được duyệt`,
                                     "customer": null,
@@ -53,18 +53,18 @@ export default function RestaurantPendingItem(props) {
     }
 
     const denyRestaurant = () => {
-        axios({
+        api({
             method: 'PATCH',
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             },
             url: `/restaurants/updateStatus?restaurantId=${restaurant.restaurant_id}&status=${restaurant.restaurant_status}&statusUpdate=cancelled`
         }).then(res => {
-            axios.get(`/restaurants/getProviderPhoneLogin?restaurantId=${restaurant.restaurant_id}`)
+            api.get(`/restaurants/getProviderPhoneLogin?restaurantId=${restaurant.restaurant_id}`)
                 .then(res => {
-                    axios.get(`/users/findByPhoneNumber/${res.data}`)
+                    api.get(`/users/findByPhoneNumber/${res.data}`)
                         .then(res => {
-                            axios.post(`/notifications/insertNotification`,
+                            api.post(`/notifications/insertNotification`,
                                 {
                                     "content": `Nhà hàng ${restaurant.restaurant_name} của bạn không được duyệt`,
                                     "customer": null,

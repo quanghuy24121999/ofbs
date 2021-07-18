@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { api } from '../../config/axios';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from 'reactstrap';
@@ -11,7 +11,7 @@ export default function ReportItem(props) {
     const report = props.report;
 
     const complete = () => {
-        axios.post(`/notifications/insertNotification`,
+        api.post(`/notifications/insertNotification`,
             {
                 "content": `Chúng tôi đã xử lý báo cáo của bạn về nhà hàng ${report.restaurant.restaurantName}`,
                 "customer": report.user,
@@ -22,7 +22,7 @@ export default function ReportItem(props) {
             }
         )
             .then(res => {
-                axios({
+                api({
                     method: 'PATCH',
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('token')

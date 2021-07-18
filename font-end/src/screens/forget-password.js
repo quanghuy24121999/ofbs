@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { api } from '../config/axios';
 import React, { Component } from 'react'
 import {
     Form, FormGroup, Label, Input, Button
@@ -59,7 +59,7 @@ export default class forgetPassword extends Component {
     }
 
     updatePassword() {
-        axios.patch('/update/' + this.state.userId, {
+        api.patch('/update/' + this.state.userId, {
             "password": this.state.password
         })
     }
@@ -69,7 +69,7 @@ export default class forgetPassword extends Component {
 
         let phoneNumber = this.state.phoneNumber;
         phoneNumber = '+84' + phoneNumber.substring(1, phoneNumber.length);
-        axios.get('/users/findByPhoneNumber/' + phoneNumber)
+        api.get('/users/findByPhoneNumber/' + phoneNumber)
             .then(res => {
                 if (res.data !== null && res.data !== '') {
                     if (this.validateConfirmPassword() === true) {
@@ -106,7 +106,7 @@ export default class forgetPassword extends Component {
                 return true;
             }
         } else {
-            Notify('Mật khẩu phải ít nhất 3 kí tự và không bao gồm khoảng trắng', 'error', 'top-right')
+            Notify('Vui lòng nhập mật khẩu từ 3-32 ký tự và không bao gồm khoảng trắng', 'error', 'top-right')
         }
     }
 
@@ -118,7 +118,7 @@ export default class forgetPassword extends Component {
 
             e.confirm(code)
                 .then(function (result) {
-                    axios.patch('/users/update/' + userId, {
+                    api.patch('/users/update/' + userId, {
                         "password": password
                     }).then(res => {
                         Notify("Đổi mật khẩu thành công !", "success", "top-right");

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 
 import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
-import axios from 'axios'; import {
+import { api } from '../../config/axios';
+import {
     Nav, NavItem, Container, Row
 } from 'reactstrap';
 import Carousel from 'react-multi-carousel';
@@ -66,48 +67,48 @@ export default class service extends Component {
     componentDidMount() {
         window.scrollTo(0, 0);
         const restaurantId = this.props.match.params.restaurantId;
-        axios.get(`/services/getServiceByRestaurantId?restaurantId=${restaurantId}&categoryId=1`)
+        api.get(`/services/getServiceByRestaurantId?restaurantId=${restaurantId}&categoryId=1`)
             .then(res => {
                 let services = res.data;
                 // this.modifiedService(services);
                 this.setState({ serviceType1: services })
             })
 
-        axios.get(`/services/getServiceByRestaurantId?restaurantId=${restaurantId}&categoryId=2`)
+        api.get(`/services/getServiceByRestaurantId?restaurantId=${restaurantId}&categoryId=2`)
             .then(res => {
                 let services = res.data;
                 // this.modifiedService(services);
                 this.setState({ serviceType2: services })
             })
 
-        axios.get(`/services/getServiceByRestaurantId?restaurantId=${restaurantId}&categoryId=3`)
+        api.get(`/services/getServiceByRestaurantId?restaurantId=${restaurantId}&categoryId=3`)
             .then(res => {
                 let services = res.data;
                 // this.modifiedService(services);
                 this.setState({ serviceType3: services })
             })
 
-        axios.get(`/services/getServiceByRestaurantId?restaurantId=${restaurantId}&categoryId=4`)
+        api.get(`/services/getServiceByRestaurantId?restaurantId=${restaurantId}&categoryId=4`)
             .then(res => {
                 let services = res.data;
                 // this.modifiedService(services);
                 this.setState({ serviceType4: services })
             })
-        axios.get(`/services/getServiceByRestaurantId?restaurantId=${restaurantId}&categoryId=5`)
+        api.get(`/services/getServiceByRestaurantId?restaurantId=${restaurantId}&categoryId=5`)
             .then(res => {
                 let services = res.data;
                 // this.modifiedService(services);
                 this.setState({ serviceType5: services })
             })
 
-        axios.get(`/services/getServiceByRestaurantId?restaurantId=${restaurantId}&categoryId=6`)
+        api.get(`/services/getServiceByRestaurantId?restaurantId=${restaurantId}&categoryId=6`)
             .then(res => {
                 let services = res.data;
                 // this.modifiedService(services);
                 this.setState({ serviceType6: services })
             })
 
-        axios.get(`/services/getServiceByRestaurantId?restaurantId=${restaurantId}&categoryId=7`)
+        api.get(`/services/getServiceByRestaurantId?restaurantId=${restaurantId}&categoryId=7`)
             .then(res => {
                 let services = res.data;
                 // this.modifiedService(services);

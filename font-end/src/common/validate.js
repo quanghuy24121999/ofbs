@@ -34,6 +34,11 @@ export function validateCapacity(size) {
     return patt.test(size);
 }
 
+export function validateECapacity(size) {
+    let patt = new RegExp(/^[0-9]+$/);
+    return patt.test(size);
+}
+
 export function validateItemCart(number) {
     let patt = new RegExp(/^(?=.*\d).{1,5}$/);
     return patt.test(number);

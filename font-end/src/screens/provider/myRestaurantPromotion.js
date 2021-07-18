@@ -5,7 +5,7 @@ import {
     ModalBody, ModalFooter, Alert, CardImg
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { api, url } from '../../config/axios';
 import ImageUploading from "react-images-uploading";
 import { FaRegPlusSquare } from 'react-icons/fa';
 import ReactPaginate from 'react-paginate';
@@ -107,7 +107,7 @@ export default class myRestaurantPromotion extends Component {
     };
 
     receivedData() {
-        axios.get(`/promotions/getPromotionsByRestaurantId?restaurantId=${restaurantId}&isActive=0`)
+        api.get(`/promotions/getPromotionsByRestaurantId?restaurantId=${restaurantId}&isActive=0`)
             .then(res => {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
@@ -141,10 +141,10 @@ export default class myRestaurantPromotion extends Component {
         const { discount, name, description, start, end, images } = this.state;
         if (images.length > 0) {
             if (this.validate()) {
-                axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
+                api.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
                     .then(res => {
                         let restaurant = res.data;
-                        axios.get(`/promotions/getPromotionsByRestaurantId?restaurantId=${restaurantId}&isActive=0`)
+                        api.get(`/promotions/getPromotionsByRestaurantId?restaurantId=${restaurantId}&isActive=0`)
                             .then(res => {
                                 let count = 0;
                                 res.data.forEach(promotion => {
@@ -154,7 +154,7 @@ export default class myRestaurantPromotion extends Component {
                                 });
 
                                 if (count === 0) {
-                                    axios.post(`/promotions/save`,
+                                    api.post(`/promotions/save`,
                                         {
                                             "name": name,
                                             "restaurant": restaurant,
@@ -190,7 +190,7 @@ export default class myRestaurantPromotion extends Component {
             formData.append('file', this.state.images[0].file);
             document.getElementById('error-form4').style.display = "none";
 
-            axios.post(`/images/upload?userId=0&dishId=0&serviceId=0&comboId=0&restaurantId=0&promotionId=${promotionId}&typeId=1`,
+            api.post(url + `/images/upload?userId=0&dishId=0&serviceId=0&comboId=0&restaurantId=0&promotionId=${promotionId}&typeId=1`,
                 formData, {
             }).then(res => {
                 this.receivedData(0, '');
@@ -312,7 +312,7 @@ export default class myRestaurantPromotion extends Component {
                                             value={images}
                                             onChange={this.onChange}
                                             dataURLKey="data_url"
-
+                                            acceptType={['jpg', 'jpeg', 'gif', 'png']}
                                         >
                                             {({
                                                 imageList,

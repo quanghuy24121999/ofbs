@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { api, url } from '../../config/axios';
 import React, { useState } from 'react';
 import {
     Button, Modal, ModalHeader, Form,
@@ -37,7 +37,7 @@ export default function MyRestaurantServiceItem(props) {
     const [imageId, setImageId] = useState('');
     const [images, setImages] = useState([]);
 
-    axios.get(`/services/getServiceCategories`)
+    api.get(`/services/getServiceCategories`)
         .then(res => {
             setCategories(res.data);
         })
@@ -47,7 +47,7 @@ export default function MyRestaurantServiceItem(props) {
         setModal(!modal);
 
         if (modal === false) {
-            axios.get(`/services/getServiceById?serviceId=${service.id}`)
+            api.get(`/services/getServiceById?serviceId=${service.id}`)
                 .then(res => {
                     let service = res.data;
 
@@ -77,7 +77,7 @@ export default function MyRestaurantServiceItem(props) {
             document.getElementById('error-form4').style.display = "none";
 
             if (imageId === null || imageId === '') {
-                axios.post(`/images/upload?userId=0&dishId=0&serviceId=${service.id}&comboId=0&restaurantId=0&promotionId=0&typeId=1`,
+                api.post(url + `/images/upload?userId=0&dishId=0&serviceId=${service.id}&comboId=0&restaurantId=0&promotionId=0&typeId=1`,
                     formData, {
                 }).then(res => {
                     // window.location.reload();
@@ -85,7 +85,7 @@ export default function MyRestaurantServiceItem(props) {
                     document.getElementById('error-form4').style.display = "block";
                 })
             } else {
-                axios.post(`/images/update?imageId=${imageId}`,
+                api.post(url + `/images/update?imageId=${imageId}`,
                     formData, {
                 }).then(res => {
                     // window.location.reload();
@@ -110,7 +110,7 @@ export default function MyRestaurantServiceItem(props) {
 
     const updateService = () => {
         if (validate()) {
-            axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
+            api.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
                 .then(res => {
                     let serviceStatus = '';
                     let serviceCategory = '';
@@ -155,7 +155,7 @@ export default function MyRestaurantServiceItem(props) {
                         default:
                             break;
                     }
-                    axios.get(`/services/search?restaurantId=${restaurantId}&serviceName=&category=`)
+                    api.get(`/services/search?restaurantId=${restaurantId}&serviceName=&category=`)
                         .then(res => {
                             let count = 0;
                             res.data.forEach(service => {
@@ -167,7 +167,7 @@ export default function MyRestaurantServiceItem(props) {
                                 count = 0;
                             }
                             if (count === 0) {
-                                axios.post(`/services/update`,
+                                api.post(`/services/update`,
                                     {
                                         "id": service.id,
                                         "name": name,
@@ -220,6 +220,7 @@ export default function MyRestaurantServiceItem(props) {
                                             value={images}
                                             onChange={onChange}
                                             dataURLKey="data_url"
+                                            acceptType={['jpg', 'jpeg', 'gif', 'png']}
                                         >
                                             {({
                                                 imageList,
@@ -227,7 +228,7 @@ export default function MyRestaurantServiceItem(props) {
                                                 onImageRemove,
                                             }) => (
                                                 <div className="upload__image-wrapper">
-                                                    <CardImg id="user-image" className="service-image" top src={`/images/${imageId}`} alt="Dịch vụ" />
+                                                    <CardImg id="user-image" className="service-image" top src={url + `/images/${imageId}`} alt="Dịch vụ" />
                                                     {imageList.map((image, index) => (
                                                         // eslint-disable-next-line no-sequences
                                                         (document.getElementById("user-image").style.display = "none"),

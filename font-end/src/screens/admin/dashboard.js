@@ -4,7 +4,7 @@ import { FaBars } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Input, Label } from 'reactstrap';
 import { Bar, Pie } from 'react-chartjs-2';
-import axios from 'axios';
+import { api } from '../../config/axios';
 
 import { formatDateForInput } from '../../common/formatDate';
 import Notification from '../../components/admin/Notification';
@@ -44,7 +44,7 @@ function Dashboard() {
     }
 
     const getTotalOrder = (status) => {
-        axios.get(`/orders/getTotalOrderByStatus?status=${status}&fromDate=${from}&toDate=${to}`, {
+        api.get(`/orders/getTotalOrderByStatus?status=${status}&fromDate=${from}&toDate=${to}`, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
@@ -63,7 +63,7 @@ function Dashboard() {
     }
 
     const getTotalRestaurant = (status) => {
-        axios.get(`/restaurants/getTotalRestaurantsByStatus?status=${status}`, {
+        api.get(`/restaurants/getTotalRestaurantsByStatus?status=${status}`, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
@@ -82,7 +82,7 @@ function Dashboard() {
     }
 
     const getTotalUser = () => {
-        axios.get(`/users/numberOfUsersActive`, {
+        api.get(`/users/numberOfUsersActive`, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }

@@ -15,7 +15,7 @@ import { Redirect, Link } from "react-router-dom";
 
 import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
-import axios from 'axios';
+import { api, url } from '../../config/axios';
 
 import Cart from '../../components/restaurant/cart';
 import StarRating from '../../components/common/starRating';
@@ -63,13 +63,13 @@ export default class restaurantDetail extends Component {
         let imageArr = [];
         const restaurantId = this.props.match.params.restaurantId;
 
-        axios.get(`/images/getRestaurantImages?restaurantId=${restaurantId}`)
+        api.get(url + `/images/getRestaurantImages?restaurantId=${restaurantId}`)
             .then(res => {
                 const images = res.data;
                 images.map(image => {
                     let imageObject = {
-                        original: '/images/' + image.image_id,
-                        thumbnail: '/images/' + image.image_id
+                        original: url + '/images/' + image.image_id,
+                        thumbnail: url + '/images/' + image.image_id
                     }
                     return imageArr.push(imageObject);
                 })
@@ -78,17 +78,17 @@ export default class restaurantDetail extends Component {
                 })
             })
 
-        axios.get(`/restaurants/detail?restaurantId=${restaurantId}`)
+        api.get(`/restaurants/detail?restaurantId=${restaurantId}`)
             .then(res => {
                 this.setState({ restaurant: res.data })
             })
 
-        axios.get(`/promotions/getPromotionsByRestaurantId?restaurantId=${restaurantId}&isActive=1`)
+        api.get(`/promotions/getPromotionsByRestaurantId?restaurantId=${restaurantId}&isActive=1`)
             .then(res => {
                 this.setState({ promotions: res.data })
             })
 
-        axios.get(`/feedbacks/getFeedbacksByRestaurantId?restaurantId=${restaurantId}&rate=0`)
+        api.get(`/feedbacks/getFeedbacksByRestaurantId?restaurantId=${restaurantId}&rate=0`)
             .then(res => {
                 this.setState({ numberRates: res.data.length });
             })
@@ -104,7 +104,7 @@ export default class restaurantDetail extends Component {
 
     receivedData() {
         const restaurantId = this.props.match.params.restaurantId;
-        axios.get(`/feedbacks/getFeedbacksByRestaurantId?restaurantId=${restaurantId}&rate=${this.state.rate}`)
+        api.get(`/feedbacks/getFeedbacksByRestaurantId?restaurantId=${restaurantId}&rate=${this.state.rate}`)
             .then(res => {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
@@ -150,11 +150,11 @@ export default class restaurantDetail extends Component {
         } else
             if (feedbackContent !== '') {
                 if (validateFeedback(feedbackContent)) {
-                    axios.get(`/users/findByPhoneNumber/${localStorage.getItem('currentUser')}`)
+                    api.get(`/users/findByPhoneNumber/${localStorage.getItem('currentUser')}`)
                         .then(res => {
                             const currentUser = res.data;
                             const { textFeedback, rating } = this.state;
-                            axios({
+                            api({
                                 method: 'post',
                                 url: `/feedbacks/insertFeedback`,
                                 headers: {
@@ -170,11 +170,11 @@ export default class restaurantDetail extends Component {
                             }).then(res => {
                                 const restaurantId = this.props.match.params.restaurantId;
                                 this.receivedData();
-                                axios.get(`/restaurants/detail?restaurantId=${restaurantId}`)
+                                api.get(`/restaurants/detail?restaurantId=${restaurantId}`)
                                     .then(res => {
                                         this.setState({ restaurant: res.data })
                                     })
-                                axios.get(`/feedbacks/getFeedbacksByRestaurantId?restaurantId=${restaurantId}&rate=0`)
+                                api.get(`/feedbacks/getFeedbacksByRestaurantId?restaurantId=${restaurantId}&rate=0`)
                                     .then(res => {
                                         this.setState({ numberRates: res.data.length });
                                     })
@@ -214,7 +214,7 @@ export default class restaurantDetail extends Component {
             rate: rate
         }, () => {
             const restaurantId = this.props.match.params.restaurantId;
-            axios.get(`/feedbacks/getFeedbacksByRestaurantId?restaurantId=${restaurantId}&rate=${rate}`)
+            api.get(`/feedbacks/getFeedbacksByRestaurantId?restaurantId=${restaurantId}&rate=${rate}`)
                 .then(res => {
                     const data = res.data;
                     const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
@@ -247,11 +247,11 @@ export default class restaurantDetail extends Component {
 
         } else {
             if (reportContent !== "") {
-                axios.get(`/users/findByPhoneNumber/${localStorage.getItem('currentUser')}`)
+                api.get(`/users/findByPhoneNumber/${localStorage.getItem('currentUser')}`)
                     .then(res => {
                         const currentUser = res.data;
                         const { report } = this.state;
-                        axios({
+                        api({
                             method: 'post',
                             url: `/feedbacks/insertFeedback`,
                             headers: {
@@ -265,7 +265,7 @@ export default class restaurantDetail extends Component {
                                 "restaurant_id": this.props.match.params.restaurantId
                             }
                         }).then(res => {
-                            axios.post(`/notifications/insertNotification`,
+                            api.post(`/notifications/insertNotification`,
                                 {
                                     "content": report,
                                     "customer": null,

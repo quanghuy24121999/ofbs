@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Nav, NavItem, Container, Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { api } from '../../config/axios';
 
 import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
@@ -24,22 +24,22 @@ export default class myRestaurant extends Component {
     componentDidMount() {
         window.scrollTo(0, 0);
         userId = localStorage.getItem('userId');
-        axios.get(`/users/findByPhoneNumber/${localStorage.getItem('currentUser')}`)
+        api.get(`/users/findByPhoneNumber/${localStorage.getItem('currentUser')}`)
             .then(res => {
                 this.setState({ role: res.data.role.name })
             })
 
-        axios.get(`/restaurants/getRestaurantByProviderId?providerId=${userId}&statusId=1`)
+        api.get(`/restaurants/getRestaurantByProviderId?providerId=${userId}&statusId=1`)
             .then(res => {
                 this.setState({ restaurantActive: res.data })
             })
 
-        axios.get(`/restaurants/getRestaurantByProviderId?providerId=${userId}&statusId=2`)
+        api.get(`/restaurants/getRestaurantByProviderId?providerId=${userId}&statusId=2`)
             .then(res => {
                 this.setState({ restaurantInactive: res.data })
             })
 
-        axios.get(`/restaurants/getRestaurantByProviderId?providerId=${userId}&statusId=3`)
+        api.get(`/restaurants/getRestaurantByProviderId?providerId=${userId}&statusId=3`)
             .then(res => {
                 this.setState({ restaurantPending: res.data })
             })

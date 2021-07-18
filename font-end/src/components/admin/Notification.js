@@ -6,6 +6,7 @@ import {
 } from "reactstrap";
 
 import NotificationItem from '../admin/NotificationItem';
+import { api } from '../../config/axios';
 
 export default function Notification() {
 
@@ -17,7 +18,7 @@ export default function Notification() {
     }, [])
 
     const loadData = () => {
-        axios.get(`/notifications/getNotifications?customerId=0&providerId=0&isAdmin=1`)
+        api.get(`/notifications/getNotifications?customerId=0&providerId=0&isAdmin=1`)
             .then(res => {
                 setNotifications(res.data);
             })

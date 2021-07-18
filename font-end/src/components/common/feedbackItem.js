@@ -4,6 +4,7 @@ import { CardImg } from 'reactstrap';
 import StarRating from './starRating';
 import imageUser from '../../images/default-avatar-user.png';
 import { formatDate } from '../../common/formatDate';
+import { url } from '../../config/axios';
 
 export default function FeedbackItem(props) {
     const feedback = props.feedback;
@@ -11,7 +12,7 @@ export default function FeedbackItem(props) {
         <div className="feedback-item" key={feedback.feedback_date}>
             <div className="feedback-user">
                 {feedback.image_user_id ? (
-                    <CardImg className="user-image" top width="100%" src={'/images/' + feedback.image_user_id} />
+                    <CardImg className="user-image" top width="100%" src={url + '/images/' + feedback.image_user_id} />
                 ) : (
                     <CardImg className="user-image" top width="100%" src={imageUser} />
                 )}

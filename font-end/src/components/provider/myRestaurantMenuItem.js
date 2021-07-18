@@ -5,7 +5,7 @@ import {
     CardImg, Alert
 } from 'reactstrap';
 import { FaEdit } from 'react-icons/fa';
-import axios from 'axios';
+import { api, url } from '../../config/axios';
 import ImageUploading from "react-images-uploading";
 
 import { Notify } from '../../common/notify';
@@ -45,7 +45,7 @@ export default function MyRestaurantMenuItem(props) {
         setImages(imageList);
     };
 
-    axios.get(`/dishes/getCategories`)
+    api.get(`/dishes/getCategories`)
         .then(res => {
             setCategories(res.data)
         })
@@ -55,7 +55,7 @@ export default function MyRestaurantMenuItem(props) {
         setModal(!modal);
 
         if (modal === false) {
-            axios.get(`/dishes/getDishesById?dishId=${dish.id}`)
+            api.get(`/dishes/getDishesById?dishId=${dish.id}`)
                 .then(res => {
                     let dish = res.data;
 
@@ -76,7 +76,7 @@ export default function MyRestaurantMenuItem(props) {
             document.getElementById('error-form4').style.display = "none";
 
             if (imageId === null || imageId === '') {
-                axios.post(`/images/upload?userId=0&dishId=${dish.id}&serviceId=0&comboId=0&restaurantId=0&promotionId=0&typeId=1`,
+                api.post(url + `/images/upload?userId=0&dishId=${dish.id}&serviceId=0&comboId=0&restaurantId=0&promotionId=0&typeId=1`,
                     formData, {
                 }).then(res => {
                     // window.location.reload();
@@ -84,7 +84,7 @@ export default function MyRestaurantMenuItem(props) {
                     document.getElementById('error-form4').style.display = "block";
                 })
             } else {
-                axios.post(`/images/update?imageId=${imageId}`,
+                api.post(url + `/images/update?imageId=${imageId}`,
                     formData, {
                 }).then(res => {
                     // window.location.reload();
@@ -109,7 +109,7 @@ export default function MyRestaurantMenuItem(props) {
 
     const updateDish = () => {
         if (validate()) {
-            axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
+            api.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
                 .then(res => {
                     let dishStatus = '';
                     let dishCategory = '';
@@ -142,7 +142,7 @@ export default function MyRestaurantMenuItem(props) {
                         default:
                             break;
                     }
-                    axios.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=0&dishName=&statusId=0`)
+                    api.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=0&dishName=&statusId=0`)
                         .then(res => {
                             let count = 0
                             res.data.forEach(dish => {
@@ -154,7 +154,7 @@ export default function MyRestaurantMenuItem(props) {
                                 count = 0;
                             }
                             if (count === 0) {
-                                axios.post(`/dishes/save`,
+                                api.post(`/dishes/save`,
                                     {
                                         "id": dish.id,
                                         "name": name,
@@ -205,6 +205,7 @@ export default function MyRestaurantMenuItem(props) {
                                             value={images}
                                             onChange={onChange}
                                             dataURLKey="data_url"
+                                            acceptType={['jpg', 'jpeg', 'gif', 'png']}
                                         >
                                             {({
                                                 imageList,
@@ -212,7 +213,7 @@ export default function MyRestaurantMenuItem(props) {
                                                 onImageRemove,
                                             }) => (
                                                 <div className="upload__image-wrapper">
-                                                    <CardImg id="user-image" className="dish-profile-image" top src={`/images/${imageId}`} alt="món ăn" />
+                                                    <CardImg id="user-image" className="dish-profile-image" top src={url + `/images/${imageId}`} alt="món ăn" />
                                                     {imageList.map((image, index) => (
                                                         // eslint-disable-next-line no-sequences
                                                         (document.getElementById("user-image").style.display = "none"),

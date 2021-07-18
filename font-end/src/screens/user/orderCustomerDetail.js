@@ -5,7 +5,7 @@ import {
     ModalBody, ModalFooter,
 } from 'reactstrap';
 import { Link, Redirect } from 'react-router-dom';
-import axios from 'axios';
+import { api, url } from '../../config/axios';
 
 import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
@@ -41,7 +41,7 @@ export default class orderCustomerDetail extends Component {
         window.scrollTo(0, 0);
         const orderId = this.props.match.params.orderId;
         const customerId = localStorage.getItem('userId');
-        axios.get(`/orders/orderDetail/infor?orderId=${orderId}&customerId=${customerId}&restaurantId=0`, {
+        api.get(`/orders/orderDetail/infor?orderId=${orderId}&customerId=${customerId}&restaurantId=0`, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
@@ -73,22 +73,22 @@ export default class orderCustomerDetail extends Component {
 
     cancelOrder() {
         const { orderDetailInfo, password, restaurantInfo } = this.state;
-        axios.post('/users/login', {
+        api.post('/users/login', {
             phoneLogin: currentUser,
             password: password
         }).then(res => {
-            axios({
+            api({
                 method: 'PATCH',
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                 },
                 url: `/orders/updateStatus?orderId=${orderDetailInfo.order_id}&status=cancelled`
             }).then(res => {
-                axios.get(`/restaurants/getProviderPhoneLogin?restaurantId=${restaurantInfo.restaurant_id}`)
+                api.get(`/restaurants/getProviderPhoneLogin?restaurantId=${restaurantInfo.restaurant_id}`)
                     .then(res => {
-                        axios.get(`/users/findByPhoneNumber/${res.data}`)
+                        api.get(`/users/findByPhoneNumber/${res.data}`)
                             .then(res => {
-                                axios.post(`/notifications/insertNotification`,
+                                api.post(`/notifications/insertNotification`,
                                     {
                                         "content": `Đơn hàng ${orderDetailInfo.order_code} của ${restaurantInfo.restaurant_name} đã bị hủy`,
                                         "customer": null,
@@ -151,7 +151,7 @@ export default class orderCustomerDetail extends Component {
                         <Col lg="6" sm="12" className="order-detail-restaurant">
                             <CardImg
                                 className="od-restaurant-img"
-                                src={`/images/${restaurantInfo.image_restaurant_id}`}
+                                src={url + `/images/${restaurantInfo.image_restaurant_id}`}
                                 alt="Nhà hàng"
                                 width="100px"
                                 height="200px"

@@ -3,11 +3,11 @@ import React, { Component } from 'react'
 import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
 import {
-    Nav, NavItem, Input, Label,
+    Nav, NavItem, Input, 
     Button, Container, Row, Col
 } from 'reactstrap';
 import Carousel from 'react-multi-carousel';
-import axios from 'axios';
+import { api } from '../../config/axios';
 import ReactPaginate from 'react-paginate';
 import { Link } from 'react-router-dom';
 
@@ -66,22 +66,22 @@ export default class menu extends Component {
     componentDidMount() {
         window.scrollTo(0, 0);
         const restaurantId = this.props.match.params.restaurantId;
-        axios.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=1&dishName=&statusId=1`)
+        api.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=1&dishName=&statusId=1`)
             .then(res => {
                 this.setState({ dishType1: res.data })
             })
 
-        axios.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=2&dishName=&statusId=1`)
+        api.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=2&dishName=&statusId=1`)
             .then(res => {
                 this.setState({ dishType2: res.data })
             })
 
-        axios.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=3&dishName=&statusId=1`)
+        api.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=3&dishName=&statusId=1`)
             .then(res => {
                 this.setState({ dishType3: res.data })
             })
 
-        axios.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=4&dishName=&statusId=1`)
+        api.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=4&dishName=&statusId=1`)
             .then(res => {
                 this.setState({ dishType4: res.data })
             })
@@ -103,7 +103,7 @@ export default class menu extends Component {
         if (inputDishName === null || inputDishName === undefined) {
             inputDishName = '';
         }
-        axios.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=0&dishName=${inputDishName}&statusId=1`)
+        api.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=0&dishName=${inputDishName}&statusId=1`)
             .then(res => {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);

@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import StarRating from '../common/starRating';
 
 import DefaultRestaurantImg from '../../images/default-restaurant.png';
+import { url } from '../../config/axios';
 
 export default function RestaurantItem(props) {
     const restaurant = props.restaurant;
@@ -15,7 +16,7 @@ export default function RestaurantItem(props) {
     if (restaurant.image_id === null) {
         imgRestaurant = <CardImg className="restaurant-img" top width="100%" src={DefaultRestaurantImg} alt="Nhà hàng" />
     } else {
-        imgRestaurant = <CardImg className="restaurant-img" top width="100%" src={'/images/' + restaurant.image_id} alt="Nhà hàng" />
+        imgRestaurant = <CardImg className="restaurant-img" top width="100%" src={url + '/images/' + restaurant.image_id} alt="Nhà hàng" />
     }
 
     return (

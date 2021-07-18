@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import axios from 'axios'; import {
+import { api, url } from '../../config/axios';
+import {
     Nav, NavItem, Container, Form,
     Row, Col, CardImg, Button, Modal,
     ModalHeader, ModalBody, ModalFooter,
@@ -68,7 +69,7 @@ export default class userProfile extends Component {
     componentDidMount() {
         window.scrollTo(0, 0);
         userId = localStorage.getItem('userId');
-        axios.get(`/users/profile/?userId=${userId}`, {
+        api.get(`/users/profile/?userId=${userId}`, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
@@ -197,7 +198,7 @@ export default class userProfile extends Component {
         phoneSubmit = '+84' + phoneSubmit.substring(1, phoneSubmit.length);
 
 
-        axios.patch(`/users/profile/update?userId=${userId}`, {
+        api.patch(`/users/profile/update?userId=${userId}`, {
             "address": address,
             "email": email,
             "phoneNumber": phoneSubmit,
@@ -209,7 +210,7 @@ export default class userProfile extends Component {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
         }).then(res => {
-            axios.get(`/users/profile/?userId=${userId}`, {
+            api.get(`/users/profile/?userId=${userId}`, {
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                 }
@@ -244,7 +245,7 @@ export default class userProfile extends Component {
         let phoneNumber = localStorage.getItem("currentUser");
 
         if (validatePassword(newPassword)) {
-            axios.post(`/users/login`, {
+            api.post(`/users/login`, {
                 phoneLogin: phoneNumber,
                 password: oldPassword
             }).then(res => {
@@ -262,12 +263,12 @@ export default class userProfile extends Component {
                 Notify('Mật khẩu cũ không đúng', 'error', 'top-right');
             })
         } else {
-            Notify('Mật khẩu mới phải ít nhất 3 kí tự và không bao gồm khoảng trắng', 'error', 'top-right')
+            Notify('Vui lòng nhập mật khẩu từ 3-32 ký tự và không bao gồm khoảng trắng', 'error', 'top-right')
         }
     }
 
     onSubmitChangePassword() {
-        axios.patch('/users/update/' + userId, {
+        api.patch('/users/update/' + userId, {
             "password": this.state.newPassword
         }, {
             headers: {
@@ -296,7 +297,7 @@ export default class userProfile extends Component {
         document.getElementById('error-form4').style.display = "none";
 
         if (imageId === null || imageId === '') {
-            axios.post(`/images/upload?userId=${userId}&dishId=0&serviceId=0&comboId=0&restaurantId=0&promotionId=0&typeId=1`,
+            api.post(url + `/images/upload?userId=${userId}&dishId=0&serviceId=0&comboId=0&restaurantId=0&promotionId=0&typeId=1`,
                 formData, {
             }).then(res => {
                 window.location.reload();
@@ -304,7 +305,7 @@ export default class userProfile extends Component {
                 document.getElementById('error-form4').style.display = "block";
             })
         } else {
-            axios.post(`/images/update?imageId=${imageId}`,
+            api.post(url + `/images/update?imageId=${imageId}`,
                 formData, {
             }).then(res => {
                 window.location.reload();
@@ -330,7 +331,7 @@ export default class userProfile extends Component {
         if (userImage === '') {
             image = <CardImg id="user-image" className="user-profile-image" top src={imageUser} />
         } else {
-            image = <CardImg id="user-image" className="user-profile-image" top src={'/images/' + user.image_id} />
+            image = <CardImg id="user-image" className="user-profile-image" top src={url + '/images/' + user.image_id} />
         }
 
         return (
@@ -449,6 +450,7 @@ export default class userProfile extends Component {
                                 value={images}
                                 onChange={this.onChange}
                                 dataURLKey="data_url"
+                                acceptType={['jpg', 'jpeg', 'gif', 'png']}
                             >
                                 {({
                                     imageList,

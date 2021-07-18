@@ -6,12 +6,13 @@ import {
 import { Link } from 'react-router-dom';
 
 import StarRating from '../../components/common/starRating';
+import { url } from '../../config/axios';
 
 export default function RestaurantItem(props) {
     const restaurant = props.restaurant;
     return (
         <Card key={restaurant.restaurant_id} className="item">
-            <CardImg className="restaurant-img" top width="100%" src={'/images/' + restaurant.image_id} alt="Nhà hàng" />
+            <CardImg className="restaurant-img" top width="100%" src={url + '/images/' + restaurant.image_id} alt="Nhà hàng" />
             <CardBody className="restaurant-content">
                 <CardTitle tag="h5">{restaurant.restaurant_name}</CardTitle>
                 <CardSubtitle tag="h6" className="mb-2 text-muted">{restaurant.province}</CardSubtitle>

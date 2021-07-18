@@ -3,7 +3,7 @@ import {
     Nav, NavItem, Container, Row, Col
 } from 'reactstrap';
 import { Link } from "react-router-dom";
-import axios from 'axios';
+import { api } from '../../config/axios';
 import ReactPaginate from 'react-paginate';
 
 import TopMenu from '../../components/common/topMenu';
@@ -44,7 +44,7 @@ export default class combo extends Component {
 
     receivedData() {
         const restaurantId = this.props.match.params.restaurantId;
-        axios.get(`/combos/getCombosByRestaurantId?restaurantId=${restaurantId}&isActive=1`)
+        api.get(`/combos/getCombosByRestaurantId?restaurantId=${restaurantId}&isActive=1`)
             .then(res => {
                 let combosTemp = [];
                 combosTemp = res.data;

@@ -4,7 +4,7 @@ import {
     Button, CardImg, Modal, ModalBody, ModalHeader
 } from 'reactstrap';
 import { FaEye } from 'react-icons/fa';
-import axios from 'axios';
+import { api, url } from '../../config/axios';
 
 import { formatDate } from '../../common/formatDate';
 import { formatCurrency } from '../../common/formatCurrency';
@@ -42,7 +42,7 @@ export default function OrderItem(props) {
     const toggle = () => {
         setModal(!modal);
         if (modal === false) {
-            axios.get(`/orders/searchOrder?orderCode=${order.order_code}`, {
+            api.get(`/orders/searchOrder?orderCode=${order.order_code}`, {
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                 }
@@ -51,7 +51,7 @@ export default function OrderItem(props) {
                     setRestaurantInfo(res.data[0]);
                     setOrderDetailInfo(res.data[0]);
                     setListOrderDetails(res.data);
-                    axios.get(`/users/findByPhoneNumber/${res.data[0].phone_number}`)
+                    api.get(`/users/findByPhoneNumber/${res.data[0].phone_number}`)
                         .then(res => {
                             setCustomerName(res.data.name);
                         })
@@ -78,7 +78,7 @@ export default function OrderItem(props) {
                                     <Col lg="6" sm="12" className="order-detail-restaurant">
                                         <CardImg
                                             className="od-restaurant-img"
-                                            src={`/images/${restaurantInfo.image_restaurant_id}`}
+                                            src={url + `/images/${restaurantInfo.image_restaurant_id}`}
                                             alt="Nhà hàng"
                                             width="100px"
                                             height="200px"

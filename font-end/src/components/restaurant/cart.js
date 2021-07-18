@@ -6,7 +6,7 @@ import {
     Label
 } from 'reactstrap';
 import { FaShoppingCart } from 'react-icons/fa'
-import axios from 'axios';
+import { api } from '../../config/axios';
 
 import CartDishItem from './cartDishItem';
 import CartComboItem from './cartComboItem';
@@ -116,10 +116,10 @@ export default function Cart(props) {
             "restaurantId": 0
         }
 
-        axios.get(`/users/findByPhoneNumber/${localStorage.getItem('currentUser')}`)
+        api.get(`/users/findByPhoneNumber/${localStorage.getItem('currentUser')}`)
             .then(res => {
                 customerId = res.data.id
-                axios.post(`/orders/insertOrder`, {
+                api.post(`/orders/insertOrder`, {
                     "time": period,
                     "organizeDate": time,
                     "customerId": parseInt(customerId),
@@ -178,9 +178,9 @@ export default function Cart(props) {
                         }
                     }
 
-                    axios.post(`/orders/insertOrderDetail`, json, config)
+                    api.post(`/orders/insertOrderDetail`, json, config)
                         .then(res => {
-                            axios({
+                            api({
                                 method: 'PATCH',
                                 headers: {
                                     'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -195,10 +195,10 @@ export default function Cart(props) {
                                 })
 
 
-                                axios.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
+                                api.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
                                     .then(res => {
                                         const restaurant = res.data;
-                                        axios.post(`/notifications/insertNotification`,
+                                        api.post(`/notifications/insertNotification`,
                                             {
                                                 "content": `Có đơn hàng mới của ${restaurant.restaurantName}`,
                                                 "customer": null,

@@ -4,7 +4,7 @@ import { FaBars } from 'react-icons/fa';
 import {
     NavItem, Nav, Container, Table
 } from 'reactstrap';
-import axios from 'axios';
+import { api } from '../../config/axios';
 import ReactPaginate from 'react-paginate';
 import { Link } from 'react-router-dom';
 
@@ -40,7 +40,7 @@ export default function RestaurantDish(props) {
 
     const receivedData = (categoryId, nameSearch) => {
         window.scrollTo(0, 0);
-        axios.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=${categoryId}&dishName=${nameSearch}&statusId=0`)
+        api.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=${categoryId}&dishName=${nameSearch}&statusId=0`)
             .then(res => {
                 const data = res.data;
                 const slice = data.slice(offset, offset + perPage)
