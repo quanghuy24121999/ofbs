@@ -18,4 +18,6 @@ public interface IPromotionDTO {
 	Date getEnd_date();
 	
 	String getPromotion_status();
+	
+	float getDiscount_percentage();
 }

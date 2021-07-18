@@ -75,4 +75,8 @@ public class RestaurantService {
 	public int getTotalRestaurantsByStatus(String status) {
 		return restaurantRepository.getTotalRestaurantsByStatus(status);
 	}
+	
+	public long getProviderIdByPhoneNumber(String phoneNumber) {
+		return restaurantRepository.getProviderIdByPhoneNumber(phoneNumber);
+	}
 }

@@ -130,4 +130,10 @@ public class RestaurantController {
 		int numberOfRestaurants = restaurantService.getTotalRestaurantsByStatus(status);
 		return ResponseEntity.status(HttpStatus.OK).body(numberOfRestaurants);
 	}
+	
+	@GetMapping("/getProviderIdByPhoneNumber")
+	public ResponseEntity<?> getProviderIdByPhoneNumber(@PathParam("phoneNumber") String phoneNumber) {
+		long providerId = restaurantService.getProviderIdByPhoneNumber(phoneNumber);
+		return ResponseEntity.status(HttpStatus.OK).body(providerId);
+	}
 }
