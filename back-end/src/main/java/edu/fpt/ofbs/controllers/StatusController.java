@@ -14,7 +14,7 @@ import edu.fpt.ofbs.entities.Status;
 import edu.fpt.ofbs.service.StatusService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RequestMapping("/status")
 public class StatusController {
 	@Autowired

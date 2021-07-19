@@ -25,7 +25,7 @@ import edu.fpt.ofbs.service.OrderDetailService;
 import edu.fpt.ofbs.service.OrderService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RequestMapping("/orders")
 public class OrderController {
 	@Autowired
