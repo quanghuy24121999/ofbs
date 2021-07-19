@@ -6,6 +6,7 @@ import {
 import { Redirect } from 'react-router';
 import subVn from "sub-vn";
 import Carousel from 'react-multi-carousel';
+import MessengerCustomerChat from 'react-messenger-customer-chat';
 
 import TopMenu from '../components/common/topMenu';
 import Footer from '../components/common/footer';
@@ -310,6 +311,10 @@ export default class home extends Component {
                                 </Container>
                             </div>
                         </div>
+                        <MessengerCustomerChat
+                            pageId="101222172255348"
+                            appId="1210692502707943"
+                        />
                     </div>
                     )
                 }
