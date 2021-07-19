@@ -223,43 +223,35 @@ export default class registerPromotion extends Component {
         const { restaurantAddress, restaurantBusinessCode, restaurantName,
             restaurantPhone, restaurantSize, restaurantDescription, user
         } = this.state;
-        let isAuthen = this.isAuthentication();
         let checkPhone = this.validatePhoneExist();
 
-        if (isAuthen) {
-            if (this.checkRequire()) {
-                if (this.checkCodeExist() === true) {
-                    if (!validateUsername(restaurantName)) {
-                        Notify('Tên nhà hàng quá dài', 'error', 'top-right');
-                        return false;
-                    } else if (!validateUsername(restaurantAddress)) {
-                        Notify('Tên địa chỉ quá dài', 'error', 'top-right');
-                        return false;
-                    } else if (!validatePhoneNumber(restaurantPhone)) {
-                        Notify('Số điện thoại sai định dạng', 'error', 'top-right');
-                        return false;
-                    } else if (!validateCapacity(restaurantSize)) {
-                        Notify('Sức chứa quá lớn', 'error', 'top-right');
-                        return false;
-                    } else if (!validateECapacity(restaurantSize)) {
-                        Notify('Sức chứa sai định dạng', 'error', 'top-right');
-                        return false;
-                    } else if (!validateUsername(restaurantBusinessCode)) {
-                        Notify('Mã giấy phép kinh doanh quá dài', 'error', 'top-right');
-                        return false;
-                    } else if (!validateDescription(restaurantDescription)) {
-                        Notify('Mô tả phải nhỏ hơn 2000 ký tự', 'error', 'top-right');
-                        return false;
-                    } else {
-                        return true;
-                    }
-                } else {
-                    Notify('Mã giấy phép kinh doanh đã tồn tại', 'error', 'top-right');
+        if (this.checkRequire()) {
+            if (this.checkCodeExist() === true) {
+                if (!validateUsername(restaurantName)) {
+                    Notify('Tên nhà hàng quá dài', 'error', 'top-right');
                     return false;
+                } else if (!validateUsername(restaurantAddress)) {
+                    Notify('Tên địa chỉ quá dài', 'error', 'top-right');
+                    return false;
+                } else if (!validateCapacity(restaurantSize)) {
+                    Notify('Sức chứa quá lớn', 'error', 'top-right');
+                    return false;
+                } else if (!validateECapacity(restaurantSize)) {
+                    Notify('Sức chứa sai định dạng', 'error', 'top-right');
+                    return false;
+                } else if (!validateUsername(restaurantBusinessCode)) {
+                    Notify('Mã giấy phép kinh doanh quá dài', 'error', 'top-right');
+                    return false;
+                } else if (!validateDescription(restaurantDescription)) {
+                    Notify('Mô tả phải nhỏ hơn 2000 ký tự', 'error', 'top-right');
+                    return false;
+                } else {
+                    return true;
                 }
+            } else {
+                Notify('Mã giấy phép kinh doanh đã tồn tại', 'error', 'top-right');
+                return false;
             }
-        } else {
-            Notify('Bạn phải đăng nhập để thực hiện chức năng này', 'error', 'top-right');
         }
     }
 
@@ -539,20 +531,33 @@ export default class registerPromotion extends Component {
                             </Form>
                             <Button onClick={() => {
                                 let userId = '';
+                                let isAuthen = this.isAuthentication();
+                                if (!validatePhoneNumber(restaurantPhone)) {
+                                    Notify('Số điện thoại sai định dạng', 'error', 'top-right');
+                                    return false;
+                                } else
+                                    if (isAuthen) {
+                                        api.get(`/restaurants/getProviderIdByPhoneNumber/${this.state.restaurantPhone}`)
+                                            .then(res => {
+                                                userId = res.data;
+                                                if (userId !== this.state.user.id) {
+                                                    Notify('Số điện thoại đã tồn tại', 'error', 'top-right');
+                                                } else {
+                                                    if (this.validate()) {
+                                                        this.toggle();
+                                                    }
+                                                }
 
-                                api.get(`/restaurants/getProviderIdByPhoneNumber/${this.state.restaurantPhone}`)
-                                    .then(res => {
-                                        userId = res.data;
-                                        if (userId !== this.state.user.id) {
-                                            Notify('Số điện thoại đã tồn tại', 'error', 'top-right');
-                                        } else {
-                                            if (this.validate()) {
-                                                this.toggle();
-                                            }
-                                        }
-
-                                    })
-                            }} className="btn-register-restaurant" color="success">Đăng ký</Button>
+                                            }).catch(() => {
+                                                if (this.validate()) {
+                                                    this.toggle();
+                                                }
+                                            })
+                                    } else {
+                                        Notify('Bạn phải đăng nhập để thực hiện chức năng này', 'error', 'top-right');
+                                    }
+                            }
+                            } className="btn-register-restaurant" color="success">Đăng ký</Button>
                             <Modal isOpen={modal} toggle={this.toggle} className={``}>
                                 <ModalHeader toggle={this.toggle}>Thông báo</ModalHeader>
                                 <ModalBody>
