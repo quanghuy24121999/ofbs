@@ -20,7 +20,7 @@ import edu.fpt.ofbs.models.ResponseMessage;
 import edu.fpt.ofbs.service.NotificationService;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin("*")
 @RequestMapping("/notifications")
 public class NotificationController {
 	@Autowired

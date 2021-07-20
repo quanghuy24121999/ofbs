@@ -21,7 +21,7 @@ import edu.fpt.ofbs.models.ResponseMessage;
 import edu.fpt.ofbs.service.ServiceService;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin("*")
 @RequestMapping("/services")
 public class ServiceController {
 	@Autowired

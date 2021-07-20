@@ -74,4 +74,8 @@ public class UserService implements UserDetailsService{
 	public int getNumberOfUsersActive() {
 		return userRepository.getNumberOfUsersActive();
 	}
+	
+	public void updateBalance(float balance, long userId) {
+		userRepository.updateBalance(balance, userId);
+	}
 }

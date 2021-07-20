@@ -20,7 +20,7 @@ import edu.fpt.ofbs.models.ResponseMessage;
 import edu.fpt.ofbs.service.ComboService;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin("*")
 @RequestMapping("/combos")
 public class ComboController {
 	@Autowired

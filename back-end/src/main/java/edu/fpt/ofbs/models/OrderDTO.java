@@ -14,27 +14,19 @@ import lombok.Setter;
 @Getter
 @Setter
 public class OrderDTO {
-	private String restaurant_name;
-	
-	private String image_restaurant_id;
-	
-	private long order_id;
-	
-	private Date order_date;
-	
-	private String restaurant_type;
-	
 	private String time;
 	
-	private float amount;
+	private long customerId;
 	
-	private String order_status;
+	private long restaurantId;
 	
-	private Date organize_date;
+	private int tableType;
 	
-	private String order_code;
+	private int numberOfGuests;
 	
-	private String customer_phone_number;
+	private String note;
 	
-	private String customer_name;
+	private Date organizeDate;
+	
+	private String orderCode;
 }

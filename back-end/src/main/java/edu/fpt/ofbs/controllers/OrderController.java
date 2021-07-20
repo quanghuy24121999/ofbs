@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.fpt.ofbs.models.IOrderDTO;
 import edu.fpt.ofbs.models.IOrderDetailDTO;
 import edu.fpt.ofbs.models.OrderDetailSaveDTO;
-import edu.fpt.ofbs.models.OrderSaveDTO;
+import edu.fpt.ofbs.models.OrderDTO;
 import edu.fpt.ofbs.models.ResponseMessage;
 import edu.fpt.ofbs.service.OrderDetailService;
 import edu.fpt.ofbs.service.OrderService;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin("*")
 @RequestMapping("/orders")
 public class OrderController {
 	@Autowired
@@ -49,7 +49,7 @@ public class OrderController {
 	}
 
 	@PostMapping("/insertOrder")
-	public ResponseEntity<?> insertOrder(@RequestBody OrderSaveDTO order) {
+	public ResponseEntity<?> insertOrder(@RequestBody OrderDTO order) {
 		String message = "";
 
 		try {

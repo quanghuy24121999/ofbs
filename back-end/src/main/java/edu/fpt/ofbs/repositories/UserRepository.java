@@ -1,6 +1,7 @@
 package edu.fpt.ofbs.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -22,4 +23,11 @@ public interface UserRepository extends JpaRepository<User, Long>{
 			+ "where s.name = 'active'\r\n"
 			+ "	and (r.name = 'ROLE_CUSTOMER' or r.name = 'ROLE_PROVIDER')", nativeQuery = true)
 	int getNumberOfUsersActive();
+	
+	@Modifying
+	@Query(value = "UPDATE users\r\n"
+			+ "   SET \r\n"
+			+ "      balance = ?1\r\n"
+			+ " WHERE id = ?2", nativeQuery = true)
+	void updateBalance(float balance, long userId);
 }
