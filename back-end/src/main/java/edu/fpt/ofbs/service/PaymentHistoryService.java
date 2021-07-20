@@ -37,13 +37,13 @@ public class PaymentHistoryService {
 		savePaymentHistory.setBalanceChange(paymentHistory.getBalanceChange());
 		savePaymentHistory.setFromToUser(paymentHistory.getFromToUser());
 		savePaymentHistory.setCurrentBalance(paymentHistory.getCurrentBalance());
-		savePaymentHistory.setDateOfChange(paymentHistory.getDateOfChange());
-		savePaymentHistory.setDescription(paymentHistory.getDescription());
-		savePaymentHistory.setStatus(statusService.findStatusByName("pending"));
 		
 		Date paymentDate = new Date();
-		savePaymentHistory.setPaymentCode("FBS" + paymentDate.getTime());
 		
+		savePaymentHistory.setDateOfChange(paymentDate);
+		savePaymentHistory.setDescription(paymentHistory.getDescription());
+		savePaymentHistory.setStatus(statusService.findStatusByName("pending"));
+		savePaymentHistory.setPaymentCode("FBS" + paymentDate.getTime());
 		savePaymentHistory.setPaymentType(paymentTypeRepository.findPaymentTypeByName(paymentHistory.getPaymentType().getName()));
 		
 		return paymentHistoryRepository.save(savePaymentHistory);
