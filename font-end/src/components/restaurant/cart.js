@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useCart } from 'react-use-cart';
 import {
     Button, Modal, Badge, Input, Form,
@@ -26,7 +26,17 @@ export default function Cart(props) {
     const [time, setTime] = useState('');
     const [note, setNote] = useState('');
     const [linkPaypal, setLinkPaypal] = useState('');
-    const toggle = () => setModal(!modal);
+    const toggle = () => {
+        setModal(!modal);
+        if (!modal) {
+            let customerQuantity = metadata.customerQuantity;
+            if (customerQuantity === undefined) {
+                updateCartMetadata({
+                    customerQuantity: 1
+                })
+            }
+        }
+    }
     const toggle1 = () => setModal1(!modal1);
     const toggleConfirm = () => setModalComfirm(!modalConfirm);
     let maxDate = new Date();
@@ -105,7 +115,19 @@ export default function Cart(props) {
     }
 
     const payment = () => {
-        api.post(`/payment/pay?price=${cartTotal * 0.1 / 23000}&description=${'Thanh toán đơn hàng FBS'}`)
+        api({
+            method: 'POST',
+            url: `/payment/pay?price=${cartTotal * 0.1 / 23000}&description=${'Thanh toán đơn hàng FBS'}`,
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+
+        // api.post(`/payment/pay?price=${cartTotal * 0.1 / 23000}&description=${'Thanh toán đơn hàng FBS'}`, {
+        //     headers: {
+        //         'Authorization': 'Bearer ' + localStorage.getItem('token')
+        //     }
+        // })
             .then(res => {
                 // setLinkPaypal(res.data);
                 // if (linkPaypal !== '') {

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.fpt.ofbs.entities.PaymentHistory;
 import edu.fpt.ofbs.models.IPaymentHistoryDTO;
@@ -12,6 +13,7 @@ import edu.fpt.ofbs.repositories.PaymentHistoryRepository;
 import edu.fpt.ofbs.repositories.PaymentTypeRepository;
 
 @Service
+@Transactional
 public class PaymentHistoryService {
 	@Autowired
 	private PaymentHistoryRepository paymentHistoryRepository;

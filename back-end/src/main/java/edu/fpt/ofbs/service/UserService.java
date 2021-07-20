@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.fpt.ofbs.entities.Role;
 import edu.fpt.ofbs.entities.User;
@@ -17,6 +18,7 @@ import edu.fpt.ofbs.models.IUserDTO;
 import edu.fpt.ofbs.repositories.UserRepository;
 
 @Service
+@Transactional
 public class UserService implements UserDetailsService{
 	@Autowired
 	private UserRepository userRepository;
