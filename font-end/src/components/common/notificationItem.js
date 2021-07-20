@@ -22,23 +22,26 @@ export default function NotificationItem(props) {
         } else if (notification.customer_id !== null) {
             link = '/users/profile/order';
         }
+    } else if (type === 'wallet') {
+        color = '#a473ff';
+        link = '/users/profile/wallet';
     }
 
-    const read = () => {
-        api.get(`/notifications/getNotificationById?id=${notification.id}`)
-            .then(res => {
-                const notification = res.data;
-                api.post(`/notifications/insertNotification`, {
-                    "id": notification.id,
-                    "content": notification.content,
-                    "customer": notification.customer,
-                    "provider": notification.provider,
-                    "forAdmin": notification.forAdmin,
-                    "type": notification.type,
-                    "read": true
-                });
-            })
-    }
+        const read = () => {
+            api.get(`/notifications/getNotificationById?id=${notification.id}`)
+                .then(res => {
+                    const notification = res.data;
+                    api.post(`/notifications/insertNotification`, {
+                        "id": notification.id,
+                        "content": notification.content,
+                        "customer": notification.customer,
+                        "provider": notification.provider,
+                        "forAdmin": notification.forAdmin,
+                        "type": notification.type,
+                        "read": true
+                    });
+                })
+        }
 
     return (
         <Link

@@ -318,8 +318,7 @@ export default class userProfile extends Component {
     render() {
         const { user, userImage, modal, nestedModal, closeAll,
             username, oldPassword, newPassword, reNewPassword,
-            email, phone, address, gender, dob, modalChange,
-            nestedModalChange, closeAllChange, images
+            email, phone, address, gender, dob, modalChange, images
         } = this.state;
 
         let phoneNumber = '';
@@ -348,7 +347,7 @@ export default class userProfile extends Component {
                         <Link to={`/users/profile/my-restaurant`}>Nhà hàng của tôi</Link>
                     </NavItem>
                     <NavItem>
-                        <Link to={``}>Ví FBS</Link>
+                        <Link to={`/users/profile/wallet`}>Ví FBS</Link>
                     </NavItem>
                 </Nav>
                 <div>
