@@ -25,39 +25,40 @@ import edu.fpt.ofbs.service.PaypalService;
 import edu.fpt.ofbs.utils.Utils;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin("*")
 @RequestMapping("/payment")
 public class PaymentController {
 	public static final String URL_PAYPAL_SUCCESS = "/payment/pay/success";
 	public static final String URL_PAYPAL_CANCEL = "/payment/pay/cancel";
+	public static final String URL_PAYPAL_BASE = "http://localhost:3080";
 	private Logger log = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	private PaypalService paypalService;
 
 	@PostMapping("/pay")
-	public void pay(HttpServletRequest request, @RequestParam("price") double price, HttpServletResponse response) throws IOException {
+	public ResponseEntity<?> pay(HttpServletRequest request, @RequestParam("price") double price, HttpServletResponse response, @RequestParam("description") String description) throws IOException {
 		String cancelUrl = Utils.getBaseURL(request) + URL_PAYPAL_CANCEL;
 		String successUrl = Utils.getBaseURL(request) + URL_PAYPAL_SUCCESS;
 		try {
 			Payment payment = paypalService.createPayment(price, "USD", PaypalPaymentMethod.paypal,
-					PaypalPaymentIntent.sale, "payment description", cancelUrl, successUrl);
+					PaypalPaymentIntent.sale, description, cancelUrl, successUrl);
 			for (Links links : payment.getLinks()) {
 				if (links.getRel().equals("approval_url")) {
-//					return ResponseEntity.status(HttpStatus.OK).body(links.getHref());
-					response.sendRedirect(links.getHref());
+					return ResponseEntity.status(HttpStatus.OK).body(links.getHref());
+//					response.sendRedirect(links.getHref());
 				}
 			}
 		} catch (PayPalRESTException e) {
 			log.error(e.getMessage());
 		}
-//		return ResponseEntity.status(HttpStatus.OK).body("home");
+		return ResponseEntity.status(HttpStatus.OK).body("home");
 	}
 
 	@GetMapping("/pay/cancel")
 	public void cancelPay(HttpServletRequest request, HttpServletResponse response) throws IOException {
 //		return ResponseEntity.status(HttpStatus.OK).body("cancel");
-		response.sendRedirect(Utils.getBaseURL(request) + "/paymentCancel");
+		response.sendRedirect(URL_PAYPAL_BASE + "/paymentCancel");
 	}
 
 	@GetMapping("/pay/success")
@@ -66,7 +67,7 @@ public class PaymentController {
 			Payment payment = paypalService.executePayment(paymentId, payerId);
 			if (payment.getState().equals("approved")) {
 //				return ResponseEntity.status(HttpStatus.OK).body(link.getHref());
-				response.sendRedirect(Utils.getBaseURL(request) + "/paymentSuccess");
+				response.sendRedirect(URL_PAYPAL_BASE + "/paymentSuccess");
 			}
 		} catch (PayPalRESTException e) {
 			log.error(e.getMessage());

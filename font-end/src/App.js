@@ -25,6 +25,9 @@ import promotion from './screens/restaurant/promotion';
 import userProfile from './screens/user/userProfile';
 import orderCustomer from './screens/user/orderCustomer';
 import orderDetailCustomer from './screens/user/orderCustomerDetail';
+import wallet from './screens/user/wallet';
+import success from './screens/paypal/success';
+import cancel from './screens/paypal/cancel';
 
 import myRestaurant from './screens/provider/myRestaurant';
 import myRestaurantDetail from './screens/provider/myRestaurantDetail';
@@ -90,6 +93,9 @@ class App extends Component {
               <ProtectedRouteCustomer exact path="/users/profile/my-restaurant/service" component={myRestaurantService} />
               <ProtectedRouteCustomer exact path="/users/profile/my-restaurant/promotion" component={myRestaurantPromotion} />
               <ProtectedRouteCustomer exact path="/users/profile/my-restaurant/order" component={myRestaurantOrder} />
+              <ProtectedRouteCustomer exact path="/users/profile/wallet" component={wallet} />
+              <ProtectedRouteCustomer exact path="/paymentSuccess" component={success} />
+              <ProtectedRouteCustomer exact path="/paymentCancel/" component={cancel} />
 
               <ProtectedRouteAdmin exact path="/admin" component={admin} />
               <ProtectedRouteAdmin exact path="/admin/order" component={order} />
