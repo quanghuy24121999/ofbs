@@ -49,7 +49,7 @@ public class PaymentController {
 
 	@PostMapping("/pay")
 	public ResponseEntity<?> pay(HttpServletRequest request, @RequestParam("price") double price,
-			HttpServletResponse response, @RequestParam("description") String description) throws IOException {
+			@RequestParam("description") String description) throws IOException {
 		String cancelUrl = Utils.getBaseURL(request) + URL_PAYPAL_CANCEL;
 		String successUrl = Utils.getBaseURL(request) + URL_PAYPAL_SUCCESS;
 		try {

@@ -53,7 +53,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 												"/users/update/**",
 												"/users/findByPhoneNumber/**",
 												"/images/**",
-												"/notifications/**").permitAll();
+												"/notifications/**",
+												"/payment/pay/**").permitAll();
 		http.authorizeRequests().antMatchers(HttpMethod.GET, "/promotions/**").permitAll();
 		http.authorizeRequests().antMatchers(HttpMethod.GET, "/restaurants/**").permitAll();
 		http.authorizeRequests().antMatchers(HttpMethod.GET, "/dishes/**").permitAll();
@@ -64,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors().and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and().authorizeRequests()
-				.antMatchers("/orders/orderDetail/infor", "/orders/searchOrder", "/payment/**").hasAnyRole("PROVIDER", "CUSTOMER", "ADMIN")
+				.antMatchers("/orders/orderDetail/infor", "/orders/searchOrder", "/payment/pay", "/payment/history", "/payment/updateStatus", "/payment/save").hasAnyRole("PROVIDER", "CUSTOMER", "ADMIN")
 				.antMatchers(HttpMethod.POST, "/restaurants").hasAnyRole("PROVIDER", "ADMIN")
 				.antMatchers("/users/profile", "/users/profile/**", "/orders/updateStatus", "/orders/setStatus",
 						"/orders/customer", "/restaurants/registerRestaurant", "/orders/insertOrderDetail", "/feedbacks/insertFeedback", "/orders/getOrderIdBeforeInsert").hasAnyRole("PROVIDER", "CUSTOMER")
