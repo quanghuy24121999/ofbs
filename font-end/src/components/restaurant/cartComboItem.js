@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     CardImg, Button, Input
 } from 'reactstrap';
@@ -8,13 +8,28 @@ import { url } from '../../config/axios';
 
 export default function CartComboItem(props) {
     const item = props.combo;
+    const { metadata } = useCart();
+    const customerQuantity = metadata.customerQuantity;
 
     const {
         updateItemQuantity,
         removeItem,
     } = useCart();
 
-    const [quantity, setQuantity] = useState(item.quantity);
+    let itemQuantity = 0;
+    if (customerQuantity === 0 || customerQuantity === null || customerQuantity === '') {
+        itemQuantity = item.quantity;
+    } else {
+        itemQuantity = customerQuantity;
+    }
+
+    const [quantity, setQuantity] = useState(itemQuantity);
+
+    useEffect(() => {
+        updateItemQuantity(item.id, parseInt(customerQuantity));
+        setQuantity(parseInt(customerQuantity));
+    }, [customerQuantity]);
+
 
     const onChangeQuantity = () => {
         const e = document.getElementById('input-quantity-' + item.image_dish_id);

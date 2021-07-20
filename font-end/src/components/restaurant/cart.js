@@ -15,7 +15,6 @@ import { formatDateForInput } from '../../common/formatDate';
 import { formatCurrency } from '../../common/formatCurrency';
 import { Notify } from '../../common/notify';
 import { validateCapacity, validateItemCart } from '../../common/validate';
-import { Redirect } from 'react-router-dom';
 
 export default function Cart(props) {
     const [modal, setModal] = useState(false);
@@ -110,7 +109,7 @@ export default function Cart(props) {
             .then(res => {
                 // setLinkPaypal(res.data);
                 // if (linkPaypal !== '') {
-                    window.location.replace(res.data);
+                window.location.replace(res.data);
                 // }
             }).catch(err => {
                 console.log(err)
@@ -194,45 +193,49 @@ export default function Cart(props) {
                         }
                     }
 
-                    api.post(`/orders/insertOrderDetail`, json, config)
+                    api.get(`/orders/getOrderIdBeforeInsert?customerId=${parseInt(customerId)}&restaurantId=${parseInt(restaurantId)}`, config)
                         .then(res => {
-                            api({
-                                method: 'PATCH',
-                                headers: {
-                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
-                                },
-                                url: `/orders/setStatus?customerId=${customerId}&restaurantId=${restaurantId}`
-                            }).then(res => {
-                                updateCartMetadata({
-                                    customerQuantity: 1,
-                                    period: "",
-                                    time: "",
-                                    type: 0
-                                })
-
-
-                                api.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
-                                    .then(res => {
-                                        const restaurant = res.data;
-                                        api.post(`/notifications/insertNotification`,
-                                            {
-                                                "content": `Có đơn hàng mới của ${restaurant.restaurantName}`,
-                                                "customer": null,
-                                                "provider": restaurant.provider,
-                                                "forAdmin": false,
-                                                "type": "order",
-                                                "read": false
-                                            }
-                                        ).then(res => {
-                                            emptyCart();
-                                            setModalComfirm(!modalConfirm);
-                                            toggle();
-                                            toggle1();
-                                            payment();
-                                            // Notify('Đặt hàng thành công', 'success', 'top-right');
+                            localStorage.setItem("orderId", res.data);
+                            api.post(`/orders/insertOrderDetail`, json, config)
+                                .then(res => {
+                                    api({
+                                        method: 'PATCH',
+                                        headers: {
+                                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                        },
+                                        url: `/orders/setStatus?customerId=${customerId}&restaurantId=${restaurantId}`
+                                    }).then(res => {
+                                        updateCartMetadata({
+                                            customerQuantity: 1,
+                                            period: "",
+                                            time: "",
+                                            type: 0
                                         })
+
+
+                                        api.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
+                                            .then(res => {
+                                                const restaurant = res.data;
+                                                api.post(`/notifications/insertNotification`,
+                                                    {
+                                                        "content": `Có đơn hàng mới của ${restaurant.restaurantName}`,
+                                                        "customer": null,
+                                                        "provider": restaurant.provider,
+                                                        "forAdmin": false,
+                                                        "type": "order",
+                                                        "read": false
+                                                    }
+                                                ).then(res => {
+                                                    emptyCart();
+                                                    setModalComfirm(!modalConfirm);
+                                                    payment();
+                                                    toggle();
+                                                    toggle1();
+                                                    // Notify('Đặt hàng thành công', 'success', 'top-right');
+                                                })
+                                            })
                                     })
-                            })
+                                })
                         })
                 })
             })
@@ -284,7 +287,7 @@ export default function Cart(props) {
                                 <Button color="success" onClick={() => {
                                     onSubmitCart();
                                 }}>Thanh toán</Button>{' '}
-                                <Button color="secondary" onClick={toggle}>Quay lại</Button>
+                                <Button color="secondary" onClick={toggle1}>Quay lại</Button>
                             </ModalFooter>
                         </Modal>
                         <Form
