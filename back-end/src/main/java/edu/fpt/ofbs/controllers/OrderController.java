@@ -165,4 +165,11 @@ public class OrderController {
 		int total = orderService.getTotalOrderByStatus(status, fromDate, toDate);
 		return ResponseEntity.status(HttpStatus.OK).body(total);
 	}
+	
+	@GetMapping("/getOrderIdBeforeInsert")
+	public ResponseEntity<?> getOrderIdBeforeInsert(@PathParam("customerId") long customerId,
+			@PathParam("restaurantId") long restaurantId) {
+		long orderId = orderService.getOrderIdBeforeInsert(customerId, restaurantId);
+		return ResponseEntity.status(HttpStatus.OK).body(orderId);
+	}
 }

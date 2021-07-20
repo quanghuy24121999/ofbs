@@ -68,7 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/orders/orderDetail/infor", "/orders/searchOrder").hasAnyRole("PROVIDER", "CUSTOMER", "ADMIN")
 				.antMatchers(HttpMethod.POST, "/restaurants").hasAnyRole("PROVIDER", "ADMIN")
 				.antMatchers("/users/profile", "/users/profile/**", "/orders/updateStatus", "/orders/setStatus",
-						"/orders/customer", "/restaurants/registerRestaurant", "/orders/insertOrderDetail", "/feedbacks/insertFeedback").hasAnyRole("PROVIDER", "CUSTOMER")
+						"/orders/customer", "/restaurants/registerRestaurant", "/orders/insertOrderDetail", "/feedbacks/insertFeedback", "/orders/getOrderIdBeforeInsert").hasAnyRole("PROVIDER", "CUSTOMER")
 				.antMatchers("/orders/getOrders", "/orders/getTotalOrderByStatus", "/feedbacks/updateStatusFeedback", "/feedbacks/getReport",
 						"dishes/updateStatus", "combos/updateStatus", "services/updateStatus", "/restaurants/getTotalRestaurantsByStatus",
 						"users/numberOfUsersActive").hasRole("ADMIN")

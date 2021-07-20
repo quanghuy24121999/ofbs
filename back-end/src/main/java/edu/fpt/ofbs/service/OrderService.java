@@ -53,4 +53,8 @@ public class OrderService {
 	public List<IOrderDTO> getOrders(String orderCode, String fromDate, String toDate, String status){
 		return orderRepository.getOrders(orderCode, fromDate, toDate, status);
 	}
+	
+	public long getOrderIdBeforeInsert(long customerId, long restaurantId) {
+		return orderRepository.getOrderIdBeforeInsert(customerId, restaurantId);
+	}
 }
