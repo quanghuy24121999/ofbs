@@ -22,7 +22,7 @@ import edu.fpt.ofbs.models.ResponseMessage;
 import edu.fpt.ofbs.service.FeedbackService;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin("*")
 @RequestMapping("/feedbacks")
 public class FeedbackController {
 	@Autowired

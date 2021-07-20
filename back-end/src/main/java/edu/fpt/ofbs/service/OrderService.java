@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.fpt.ofbs.models.IOrderDTO;
-import edu.fpt.ofbs.models.OrderSaveDTO;
+import edu.fpt.ofbs.models.OrderDTO;
 import edu.fpt.ofbs.repositories.OrderRepository;
 
 @Service
@@ -26,7 +26,7 @@ public class OrderService {
 		return orderRepository.getOrderByRestaurantId(restaurantId, orderCode);
 	}
 	
-	public void insertOrder(OrderSaveDTO order) {
+	public void insertOrder(OrderDTO order) {
 		Date orderDate = new Date();
 		
 		order.setOrderCode("FBS" + order.getCustomerId() + order.getRestaurantId() + "OD" + orderDate.getTime());

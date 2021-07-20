@@ -22,48 +22,41 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@Entity(name = "user")
-@Table(name = "users")
-public class User {
+@Entity(name = "payment_history")
+@Table(name = "payment_histories")
+public class PaymentHistory {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-
-	@Column(name = "phone_login")
-	private String phoneLogin;
-
-	@Column(name = "password")
-	private String password;
 	
-	@Column(name = "name")
-	private String name;
+	@OneToOne
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
+	private User user;
 	
-	@Column(name = "phone_number")
-	private String phoneNumber;
+	@Column(name = "balance_change")
+	private float balaceChange;
 	
-	@Column(name = "gender")
-	private boolean gender;
+	@OneToOne
+	@JoinColumn(name = "from_to_user_id", referencedColumnName = "id")
+	private User fromToUser;
 	
-	@Column(name = "date_of_birth")
-	private Date dateOfBirth;
+	@Column(name = "current_balance")
+	private float currentBalance;
 	
-	@Column(name = "address")
-	private String address;
+	@Column(name = "date_of_change")
+	private Date dateOfChange;
 	
-	@Column(name = "email")
-	private String email;
+	@Column(name = "description")
+	private String description;
 	
 	@OneToOne
 	@JoinColumn(name = "status_id", referencedColumnName = "id")
 	private Status status;
 	
-	@OneToOne
-	@JoinColumn(name = "role_id", referencedColumnName = "id")
-	private Role role;
+	@Column(name = "payment_code")
+	private String paymentCode;
 	
-	@Column(name = "last_modified_date")
-	private Date lastModified;
-
-	@Column(name = "balance")
-	private float balance;
+	@OneToOne
+	@JoinColumn(name = "payment_type_id", referencedColumnName = "id")
+	private PaymentType paymentType;
 }

@@ -39,7 +39,7 @@ import edu.fpt.ofbs.service.StatusService;
 import edu.fpt.ofbs.service.UserService;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin("*")
 @RequestMapping("/users")
 public class UserController {
 	@Autowired
@@ -172,6 +172,21 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.OK).body(user);
 		}catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage("Update role fail !"));
+		}
+	}
+	
+	@PatchMapping("/updateBalance")
+	public ResponseEntity<?> updateBalance(@PathParam("balance") float balance, @PathParam("userId") long userId) {
+		String message = "";
+
+		try {
+			userService.updateBalance(balance, userId);
+
+			message = "Update balance successfully !";
+			return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+		} catch (Exception e) {
+			message = "Could not update balance !";
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
 		}
 	}
 }

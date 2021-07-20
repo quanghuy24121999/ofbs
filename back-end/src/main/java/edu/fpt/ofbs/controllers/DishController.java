@@ -24,7 +24,7 @@ import edu.fpt.ofbs.models.ResponseMessage;
 import edu.fpt.ofbs.service.DishService;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin("*")
 @RequestMapping("/dishes")
 public class DishController {
 	@Autowired

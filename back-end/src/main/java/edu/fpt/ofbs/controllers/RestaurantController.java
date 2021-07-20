@@ -24,7 +24,7 @@ import edu.fpt.ofbs.service.RestaurantService;
 import edu.fpt.ofbs.service.StatusService;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin("*")
 @RequestMapping("/restaurants")
 public class RestaurantController {
 	@Autowired
