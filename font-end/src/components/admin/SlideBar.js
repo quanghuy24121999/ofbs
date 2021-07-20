@@ -9,7 +9,8 @@ import {
 } from 'react-pro-sidebar';
 import {
     FaTachometerAlt, FaStore, FaShoppingBasket,
-    FaFlag
+    FaFlag,
+    FaWallet
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
@@ -68,6 +69,13 @@ const SlideBar = ({ toggled, handleToggleSidebar, inComponent }) => {
                     >
                         Báo cáo
                         <Link to="/admin/report" />
+                    </MenuItem>
+                    <MenuItem
+                        icon={<FaWallet />}
+                        active={inComponent === 'wallet' && true}
+                    >
+                        Ví FBS
+                        <Link to="/admin/wallet" />
                     </MenuItem>
                 </Menu>
             </SidebarContent>

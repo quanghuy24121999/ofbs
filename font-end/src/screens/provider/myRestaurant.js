@@ -62,7 +62,7 @@ export default class myRestaurant extends Component {
                         <Link to={`/users/profile/my-restaurant`}>Nhà hàng của tôi</Link>
                     </NavItem>
                     <NavItem>
-                        <Link to={``}>Ví FBS</Link>
+                        <Link to={`/users/profile/wallet`}>Ví FBS</Link>
                     </NavItem>
                 </Nav>
                 {

@@ -15,6 +15,9 @@ export default function NotificationItem(props) {
     } else if (type === 'report') {
         color = '#ffc107';
         link = '/admin/report';
+    } else if (type === 'wallet') {
+        color = '#a473ff';
+        link = '/admin/wallet';
     }
 
     const read = () => {
