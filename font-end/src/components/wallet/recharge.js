@@ -6,7 +6,7 @@ import {
 import { Notify } from '../../common/notify';
 import { api } from '../../config/axios';
 
-import firebase from "../../config/firebase";
+// import firebase from "../../config/firebase";
 
 // let recap = null;
 // let event = '';
@@ -24,12 +24,49 @@ export default function Recharge() {
     // }
 
     const paypalChechout = () => {
-        api.post(`/payment/pay?price=${money / 23000}&description=${'Nạp tiền vào ví FBS'}`)
+        api.get(`/users/findByPhoneNumber/${localStorage.getItem("currentUser")}`)
             .then(res => {
-                window.location.replace(res.data);
-            }).catch(err => {
-                console.log(err);
-            });
+                const currentUser = res.data;
+                api.post(`/payment/save`,
+                    {
+                        "user": currentUser,
+                        "fromToUser": currentUser,
+                        "balanceChange": money,
+                        "currentBalance": parseFloat(currentUser.balance) + parseFloat(money),
+                        "description": "Nạp tiền vào ví FBS",
+                        "paymentType": {
+                            "name": "charge"
+                        }
+                    },
+                    {
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                        }
+                    }
+                ).then(res => {
+                    localStorage.setItem("paymentHistoryId", res.data.id);
+                    localStorage.setItem("paymentType", res.data.paymentType.name);
+
+                    api({
+                        method: 'POST',
+                        url: `/payment/pay?price=${money / 23000}&description=${'Nạp tiền vào ví FBS'}`,
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                        }
+                    })
+
+                        // api.post(`/payment/pay?price=${money / 23000}&description=${'Nạp tiền vào ví FBS'}`, {
+                        //     headers: {
+                        //         'Authorization': 'Bearer ' + localStorage.getItem('token')
+                        //     }
+                        // })
+                        .then(res => {
+                            window.location.replace(res.data);
+                        }).catch(err => {
+                            console.log(err);
+                        });
+                })
+            })
     }
 
     // const [modal, setModal] = useState(false);

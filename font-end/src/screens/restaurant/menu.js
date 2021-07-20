@@ -154,7 +154,7 @@ export default class menu extends Component {
                     </NavItem>
                 </Nav>
 
-                <Cart restaurantId={this.props.match.params.restaurantId} />
+                <Cart restaurantId={this.props.match.params.restaurantId} add={true}/>
                 <Container className="menu-search-dish">
                     <Input
                         type="text"
