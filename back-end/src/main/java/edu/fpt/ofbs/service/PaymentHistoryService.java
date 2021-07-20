@@ -34,7 +34,7 @@ public class PaymentHistoryService {
 		PaymentHistory savePaymentHistory = new PaymentHistory();
 		
 		savePaymentHistory.setUser(paymentHistory.getUser());
-		savePaymentHistory.setBalaceChange(paymentHistory.getBalaceChange());
+		savePaymentHistory.setBalanceChange(paymentHistory.getBalanceChange());
 		savePaymentHistory.setFromToUser(paymentHistory.getFromToUser());
 		savePaymentHistory.setCurrentBalance(paymentHistory.getCurrentBalance());
 		savePaymentHistory.setDateOfChange(paymentHistory.getDateOfChange());
@@ -47,5 +47,9 @@ public class PaymentHistoryService {
 		savePaymentHistory.setPaymentType(paymentTypeRepository.findPaymentTypeByName(paymentHistory.getPaymentType().getName()));
 		
 		return paymentHistoryRepository.save(savePaymentHistory);
+	}
+	
+	public PaymentHistory findById(long id) {
+		return paymentHistoryRepository.findById(id).get();
 	}
 }
