@@ -15,16 +15,20 @@ import { formatDateForInput } from '../../common/formatDate';
 import { formatCurrency } from '../../common/formatCurrency';
 import { Notify } from '../../common/notify';
 import { validateCapacity, validateItemCart } from '../../common/validate';
+import { Redirect } from 'react-router-dom';
 
 export default function Cart(props) {
     const [modal, setModal] = useState(false);
+    const [modal1, setModal1] = useState(false);
     const [modalConfirm, setModalComfirm] = useState(false);
     const [typeTable, setTypeTable] = useState(6);
     const [customerQuantity, setCustomerQuantity] = useState(1);
     const [period, setPeriod] = useState('Trưa');
     const [time, setTime] = useState('');
     const [note, setNote] = useState('');
+    const [linkPaypal, setLinkPaypal] = useState('');
     const toggle = () => setModal(!modal);
+    const toggle1 = () => setModal1(!modal1);
     const toggleConfirm = () => setModalComfirm(!modalConfirm);
     let maxDate = new Date();
     maxDate.setFullYear(maxDate.getFullYear() + 1);
@@ -99,6 +103,18 @@ export default function Cart(props) {
         } else {
             return true;
         }
+    }
+
+    const payment = () => {
+        api.post(`/payment/pay?price=${cartTotal * 0.1 / 23000}&description=${'Thanh toán đơn hàng FBS'}`)
+            .then(res => {
+                // setLinkPaypal(res.data);
+                // if (linkPaypal !== '') {
+                    window.location.replace(res.data);
+                // }
+            }).catch(err => {
+                console.log(err)
+            });
     }
 
     const onSubmitCart = () => {
@@ -211,7 +227,9 @@ export default function Cart(props) {
                                             emptyCart();
                                             setModalComfirm(!modalConfirm);
                                             toggle();
-                                            Notify('Đặt hàng thành công', 'success', 'top-right');
+                                            toggle1();
+                                            payment();
+                                            // Notify('Đặt hàng thành công', 'success', 'top-right');
                                         })
                                     })
                             })
@@ -219,7 +237,6 @@ export default function Cart(props) {
                 })
             })
     }
-
 
     if (isEmpty) {
         return (
@@ -244,7 +261,6 @@ export default function Cart(props) {
         )
     }
 
-
     return (
         <div>
             <Button onClick={toggle} className="cart-display" color="primary" outline>
@@ -258,11 +274,24 @@ export default function Cart(props) {
                 <Modal isOpen={modal} toggle={toggle} className="cart-modal">
                     <ModalHeader toggle={toggle}>Giỏ hàng</ModalHeader>
                     <ModalBody>
+                        <Modal isOpen={modal1} toggle={toggle1} className={``}>
+                            <ModalHeader toggle={toggle1}>Thông báo</ModalHeader>
+                            <ModalBody>
+                                Bạn phải thanh toán cọc <b>10%</b> tổng tiền của đơn hàng.
+                                Số tiền phải thanh toán là <b>{formatCurrency(cartTotal * 0.1) + ' VNĐ'}</b>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button color="success" onClick={() => {
+                                    onSubmitCart();
+                                }}>Thanh toán</Button>{' '}
+                                <Button color="secondary" onClick={toggle}>Quay lại</Button>
+                            </ModalFooter>
+                        </Modal>
                         <Form
                             onSubmit={(event) => {
                                 event.preventDefault();
                                 if (validateCart()) {
-                                    onSubmitCart();
+                                    toggle1();
                                 }
                             }}
                         >
