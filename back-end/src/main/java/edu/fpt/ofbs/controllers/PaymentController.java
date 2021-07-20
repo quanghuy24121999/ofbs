@@ -125,4 +125,11 @@ public class PaymentController {
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
 		}
 	}
+	
+	@GetMapping("/getPaymentById")
+	public ResponseEntity<?> findById(@PathParam("paymentId") long paymentId) throws IOException {
+		PaymentHistory pHistory = paymentHistoryService.findById(paymentId);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(pHistory);
+	}
 }

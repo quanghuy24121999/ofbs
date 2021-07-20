@@ -34,7 +34,7 @@ public class PaymentHistory {
 	private User user;
 	
 	@Column(name = "balance_change")
-	private float balaceChange;
+	private float balanceChange;
 	
 	@OneToOne
 	@JoinColumn(name = "from_to_user_id", referencedColumnName = "id")
