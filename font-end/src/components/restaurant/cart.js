@@ -262,7 +262,7 @@ export default function Cart(props) {
                                                                         {
                                                                             "user": currentUser,
                                                                             "fromToUser": admin,
-                                                                            "balanceChange": parseFloat(cartTotal * 0.1),
+                                                                            "balanceChange": parseFloat(-cartTotal * 0.1),
                                                                             "currentBalance": parseFloat(currentUser.balance) - (parseFloat(cartTotal * 0.1)),
                                                                             "description": "Thanh toán đơn hàng " + orderCode,
                                                                             "paymentType": {
@@ -288,7 +288,7 @@ export default function Cart(props) {
                                                                                 headers: {
                                                                                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                                                                                 },
-                                                                                url: `users/updateBalance?balance=${paymentHistory.currentBalance}&userId=${paymentHistory.user.id}`
+                                                                                url: `users/updateBalance?balance=${parseFloat(currentUser.balance) - parseFloat(cartTotal * 0.1)}&userId=${currentUser.id}`
                                                                             })
                                                                                 .then(res => {
                                                                                     Notify('Thanh toán đơn hàng thành công', 'success', 'top-right');
@@ -315,7 +315,22 @@ export default function Cart(props) {
                                                                             }
                                                                         }
                                                                     ).then(res => {
-
+                                                                        const paymentHistory = res.data;
+                                                                        api({
+                                                                            method: 'PATCH',
+                                                                            headers: {
+                                                                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                                            },
+                                                                            url: `/payment/updateStatus?paymentId=${paymentHistory.id}&status=success`
+                                                                        }).then(() => {
+                                                                            api({
+                                                                                method: 'PATCH',
+                                                                                headers: {
+                                                                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                                                },
+                                                                                url: `users/updateBalance?balance=${parseFloat(admin.balance) + parseFloat(paymentHistory.balanceChange)}&userId=${admin.id}`
+                                                                            })
+                                                                        })
                                                                     })
                                                                 })
                                                         } else {

@@ -16,7 +16,7 @@ export default function Cancel() {
                 },
                 url: `/orders/updateStatus?orderId=${orderId}&status=cancelled`
             }).then(res => {
-
+                localStorage.removeItem("orderId");
             })
         }
     }, [orderId]);

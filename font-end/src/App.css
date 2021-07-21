@@ -682,7 +682,7 @@ label {
 }
 
 .wallet-recharge > .row {
-  width: 50%;
+  width: 100%;
 }
 
 .form-recharge {
@@ -717,6 +717,23 @@ label {
 
 #btn-recharge {
   display: none;
+}
+
+#bank-info {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#address {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.content {
+  height: 100px;
+  width: 100%;
 }
 
 /*================================================ CART ================================================*/
@@ -2442,6 +2459,39 @@ tr > td:nth-child(6) {
 
 .order-from > div,
 .order-to > div {
+  margin: 0 10px;
+}
+
+.admin-wallet-search {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.admin-wallet-search > div {
+  width: 100%;
+}
+
+.admin-wallet-search > div:nth-child(1) {
+  width: 30%;
+  margin: 0 10px;
+}
+
+.admin-wallet-search > div:nth-child(2),
+.admin-wallet-search > div:nth-child(3) {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+  margin: 0 10px;
+}
+
+.admin-wallet-search > div:nth-child(4) {
+  width: 10%;
   margin: 0 10px;
 }
 
