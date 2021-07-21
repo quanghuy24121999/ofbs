@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import {
-    Button, Col, Input, Row,
-    Modal, ModalHeader, ModalBody, ModalFooter
+    Button, Col, Input, Row, Container
 } from 'reactstrap';
 import { Notify } from '../../common/notify';
 import { api } from '../../config/axios';
@@ -12,7 +11,7 @@ import { api } from '../../config/axios';
 // let event = '';
 
 export default function Recharge() {
-    const [money, setMoney] = useState(0);
+    const [money, setMoney] = useState('');
     // const [otp, setOtp] = useState('');
 
     const onChangeMoney = (e) => {
@@ -24,49 +23,53 @@ export default function Recharge() {
     // }
 
     const paypalChechout = () => {
-        api.get(`/users/findByPhoneNumber/${localStorage.getItem("currentUser")}`)
-            .then(res => {
-                const currentUser = res.data;
-                api.post(`/payment/save`,
-                    {
-                        "user": currentUser,
-                        "fromToUser": currentUser,
-                        "balanceChange": money,
-                        "currentBalance": parseFloat(currentUser.balance) + parseFloat(money),
-                        "description": "Nạp tiền vào ví FBS",
-                        "paymentType": {
-                            "name": "charge"
+        if (parseFloat(money) > 0 && money !== '') {
+            api.get(`/users/findByPhoneNumber/${localStorage.getItem("currentUser")}`)
+                .then(res => {
+                    const currentUser = res.data;
+                    api.post(`/payment/save`,
+                        {
+                            "user": currentUser,
+                            "fromToUser": currentUser,
+                            "balanceChange": money,
+                            "currentBalance": parseFloat(currentUser.balance) + parseFloat(money),
+                            "description": "Nạp tiền vào ví FBS",
+                            "paymentType": {
+                                "name": "charge"
+                            }
+                        },
+                        {
+                            headers: {
+                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                            }
                         }
-                    },
-                    {
-                        headers: {
-                            'Authorization': 'Bearer ' + localStorage.getItem('token')
-                        }
-                    }
-                ).then(res => {
-                    localStorage.setItem("paymentHistoryId", res.data.id);
-                    localStorage.setItem("paymentType", res.data.paymentType.name);
+                    ).then(res => {
+                        localStorage.setItem("paymentHistoryId", res.data.id);
+                        localStorage.setItem("paymentType", res.data.paymentType.name);
 
-                    api({
-                        method: 'POST',
-                        url: `/payment/pay?price=${money / 23000}&description=${'Nạp tiền vào ví FBS'}`,
-                        headers: {
-                            'Authorization': 'Bearer ' + localStorage.getItem('token')
-                        }
+                        api({
+                            method: 'POST',
+                            url: `/payment/pay?price=${money / 23000}&description=${'Nạp tiền vào ví FBS'}`,
+                            headers: {
+                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                            }
+                        })
+
+                            // api.post(`/payment/pay?price=${money / 23000}&description=${'Nạp tiền vào ví FBS'}`, {
+                            //     headers: {
+                            //         'Authorization': 'Bearer ' + localStorage.getItem('token')
+                            //     }
+                            // })
+                            .then(res => {
+                                window.location.replace(res.data);
+                            }).catch(err => {
+                                console.log(err);
+                            });
                     })
-
-                        // api.post(`/payment/pay?price=${money / 23000}&description=${'Nạp tiền vào ví FBS'}`, {
-                        //     headers: {
-                        //         'Authorization': 'Bearer ' + localStorage.getItem('token')
-                        //     }
-                        // })
-                        .then(res => {
-                            window.location.replace(res.data);
-                        }).catch(err => {
-                            console.log(err);
-                        });
                 })
-            })
+        } else {
+            Notify('Vui lòng nhập sô tiền cần nạp', 'error', 'top-right');
+        }
     }
 
     // const [modal, setModal] = useState(false);
@@ -123,17 +126,20 @@ export default function Recharge() {
     // }
 
     return (
-        <Row className="wallet-recharge">
-            <Col className="form-recharge">
-                <div><b>Nhập số tiền muốn nạp</b></div>
-                <Input
-                    type="number"
-                    value={money}
-                    onChange={onChangeMoney}
-                />
-                <Button color="success" onClick={paypalChechout}>Nạp tiền</Button>
-                {/* <div id="recaptcha"></div> */}
-                {/* <Modal isOpen={modal} toggle={toggle} className={``}>
+        <Container className="wallet-recharge">
+            <Row>
+                <Col className="form-recharge">
+                    <div>Nhập số tiền muốn nạp</div>
+                    <Input
+                        type="number"
+                        value={money}
+                        onChange={onChangeMoney}
+                        min={1}
+                        placeholder="Nhập số tiền muốn nạp"
+                    />
+                    <Button color="success" onClick={paypalChechout}>Nạp tiền</Button>
+                    {/* <div id="recaptcha"></div> */}
+                    {/* <Modal isOpen={modal} toggle={toggle} className={``}>
                     <ModalHeader toggle={toggle}>Thông báo</ModalHeader>
                     <ModalBody>
                         <div id="verify-code">
@@ -153,7 +159,8 @@ export default function Recharge() {
                         <Button color="secondary" onClick={toggle}>Quay lại</Button>
                     </ModalFooter>
                 </Modal> */}
-            </Col>
-        </Row>
+                </Col>
+            </Row>
+        </Container>
     )
 }
