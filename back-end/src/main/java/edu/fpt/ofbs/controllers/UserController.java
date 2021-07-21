@@ -189,4 +189,14 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
 		}
 	}
+	
+	@GetMapping("/findByRole")
+	public ResponseEntity<?> findByRole(@PathParam("roleName") String roleName) {
+		Role role = new Role();
+		role.setName(roleName);
+		
+		User user = userService.findByRole(role);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(user);
+	}
 }
