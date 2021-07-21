@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
-    Container, Table
+    Container, Table, Nav, NavItem, NavLink,
+    Row
 } from 'reactstrap';
 import { FaBars } from 'react-icons/fa';
 import SlideBar from '../../components/admin/SlideBar';
-import { api } from '../../config/axios';
 import { Link } from 'react-router-dom';
 
 import Notification from '../../components/admin/Notification';
+import { onChangeAdminTabWallet } from '../../common/changeLink';
+import WalletHistory from '../../components/admin/WalletHistory';
+import WalletManageWithdrawal from '../../components/admin/WalletManageWithdrawal';
+import Info from '../../components/wallet/info';
 
 export default function Wallet() {
     const [toggled, setToggled] = useState(false);
@@ -18,6 +22,13 @@ export default function Wallet() {
 
     const Logout = () => {
         localStorage.clear();
+    }
+
+    const [tab, setTab] = useState(1);
+
+    const onChangeTab = (tab) => {
+        onChangeAdminTabWallet(tab);
+        setTab(tab);
     }
 
     return (
@@ -40,21 +51,24 @@ export default function Wallet() {
                     </div>
                 </div>
                 <Container>
-                    <h3>Quản lý ví FBS</h3>
-                    <hr />
-                    <Table>
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Nội dung</th>
-                                <th>Thời gian</th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </Table>
+                    <Nav pills className="order-nav-status">
+                        <NavItem onClick={() => onChangeTab(1)}>
+                            <NavLink active id="1">Lịch sử giao dịch</NavLink>
+                        </NavItem>
+                        <NavItem onClick={() => onChangeTab(2)}>
+                            <NavLink id="2">Quản lý rút tiền</NavLink>
+                        </NavItem>
+                    </Nav>
+                    {
+                        tab === 1 && <Row className="wallet-row">
+                            <Info />
+                        </Row>
+                    }
+                    {
+                        tab === 2 && <Row className="wallet-row">
+                            <WalletManageWithdrawal />
+                        </Row>
+                    }                    
                 </Container>
             </div>
         </div>

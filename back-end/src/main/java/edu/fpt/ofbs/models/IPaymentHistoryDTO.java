@@ -8,6 +8,8 @@ public interface IPaymentHistoryDTO {
 	String getPayment_type();
 
 	String getBalance_change();
+	
+	String getPhone_login();
 
 	String getName();
 

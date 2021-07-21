@@ -22,7 +22,7 @@ export default function Withdrawal() {
                             {
                                 "user": currentUser,
                                 "fromToUser": currentUser,
-                                "balanceChange": `-${money}`,
+                                "balanceChange": parseFloat(money * -1),
                                 "currentBalance": parseFloat(currentUser.balance) - parseFloat(money),
                                 "description": "Rút tiền ví FBS",
                                 "paymentType": {
@@ -52,7 +52,7 @@ export default function Withdrawal() {
         <Container className="wallet-recharge">
             <Row >
                 <Col className="form-recharge">
-                    <div>Nhập số tiền muốn rút</div>
+                    <div>Nhập số tiền muốn rút (VNĐ)</div>
                     <Input
                         type="number"
                         value={money}

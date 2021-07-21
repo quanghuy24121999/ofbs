@@ -1,11 +1,16 @@
 import React from 'react';
+import { Button } from 'reactstrap';
 import { formatCurrency } from '../../common/formatCurrency';
 import { formatDate } from '../../common/formatDate';
+import { Notify } from '../../common/notify';
+import { api } from '../../config/axios';
 
 export default function HistoryItem(props) {
     const history = props.history;
+    const isWithdrawal = props.isWithdrawal;
     let type = history.payment_type;
     let status = history.status;
+    let money = parseFloat(history.balance_change);
 
     if (type === 'refund') {
         type = 'Hoàn tiền';
@@ -25,14 +30,79 @@ export default function HistoryItem(props) {
         status = <div style={{ color: 'purple', fontWeight: '500' }}>Đang xử lý</div>
     }
 
+    if (money >= 0) {
+        money = <div style={{ color: 'green', fontWeight: '500' }}>+{formatCurrency(money)}</div>
+    } else {
+        money = <div style={{ color: 'red', fontWeight: '500' }}>-{formatCurrency(money * (-1))}</div>
+    }
+
+    const updateStatus = () => {
+        api.get(`/users/findByPhoneNumber/${history.phone_login}`, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+            .then(res => {
+                const currentUser = res.data;
+                api({
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    },
+                    url: `/payment/updateStatus?paymentId=${history.id}&status=success`
+                }).then(res => {
+                    api({
+                        method: 'PATCH',
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                        },
+                        url: `users/updateBalance?balance=${parseFloat(currentUser.balance) + parseFloat(history.balance_change)}&userId=${currentUser.id}`
+                    })
+                        .then(res => {
+                            let customer = null;
+                            let provider = null;
+
+                            if (currentUser.role.name === 'ROLE_PROVIDER') {
+                                provider = currentUser;
+                            } else if (currentUser.role.name === 'ROLE_CUSTOMER') {
+                                customer = currentUser;
+                            }
+                            api.post(`/notifications/insertNotification`,
+                                {
+                                    "content": `Yêu cầu rút tiền của bạn đã được xử lý, vui lòng kiểm tra số tài khoản, 
+                                        nếu chưa nhận được tiền trong vòng 24h vui lòng liên hệ lại với chúng tôi `,
+                                    "customer": customer,
+                                    "provider": provider,
+                                    "forAdmin": false,
+                                    "type": "report",
+                                    "read": false
+                                }
+                            ).then(res => {
+                                Notify('Xác nhận thành công', 'success', 'top-right');
+                            })
+                        })
+                })
+            })
+    }
+
     return (
         <tr>
             <td>{history.payment_code}</td>
             <td>{type}</td>
-            <td>{formatCurrency(parseFloat(history.balance_change))}</td>
+            <td>{money}</td>
             <td>{formatDate(history.date_of_change)}</td>
             <td>{history.description}</td>
             <td>{status}</td>
+            {
+                isWithdrawal && <td>
+                    <Button
+                        color="primary"
+                        onClick={() => updateStatus()}
+                    >
+                        Xác nhận
+                    </Button>
+                </td>
+            }
         </tr>
     )
 }

@@ -7,19 +7,21 @@ import { api } from '../../config/axios';
 export default function Success() {
     const [paymentHistoryId, setPaymentHistoryId] = useState('');
     const [paymentType, setPaymentType] = useState('');
+    const [orderId, setOrderId] = useState('');
 
     useEffect(() => {
         setPaymentHistoryId(localStorage.getItem("paymentHistoryId"));
         setPaymentType(localStorage.getItem("paymentType"));
+        setOrderId(localStorage.getItem("orderId"));
 
-        if ((paymentHistoryId !== null && paymentHistoryId !== undefined && paymentHistoryId !== '')) {
-            api.get(`payment/getPaymentById?paymentId=${paymentHistoryId}`, {
+        if (paymentHistoryId !== null && paymentHistoryId !== undefined && paymentHistoryId !== '') {
+            api.get(`/users/findByPhoneNumber/${localStorage.getItem('currentUser')}}`, {
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                 }
             })
                 .then(res => {
-                    const paymentHistory = res.data;
+                    const currentUser = res.data;
                     api({
                         method: 'PATCH',
                         headers: {
@@ -32,7 +34,7 @@ export default function Success() {
                             headers: {
                                 'Authorization': 'Bearer ' + localStorage.getItem('token')
                             },
-                            url: `users/updateBalance?balance=${paymentHistory.currentBalance}&userId=${paymentHistory.user.id}`
+                            url: `users/updateBalance?balance=${currentUser.balance}&userId=${currentUser.id}`
                         })
 
                             // api.patch(`users/updateBalance?balance=${paymentHistory.currentBalance}&userId=${paymentHistory.user.id}`, {
@@ -47,8 +49,19 @@ export default function Success() {
                             })
                     })
                 })
+        } else if (orderId !== null && orderId !== undefined && orderId !== '') {
+            api({
+                method: 'PATCH',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                },
+                url: `/orders/updateStatus?orderId=${orderId}&status=pending`
+            }).then(res => {
+                Notify('Đặt hàng thành công', 'success', 'top-right');
+                localStorage.removeItem("orderId");
+            })
         }
-    }, [paymentHistoryId]);
+    }, [paymentHistoryId, orderId]);
     return (
         <Container>
             <FaCheckCircle className="icon-success" />

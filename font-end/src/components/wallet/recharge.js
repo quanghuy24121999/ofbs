@@ -129,7 +129,7 @@ export default function Recharge() {
         <Container className="wallet-recharge">
             <Row>
                 <Col className="form-recharge">
-                    <div>Nhập số tiền muốn nạp</div>
+                    <div>Nhập số tiền muốn nạp (VNĐ)</div>
                     <Input
                         type="number"
                         value={money}
