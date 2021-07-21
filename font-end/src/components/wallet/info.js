@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Input, Table, Button } from 'reactstrap';
+import { Input, Table, Button, Container } from 'reactstrap';
 import ReactPaginate from 'react-paginate';
 import { FaSearch } from 'react-icons/fa';
 
@@ -61,7 +61,7 @@ export default function Info() {
             .then(res => {
                 const currentUser = res.data;
                 setBalance(currentUser.balance);
-                api.get(`/payment/history?userId=${currentUser.id}&paymentCode=${paymentCode}&status=${status}&fromDate=${fromDate}&toDate=${toDate}`, {
+                api.get(`/payment/history?userId=${currentUser.id}&paymentCode=${paymentCode}&status=${status}&fromDate=${fromDate}&toDate=${toDate}&paymentType=`, {
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
@@ -80,11 +80,11 @@ export default function Info() {
     }
 
     return (
-        <div className="wallet-info">
+        <Container className="wallet-info">
             <div className="balance">Số dư tài khoản: {formatCurrency(balance)} VNĐ</div>
+            <hr />
             <div className="history">
                 <h3 className="history-title">Lịch sử giao dịch</h3>
-                <hr />
                 <div className="wallet-search">
                     <div>
                         <Input
@@ -128,7 +128,7 @@ export default function Info() {
                         />
                     </div>
                     <div>
-                        <Button color="primary" className="btn-search-order" onClick={search}><FaSearch className="icon-search" /></Button>
+                        <Button color="primary" className="btn-search-wallet" onClick={search}><FaSearch className="icon-search" /></Button>
                     </div>
                 </div>
                 <Table>
@@ -160,6 +160,6 @@ export default function Info() {
                     activeClassName={"active"}
                 />
             </div>
-        </div>
+        </Container>
     )
 }
