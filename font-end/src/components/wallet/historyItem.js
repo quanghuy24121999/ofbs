@@ -19,7 +19,7 @@ export default function HistoryItem(props) {
 
     if (status === 'success') {
         status = <div style={{ color: 'green', fontWeight: '500' }}>Thành công</div>
-    } else if ('fail') {
+    } else if (status === 'fail') {
         status = <div style={{ color: 'red', fontWeight: '500' }}>Thất bại</div>
     } else {
         status = <div style={{ color: 'purple', fontWeight: '500' }}>Đang xử lý</div>
