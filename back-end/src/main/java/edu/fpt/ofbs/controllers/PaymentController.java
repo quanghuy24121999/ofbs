@@ -91,8 +91,8 @@ public class PaymentController {
 	@GetMapping("/history")
 	public ResponseEntity<?> getPaymentHistory(@RequestParam("userId") long userId,
 			@RequestParam("paymentCode") String paymentCode, @RequestParam("status") String status,
-			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate) {
-		List<IPaymentHistoryDTO> payments = paymentHistoryService.getPaymentHistory(userId, paymentCode, status, fromDate, toDate);
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate, @RequestParam("paymentType") String paymentType) {
+		List<IPaymentHistoryDTO> payments = paymentHistoryService.getPaymentHistory(userId, paymentCode, status, fromDate, toDate, paymentType);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(payments);
 	}

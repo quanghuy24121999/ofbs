@@ -12,8 +12,8 @@ import edu.fpt.ofbs.models.IPaymentHistoryDTO;
 
 @Repository
 public interface PaymentHistoryRepository extends JpaRepository<PaymentHistory, Long>{
-	@Query(value = "exec [sp_searchPaymentHistory] ?1, ?2, ?3, ?4, ?5", nativeQuery = true)
-	List<IPaymentHistoryDTO> getPaymentHistory(long userId, String paymentCode, String status, String fromDate, String toDate);
+	@Query(value = "exec [sp_searchPaymentHistory] ?1, ?2, ?3, ?4, ?5, ?6", nativeQuery = true)
+	List<IPaymentHistoryDTO> getPaymentHistory(long userId, String paymentCode, String status, String fromDate, String toDate, String paymentType);
 	
 	@Modifying
 	@Query(value = "exec sp_updatePaymentStatus ?1, ?2", nativeQuery = true)

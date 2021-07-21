@@ -24,8 +24,8 @@ public class PaymentHistoryService {
 	@Autowired
 	private PaymentTypeRepository paymentTypeRepository;
 	
-	public List<IPaymentHistoryDTO> getPaymentHistory(long userId, String paymentCode, String status, String fromDate, String toDate){
-		return paymentHistoryRepository.getPaymentHistory(userId, paymentCode, status, fromDate, toDate);
+	public List<IPaymentHistoryDTO> getPaymentHistory(long userId, String paymentCode, String status, String fromDate, String toDate, String paymentType){
+		return paymentHistoryRepository.getPaymentHistory(userId, paymentCode, status, fromDate, toDate, paymentType);
 	}
 	
 	public void updatePaymentStatus(long paymentHistoryId, String status) {
