@@ -15,12 +15,12 @@ import org.springframework.security.config.BeanIds;
 import org.springframework.security.authentication.AuthenticationManager;
 
 import edu.fpt.ofbs.jwt.JwtAuthenticationFilter;
-import edu.fpt.ofbs.service.UserService;
+import edu.fpt.ofbs.service.impl.UserServiceImpl;
 
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
-	UserService userService;
+	UserServiceImpl userService;
 
 	@Bean
 	public JwtAuthenticationFilter jwtAuthenticationFilter() {
