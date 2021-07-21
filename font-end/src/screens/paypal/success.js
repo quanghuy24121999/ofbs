@@ -42,6 +42,8 @@ export default function Success() {
                             // })
                             .then(res => {
                                 Notify('Nạp tiền vào ví thành công', 'success', 'top-right');
+                                localStorage.removeItem("paymentHistoryId");
+                                localStorage.removeItem("paymentType");
                             })
                     })
                 })

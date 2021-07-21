@@ -3,7 +3,7 @@ import { useCart } from 'react-use-cart';
 import {
     Button, Modal, Badge, Input, Form,
     ModalHeader, ModalBody, ModalFooter,
-    Label
+    Label, FormGroup
 } from 'reactstrap';
 import { FaShoppingCart } from 'react-icons/fa'
 import { api } from '../../config/axios';
@@ -19,6 +19,8 @@ import { validateCapacity, validateItemCart } from '../../common/validate';
 export default function Cart(props) {
     const [modal, setModal] = useState(false);
     const [modal1, setModal1] = useState(false);
+    const [active, setActive] = useState(0);
+
     const [modalConfirm, setModalComfirm] = useState(false);
     const [typeTable, setTypeTable] = useState(6);
     const [customerQuantity, setCustomerQuantity] = useState(1);
@@ -26,6 +28,7 @@ export default function Cart(props) {
     const [time, setTime] = useState('');
     const [note, setNote] = useState('');
     const [linkPaypal, setLinkPaypal] = useState('');
+
     const toggle = () => {
         setModal(!modal);
         if (!modal) {
@@ -123,11 +126,11 @@ export default function Cart(props) {
             }
         })
 
-        // api.post(`/payment/pay?price=${cartTotal * 0.1 / 23000}&description=${'Thanh toán đơn hàng FBS'}`, {
-        //     headers: {
-        //         'Authorization': 'Bearer ' + localStorage.getItem('token')
-        //     }
-        // })
+            // api.post(`/payment/pay?price=${cartTotal * 0.1 / 23000}&description=${'Thanh toán đơn hàng FBS'}`, {
+            //     headers: {
+            //         'Authorization': 'Bearer ' + localStorage.getItem('token')
+            //     }
+            // })
             .then(res => {
                 // setLinkPaypal(res.data);
                 // if (linkPaypal !== '') {
@@ -139,7 +142,7 @@ export default function Cart(props) {
     }
 
     const onSubmitCart = () => {
-        let customerId;
+        let currentUser;
         const restaurantId = props.restaurantId;
 
         let arr = [];
@@ -155,11 +158,11 @@ export default function Cart(props) {
 
         api.get(`/users/findByPhoneNumber/${localStorage.getItem('currentUser')}`)
             .then(res => {
-                customerId = res.data.id
+                currentUser = res.data;
                 api.post(`/orders/insertOrder`, {
                     "time": period,
                     "organizeDate": time,
-                    "customerId": parseInt(customerId),
+                    "customerId": parseInt(currentUser.id),
                     "restaurantId": parseInt(restaurantId),
                     "tableType": parseInt(typeTable),
                     "numberOfGuests": customerQuantity,
@@ -169,6 +172,7 @@ export default function Cart(props) {
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
                 }).then(res => {
+                    const orderCode = res.data.orderCode;
                     items.forEach(item => {
                         if (item.dish_name) {
                             object = {};
@@ -176,7 +180,7 @@ export default function Cart(props) {
                             object.dishId = item.id;
                             object.comboId = 0;
                             object.serviceId = 0;
-                            object.customerId = parseInt(customerId);
+                            object.customerId = parseInt(currentUser.id);
                             object.restaurantId = parseInt(restaurantId);
 
                             arr.push(object);
@@ -188,7 +192,7 @@ export default function Cart(props) {
                             object.dishId = 0;
                             object.comboId = item.id;
                             object.serviceId = 0;
-                            object.customerId = parseInt(customerId);
+                            object.customerId = parseInt(currentUser.id);
                             object.restaurantId = parseInt(restaurantId);
 
                             arr.push(object);
@@ -200,7 +204,7 @@ export default function Cart(props) {
                             object.dishId = 0;
                             object.comboId = 0;
                             object.serviceId = item.id;
-                            object.customerId = parseInt(customerId);
+                            object.customerId = parseInt(currentUser.id);
                             object.restaurantId = parseInt(restaurantId);
 
                             arr.push(object);
@@ -215,7 +219,7 @@ export default function Cart(props) {
                         }
                     }
 
-                    api.get(`/orders/getOrderIdBeforeInsert?customerId=${parseInt(customerId)}&restaurantId=${parseInt(restaurantId)}`, config)
+                    api.get(`/orders/getOrderIdBeforeInsert?customerId=${parseInt(currentUser.id)}&restaurantId=${parseInt(restaurantId)}`, config)
                         .then(res => {
                             localStorage.setItem("orderId", res.data);
                             api.post(`/orders/insertOrderDetail`, json, config)
@@ -225,7 +229,7 @@ export default function Cart(props) {
                                         headers: {
                                             'Authorization': 'Bearer ' + localStorage.getItem('token')
                                         },
-                                        url: `/orders/setStatus?customerId=${customerId}&restaurantId=${restaurantId}`
+                                        url: `/orders/setStatus?customerId=${currentUser.id}&restaurantId=${restaurantId}`
                                     }).then(res => {
                                         updateCartMetadata({
                                             customerQuantity: 1,
@@ -233,7 +237,6 @@ export default function Cart(props) {
                                             time: "",
                                             type: 0
                                         })
-
 
                                         api.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
                                             .then(res => {
@@ -248,12 +251,83 @@ export default function Cart(props) {
                                                         "read": false
                                                     }
                                                 ).then(res => {
-                                                    emptyCart();
-                                                    setModalComfirm(!modalConfirm);
-                                                    payment();
-                                                    toggle();
-                                                    toggle1();
-                                                    // Notify('Đặt hàng thành công', 'success', 'top-right');
+                                                    if (active === 0) {
+                                                        if (parseFloat(currentUser.balance) > parseFloat(cartTotal * 0.1)) {
+                                                            emptyCart();
+                                                            setModalComfirm(!modalConfirm);
+                                                            api.get(`/users/findByRole?roleName=ROLE_ADMIN`)
+                                                                .then(res => {
+                                                                    const admin = res.data;
+                                                                    api.post(`/payment/save`,
+                                                                        {
+                                                                            "user": currentUser,
+                                                                            "fromToUser": admin,
+                                                                            "balanceChange": parseFloat(cartTotal * 0.1),
+                                                                            "currentBalance": parseFloat(currentUser.balance) - (parseFloat(cartTotal * 0.1)),
+                                                                            "description": "Thanh toán đơn hàng " + orderCode,
+                                                                            "paymentType": {
+                                                                                "name": "pay"
+                                                                            }
+                                                                        },
+                                                                        {
+                                                                            headers: {
+                                                                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                                            }
+                                                                        }
+                                                                    ).then(res => {
+                                                                        const paymentHistory = res.data;
+                                                                        api({
+                                                                            method: 'PATCH',
+                                                                            headers: {
+                                                                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                                            },
+                                                                            url: `/payment/updateStatus?paymentId=${paymentHistory.id}&status=success`
+                                                                        }).then(res => {
+                                                                            api({
+                                                                                method: 'PATCH',
+                                                                                headers: {
+                                                                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                                                },
+                                                                                url: `users/updateBalance?balance=${paymentHistory.currentBalance}&userId=${paymentHistory.user.id}`
+                                                                            })
+                                                                                .then(res => {
+                                                                                    Notify('Thanh toán đơn hàng thành công', 'success', 'top-right');
+                                                                                    toggle();
+                                                                                    toggle1();
+                                                                                })
+                                                                        })
+                                                                    })
+
+                                                                    api.post(`/payment/save`,
+                                                                        {
+                                                                            "user": admin,
+                                                                            "fromToUser": currentUser,
+                                                                            "balanceChange": parseFloat(cartTotal * 0.1),
+                                                                            "currentBalance": parseFloat(currentUser.balance) + (parseFloat(cartTotal * 0.1)),
+                                                                            "description": "Thanh toán đơn hàng " + orderCode,
+                                                                            "paymentType": {
+                                                                                "name": "pay"
+                                                                            }
+                                                                        },
+                                                                        {
+                                                                            headers: {
+                                                                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                                            }
+                                                                        }
+                                                                    ).then(res => {
+
+                                                                    })
+                                                                })
+                                                        } else {
+                                                            Notify('Số tiền trong ví của bạn không đủ', 'error', 'top-right');
+                                                        }
+                                                    } else if (active === 1) {
+                                                        emptyCart();
+                                                        setModalComfirm(!modalConfirm);
+                                                        payment();
+                                                        toggle();
+                                                        toggle1();
+                                                    }
                                                 })
                                             })
                                     })
@@ -302,8 +376,38 @@ export default function Cart(props) {
                         <Modal isOpen={modal1} toggle={toggle1} className={``}>
                             <ModalHeader toggle={toggle1}>Thông báo</ModalHeader>
                             <ModalBody>
-                                Bạn phải thanh toán cọc <b>10%</b> tổng tiền của đơn hàng.
-                                Số tiền phải thanh toán là <b>{formatCurrency(cartTotal * 0.1) + ' VNĐ'}</b>
+                                <div>
+                                    Bạn phải thanh toán cọc <b>10%</b> tổng tiền của đơn hàng.
+                                    Số tiền phải thanh toán là <b>{formatCurrency(cartTotal * 0.1) + ' VNĐ'}</b>
+                                </div>
+                                <hr />
+                                <div>
+                                    <FormGroup tag="fieldset">
+                                        <h6>Chọn phương thức thanh toán</h6>
+                                        <FormGroup check>
+                                            <Label check>
+                                                <Input
+                                                    type="radio"
+                                                    name="radio1"
+                                                    checked={active === 0}
+                                                    onClick={() => setActive(0)}
+                                                />{' '}
+                                                Thanh toán bằng ví FBS
+                                            </Label>
+                                        </FormGroup>
+                                        <FormGroup check>
+                                            <Label check>
+                                                <Input
+                                                    type="radio"
+                                                    name="radio1"
+                                                    checked={active === 1}
+                                                    onClick={() => setActive(1)}
+                                                />{' '}
+                                                Thanh toán băng ví Paypal
+                                            </Label>
+                                        </FormGroup>
+                                    </FormGroup>
+                                </div>
                             </ModalBody>
                             <ModalFooter>
                                 <Button color="success" onClick={() => {
