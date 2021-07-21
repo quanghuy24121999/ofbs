@@ -80,4 +80,11 @@ public class UserService implements UserDetailsService{
 	public void updateBalance(float balance, long userId) {
 		userRepository.updateBalance(balance, userId);
 	}
+	
+	public User findByRole(Role role) {
+		Role saveRole = new Role();
+		saveRole = roleService.findByName(role.getName());
+		
+		return userRepository.findByRole(saveRole);
+	}
 }

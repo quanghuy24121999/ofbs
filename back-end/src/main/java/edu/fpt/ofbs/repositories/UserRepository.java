@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import edu.fpt.ofbs.entities.Role;
 import edu.fpt.ofbs.entities.User;
 import edu.fpt.ofbs.models.IUserDTO;
 
@@ -30,4 +31,6 @@ public interface UserRepository extends JpaRepository<User, Long>{
 			+ "      balance = ?1\r\n"
 			+ " WHERE id = ?2", nativeQuery = true)
 	void updateBalance(float balance, long userId);
+	
+	User findByRole(Role role);
 }
