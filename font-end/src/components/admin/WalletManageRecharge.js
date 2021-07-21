@@ -6,7 +6,7 @@ import { FaSearch } from 'react-icons/fa';
 import { api } from '../../config/axios';
 import HistoryItem from '../wallet/historyItem';
 
-export default function WalletManageWithdrawal() {
+export default function WalletManageRecharge() {
     const [paymentCode, setPaymentCode] = useState('');
     const [fromDate, setFromDate] = useState('');
     const [toDate, setToDate] = useState('');
@@ -59,7 +59,7 @@ export default function WalletManageWithdrawal() {
             .then(res => {
                 const currentUser = res.data;
                 setBalance(currentUser.balance);
-                api.get(`/payment/history?userId=0&paymentCode=${paymentCode}&status=pending&fromDate=${fromDate}&toDate=${toDate}&paymentType=withdrawal`, {
+                api.get(`/payment/history?userId=0&paymentCode=${paymentCode}&status=pending&fromDate=${fromDate}&toDate=${toDate}&paymentType=charge`, {
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
@@ -68,7 +68,7 @@ export default function WalletManageWithdrawal() {
                         const data = res.data;
                         const slice = data.slice(offset, offset + perPage)
                         const historyPaging = slice.map((history, index) => {
-                            return <HistoryItem key={index} history={history} type='withdrawal'/>
+                            return <HistoryItem key={index} history={history} type='charge'/>
                         })
 
                         setHistory(historyPaging);
@@ -80,7 +80,7 @@ export default function WalletManageWithdrawal() {
     return (
         <Container>
             <div className="history">
-                <h3 className="history-title">Quản lý rút tiền</h3>
+                <h3 className="history-title">Quản lý nạp tiền</h3>
                 <div className="admin-wallet-search">
                     <div>
                         <Input

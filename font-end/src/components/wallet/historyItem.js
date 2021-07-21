@@ -7,7 +7,7 @@ import { api } from '../../config/axios';
 
 export default function HistoryItem(props) {
     const history = props.history;
-    const isWithdrawal = props.isWithdrawal;
+    const typePayment = props.type;
     let type = history.payment_type;
     let status = history.status;
     let money = parseFloat(history.balance_change);
@@ -70,7 +70,56 @@ export default function HistoryItem(props) {
                             api.post(`/notifications/insertNotification`,
                                 {
                                     "content": `Yêu cầu rút tiền của bạn đã được xử lý, vui lòng kiểm tra số tài khoản, 
-                                        nếu chưa nhận được tiền trong vòng 24h vui lòng liên hệ lại với chúng tôi `,
+                                        nếu chưa nhận được tiền trong vòng 24h vui lòng liên hệ lại với chúng tôi qua Messenger `,
+                                    "customer": customer,
+                                    "provider": provider,
+                                    "forAdmin": false,
+                                    "type": "report",
+                                    "read": false
+                                }
+                            ).then(res => {
+                                Notify('Xác nhận thành công', 'success', 'top-right');
+                            })
+                        })
+                })
+            })
+    }
+
+    const updateStatusCharge = () => {
+        api.get(`/users/findByPhoneNumber/${history.phone_login}`, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+            .then(res => {
+                const currentUser = res.data;
+                api({
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    },
+                    url: `/payment/updateStatus?paymentId=${history.id}&status=success`
+                }).then(res => {
+                    api({
+                        method: 'PATCH',
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                        },
+                        url: `users/updateBalance?balance=${parseFloat(currentUser.balance) + parseFloat(history.balance_change)}&userId=${currentUser.id}`
+                    })
+                        .then(res => {
+                            let customer = null;
+                            let provider = null;
+
+                            if (currentUser.role.name === 'ROLE_PROVIDER') {
+                                provider = currentUser;
+                            } else if (currentUser.role.name === 'ROLE_CUSTOMER') {
+                                customer = currentUser;
+                            }
+                            api.post(`/notifications/insertNotification`,
+                                {
+                                    "content": `Yêu cầu nạp tiền của bạn đã được xử lý, vui lòng kiểm tra số tài khoản, 
+                                        nếu chưa nhận được tiền trong vòng 24h vui lòng liên hệ lại với chúng tôi qua Messenger`,
                                     "customer": customer,
                                     "provider": provider,
                                     "forAdmin": false,
@@ -94,10 +143,20 @@ export default function HistoryItem(props) {
             <td>{history.description}</td>
             <td>{status}</td>
             {
-                isWithdrawal && <td>
+                typePayment === 'withdrawal' && <td>
                     <Button
                         color="primary"
                         onClick={() => updateStatus()}
+                    >
+                        Xác nhận
+                    </Button>
+                </td>
+            }
+            {
+                typePayment === 'charge' && <td>
+                    <Button
+                        color="primary"
+                        onClick={() => updateStatusCharge()}
                     >
                         Xác nhận
                     </Button>

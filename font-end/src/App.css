@@ -682,7 +682,7 @@ label {
 }
 
 .wallet-recharge > .row {
-  width: 30%;
+  width: 100%;
 }
 
 .form-recharge {
@@ -717,6 +717,23 @@ label {
 
 #btn-recharge {
   display: none;
+}
+
+#bank-info {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#address {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.content {
+  height: 100px;
+  width: 100%;
 }
 
 /*================================================ CART ================================================*/

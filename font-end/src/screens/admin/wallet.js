@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 
 import Notification from '../../components/admin/Notification';
 import { onChangeAdminTabWallet } from '../../common/changeLink';
-import WalletHistory from '../../components/admin/WalletHistory';
+import WalletManageRecharge  from '../../components/admin/WalletManageRecharge';
 import WalletManageWithdrawal from '../../components/admin/WalletManageWithdrawal';
 import Info from '../../components/wallet/info';
 
@@ -56,7 +56,10 @@ export default function Wallet() {
                             <NavLink active id="1">Lịch sử giao dịch</NavLink>
                         </NavItem>
                         <NavItem onClick={() => onChangeTab(2)}>
-                            <NavLink id="2">Quản lý rút tiền</NavLink>
+                            <NavLink id="2">Quản lý nạp tiền</NavLink>
+                        </NavItem>
+                        <NavItem onClick={() => onChangeTab(3)}>
+                            <NavLink id="3">Quản lý rút tiền</NavLink>
                         </NavItem>
                     </Nav>
                     {
@@ -66,6 +69,11 @@ export default function Wallet() {
                     }
                     {
                         tab === 2 && <Row className="wallet-row">
+                            <WalletManageRecharge />
+                        </Row>
+                    }  
+                    {
+                        tab === 3 && <Row className="wallet-row">
                             <WalletManageWithdrawal />
                         </Row>
                     }                    
