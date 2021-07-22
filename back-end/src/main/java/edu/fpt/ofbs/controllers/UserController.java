@@ -202,9 +202,30 @@ public class UserController {
 	
 	@GetMapping("/adminViewUsers")
 	public ResponseEntity<?> adminViewUsers(@PathParam("phone") String phone, @PathParam("name") String name, @PathParam("status") String status) {
-		String formatPhone = "+84" + phone.substring(1,phone.length());
-		List<User> users = userService.adminViewUsers(formatPhone, name, status);
-		
-		return ResponseEntity.status(HttpStatus.OK).body(users);
+		if(phone == "" || phone == null) {
+			List<User> users = userService.adminViewUsers(phone, name, status);
+			
+			return ResponseEntity.status(HttpStatus.OK).body(users);
+		}else {
+			String formatPhone = "+84" + phone.substring(1,phone.length());
+			List<User> users = userService.adminViewUsers(formatPhone, name, status);
+			
+			return ResponseEntity.status(HttpStatus.OK).body(users);
+		}
+	}
+	
+	@PatchMapping("/updateUserStatus")
+	public ResponseEntity<?> updateUserStatus(@PathParam("userId") long userId, @PathParam("status") String status) {
+		String message = "";
+
+		try {
+			userService.updateUserStatus(userId, status);
+
+			message = "Update user status successfully !";
+			return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+		} catch (Exception e) {
+			message = "Could not update user status !";
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+		}
 	}
 }

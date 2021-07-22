@@ -104,4 +104,9 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	public List<User> adminViewUsers(String phone, String name, String status) {
 		return userRepository.adminViewUsers(phone, name, status);
 	}
+
+	@Override
+	public void updateUserStatus(long userId, String status) {
+		userRepository.updateUserStatus(userId, status);
+	}
 }
