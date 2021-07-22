@@ -38,4 +38,8 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	
 	@Query(value = "exec sp_adminViewUsers ?1, ?2, ?3", nativeQuery = true)
 	List<User> adminViewUsers(String phone, String name, String status);
+	
+	@Modifying
+	@Query(value = "exec sp_updateUserStatus ?1, ?2", nativeQuery = true)
+	void updateUserStatus(long userId, String status);
 }

@@ -33,4 +33,6 @@ public interface UserService {
 	User findByRole(Role role);
 
 	List<User> adminViewUsers(String phone, String name, String status);
+	
+	void updateUserStatus(long userId, String status);
 }
