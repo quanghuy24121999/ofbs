@@ -199,4 +199,12 @@ public class UserController {
 		
 		return ResponseEntity.status(HttpStatus.OK).body(user);
 	}
+	
+	@GetMapping("/adminViewUsers")
+	public ResponseEntity<?> adminViewUsers(@PathParam("phone") String phone, @PathParam("name") String name, @PathParam("status") String status) {
+		String formatPhone = "+84" + phone.substring(1,phone.length());
+		List<User> users = userService.adminViewUsers(formatPhone, name, status);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(users);
+	}
 }

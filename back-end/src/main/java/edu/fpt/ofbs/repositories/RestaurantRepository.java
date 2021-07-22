@@ -24,8 +24,8 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long>{
 	@Query(value = "exec sp_getRestaurantsByProviderId ?1, ?2", nativeQuery = true)
 	List<IRestaurantDTO> getRestaurantByProviderId(long providerId, long statusId);
 	
-	@Query(value = "exec sp_adminViewPendingRestaurant", nativeQuery = true)
-	List<IRestaurantDTO> getRestaurantPending();
+	@Query(value = "exec sp_adminViewRestaurant ?1, ?2", nativeQuery = true)
+	List<IRestaurantDTO> getRestaurantPending(String restaurantName, String status);
 	
 	@Modifying
 	@Query(value = "exec sp_updateStatusRestaurant ?1, ?2, ?3", nativeQuery = true)

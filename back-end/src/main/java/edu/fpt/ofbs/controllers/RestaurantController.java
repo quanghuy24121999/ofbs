@@ -97,9 +97,9 @@ public class RestaurantController {
 		}
 	}
 
-	@GetMapping("/getRestaurantPending")
-	public ResponseEntity<?> getRestaurantPending() {
-		List<IRestaurantDTO> restaurants = restaurantService.getRestaurantPending();
+	@GetMapping("/adminViewRestaurant")
+	public ResponseEntity<?> getRestaurantPending(@PathParam("restaurantName") String restaurantName, @PathParam("status") String status) {
+		List<IRestaurantDTO> restaurants = restaurantService.getRestaurantPending(restaurantName, status);
 		return ResponseEntity.status(HttpStatus.OK).body(restaurants);
 	}
 
