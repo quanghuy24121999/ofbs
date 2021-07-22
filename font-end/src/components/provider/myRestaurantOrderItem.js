@@ -13,6 +13,7 @@ import { formatCurrency } from '../../common/formatCurrency';
 import OrderDetailDishItem from '../order/orderDetailDishItem';
 import OrderDetailComboItem from '../order/orderDetailComboItem';
 import OrderDetailServiceItem from '../order/orderDetailServiceItem';
+import { Notify } from '../../common/notify';
 
 let restaurantId = '';
 
@@ -83,6 +84,7 @@ export default function MyRestaurantOrderItem(props) {
             phoneLogin: currentUser,
             password: password
         }).then(res => {
+            const provider = res.data.user;
             api({
                 method: 'PATCH',
                 headers: {
@@ -101,38 +103,102 @@ export default function MyRestaurantOrderItem(props) {
                     }
                 )
                     .then(res => {
-                        window.location.reload();
-                        toast.success("Nhận đơn thành công !", {
-                            position: "top-left",
-                            autoClose: 2000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                        });
+                        api.get(`/users/findByRole?roleName=ROLE_ADMIN`)
+                            .then(res => {
+                                const admin = res.data;
+                                api.post(`/payment/save`,
+                                    {
+                                        "user": provider,
+                                        "fromToUser": admin,
+                                        "balanceChange": parseFloat(-orderDetailInfo.total_amount * 0.1),
+                                        "currentBalance": parseFloat(provider.balance) - (parseFloat(orderDetailInfo.total_amount * 0.1)),
+                                        "description": "Thanh toán cọc đơn hàng " + orderDetailInfo.order_code,
+                                        "paymentType": {
+                                            "name": "pay"
+                                        }
+                                    },
+                                    {
+                                        headers: {
+                                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                        }
+                                    }
+                                ).then(res => {
+                                    const paymentHistory = res.data;
+                                    api({
+                                        method: 'PATCH',
+                                        headers: {
+                                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                        },
+                                        url: `/payment/updateStatus?paymentId=${paymentHistory.id}&status=success`
+                                    }).then(res => {
+                                        api({
+                                            method: 'PATCH',
+                                            headers: {
+                                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                            },
+                                            url: `users/updateBalance?balance=${parseFloat(provider.balance) - parseFloat(orderDetailInfo.total_amount * 0.1)}&userId=${provider.id}`
+                                        })
+                                            .then(res => {
+                                                api({
+                                                    method: 'PATCH',
+                                                    headers: {
+                                                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                    },
+                                                    url: `/orders/updateStatus?orderId=${localStorage.getItem("orderId")}&status=pending`
+                                                }).then(res => {
+                                                    localStorage.removeItem("orderId");
+                                                    Notify('Thanh toán đơn hàng thành công', 'success', 'top-right');
+                                                    toggle();
+                                                    toggle1();
+                                                })
+                                            })
+                                    })
+                                })
+
+                                api.post(`/payment/save`,
+                                    {
+                                        "user": admin,
+                                        "fromToUser": provider,
+                                        "balanceChange": parseFloat(orderDetailInfo.total_amount * 0.1),
+                                        "currentBalance": parseFloat(admin.balance) + (parseFloat(orderDetailInfo.total_amount * 0.1)),
+                                        "description": "Nhà hàng " + orderDetailInfo.restaurant_name + " thanh toán đơn hàng " + orderDetailInfo.order_code,
+                                        "paymentType": {
+                                            "name": "pay"
+                                        }
+                                    },
+                                    {
+                                        headers: {
+                                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                        }
+                                    }
+                                ).then(res => {
+                                    const paymentHistory = res.data;
+                                    api({
+                                        method: 'PATCH',
+                                        headers: {
+                                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                        },
+                                        url: `/payment/updateStatus?paymentId=${paymentHistory.id}&status=success`
+                                    }).then(() => {
+                                        api({
+                                            method: 'PATCH',
+                                            headers: {
+                                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                            },
+                                            url: `users/updateBalance?balance=${parseFloat(admin.balance) + parseFloat(paymentHistory.balanceChange)}&userId=${admin.id}`
+                                        }).then(() => {
+                                            window.location.reload();
+                                            Notify('Nhận đơn thành công', 'success', 'top-right');
+                                        })
+                                    })
+                                })
+                            })
                     })
             }).catch(err => {
-                toast.error('Nhận đơn không thành công !', {
-                    position: "top-left",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                Notify('Nhận đơn không thành công', 'error', 'top-right');
             })
         }).catch(err => {
-            toast.error('Mật khẩu không đúng !', {
-                position: "top-left",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
+            Notify('Mật khẩu không đúng', 'error', 'top-right');
         })
     }
 

@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import SlideBar from '../../components/admin/SlideBar';
 import { FaBars } from 'react-icons/fa';
 import {
-    Container, Table
+    Container, Nav, NavItem, NavLink,
+    Row
 } from 'reactstrap';
-import { api } from '../../config/axios';
 import { Link } from 'react-router-dom';
 
-import RestaurantPendingItem from '../../components/admin/RestaurantPendingItem';
 import Notification from '../../components/admin/Notification';
+import { onChangeAdminTabRestaurant } from '../../common/changeLink';
+import RestaurantView from '../../components/admin/RestaurantView';
+import RestaurantPending from '../../components/admin/RestaurantPending';
 
 function Restaurant() {
     const [toggled, setToggled] = useState(false);
@@ -16,15 +18,12 @@ function Restaurant() {
         setToggled(value);
     };
 
-    const [restaurants, setRestaurants] = useState([]);
+    const [tab, setTab] = useState(1);
 
-    useEffect(() => {
-        window.scrollTo(0, 0);
-        api.get(`/restaurants/getRestaurantPending`)
-            .then(res => {
-                setRestaurants(res.data);
-            })
-    })
+    const onChangeTab = (tab) => {
+        onChangeAdminTabRestaurant(tab);
+        setTab(tab);
+    }
 
     const Logout = () => {
         localStorage.clear();
@@ -50,29 +49,24 @@ function Restaurant() {
                     </div>
                 </div>
                 <Container>
-                    <h3>Các nhà hàng đang chờ duyệt</h3>
-                    <hr />
-                    <Table className="restaurant-table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Tên nhà hàng</th>
-                                <th>Loại hình</th>
-                                <th>Địa chỉ</th>
-                                <th>Quy mô</th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                restaurants.map((restaurant, index) => {
-                                    return <RestaurantPendingItem key={index} restaurant={restaurant} count={index + 1} />
-                                })
-                            }
-                        </tbody>
-                    </Table>
+                    <Nav pills className="order-nav-status">
+                        <NavItem onClick={() => onChangeTab(1)}>
+                            <NavLink active id="1">Các nhà hàng trong hệ thống</NavLink>
+                        </NavItem>
+                        <NavItem onClick={() => onChangeTab(2)}>
+                            <NavLink id="2">Các nhà hàng đang chờ duyệt</NavLink>
+                        </NavItem>
+                    </Nav>
+                    {
+                        tab === 1 && <Row className="wallet-row">
+                            <RestaurantView />
+                        </Row>
+                    }
+                    {
+                        tab === 2 && <Row className="wallet-row">
+                            <RestaurantPending />
+                        </Row>
+                    }
                 </Container>
             </div>
         </div>

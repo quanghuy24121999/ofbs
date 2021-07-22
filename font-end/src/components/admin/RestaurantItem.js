@@ -7,12 +7,14 @@ import { Link } from 'react-router-dom';
 import { FaEye } from 'react-icons/fa';
 import { api } from '../../config/axios';
 
-export default function RestaurantPendingItem(props) {
+export default function RestaurantItem(props) {
     const restaurant = props.restaurant;
     const count = props.count;
+    const isPending = props.isPending;
 
     const [modal, setModal] = useState(false);
     const [modal1, setModal1] = useState(false);
+    const [modal2, setModal2] = useState(false);
 
     const toggle = () => {
         setModal(!modal);
@@ -20,6 +22,14 @@ export default function RestaurantPendingItem(props) {
 
     const toggle1 = () => {
         setModal1(!modal1);
+    }
+
+    const toggle2 = () => {
+        setModal2(!modal2);
+    }
+
+    const banRestaurant = () => {
+
     }
 
     const acceptRestaurant = () => {
@@ -46,6 +56,7 @@ export default function RestaurantPendingItem(props) {
                             )
                                 .then(res => {
                                     toggle();
+                                    props.getData();
                                 })
                         })
                 })
@@ -76,6 +87,7 @@ export default function RestaurantPendingItem(props) {
                             )
                                 .then(res => {
                                     toggle1();
+                                    props.getData();
                                 })
                         })
                 })
@@ -101,40 +113,63 @@ export default function RestaurantPendingItem(props) {
                     <FaEye className="icon-see-more" />Chi tiết
                 </Link>
             </td>
-            <td>
-                <Button color="success" onClick={toggle}>
-                    Duyệt
-                </Button>
-                <Modal isOpen={modal} toggle={toggle} className={``}>
-                    <ModalHeader toggle={toggle}>Thông báo</ModalHeader>
-                    <ModalBody>
-                        Lưu thay đổi ?
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button color="success" onClick={() => acceptRestaurant()}>
-                            Có
-                        </Button>
-                        <Button color="secondary" onClick={toggle}>Trở lại</Button>
-                    </ModalFooter>
-                </Modal>
-            </td>
-            <td>
-                <Button color="danger" onClick={toggle1}>
-                    Hủy
-                </Button>
-                <Modal isOpen={modal1} toggle={toggle1} className={``}>
-                    <ModalHeader toggle={toggle1}>Thông báo</ModalHeader>
-                    <ModalBody>
-                        Lưu thay đổi ?
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button color="success" onClick={() => denyRestaurant()}>
-                            Có
-                        </Button>
-                        <Button color="secondary" onClick={toggle1}>Trở lại</Button>
-                    </ModalFooter>
-                </Modal>
-            </td>
+            {
+                !isPending && <td>
+                    <Button color="danger" onClick={toggle2}>
+                        Chặn
+                    </Button>
+                    <Modal isOpen={modal2} toggle={toggle2} className={``}>
+                        <ModalHeader toggle={toggle2}>Thông báo</ModalHeader>
+                        <ModalBody>
+                            Lưu thay đổi ?
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="success" onClick={() => banRestaurant()}>
+                                Có
+                            </Button>
+                            <Button color="secondary" onClick={toggle2}>Trở lại</Button>
+                        </ModalFooter>
+                    </Modal>
+                </td>
+            }
+            {
+                isPending && <td>
+                    <Button color="success" onClick={toggle}>
+                        Duyệt
+                    </Button>
+                    <Modal isOpen={modal} toggle={toggle} className={``}>
+                        <ModalHeader toggle={toggle}>Thông báo</ModalHeader>
+                        <ModalBody>
+                            Lưu thay đổi ?
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="success" onClick={() => acceptRestaurant()}>
+                                Có
+                            </Button>
+                            <Button color="secondary" onClick={toggle}>Trở lại</Button>
+                        </ModalFooter>
+                    </Modal>
+                </td>
+            }
+            {
+                isPending && <td>
+                    <Button color="danger" onClick={toggle1}>
+                        Hủy
+                    </Button>
+                    <Modal isOpen={modal1} toggle={toggle1} className={``}>
+                        <ModalHeader toggle={toggle1}>Thông báo</ModalHeader>
+                        <ModalBody>
+                            Lưu thay đổi ?
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="success" onClick={() => denyRestaurant()}>
+                                Có
+                            </Button>
+                            <Button color="secondary" onClick={toggle1}>Trở lại</Button>
+                        </ModalFooter>
+                    </Modal>
+                </td>
+            }
         </tr>
     )
 }

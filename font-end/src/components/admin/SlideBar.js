@@ -10,7 +10,8 @@ import {
 import {
     FaTachometerAlt, FaStore, FaShoppingBasket,
     FaFlag,
-    FaWallet
+    FaWallet,
+    FaUser
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
@@ -62,6 +63,14 @@ const SlideBar = ({ toggled, handleToggleSidebar, inComponent }) => {
                     >
                         Nhà hàng
                         <Link to="/admin/restaurant" />
+                    </MenuItem>
+                    <MenuItem
+                        icon={<FaUser />}
+                        active={inComponent === 'user' && true}
+
+                    >
+                        Người dùng
+                        <Link to="/admin/user" />
                     </MenuItem>
                     <MenuItem
                         icon={<FaFlag />}

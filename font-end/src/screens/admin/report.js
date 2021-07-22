@@ -22,8 +22,7 @@ export default function Report() {
         localStorage.clear();
     }
 
-    useEffect(() => {
-        window.scrollTo(0, 0);
+    const getData = () => {
         api.get(`/feedbacks/getReport`, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -32,7 +31,12 @@ export default function Report() {
             .then(res => {
                 setReport(res.data);
             })
-    }, [reports]);
+    }
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        getData();
+    }, [reports.length]);
 
     return (
         <div className={`admin ${toggled ? 'toggled' : ''}`}>
@@ -54,7 +58,7 @@ export default function Report() {
                     </div>
                 </div>
                 <Container>
-                    <h3>Các nhà hàng đang chờ duyệt</h3>
+                    <h3>Báo cáo của khách hàng</h3>
                     <hr />
                     <Table className="report-table">
                         <thead>
@@ -70,7 +74,7 @@ export default function Report() {
                             {
                                 reports.length > 0 && (
                                     reports.map((report, index) => {
-                                        return <ReportItem key={index} report={report} count={index + 1} />
+                                        return <ReportItem getData={getData} key={index} report={report} count={index + 1} />
                                     })
                                 )
                             }

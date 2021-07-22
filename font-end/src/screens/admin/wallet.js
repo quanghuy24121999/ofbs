@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-    Container, Table, Nav, NavItem, NavLink,
+    Container, Nav, NavItem, NavLink,
     Row
 } from 'reactstrap';
 import { FaBars } from 'react-icons/fa';

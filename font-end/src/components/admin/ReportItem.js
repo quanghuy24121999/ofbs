@@ -29,6 +29,7 @@ export default function ReportItem(props) {
                     },
                     url: `/feedbacks/updateStatusFeedback?feedbackId=${report.id}`
                 }).then(res => {
+                    props.getData();
                     Notify('Xử lý báo cáo thành công', 'success', 'top-left');
                 })
             })

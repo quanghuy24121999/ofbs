@@ -163,3 +163,27 @@ export function onChangeAdminTabWallet(tab) {
             break;
     }
 }
+
+export function onChangeAdminTabRestaurant(tab) {
+    let element1 = document.getElementById('1');
+    let element2 = document.getElementById('2');
+    switch (tab) {
+        case 1:
+            element1.classList.add("active");
+            element2.classList.remove("active");
+            break;
+        case 2:
+            element1.classList.remove("active");
+            element2.classList.add("active");
+            break;
+        case 3:
+            element1.classList.remove("active");
+            element2.classList.remove("active");
+            break;
+
+        default:
+            element1.classList.add("active");
+            element2.classList.remove("active");
+            break;
+    }
+}
