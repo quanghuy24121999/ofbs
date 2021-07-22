@@ -70,8 +70,8 @@ public class RestaurantServiceImpl implements RestaurantService{
 	}
 	
 	@Override
-	public List<IRestaurantDTO> getRestaurantPending(){
-		return restaurantRepository.getRestaurantPending();
+	public List<IRestaurantDTO> getRestaurantPending(String restaurantName, String status){
+		return restaurantRepository.getRestaurantPending(restaurantName, status);
 	}
 	
 	@Override

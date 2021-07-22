@@ -99,4 +99,9 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		
 		return userRepository.findByRole(saveRole);
 	}
+
+	@Override
+	public List<User> adminViewUsers(String phone, String name, String status) {
+		return userRepository.adminViewUsers(phone, name, status);
+	}
 }

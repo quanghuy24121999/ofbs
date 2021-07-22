@@ -24,7 +24,7 @@ public interface RestaurantService {
 
 	void updateInforRestaurant(Restaurant restaurant);
 
-	List<IRestaurantDTO> getRestaurantPending();
+	List<IRestaurantDTO> getRestaurantPending(String restaurantName, String status);
 
 	void updateStatusRestaurant(long restaurantId, String status, String statusUpdate);
 
