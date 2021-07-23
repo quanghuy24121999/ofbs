@@ -21,7 +21,7 @@ export default function OrderDetailServiceItem(props) {
             <tbody>
                 {
                     listOrderDetails.map((item, index) => {
-                        if (item.service_id) {
+                        if (item.service_name) {
                             total += item.price * item.quantity;
                             return (<tr key={index} className="od-service-item">
                                 <th>{count++}</th>

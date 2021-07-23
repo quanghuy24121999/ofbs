@@ -3,7 +3,7 @@ import { useCart } from 'react-use-cart';
 import {
     Button, Modal, Badge, Input, Form,
     ModalHeader, ModalBody, ModalFooter,
-    Label, FormGroup
+    Label, FormGroup, Row, Col, Container
 } from 'reactstrap';
 import { FaShoppingCart } from 'react-icons/fa'
 import { api } from '../../config/axios';
@@ -15,6 +15,10 @@ import { formatDateForInput } from '../../common/formatDate';
 import { formatCurrency } from '../../common/formatCurrency';
 import { Notify } from '../../common/notify';
 import { validateCapacity, validateItemCart } from '../../common/validate';
+import OrderDetailDishItem from '../order/orderDetailDishItem';
+import OrderDetailComboItem from '../order/orderDetailComboItem';
+import OrderDetailServiceItem from '../order/orderDetailServiceItem';
+
 
 export default function Cart(props) {
     const [modal, setModal] = useState(false);
@@ -31,14 +35,18 @@ export default function Cart(props) {
 
     const toggle = () => {
         setModal(!modal);
-        if (!modal) {
-            let customerQuantity = metadata.customerQuantity;
-            if (customerQuantity === undefined) {
-                updateCartMetadata({
-                    customerQuantity: 1
-                })
-            }
+
+        let customerQuantity = '';
+        if (metadata !== undefined) {
+            customerQuantity = metadata.customerQuantity;
+        } else if (metadata.customerQuantity !== undefined &&
+            metadata.customerQuantity !== null
+        ) {
+            customerQuantity = 1;
         }
+        updateCartMetadata({
+            customerQuantity: customerQuantity
+        })
     }
     const toggle1 = () => setModal1(!modal1);
     const toggleConfirm = () => setModalComfirm(!modalConfirm);
@@ -61,8 +69,18 @@ export default function Cart(props) {
         e.preventDefault();
         setTypeTable(e.target.value);
         updateCartMetadata({
-            type: parseInt(e.target.value)
+            type: parseInt(e.target.value),
+            customerQuantity: parseInt(e.target.value)
         })
+    }
+
+    const calNumTable = (numCustomer, typeTable) => {
+        let numTable = Math.ceil(numCustomer / typeTable);
+        if (numTable < 1) {
+            return 1;
+        } else if (numTable >= 1) {
+            return numTable;
+        }
     }
 
     const onChangeCustomerQuantity = (e) => {
@@ -397,41 +415,57 @@ export default function Cart(props) {
                 <Modal isOpen={modal} toggle={toggle} className="cart-modal">
                     <ModalHeader toggle={toggle}>Giỏ hàng</ModalHeader>
                     <ModalBody>
-                        <Modal isOpen={modal1} toggle={toggle1} className={``}>
+                        <Modal isOpen={modal1} toggle={toggle1} className={`info-cart-modal`}>
                             <ModalHeader toggle={toggle1}>Thông báo</ModalHeader>
                             <ModalBody>
-                                <div>
-                                    Bạn phải thanh toán cọc <b>10%</b> tổng tiền của đơn hàng.
-                                    Số tiền phải thanh toán là <b>{formatCurrency(cartTotal * 0.1) + ' VNĐ'}</b>
-                                </div>
-                                <hr />
-                                <div>
-                                    <FormGroup tag="fieldset">
-                                        <h6>Chọn phương thức thanh toán</h6>
-                                        <FormGroup check>
-                                            <Label check>
-                                                <Input
-                                                    type="radio"
-                                                    name="radio1"
-                                                    checked={active === 0}
-                                                    onClick={() => setActive(0)}
-                                                />{' '}
-                                                Thanh toán bằng ví FBS
-                                            </Label>
-                                        </FormGroup>
-                                        <FormGroup check>
-                                            <Label check>
-                                                <Input
-                                                    type="radio"
-                                                    name="radio1"
-                                                    checked={active === 1}
-                                                    onClick={() => setActive(1)}
-                                                />{' '}
-                                                Thanh toán băng ví Paypal
-                                            </Label>
-                                        </FormGroup>
-                                    </FormGroup>
-                                </div>
+                                <Container>
+                                    <Row>
+                                        <Col lg="6" md="6" sm="12">
+                                            <Row>
+                                                <Col lg="12" md="12" sm="12"><OrderDetailDishItem listOrderDetails={items} /></Col>
+                                                <Col className="mt-4" lg="12" md="12" sm="12"><OrderDetailComboItem listOrderDetails={items} /></Col>
+                                                <Col className="mt-4" lg="12" md="12" sm="12"><OrderDetailServiceItem listOrderDetails={items} /></Col>
+                                            </Row>
+                                        </Col>
+                                        <Col lg="6" md="6" sm="12">
+                                            <div>
+                                                <b>Vui lòng kiểm tra lại đơn hàng trước khi thực hiện thanh toán.<br /><br /></b>
+                                                <span className="od-dish-item-total">Tổng tiền đơn hàng: {formatCurrency(cartTotal)} VNĐ</span><br /><br />
+                                                Số tiền phải thanh toán là <b>{formatCurrency(cartTotal * 0.1) + ' VNĐ'}</b>. 
+                                                Bạn phải thanh toán cọc <b>10%</b> tổng tiền của đơn hàng.
+                                            </div>
+                                            <hr />
+                                            <div>
+                                                <FormGroup tag="fieldset">
+                                                    <h6>Chọn phương thức thanh toán</h6>
+                                                    <FormGroup check>
+                                                        <Label check>
+                                                            <Input
+                                                                type="radio"
+                                                                name="radio1"
+                                                                checked={active === 0}
+                                                                onClick={() => setActive(0)}
+                                                            />{' '}
+                                                            Thanh toán bằng ví FBS
+                                                        </Label>
+                                                    </FormGroup>
+                                                    <FormGroup check>
+                                                        <Label check>
+                                                            <Input
+                                                                type="radio"
+                                                                name="radio1"
+                                                                checked={active === 1}
+                                                                onClick={() => setActive(1)}
+                                                            />{' '}
+                                                            Thanh toán băng ví Paypal
+                                                        </Label>
+                                                    </FormGroup>
+                                                </FormGroup>
+                                            </div>
+
+                                        </Col>
+                                    </Row>
+                                </Container>
                             </ModalBody>
                             <ModalFooter>
                                 <Button color="success" onClick={() => {
@@ -491,7 +525,7 @@ export default function Cart(props) {
                                             id="customer-quantity"
                                             min={1}
                                             onChange={onChangeCustomerQuantity}
-                                            value={metadata.customerQuantity}
+                                            value={customerQuantity}
                                             required="required"
                                         />
                                     </div>
@@ -525,13 +559,13 @@ export default function Cart(props) {
                             <h4>Món ăn</h4>
                             {
                                 items.map((item, index) => {
-                                    return <CartDishItem key={index} dish={item} />
+                                    return <CartDishItem key={index} dish={item} calNumTable={calNumTable(customerQuantity, typeTable)} />
                                 })
                             }
                             <hr></hr>
                             <h4>Combo món ăn</h4>
                             {items.map((item, index) => {
-                                return <CartComboItem key={index} combo={item} />
+                                return <CartComboItem key={index} combo={item} calNumTable={calNumTable(customerQuantity, typeTable)} />
                             })}
                             <hr></hr>
                             <h4>Dịch vụ</h4>

@@ -9,7 +9,7 @@ import { url } from '../../config/axios';
 export default function CartComboItem(props) {
     const item = props.combo;
     const { metadata } = useCart();
-    const customerQuantity = metadata.customerQuantity;
+    const customerQuantity = props.calNumTable;
 
     const {
         updateItemQuantity,

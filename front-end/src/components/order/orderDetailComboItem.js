@@ -23,7 +23,7 @@ export default function OrderDetailComboItem(props) {
                     <tbody>
                         {
                             listOrderDetails.map((item, index) => {
-                                if (item.combo_id) {
+                                if (item.combo_name) {
                                     total += item.price * item.quantity;
                                     return (<tr key={index} className="od-combo-item">
                                         <th>{count++}</th>

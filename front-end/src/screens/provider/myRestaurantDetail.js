@@ -372,8 +372,10 @@ export default class myRestaurantDetail extends Component {
                         this.toggle();
                         Notify('Cập nhật thành công', 'success', 'top-right');
                     })
+                } else {
+                    this.toggle();
+                    Notify('Cập nhật thành công', 'success', 'top-right');
                 }
-
             })
     }
 

@@ -45,23 +45,27 @@ class login extends Component {
         password: this.state.password
       })
         .then(res => {
-          if (res.data.user.role.id === 1) {
-            Notify("Đăng nhập thành công !", "success", "top-right");
-            localStorage.setItem('currentAdmin', phone);
-            localStorage.setItem('token', res.data.token);
-            localStorage.setItem('setTime', new Date().getTime());
-            this.setState({
-              redirectAdmin: true
-            });
-          } else {            
-            localStorage.setItem('currentUser', phone);
-            localStorage.setItem('userId', '');
-            localStorage.setItem('resId', '');
-            localStorage.setItem('token', res.data.token);
-            localStorage.setItem('setTime', new Date().getTime());
-            this.setState({
-              redirect: true
-            });
+          if (res.data.user.status.name === 'banned') {
+            Notify('Tài khoản của bạn đã bị chặn. Vui lòng liên hệ với admin qua messenger để được hỗ trợ', 'error', 'top-right');
+          } else {
+            if (res.data.user.role.id === 1) {
+              Notify("Đăng nhập thành công !", "success", "top-right");
+              localStorage.setItem('currentAdmin', phone);
+              localStorage.setItem('token', res.data.token);
+              localStorage.setItem('setTime', new Date().getTime());
+              this.setState({
+                redirectAdmin: true
+              });
+            } else {
+              localStorage.setItem('currentUser', phone);
+              localStorage.setItem('userId', '');
+              localStorage.setItem('resId', '');
+              localStorage.setItem('token', res.data.token);
+              localStorage.setItem('setTime', new Date().getTime());
+              this.setState({
+                redirect: true
+              });
+            }
           }
         }).catch((error) => {
           console.log(error)

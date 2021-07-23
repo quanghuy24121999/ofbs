@@ -886,6 +886,9 @@ hr {
   color: #d81515e6;
 }
 
+.info-cart-modal {
+  max-width: 80%;
+}
 /*================================================ LOGIN ================================================*/
 
 .container {
@@ -1625,10 +1628,10 @@ hr {
   justify-content: center;
   align-items: center;
 }
-
+/* 
 .order-detail-dish {
   margin: 20px;
-}
+} */
 
 .od-info-status {
   color: #0572e6;
@@ -1717,7 +1720,7 @@ tr > td:nth-child(6) {
 .od-service-item-total {
   font-size: 1.2rem;
   font-weight: 500;
-  color: var(--color-primary);
+  color: #0a58ca;
 }
 
 .order-detail-footer {
@@ -2498,20 +2501,46 @@ tr > td:nth-child(6) {
   margin: 0 10px;
 }
 
-.admin-search-user {
+.admin-search-user,
+.admin-search-restaurant {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 
-.admin-search-user > div {
+.admin-search-user > div,
+.admin-search-restaurant > div {
   margin: 10px 10px 0;
 }
 
-.admin-search-user > div > button {
+.admin-search-user > div > button,
+.admin-search-restaurant > div > button {
   width: 70px;
 }
+
+.admin-user-modal {
+  max-width: 50%;
+}
+
+.admin-user-row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-user-row > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.admin-user-info > div > span {
+  font-weight: 500;
+}
+
 /*=============================================== NOT FOUND ===========================================*/
 .not-found {
   display: flex;

@@ -14,7 +14,7 @@ export default function CartServiceItem(props) {
         removeItem,
     } = useCart();
 
-    const [quantity, setQuantity] = useState(item.quantity);
+    const [quantity, setQuantity] = useState(1);
 
     const onChangeQuantity = () => {
         const e = document.getElementById('input-quantity-' + item.image_service_id);
