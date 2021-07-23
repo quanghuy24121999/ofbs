@@ -21,6 +21,8 @@ export default function UserItem(props) {
 
     const [usereDetail, setUserDetail] = useState('');
     const [modal, setModal] = useState(false);
+    const [modal1, setModal1] = useState(false);
+    const [modal2, setModal2] = useState(false);
 
     const toggle = () => {
         setModal(!modal);
@@ -28,6 +30,14 @@ export default function UserItem(props) {
         if (!modal) {
             viewDetailUser(user.id);
         }
+    }
+
+    const toggle1 = () => {
+        setModal1(!modal1);
+    }
+
+    const toggle2 = () => {
+        setModal2(!modal2);
     }
 
     if (role === 'ROLE_PROVIDER') {
@@ -122,16 +132,40 @@ export default function UserItem(props) {
             </td>
             {
                 user.status.name === 'banned' && <td>
-                    <Button color="success" onClick={() => unbanUser(user.id)}>
+                    <Button color="success" onClick={toggle1}>
                         Bỏ Chặn
                     </Button>
+                    <Modal isOpen={modal1} toggle={toggle1} className={``}>
+                        <ModalHeader toggle={toggle1}>Thông báo</ModalHeader>
+                        <ModalBody>
+                            Lưu thay đổi ?
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="success" onClick={() => unbanUser(user.id)}>
+                                Có
+                            </Button>
+                            <Button color="secondary" onClick={toggle1}>Trở lại</Button>
+                        </ModalFooter>
+                    </Modal>
                 </td>
             }
             {
                 user.status.name === 'active' && <td>
-                    <Button color="danger" onClick={() => banUser(user.id)}>
+                    <Button color="danger" onClick={toggle2}>
                         Chặn
                     </Button>
+                    <Modal isOpen={modal2} toggle={toggle2} className={``}>
+                        <ModalHeader toggle={toggle2}>Thông báo</ModalHeader>
+                        <ModalBody>
+                            Lưu thay đổi ?
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="success" onClick={() => banUser(user.id)}>
+                                Có
+                            </Button>
+                            <Button color="secondary" onClick={toggle2}>Trở lại</Button>
+                        </ModalFooter>
+                    </Modal>
                 </td>
             }
         </tr>

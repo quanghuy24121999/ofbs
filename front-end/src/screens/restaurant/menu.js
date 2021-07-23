@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
 import {
-    Nav, NavItem, Input, 
+    Nav, NavItem, Input,
     Button, Container, Row, Col
 } from 'reactstrap';
 import Carousel from 'react-multi-carousel';
@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 
 import DishItem from '../../components/restaurant/dishItem';
 import Cart from '../../components/restaurant/cart';
+import { FaSearch } from 'react-icons/fa';
 
 const responsive = {
     desktop: {
@@ -103,7 +104,7 @@ export default class menu extends Component {
         if (inputDishName === null || inputDishName === undefined) {
             inputDishName = '';
         }
-        api.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=0&dishName=${inputDishName}&statusId=1`)
+        api.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=0&dishName=${inputDishName.trim()}&statusId=1`)
             .then(res => {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
@@ -154,7 +155,7 @@ export default class menu extends Component {
                     </NavItem>
                 </Nav>
 
-                <Cart restaurantId={this.props.match.params.restaurantId} add={true}/>
+                <Cart restaurantId={this.props.match.params.restaurantId} add={true} />
                 <Container className="menu-search-dish">
                     <Input
                         type="text"
@@ -164,7 +165,9 @@ export default class menu extends Component {
                         onChange={this.onChangeInputDishName}
                         value={inputDishName}
                     />
-                    <Button onClick={this.searchDishByName} color="success" className="btn-search-dish">Tìm</Button>
+                    <Button onClick={this.searchDishByName} color="success" className="btn-search-dish">
+                        <FaSearch />
+                    </Button>
                 </Container>
 
                 {this.state.dishSearch ? (

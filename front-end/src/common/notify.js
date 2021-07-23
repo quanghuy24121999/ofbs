@@ -4,7 +4,7 @@ export function Notify(message, type, position) {
     if (type === 'success') {
         return toast.success(message, {
             position: position,
-            autoClose: 1500,
+            autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -14,7 +14,7 @@ export function Notify(message, type, position) {
     } else if (type === 'warning') {
         return toast.warn(message, {
             position: position,
-            autoClose: 1500,
+            autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -24,7 +24,7 @@ export function Notify(message, type, position) {
     } else if (type === 'error') {
         return toast.error(message, {
             position: position,
-            autoClose: 1500,
+            autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,

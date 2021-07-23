@@ -1,7 +1,10 @@
 import { api } from '../../config/axios';
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from 'reactstrap';
+import {
+    Button, Modal, ModalHeader, ModalBody,
+    ModalFooter,
+} from 'reactstrap';
 
 import { formatDateForNotify } from '../../common/formatDate';
 import { Notify } from '../../common/notify';
@@ -9,6 +12,12 @@ import { Notify } from '../../common/notify';
 export default function ReportItem(props) {
     const count = props.count;
     const report = props.report;
+
+    const [modal, setModal] = useState(false);
+
+    const toggle = () => {
+        setModal(!modal);
+    }
 
     const complete = () => {
         api.post(`/notifications/insertNotification`,
@@ -31,6 +40,7 @@ export default function ReportItem(props) {
                 }).then(res => {
                     props.getData();
                     Notify('Xử lý báo cáo thành công', 'success', 'top-left');
+                    toggle();
                 })
             })
     }
@@ -53,7 +63,19 @@ export default function ReportItem(props) {
                 </Link>
             </td>
             <td>
-                <Button color="success" onClick={() => complete()}>Đã xử lý</Button>
+                <Button color="success" onClick={toggle}>Đã xử lý</Button>
+                <Modal isOpen={modal} toggle={toggle} className={``}>
+                    <ModalHeader toggle={toggle}>Thông báo</ModalHeader>
+                    <ModalBody>
+                        Lưu thay đổi ?
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="success" onClick={() => complete()}>
+                            Có
+                        </Button>
+                        <Button color="secondary" onClick={toggle}>Trở lại</Button>
+                    </ModalFooter>
+                </Modal>
             </td>
         </tr>
     )

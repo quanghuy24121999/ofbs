@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
     Container, Nav, NavItem, CardImg, Row, Col,
-    Button, Modal, ModalHeader, Label, Input,
+    Button, Modal, ModalHeader, Input,
     ModalBody, ModalFooter,
 } from 'reactstrap';
 import { Link, Redirect } from 'react-router-dom';
