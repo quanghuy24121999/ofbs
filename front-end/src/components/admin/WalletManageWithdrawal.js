@@ -34,7 +34,7 @@ export default function WalletManageWithdrawal() {
         window.scrollTo(0, 0);
         receivedData(paymentCode, fromDate, toDate);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentPage, history])
+    }, [currentPage, history.length])
 
     const handlePageClick = (e) => {
         const selectedPage = e.selected;

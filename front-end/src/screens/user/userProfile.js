@@ -110,13 +110,13 @@ export default class userProfile extends Component {
         } else if (!validatePhoneNumber(phone)) {
             Notify('Số điện thoại sai định dạng', 'error', 'top-right');
             return false;
-        } else if (!validateUsername(email)) {
+        } else if (email !== '' && !validateUsername(email)) {
             Notify('Email của bạn quá dài (nhỏ hơn 100 ký tự)', 'error', 'top-right');
             return false;
-        } else if (!validateEmail(email)) {
+        } else if (email !== '' && !validateEmail(email)) {
             Notify('Email sai định dạng', 'error', 'top-right');
             return false;
-        } else if (!validateUsername(address)) {
+        } else if (address !== '' &&!validateUsername(address)) {
             Notify('Địa chỉ quá dài (nhỏ hơn 100 ký tự)', 'error', 'top-right');
             return false;
         } else if (dob > formatDateForInput(new Date())) {
@@ -233,7 +233,7 @@ export default class userProfile extends Component {
                     }
                     this.toggle();
                     this.toggleNested();
-                    Notify('Cập nhật thành công', 'success', 'top-right');
+                    Notify('Bạn đã lưu thành công', 'success', 'top-right');
                 }).catch(() => {
                     Notify('Cập nhật không thành công', 'error', 'top-right');
                 })

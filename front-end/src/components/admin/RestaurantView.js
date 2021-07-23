@@ -27,7 +27,7 @@ export default function RestaurantView(props) {
         window.scrollTo(0, 0);
         receivedData(nameSearch, statusSearch);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentPage, restaurants.length])
+    }, [currentPage])
 
     const search = () => {
         receivedData(nameSearch, statusSearch);

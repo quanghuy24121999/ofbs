@@ -42,7 +42,7 @@ function Order() {
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        receivedData('', '', '', '');
+        receivedData(orderCode, from, to, status);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage])
 
@@ -52,7 +52,6 @@ function Order() {
 
         setCurrentPage(selectedPage);
         setOffset(offset);
-        // receivedData(0, '');
     };
 
     const receivedData = (orderCode, from, to, status) => {

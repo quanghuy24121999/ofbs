@@ -1,5 +1,8 @@
-import React from 'react';
-import { Button } from 'reactstrap';
+import React, { useState } from 'react';
+import {
+    Button, Modal, ModalHeader, ModalBody,
+    ModalFooter,
+} from 'reactstrap';
 import { formatCurrency } from '../../common/formatCurrency';
 import { formatDate } from '../../common/formatDate';
 import { Notify } from '../../common/notify';
@@ -11,6 +14,17 @@ export default function HistoryItem(props) {
     let type = history.payment_type;
     let status = history.status;
     let money = parseFloat(history.balance_change);
+
+    const [modal, setModal] = useState(false);
+    const [modal1, setModal1] = useState(false);
+
+    const toggle = () => {
+        setModal(!modal);
+    }
+
+    const toggle1 = () => {
+        setModal1(!modal1);
+    }
 
     if (type === 'refund') {
         type = 'Hoàn tiền';
@@ -79,6 +93,7 @@ export default function HistoryItem(props) {
                                 }
                             ).then(res => {
                                 Notify('Xác nhận thành công', 'success', 'top-right');
+                                toggle();
                             })
                         })
                 })
@@ -128,6 +143,7 @@ export default function HistoryItem(props) {
                                 }
                             ).then(res => {
                                 Notify('Xác nhận thành công', 'success', 'top-right');
+                                toggle1();
                             })
                         })
                 })
@@ -146,20 +162,44 @@ export default function HistoryItem(props) {
                 typePayment === 'withdrawal' && <td>
                     <Button
                         color="primary"
-                        onClick={() => updateStatus()}
+                        onClick={toggle}
                     >
                         Xác nhận
                     </Button>
+                    <Modal isOpen={modal} toggle={toggle} className={``}>
+                        <ModalHeader toggle={toggle}>Thông báo</ModalHeader>
+                        <ModalBody>
+                            Lưu thay đổi ?
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="success" onClick={() => updateStatus()}>
+                                Có
+                            </Button>
+                            <Button color="secondary" onClick={toggle}>Trở lại</Button>
+                        </ModalFooter>
+                    </Modal>
                 </td>
             }
             {
                 typePayment === 'charge' && <td>
                     <Button
                         color="primary"
-                        onClick={() => updateStatusCharge()}
+                        onClick={toggle1}
                     >
                         Xác nhận
                     </Button>
+                    <Modal isOpen={modal1} toggle={toggle1} className={``}>
+                        <ModalHeader toggle={toggle1}>Thông báo</ModalHeader>
+                        <ModalBody>
+                            Lưu thay đổi ?
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="success" onClick={() => updateStatusCharge()}>
+                                Có
+                            </Button>
+                            <Button color="secondary" onClick={toggle1}>Trở lại</Button>
+                        </ModalFooter>
+                    </Modal>
                 </td>
             }
         </tr>
