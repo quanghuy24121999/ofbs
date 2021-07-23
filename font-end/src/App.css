@@ -2498,6 +2498,20 @@ tr > td:nth-child(6) {
   margin: 0 10px;
 }
 
+.admin-search-user {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-search-user > div {
+  margin: 10px 10px 0;
+}
+
+.admin-search-user > div > button {
+  width: 70px;
+}
 /*=============================================== NOT FOUND ===========================================*/
 .not-found {
   display: flex;

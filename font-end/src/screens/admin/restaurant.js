@@ -59,12 +59,12 @@ function Restaurant() {
                     </Nav>
                     {
                         tab === 1 && <Row className="wallet-row">
-                            <RestaurantView />
+                            <RestaurantView isPending={false}/>
                         </Row>
                     }
                     {
                         tab === 2 && <Row className="wallet-row">
-                            <RestaurantPending />
+                            <RestaurantPending isPending={true}/>
                         </Row>
                     }
                 </Container>

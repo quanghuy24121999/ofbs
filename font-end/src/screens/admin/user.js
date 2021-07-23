@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Table } from 'reactstrap';
-import { FaBars } from 'react-icons/fa';
+import { Button, Container, Input, Table } from 'reactstrap';
+import { FaBars, FaSearch } from 'react-icons/fa';
 import SlideBar from '../../components/admin/SlideBar';
 import { api } from '../../config/axios';
 import Notification from '../../components/admin/Notification';
@@ -9,6 +9,11 @@ import UserItem from '../../components/admin/UserItem';
 import ReactPaginate from 'react-paginate';
 
 export default function User() {
+    const [users, setUsers] = useState([]);
+    const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [status, setStatus] = useState('');
+
     const [offset, setOffset] = useState(0);
     const [perPage, setPerpage] = useState(10);
     const [currentPage, setCurrentPage] = useState(0);
@@ -19,19 +24,29 @@ export default function User() {
         setToggled(value);
     };
 
-    const [users, setUsers] = useState([]);
+    const onchangeName = (e) => {
+        setName(e.target.value);
+    }
+
+    const onchangePhone = (e) => {
+        setPhone(e.target.value);
+    }
+
+    const onchangeStatus = (e) => {
+        setStatus(e.target.value);
+    }
 
     useEffect(() => {
-        window.scrollTo(0, 0);
-        receivedData();
+        receivedData(name, phone, status);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage, users.length])
 
     const search = () => {
-        receivedData();
+        receivedData(name, phone, status);
     }
 
     const handlePageClick = (e) => {
+        window.scrollTo(0, 0);
         const selectedPage = e.selected;
         const offset = selectedPage * perPage;
 
@@ -40,10 +55,10 @@ export default function User() {
         // receivedData(0, '');
     };
 
-    const receivedData = () => {
+    const receivedData = (name, phone, status) => {
         window.scrollTo(0, 0);
 
-        api.get(`/users/adminViewUsers?phone&name&status`, {
+        api.get(`/users/adminViewUsers?phone=${phone}&name=${name}&status=${status}`, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
@@ -85,6 +100,39 @@ export default function User() {
                 </div>
                 <Container>
                     <h4>Quản lý người dùng</h4>
+                    <div className="admin-search-user">
+                        <div>
+                            <Input
+                                type="text"
+                                value={name}
+                                onChange={onchangeName}
+                                placeholder="Nhập tên người dùng"
+                            />
+                        </div>
+                        <div>
+                            <Input
+                                type="text"
+                                value={phone}
+                                onChange={onchangePhone}
+                                placeholder="Nhập SĐT. VD: 0123..."
+                            />
+                        </div>
+                        <div>
+                            <Input
+                                type="select"
+                                value={status}
+                                onChange={onchangeStatus}
+                            >
+                                <option value="active">Đang hoạt động</option>
+                                <option value="inactive">Ngừng hoạt động</option>
+                            </Input>
+                        </div>
+                        <div>
+                            <Button color="primary" onClick={() => search()}>
+                                <FaSearch />
+                            </Button>
+                        </div>
+                    </div>
                     <hr />
                     <Table className="restaurant-table">
                         <thead>
