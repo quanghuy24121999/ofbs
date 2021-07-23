@@ -194,7 +194,7 @@ export default function RestaurantItem(props) {
                 }}
                     className="btn btn-primary"
                 >
-                    <FaEye className="icon-see-more" />Chi tiết
+                    Chi tiết
                 </Link>
             </td>
             {
