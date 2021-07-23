@@ -48,7 +48,8 @@ import adminRestaurantMenu from './screens/admin/restaurantDish';
 import adminRestaurantCombo from './screens/admin/restaurantCombo';
 import adminRestaurantService from './screens/admin/restaurantService';
 import adminRestaurantReport from './screens/admin/report';
-import adminRestaurantWallet from './screens/admin/wallet';
+import adminUser from './screens/admin/user';
+import adminWallet from './screens/admin/wallet';
 
 import errorPage from './screens/errorPage';
 
@@ -106,8 +107,9 @@ class App extends Component {
               <ProtectedRouteAdmin exact path="/admin/restaurant/menu" component={adminRestaurantMenu} />
               <ProtectedRouteAdmin exact path="/admin/restaurant/combo" component={adminRestaurantCombo} />
               <ProtectedRouteAdmin exact path="/admin/restaurant/service" component={adminRestaurantService} />
+              <ProtectedRouteAdmin exact path="/admin/user" component={adminUser} />
               <ProtectedRouteAdmin exact path="/admin/report" component={adminRestaurantReport} />
-              <ProtectedRouteAdmin exact path="/admin/wallet" component={adminRestaurantWallet} />
+              <ProtectedRouteAdmin exact path="/admin/wallet" component={adminWallet} />
 
               <Route path="*" component={errorPage} />
             </Switch>

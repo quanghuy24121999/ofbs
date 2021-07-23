@@ -18,6 +18,8 @@ export default class myRestaurant extends Component {
             restaurantActive: [],
             restaurantInactive: [],
             restaurantPending: [],
+            restaurantBanned: [],
+            restaurantCancelled: []
         }
     }
 
@@ -43,10 +45,22 @@ export default class myRestaurant extends Component {
             .then(res => {
                 this.setState({ restaurantPending: res.data })
             })
+
+        api.get(`/restaurants/getRestaurantByProviderId?providerId=${userId}&statusId=4`)
+            .then(res => {
+                this.setState({ restaurantCancelled: res.data })
+            })
+
+        api.get(`/restaurants/getRestaurantByProviderId?providerId=${userId}&statusId=5`)
+            .then(res => {
+                this.setState({ restaurantBanned: res.data })
+            })
     }
 
     render() {
-        const { restaurantActive, restaurantInactive, restaurantPending, role } = this.state;
+        const { restaurantActive, restaurantInactive, restaurantPending,
+            restaurantBanned, restaurantCancelled, role
+        } = this.state;
 
         return (
             <div>
@@ -79,7 +93,7 @@ export default class myRestaurant extends Component {
                                 {restaurantPending.length > 0 ? (
                                     restaurantPending.map((restaurant, index) => {
                                         return <Col lg="3" md="4" sm="12" key={index}>
-                                            <MyRestaurantItem restaurant={restaurant}/>
+                                            <MyRestaurantItem restaurant={restaurant} />
                                         </Col>
                                     })
                                 ) : (
@@ -109,11 +123,41 @@ export default class myRestaurant extends Component {
                                 {restaurantInactive.length > 0 ? (
                                     restaurantInactive.map((restaurant, index) => {
                                         return <Col lg="3" md="4" sm="12" key={index}>
-                                            <MyRestaurantItem restaurant={restaurant}/>
+                                            <MyRestaurantItem restaurant={restaurant} />
                                         </Col>
                                     })
                                 ) : (
                                     <h5 className="restaurant-message">Không có nhà hàng nào ngừng hoạt động</h5>
+                                )}
+                            </Row>
+                            <Row className="restaurant-row">
+                                <h3 className="restaurant-row-title">
+                                    Nhà hàng không được duyệt
+                                    <hr />
+                                </h3>
+                                {restaurantCancelled.length > 0 ? (
+                                    restaurantCancelled.map((restaurant, index) => {
+                                        return <Col lg="3" md="4" sm="12" key={index}>
+                                            <MyRestaurantItem restaurant={restaurant} />
+                                        </Col>
+                                    })
+                                ) : (
+                                    <h5 className="restaurant-message">Không có nhà hàng không được duyệt</h5>
+                                )}
+                            </Row>
+                            <Row className="restaurant-row">
+                                <h3 className="restaurant-row-title">
+                                    Nhà hàng đã bị chặn
+                                    <hr />
+                                </h3>
+                                {restaurantBanned.length > 0 ? (
+                                    restaurantBanned.map((restaurant, index) => {
+                                        return <Col lg="3" md="4" sm="12" key={index}>
+                                            <MyRestaurantItem restaurant={restaurant} />
+                                        </Col>
+                                    })
+                                ) : (
+                                    <h5 className="restaurant-message">Không có nhà hàng nào bị chặn</h5>
                                 )}
                             </Row>
                         </Container>

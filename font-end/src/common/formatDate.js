@@ -7,6 +7,15 @@ export function formatDate(dateInput) {
         + month + '/' + date.getFullYear();
 }
 
+export function formatDateCheckRule(dateInput) {
+    let date = new Date(dateInput);
+    let month = (
+        (date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))
+    )
+    return date.getFullYear() + '/'
+        + month + '/' + ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate()));
+}
+
 export function formatDateForInput(dateInput) {
     let date = new Date(dateInput);
     let day = ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate()));

@@ -135,7 +135,7 @@ export default class myRestaurantDetail extends Component {
                     restaurantDescription: restaurant.description,
                     restaurantBusinessCode: restaurant.bussinessLicenseId
                 }, () => {
-                    let statusName = this.state.restaurantStatus.name;
+                    let statusName = this.state.restaurantStatus.name; console.log(statusName)
                     let tempObj = { id: '', name: '' }
                     let tempArr = [];
                     let count = 0;
@@ -143,6 +143,31 @@ export default class myRestaurantDetail extends Component {
                     if (statusName === 'pending') {
                         tempObj.id = 3;
                         tempObj.name = 'Chờ duyệt';
+                        this.setState({
+                            restaurantStatus: tempObj,
+                            status: tempArr
+                        })
+                        tempArr.push(tempObj);
+                        count = count + 1;
+                    } else if (statusName === 'cancelled') {
+                        let tempObj1 = { id: 4, name: 'Không được duyệt' };
+                        let tempObj2 = { id: 3, name: 'Chờ duyệt' };
+                        tempArr.push(tempObj1);
+                        tempArr.push(tempObj2);
+
+                        if (statusName === 'cancelled') {
+                            this.setState({ restaurantStatus: tempObj1 });
+                        }
+                        if (statusName === 'pending') {
+                            this.setState({ restaurantStatus: tempObj2 });
+                        }
+
+                        this.setState({ status: tempArr });
+                        count = count + 1;
+                    } else if (statusName === 'banned') {
+                        tempObj.id = 5;
+                        tempObj.name = 'Đã bị chặn';
+
                         this.setState({
                             restaurantStatus: tempObj,
                             status: tempArr
@@ -197,6 +222,10 @@ export default class myRestaurantDetail extends Component {
             nameStatus = 'inactive';
         } else if (name === 'Chờ duyệt') {
             nameStatus = 'pending';
+        } else if (name === 'Không được duyệt') {
+            nameStatus = 'cancelled';
+        } else if (name === 'Đã bị chặn') {
+            nameStatus = 'banned';
         }
 
         this.setState({
@@ -329,8 +358,22 @@ export default class myRestaurantDetail extends Component {
         }
         )
             .then(res => {
-                this.toggle();
-                Notify('Cập nhật thành công', 'success', 'top-right');
+                if (restaurantStatus.name === 'pending') {
+                    api.post(`/notifications/insertNotification`,
+                        {
+                            "content": `Có nhà hàng ${restaurantName} đăng ký lại`,
+                            "customer": null,
+                            "provider": null,
+                            "forAdmin": true,
+                            "type": "restaurant",
+                            "read": false
+                        }
+                    ).then(() => {
+                        this.toggle();
+                        Notify('Cập nhật thành công', 'success', 'top-right');
+                    })
+                }
+
             })
     }
 

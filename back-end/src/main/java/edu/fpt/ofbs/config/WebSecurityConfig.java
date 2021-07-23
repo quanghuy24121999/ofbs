@@ -66,9 +66,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors().and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and().authorizeRequests()
-				.antMatchers("/orders/orderDetail/infor", "/orders/searchOrder", "/payment/pay", "/payment/history", "/payment/updateStatus", "/payment/save").hasAnyRole("PROVIDER", "CUSTOMER", "ADMIN")
+				.antMatchers("/users/profile", "/users/profile/**", "/orders/orderDetail/infor", "/orders/searchOrder", "/payment/pay", "/payment/history", "/payment/updateStatus", "/payment/save").hasAnyRole("PROVIDER", "CUSTOMER", "ADMIN")
 				.antMatchers(HttpMethod.POST, "/restaurants").hasAnyRole("PROVIDER", "ADMIN")
-				.antMatchers("/users/profile", "/users/profile/**", "/orders/updateStatus", "/orders/setStatus",
+				.antMatchers("/orders/updateStatus", "/orders/setStatus",
 						"/orders/customer", "/restaurants/registerRestaurant", "/orders/insertOrderDetail", "/feedbacks/insertFeedback", "/orders/getOrderIdBeforeInsert").hasAnyRole("PROVIDER", "CUSTOMER")
 				.antMatchers("/orders/getOrders", "/orders/getTotalOrderByStatus", "/feedbacks/updateStatusFeedback", "/feedbacks/getReport",
 						"dishes/updateStatus", "combos/updateStatus", "services/updateStatus", "/restaurants/getTotalRestaurantsByStatus",

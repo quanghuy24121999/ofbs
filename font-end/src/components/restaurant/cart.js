@@ -264,7 +264,7 @@ export default function Cart(props) {
                                                                             "fromToUser": admin,
                                                                             "balanceChange": parseFloat(-cartTotal * 0.1),
                                                                             "currentBalance": parseFloat(currentUser.balance) - (parseFloat(cartTotal * 0.1)),
-                                                                            "description": "Thanh toán đơn hàng " + orderCode,
+                                                                            "description": "Thanh toán cọc đơn hàng " + orderCode,
                                                                             "paymentType": {
                                                                                 "name": "pay"
                                                                             }
@@ -291,9 +291,18 @@ export default function Cart(props) {
                                                                                 url: `users/updateBalance?balance=${parseFloat(currentUser.balance) - parseFloat(cartTotal * 0.1)}&userId=${currentUser.id}`
                                                                             })
                                                                                 .then(res => {
-                                                                                    Notify('Thanh toán đơn hàng thành công', 'success', 'top-right');
-                                                                                    toggle();
-                                                                                    toggle1();
+                                                                                    api({
+                                                                                        method: 'PATCH',
+                                                                                        headers: {
+                                                                                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                                                        },
+                                                                                        url: `/orders/updateStatus?orderId=${localStorage.getItem("orderId")}&status=pending`
+                                                                                    }).then(res => {
+                                                                                        localStorage.removeItem("orderId");
+                                                                                        Notify('Thanh toán đơn hàng thành công', 'success', 'top-right');
+                                                                                        toggle();
+                                                                                        toggle1();
+                                                                                    })
                                                                                 })
                                                                         })
                                                                     })
@@ -303,8 +312,8 @@ export default function Cart(props) {
                                                                             "user": admin,
                                                                             "fromToUser": currentUser,
                                                                             "balanceChange": parseFloat(cartTotal * 0.1),
-                                                                            "currentBalance": parseFloat(currentUser.balance) + (parseFloat(cartTotal * 0.1)),
-                                                                            "description": "Thanh toán đơn hàng " + orderCode,
+                                                                            "currentBalance": parseFloat(admin.balance) + (parseFloat(cartTotal * 0.1)),
+                                                                            "description": "Khách hàng thanh toán cọc đơn hàng " + orderCode,
                                                                             "paymentType": {
                                                                                 "name": "pay"
                                                                             }
