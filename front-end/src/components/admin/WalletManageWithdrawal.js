@@ -72,7 +72,7 @@ export default function WalletManageWithdrawal() {
                         const data = res.data;
                         const slice = data.slice(offset, offset + perPage)
                         const historyPaging = slice.map((history, index) => {
-                            return <HistoryItem key={index} history={history} type='withdrawal'/>
+                            return <HistoryItem key={index} history={history} type='withdrawal' receivedData={receivedData}/>
                         })
 
                         setHistory(historyPaging);

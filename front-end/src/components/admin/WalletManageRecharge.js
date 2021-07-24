@@ -72,7 +72,7 @@ export default function WalletManageRecharge() {
                         const data = res.data;
                         const slice = data.slice(offset, offset + perPage)
                         const historyPaging = slice.map((history, index) => {
-                            return <HistoryItem key={index} history={history} type='charge'/>
+                            return <HistoryItem key={index} history={history} type='charge' receivedData={receivedData}/>
                         })
 
                         setHistory(historyPaging);

@@ -93,6 +93,7 @@ export default function HistoryItem(props) {
                                 }
                             ).then(res => {
                                 Notify('Xác nhận thành công', 'success', 'top-right');
+                                props.receivedData('', '', '');
                                 toggle();
                             })
                         })
@@ -143,6 +144,7 @@ export default function HistoryItem(props) {
                                 }
                             ).then(res => {
                                 Notify('Xác nhận thành công', 'success', 'top-right');
+                                props.receivedData('', '', '');
                                 toggle1();
                             })
                         })
@@ -173,9 +175,9 @@ export default function HistoryItem(props) {
                         </ModalBody>
                         <ModalFooter>
                             <Button color="success" onClick={() => updateStatus()}>
-                                Có
+                                Đồng ý
                             </Button>
-                            <Button color="secondary" onClick={toggle}>Trở lại</Button>
+                            <Button color="secondary" onClick={toggle}>Quay lại</Button>
                         </ModalFooter>
                     </Modal>
                 </td>
@@ -195,9 +197,9 @@ export default function HistoryItem(props) {
                         </ModalBody>
                         <ModalFooter>
                             <Button color="success" onClick={() => updateStatusCharge()}>
-                                Có
+                                Đồng ý
                             </Button>
-                            <Button color="secondary" onClick={toggle1}>Trở lại</Button>
+                            <Button color="secondary" onClick={toggle1}>Quay lại</Button>
                         </ModalFooter>
                     </Modal>
                 </td>

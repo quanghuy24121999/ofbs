@@ -78,7 +78,7 @@ export default function Info() {
                         const data = res.data;
                         const slice = data.slice(offset, offset + perPage)
                         const historyPaging = slice.map((history, index) => {
-                            return <HistoryItem key={index} history={history} isWithdrawal={false}/>
+                            return <HistoryItem key={index} history={history} isWithdrawal={false} />
                         })
 
                         setHistory(historyPaging);
@@ -89,6 +89,7 @@ export default function Info() {
 
     return (
         <Container className="wallet-info">
+            <hr />
             <div className="balance">Số dư tài khoản: {formatCurrency(balance)} VNĐ</div>
             <hr />
             <div className="history">
