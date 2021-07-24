@@ -82,7 +82,7 @@ export default class myRestaurantCombo extends Component {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
                 const combosPaging = slice.map((combo, index) => {
-                    return <MyRestaurantMenuItem key={index} combo={combo} count={index + 1} restaurantId={restaurantId} />
+                    return <MyRestaurantMenuItem key={index} combo={combo} count={index + 1} restaurantId={restaurantId} currentPage={this.state.currentPage}/>
                 })
 
                 this.setState({

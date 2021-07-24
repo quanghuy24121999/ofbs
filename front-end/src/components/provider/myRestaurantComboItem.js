@@ -229,7 +229,11 @@ export default function MyRestaurantComboItem(props) {
 
     return (
         <tr>
-            <td>{count}</td>
+            <td>
+                {
+                    (props.currentPage === 0 ? count : count + 10 * currentPage)
+                }
+            </td>
             <td>{combo.combo_name}</td>
             <td>{formatCurrency(combo.combo_price)}</td>
             <td>{statusCombo}</td>

@@ -10,13 +10,14 @@ import ImageUploading from "react-images-uploading";
 
 import { Notify } from '../../common/notify';
 import { formatCurrency } from '../../common/formatCurrency';
-import { validateCapacity, validateUsername } from '../../common/validate';
+import { validateCapacity, validateDescription, validateEmpty, validateUsername } from '../../common/validate';
 
 export default function MyRestaurantMenuItem(props) {
     const dish = props.dish;
     const restaurantId = props.restaurantId;
     let statusDish = dish.status_name;
     let count = props.count;
+    let currentPage = props.currentPage;
     const dishName = dish.dish_name;
 
     const [modal, setModal] = useState(false);
@@ -51,9 +52,9 @@ export default function MyRestaurantMenuItem(props) {
 
         if (modal === false) {
             api.get(`/dishes/getCategories`)
-            .then(res => {
-                setCategories(res.data)
-            })
+                .then(res => {
+                    setCategories(res.data)
+                })
             api.get(`/dishes/getDishesById?dishId=${dish.id}`)
                 .then(res => {
                     let dish = res.data;
@@ -95,11 +96,20 @@ export default function MyRestaurantMenuItem(props) {
     }
 
     const validate = () => {
-        if (!validateUsername(name)) {
+        if (!validateEmpty(name.trim())) {
+            Notify('Vui lòng nhập tên món ăn', 'error', 'top-right');
+            return false;
+        } else if (!validateUsername(name)) {
             Notify('Tên món ăn phải ít hơn 100 ký tự', 'error', 'top-right');
             return false;
         } else if (!validateCapacity(price)) {
             Notify('Giá món ăn phải ít hơn 10 ký tự', 'error', 'top-right');
+            return false;
+        } if (!validateEmpty(description.trim())) {
+            Notify('Mô tả không được để trống', 'error', 'top-right');
+            return false;
+        } else if (!validateDescription(description)) {
+            Notify('Mô tả phải nhỏ hơn 2000 ký tự', 'error', 'top-right');
             return false;
         } else {
             return true;
@@ -181,7 +191,11 @@ export default function MyRestaurantMenuItem(props) {
 
     return (
         <tr>
-            <td>{count}</td>
+            <td>
+                {
+                    (currentPage === 0 ? count : count + 10 * currentPage)
+                }
+            </td>
             <td>{dish.dish_name}</td>
             <td>{formatCurrency(dish.price)}</td>
             <td>{dish.category_name}</td>

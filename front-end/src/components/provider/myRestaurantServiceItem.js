@@ -1,5 +1,5 @@
 import { api, url } from '../../config/axios';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     Button, Modal, ModalHeader, Form,
     ModalBody, ModalFooter, Label, Input,
@@ -15,6 +15,7 @@ import { validateCapacity, validateUsername } from '../../common/validate';
 export default function MyRestaurantServiceItem(props) {
     const service = props.service;
     const restaurantId = props.restaurantId;
+    let currentPage = props.currentPage;
     let count = 1;
     let serviceStatus = service.status_name;
     if (serviceStatus === "active") {
@@ -196,7 +197,11 @@ export default function MyRestaurantServiceItem(props) {
 
     return (
         <tr className="service-content">
-            <td>{count}</td>
+            <td>
+                {
+                    (currentPage === 0 ? props.count : props.count + 10 * currentPage)
+                }
+            </td>
             <td>{service.service_name}</td>
             <td>{formatCurrency(service.price)}</td>
             <td>{service.service_category_name}</td>
