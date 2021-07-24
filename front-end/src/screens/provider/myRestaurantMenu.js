@@ -14,7 +14,7 @@ import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
 import MyRestaurantMenuItem from '../../components/provider/myRestaurantMenuItem';
 import { Notify } from '../../common/notify';
-import { validateCapacity, validateDescription, validateUsername } from '../../common/validate';
+import { validateCapacity, validateDescription, validateEmpty, validateUsername } from '../../common/validate';
 
 let restaurantId = '';
 export default class myRestaurantMenu extends Component {
@@ -61,7 +61,7 @@ export default class myRestaurantMenu extends Component {
             .then(res => {
                 this.setState({ categories: res.data })
             })
-        this.receivedData(0, '');
+        this.receivedData(0, this.state.nameSearch.trim());
     }
 
     onChangeName(e) {
@@ -98,7 +98,7 @@ export default class myRestaurantMenu extends Component {
             currentPage: 0,
             offset: 0
         }, () => {
-            this.receivedData(categorySearch, nameSearch);
+            this.receivedData(categorySearch, nameSearch.trim());
         })
     }
 
@@ -117,14 +117,20 @@ export default class myRestaurantMenu extends Component {
     }
 
     validate() {
-        if (!validateUsername(this.state.name)) {
+        if (!validateEmpty(this.state.name.trim())) {
+            Notify('Vui lòng nhập tên món ăn', 'error', 'top-right');
+            return false;
+        } else if (!validateUsername(this.state.name)) {
             Notify('Tên món ăn phải ít hơn 100 ký tự', 'error', 'top-right');
             return false;
         } else if (!validateCapacity(this.state.price)) {
             Notify('Giá món ăn phải ít hơn 10 ký tự', 'error', 'top-right');
             return false;
+        } if (!validateEmpty(this.state.description.trim())) {
+            Notify('Mô tả không được để trống', 'error', 'top-right');
+            return false;
         } else if (!validateDescription(this.state.description)) {
-            Notify('Mô tả món ăn phải ít hơn 2000 ký tự', 'error', 'top-right');
+            Notify('Mô tả phải nhỏ hơn 2000 ký tự', 'error', 'top-right');
             return false;
         } else {
             return true;
@@ -222,7 +228,7 @@ export default class myRestaurantMenu extends Component {
             currentPage: selectedPage,
             offset: offset
         }, () => {
-            this.receivedData(0, '');
+            this.receivedData(0, this.state.nameSearch.trim());
         });
 
     };
@@ -237,7 +243,7 @@ export default class myRestaurantMenu extends Component {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
                 const dishesPaging = slice.map((dish, index) => {
-                    return <MyRestaurantMenuItem key={index} dish={dish} count={index + 1} restaurantId={restaurantId} />
+                    return <MyRestaurantMenuItem key={index} dish={dish} count={index + 1} restaurantId={restaurantId} currentPage={this.state.currentPage}/>
                 })
 
                 this.setState({

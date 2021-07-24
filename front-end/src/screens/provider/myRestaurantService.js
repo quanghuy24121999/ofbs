@@ -76,7 +76,7 @@ export default class myRestaurantService extends Component {
             currentPage: selectedPage,
             offset: offset
         }, () => {
-            this.receivedData('', '');
+            this.receivedData(this.state.nameSearch, this.state.categorySearch);
         });
 
     };
@@ -87,7 +87,7 @@ export default class myRestaurantService extends Component {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
                 const servicesPaging = slice.map((service, index) => {
-                    return <MyRestaurantServiceItem key={index} service={service} count={index + 1} restaurantId={restaurantId} />
+                    return <MyRestaurantServiceItem key={index} service={service} count={index + 1} restaurantId={restaurantId} currentPage={this.state.currentPage}/>
                 })
 
                 this.setState({

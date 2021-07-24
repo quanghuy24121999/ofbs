@@ -68,7 +68,6 @@ class App extends Component {
   render() {
     (now - setupTime > hours * 60 * 60 * 1000) && (
       localStorage.clear()
-      && Notify('Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại', 'error', 'top-right')
     )
     return (
       <CartProvider>
