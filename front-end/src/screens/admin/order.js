@@ -32,11 +32,11 @@ function Order() {
         setOrderCode(e.target.value)
     };
 
-    const onChangeFrom = (e) => {        
+    const onChangeFrom = (e) => {
         setFrom(e.target.value);
     };
 
-    const onChangeTo = (e) => {        
+    const onChangeTo = (e) => {
         setTo(e.target.value);
     };
 
@@ -105,6 +105,7 @@ function Order() {
                     </div>
                 </div>
                 <Container>
+                    <h4>Quản lý đơn hàng</h4>
                     <div className="search-order-admin">
                         <div>
                             <Input
@@ -137,6 +138,7 @@ function Order() {
                             <Button color="success" className="btn-search-order" onClick={search}><FaSearch className="icon-search" /></Button>
                         </div>
                     </div>
+                    <hr />
                     <Table className="order-table">
                         <thead>
                             <tr>

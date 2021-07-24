@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-    Button, Modal, ModalHeader, 
+    Button, Modal, ModalHeader,
     ModalBody, ModalFooter, Label, Input,
     CardImg, Alert, Row, Col, Table, Form
 } from 'reactstrap';
@@ -12,7 +12,7 @@ import DishComboItem from '../restaurant/dishComboItem';
 import { formatCurrency } from '../../common/formatCurrency';
 import AddDishComboItem from '../restaurant/addDishComboItem';
 import { Notify } from '../../common/notify';
-import { validateCapacity, validateUsername } from '../../common/validate';
+import { validateCapacity, validateEmpty, validateUsername } from '../../common/validate';
 
 export default function MyRestaurantComboItem(props) {
     const combo = props.combo;
@@ -160,11 +160,17 @@ export default function MyRestaurantComboItem(props) {
     }
 
     const validate = () => {
-        if (!validateUsername(name)) {
+        if (!validateEmpty(name.trim())) {
+            Notify('Vui lòng nhập tên combo', 'error', 'top-right');
+            return false;
+        } else if (!validateUsername(name.trim())) {
             Notify('Tên combo phải ít hơn 100 ký tự', 'error', 'top-right');
             return false;
         } else if (!validateCapacity(price)) {
             Notify('Giá combo phải ít hơn 10 ký tự', 'error', 'top-right');
+            return false;
+        } else if(!validateUsername(description.trim())) {
+            Notify('Vui lòng nhập mô tả combo', 'error', 'top-right');
             return false;
         } else {
             return true;
@@ -188,7 +194,7 @@ export default function MyRestaurantComboItem(props) {
                         .then(res => {
                             let count = 0
                             res.data.forEach(combo => {
-                                if (name === combo.combo_name) {
+                                if (name.trim() === combo.combo_name.trim()) {
                                     count = count + 1;
                                 }
                             });
@@ -214,7 +220,7 @@ export default function MyRestaurantComboItem(props) {
                                     Notify("Cập nhật Combo thành công", "success", "top-right");
                                 })
                             } else {
-                                Notify("Combo này đã tồn tại", "error", "top-right");
+                                Notify("Tên combo đã tồn tại trong nhà hàng", "error", "top-right");
                             }
                         })
                 })

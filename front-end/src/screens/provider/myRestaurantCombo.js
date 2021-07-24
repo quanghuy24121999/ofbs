@@ -152,7 +152,7 @@ export default class myRestaurantCombo extends Component {
                             .then(res => {
                                 let count = 0
                                 res.data.forEach(combo => {
-                                    if (name === combo.combo_name) {
+                                    if (name.trim() === combo.combo_name.trim()) {
                                         count = count + 1;
                                     }
                                 });
@@ -175,7 +175,7 @@ export default class myRestaurantCombo extends Component {
                                         Notify("Thêm combo thành công", "success", "top-right");
                                     })
                                 } else {
-                                    Notify("Combo món ăn này đã tồn tại", "error", "top-right");
+                                    Notify("Tên combo đã tồn tại trong nhà hàng", "error", "top-right");
                                 }
                             })
                     })

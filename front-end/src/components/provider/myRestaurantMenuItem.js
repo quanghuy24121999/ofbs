@@ -145,7 +145,7 @@ export default function MyRestaurantMenuItem(props) {
                         .then(res => {
                             let count = 0
                             res.data.forEach(dish => {
-                                if (name === dish.dish_name) {
+                                if (name.trim() === dish.dish_name.trim()) {
                                     count = count + 1;
                                 }
                             });
@@ -172,7 +172,7 @@ export default function MyRestaurantMenuItem(props) {
                                     Notify("Cập nhật món ăn thành công", "success", "top-right");
                                 })
                             } else {
-                                Notify("Món ăn này đã tồn tại", "error", "top-right");
+                                Notify("Tên món ăn đã tồn tại trong nhà hàng", "error", "top-right");
                             }
                         })
                 })
