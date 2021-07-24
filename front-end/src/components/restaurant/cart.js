@@ -35,18 +35,17 @@ export default function Cart(props) {
 
     const toggle = () => {
         setModal(!modal);
-
-        let customerQuantity = '';
-        if (metadata !== undefined) {
-            customerQuantity = metadata.customerQuantity;
-        } else if (metadata.customerQuantity !== undefined &&
-            metadata.customerQuantity !== null
-        ) {
-            customerQuantity = 1;
+        if (!modal) {
+            let customerQuantity = '';
+            if (metadata !== undefined) {
+                customerQuantity = metadata.customerQuantity;
+            } else {
+                customerQuantity = 1;
+            }
+            updateCartMetadata({
+                customerQuantity: customerQuantity
+            })
         }
-        updateCartMetadata({
-            customerQuantity: customerQuantity
-        })
     }
     const toggle1 = () => setModal1(!modal1);
     const toggleConfirm = () => setModalComfirm(!modalConfirm);
@@ -431,7 +430,7 @@ export default function Cart(props) {
                                             <div>
                                                 <b>Vui lòng kiểm tra lại đơn hàng trước khi thực hiện thanh toán.<br /><br /></b>
                                                 <span className="od-dish-item-total">Tổng tiền đơn hàng: {formatCurrency(cartTotal)} VNĐ</span><br /><br />
-                                                Số tiền phải thanh toán là <b>{formatCurrency(cartTotal * 0.1) + ' VNĐ'}</b>. 
+                                                Số tiền phải thanh toán là <b>{formatCurrency(cartTotal * 0.1) + ' VNĐ'}</b>.
                                                 Bạn phải thanh toán cọc <b>10%</b> tổng tiền của đơn hàng.
                                             </div>
                                             <hr />
@@ -468,9 +467,19 @@ export default function Cart(props) {
                                 </Container>
                             </ModalBody>
                             <ModalFooter>
-                                <Button color="success" onClick={() => {
-                                    onSubmitCart();
-                                }}>Thanh toán</Button>{' '}
+                                <Button color="success" onClick={toggleConfirm}>Thanh toán</Button>{' '}
+                                <Modal isOpen={modalConfirm} toggle={toggleConfirm} className="cart-modal">
+                                    <ModalHeader toggle={toggleConfirm}>Thông báo</ModalHeader>
+                                    <ModalBody>
+                                        Bạn có chắc chắn thanh toán đơn hàng này ?
+                                    </ModalBody>
+                                    <ModalFooter>
+                                        <Button color="success" onClick={() => {
+                                            onSubmitCart();
+                                        }}>Đồng ý</Button>
+                                        <Button color="secondary" onClick={toggleConfirm}>Quay lại</Button>
+                                    </ModalFooter>
+                                </Modal>
                                 <Button color="secondary" onClick={toggle1}>Quay lại</Button>
                             </ModalFooter>
                         </Modal>
@@ -579,20 +588,6 @@ export default function Cart(props) {
                         </Form>
                     </ModalBody>
                     <ModalFooter className="cart-footer">
-                        {/* <Modal isOpen={modalConfirm} toggle={toggleConfirm} className="cart-modal">
-                            <ModalHeader toggle={toggleConfirm}>Thông báo</ModalHeader>
-                            <ModalBody>
-                                Bạn có muốn lưu thay đổi ?
-                            </ModalBody>
-                            <ModalFooter>
-                                <Button color="success" onClick={(e) => {
-                                    e.preventDefault();
-                                    console.log(document.getElementById("cart-form"))
-                                    document.getElementById("cart-form").onSubmit();
-                                }}>Lưu</Button>
-                                <Button color="secondary" onClick={toggleConfirm}>Trở lại</Button>
-                            </ModalFooter>
-                        </Modal> */}
                         <div>
                             {/* <Button onClick={toggleConfirm} color="success">Thanh toán</Button>{' '} */}
                             <Button color="secondary" onClick={toggle}>Trở lại</Button>

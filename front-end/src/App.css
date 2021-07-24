@@ -874,15 +874,29 @@ hr {
   -moz-appearance: textfield;
 }
 
+.success,
+.cancel {
+  margin-top: 150px !important;
+}
+
+.success > div,
+.cancel > div {
+  margin: 10px 0;
+  font-size: 2rem;
+  font-weight: 499;
+}
+
 .icon-success {
-  width: 50px;
-  height: 50px;
-  color: #0aa30a;
+  margin: 10px 0;
+  width: 130px;
+  height: 130px;
+  color: var(--color-primary);
 }
 
 .icon-cancel {
-  width: 50px;
-  height: 50px;
+  margin: 10px 0;
+  width: 130px;
+  height: 130px;
   color: #d81515e6;
 }
 
@@ -2557,6 +2571,11 @@ tr > td:nth-child(6) {
   font-size: 2rem;
 }
 
+.icon-not-found {
+  width: 100px;
+  height: 100px;
+  color: rgb(0, 0, 0);
+}
 /*=============================================== FOOTER ===========================================*/
 footer {
   width: 100%;

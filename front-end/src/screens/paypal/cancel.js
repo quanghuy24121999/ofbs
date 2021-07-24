@@ -22,10 +22,13 @@ export default function Cancel() {
     }, [orderId]);
 
     return (
-        <Container>
-            <FaExclamationCircle className="icon-cancel"/>
-            <h3>Đã hủy thanh toán</h3>
-            <a href="/">Về trang chủ</a>
-        </Container>
+        <div>
+            <Container className="cancel">
+                <div>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi !</div>
+                <FaExclamationCircle className="icon-cancel" />
+                <h5>Đã hủy thanh toán</h5>
+                <a href="/">Về trang chủ</a>
+            </Container>
+        </div>
     )
 }

@@ -43,6 +43,10 @@ export default function Info() {
     }, [currentPage])
 
     const search = () => {
+        if (currentPage > 0) {
+            setCurrentPage(0);
+            setOffset(0);
+        }
         receivedData(status, paymentCode, fromDate, toDate);
     }
 

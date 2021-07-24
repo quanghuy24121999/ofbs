@@ -1,5 +1,5 @@
 import { api, url } from '../../config/axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Button, Modal, ModalHeader, Form,
     ModalBody, ModalFooter, Label, Input,
@@ -37,16 +37,15 @@ export default function MyRestaurantServiceItem(props) {
     const [imageId, setImageId] = useState('');
     const [images, setImages] = useState([]);
 
-    api.get(`/services/getServiceCategories`)
-        .then(res => {
-            setCategories(res.data);
-        })
-
     const toggle = () => {
         setImageId(service.image_service_id);
         setModal(!modal);
 
         if (modal === false) {
+            api.get(`/services/getServiceCategories`)
+                .then(res => {
+                    setCategories(res.data);
+                })
             api.get(`/services/getServiceById?serviceId=${service.id}`)
                 .then(res => {
                     let service = res.data;

@@ -30,6 +30,10 @@ export default function RestaurantView(props) {
     }, [currentPage])
 
     const search = () => {
+        if (currentPage > 0) {
+            setCurrentPage(0);
+            setOffset(0);
+        }
         receivedData(nameSearch, statusSearch);
     }
 

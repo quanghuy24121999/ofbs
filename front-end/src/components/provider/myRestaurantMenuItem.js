@@ -45,16 +45,15 @@ export default function MyRestaurantMenuItem(props) {
         setImages(imageList);
     };
 
-    api.get(`/dishes/getCategories`)
-        .then(res => {
-            setCategories(res.data)
-        })
-
     const toggle = () => {
         setImageId(dish.image_dish_id);
         setModal(!modal);
 
         if (modal === false) {
+            api.get(`/dishes/getCategories`)
+            .then(res => {
+                setCategories(res.data)
+            })
             api.get(`/dishes/getDishesById?dishId=${dish.id}`)
                 .then(res => {
                     let dish = res.data;

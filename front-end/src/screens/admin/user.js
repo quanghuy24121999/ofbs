@@ -42,6 +42,10 @@ export default function User() {
     }, [currentPage, users.length])
 
     const search = () => {
+        if (currentPage > 0) {
+            setCurrentPage(0);
+            setOffset(0);
+        }
         receivedData(name, phone, status);
     }
 

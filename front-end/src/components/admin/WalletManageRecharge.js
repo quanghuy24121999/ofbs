@@ -46,6 +46,10 @@ export default function WalletManageRecharge() {
     };
 
     const search = () => {
+        if (currentPage > 0) {
+            setCurrentPage(0);
+            setOffset(0);
+        }
         receivedData(paymentCode, fromDate, toDate);
     }
 
