@@ -444,7 +444,7 @@ export default class userProfile extends Component {
                 </div>
                 <Container>
                     <Row className="user-profile">
-                        <Col lg="4" md="4" sm="12" className="user-section-1">
+                        <Col lg="6" md="6" sm="12" className="user-section-1">
                             <ImageUploading
                                 value={images}
                                 onChange={this.onChange}
@@ -488,7 +488,7 @@ export default class userProfile extends Component {
                             <div className="username">{user.user_name}</div>
                             <div className="user-phone-number">{user.phone_number}</div>
                         </Col>
-                        <Col lg="8" md="8" sm="12" className="user-section-2">
+                        <Col lg="6" md="6" sm="12" className="user-section-2">
                             <Row>
                                 <div className="user-username">
                                     <div>Tên người dùng:</div>

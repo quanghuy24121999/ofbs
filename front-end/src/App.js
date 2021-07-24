@@ -57,6 +57,7 @@ import {
   ProtectedRouteAdmin, ProtectedRouteCustomer, ProtectedRouteLogin,
   ProtectedRouteCustomerRestaurant
 } from './common/checkAuthen';
+import { Notify } from './common/notify';
 
 
 let hours = 2; // Reset when storage is more than 2hours
@@ -65,8 +66,10 @@ let setupTime = localStorage.getItem('setTime');
 
 class App extends Component {
   render() {
-    (now - setupTime > hours * 60 * 60 * 1000) &&
+    (now - setupTime > hours * 60 * 60 * 1000) && (
       localStorage.clear()
+      && Notify('Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại', 'error', 'top-right')
+    )
     return (
       <CartProvider>
         <Router>

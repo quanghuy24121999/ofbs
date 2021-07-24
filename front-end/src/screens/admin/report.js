@@ -58,7 +58,7 @@ export default function Report() {
                     </div>
                 </div>
                 <Container>
-                    <h3>Báo cáo của khách hàng</h3>
+                    <h4>Báo cáo của khách hàng</h4>
                     <hr />
                     <Table className="report-table">
                         <thead>

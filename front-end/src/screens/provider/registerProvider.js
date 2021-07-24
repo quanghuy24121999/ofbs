@@ -228,10 +228,10 @@ export default class registerPromotion extends Component {
         if (this.checkRequire()) {
             if (this.checkCodeExist() === true) {
                 if (!validateUsername(restaurantName)) {
-                    Notify('Tên nhà hàng quá dài', 'error', 'top-right');
+                    Notify('Tên nhà hàng quá dài (nhỏ hơn 100 ký tự)', 'error', 'top-right');
                     return false;
                 } else if (!validateUsername(restaurantAddress)) {
-                    Notify('Tên địa chỉ quá dài', 'error', 'top-right');
+                    Notify('Tên địa chỉ quá dài (nhỏ hơn 100 ký tự)', 'error', 'top-right');
                     return false;
                 } else if (!validateCapacity(restaurantSize)) {
                     Notify('Sức chứa quá lớn', 'error', 'top-right');

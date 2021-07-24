@@ -12,7 +12,7 @@ import { api, url } from '../../config/axios';
 import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
 import RestaurantAvater from '../../images/default-restaurant.png';
-import { validateCapacity, validateEmpty, validatePhoneNumber, validateUsername } from '../../common/validate';
+import { validateCapacity, validateDescription, validateECapacity, validateEmpty, validatePhoneNumber, validateUsername } from '../../common/validate';
 import { Notify } from '../../common/notify';
 
 let restaurantId = '';
@@ -135,7 +135,7 @@ export default class myRestaurantDetail extends Component {
                     restaurantDescription: restaurant.description,
                     restaurantBusinessCode: restaurant.bussinessLicenseId
                 }, () => {
-                    let statusName = this.state.restaurantStatus.name; console.log(statusName)
+                    let statusName = this.state.restaurantStatus.name; 
                     let tempObj = { id: '', name: '' }
                     let tempArr = [];
                     let count = 0;
@@ -285,22 +285,25 @@ export default class myRestaurantDetail extends Component {
         checkbox = document.getElementById('cb-accept');
         if (checkbox !== '' && checkbox !== undefined) {
             if (!validateEmpty(restaurantName)) {
-                Notify('Tên nhà hàng không được để trống', 'error', 'top-right');
+                Notify('Vui lòng nhập tên nhà hàng', 'error', 'top-right');
                 return false;
             } else if (!validateEmpty(restaurantAddress)) {
-                Notify('Địa chỉ không được để trống', 'error', 'top-right');
+                Notify('Vui lòng nhập địa chỉ ', 'error', 'top-right');
                 return false;
             } else if (!validateEmpty(restaurantPhone)) {
                 Notify('Số điện thoại không được để trống', 'error', 'top-right');
                 return false;
-            } else if (!validateEmpty(restaurantSize)) {
-                Notify('Sức chứa không được để trống', 'error', 'top-right');
+            } else if (!validateEmpty(restaurantSize.trim()) || restaurantSize === '0') {
+                Notify('Sức chứa không được để trống hoặc sai định dạng', 'error', 'top-right');
                 return false;
             } else if (!validateEmpty(restaurantBusinessCode)) {
                 Notify('Mã giấy phép kinh doanh không được để trống', 'error', 'top-right');
                 return false;
             } else if (!validateEmpty(restaurantDescription)) {
-                Notify('Mô tả không được để trống', 'error', 'top-right');
+                Notify('Vui lòng nhập mô tả', 'error', 'top-right');
+                return false;
+            } else if (validateEmpty(restaurantDescription) && !validateDescription(restaurantDescription)) {
+                Notify('Mô tả quá dài (nhỏ hơn 2000 ký tự)', 'error', 'top-right');
                 return false;
             } else {
                 return true;
@@ -322,6 +325,9 @@ export default class myRestaurantDetail extends Component {
                 return false;
             } else if (!validatePhoneNumber(restaurantPhone)) {
                 Notify('Số điện thoại sai định dạng', 'error', 'top-right');
+                return false;
+            } else if (!validateECapacity(restaurantSize)) {
+                Notify('Sức chứa sai định dạng', 'error', 'top-right');
                 return false;
             } else if (!validateCapacity(restaurantSize)) {
                 Notify('Sức chứa quá lớn', 'error', 'top-right');

@@ -202,7 +202,7 @@ export default class myRestaurantService extends Component {
                             .then(res => {
                                 let count = 0
                                 res.data.forEach(service => {
-                                    if (name === service.service_name) {
+                                    if (name.trim() === service.service_name.trim()) {
                                         count = count + 1;
                                     }
                                 });
@@ -226,7 +226,7 @@ export default class myRestaurantService extends Component {
                                         Notify("Thêm dịch vụ thành công", "success", "top-right");
                                     })
                                 } else {
-                                    Notify("Dịch vụ này đã tồn tại", "error", "top-right");
+                                    Notify("Tên dịch vụ đã tồn tại trong nhà hàng", "error", "top-right");
                                 }
                             })
                     })
