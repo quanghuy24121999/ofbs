@@ -618,8 +618,9 @@ label {
 }
 
 .balance {
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: 500;
+  color: var(--color-primary);
 }
 
 .wallet-row {
@@ -688,9 +689,7 @@ label {
 .form-recharge {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  margin-top: 30px;
 }
 
 .form-recharge > div {
@@ -723,17 +722,47 @@ label {
   display: none;
   flex-direction: column;
   justify-content: center;
+  padding: 0;
+  list-style: inside;
 }
 
 #address {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: 0;
+  list-style: inside;
 }
 
 .content {
   height: 100px;
   width: 100%;
+}
+
+.recharge {
+  padding: 20px;
+  border-radius: 3px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.recharge-title {
+  align-self: center;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.type-recharge {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.bank-info-title {
+  font-weight: 500;
+}
+
+.description-withdrawal {
+  margin-top: 10px;
 }
 
 /*================================================ CART ================================================*/
@@ -874,15 +903,29 @@ hr {
   -moz-appearance: textfield;
 }
 
+.success,
+.cancel {
+  margin-top: 150px !important;
+}
+
+.success > div,
+.cancel > div {
+  margin: 10px 0;
+  font-size: 2rem;
+  font-weight: 499;
+}
+
 .icon-success {
-  width: 50px;
-  height: 50px;
-  color: #0aa30a;
+  margin: 10px 0;
+  width: 130px;
+  height: 130px;
+  color: var(--color-primary);
 }
 
 .icon-cancel {
-  width: 50px;
-  height: 50px;
+  margin: 10px 0;
+  width: 130px;
+  height: 130px;
   color: #d81515e6;
 }
 
@@ -2557,6 +2600,11 @@ tr > td:nth-child(6) {
   font-size: 2rem;
 }
 
+.icon-not-found {
+  width: 100px;
+  height: 100px;
+  color: rgb(0, 0, 0);
+}
 /*=============================================== FOOTER ===========================================*/
 footer {
   width: 100%;

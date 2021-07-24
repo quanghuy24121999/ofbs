@@ -61,7 +61,7 @@ export default function Success() {
                         },
                         url: `/orders/updateStatus?orderId=${orderId}&status=pending`
                     }).then(res => {
-                        Notify('Đặt hàng thành công', 'success', 'top-right');
+                        Notify('Thanh toán thành công', 'success', 'top-right');
                         localStorage.removeItem("orderId");
                     })
                 }
@@ -69,10 +69,13 @@ export default function Success() {
 
     }, [paymentHistoryId, orderId]);
     return (
-        <Container>
-            <FaCheckCircle className="icon-success" />
-            <h3>Thanh toán thành công</h3>
-            <a href="/">Về trang chủ</a>
-        </Container>
+        <div>
+            <Container className="success">
+                <div>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi !</div>
+                <FaCheckCircle className="icon-success" />
+                <h5>Thanh toán thành công</h5>
+                <a href="/">Về trang chủ</a>
+            </Container>
+        </div>
     )
 }

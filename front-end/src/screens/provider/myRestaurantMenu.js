@@ -61,7 +61,6 @@ export default class myRestaurantMenu extends Component {
             .then(res => {
                 this.setState({ categories: res.data })
             })
-
         this.receivedData(0, '');
     }
 
@@ -205,7 +204,10 @@ export default class myRestaurantMenu extends Component {
         }
     }
 
-    toggle() { this.setState({ modal: !this.state.modal }) };
+    toggle() {
+        this.setState({ modal: !this.state.modal });
+        
+    };
 
     onChange = (imageList, addUpdateIndex) => {
         this.setState({ images: imageList });

@@ -106,8 +106,8 @@ export default function Withdrawal() {
         <Container className="wallet-recharge">
             <Row >
                 <Col>
-                    <FormGroup tag="fieldset">
-                        <h6>Chọn phương thức rút tiền</h6>
+                    <FormGroup tag="fieldset" className="recharge">
+                        <div className="recharge-title">Chọn phương thức rút tiền</div>
                         <FormGroup check>
                             <Label check>
                                 <Input
@@ -119,12 +119,12 @@ export default function Withdrawal() {
                                         showContent(0);
                                     }}
                                 />{' '}
-                                Rút tiền bằng tiền mặt
+                                <span className="type-recharge">Rút tiền bằng tiền mặt</span>
                             </Label>
-                            <div id="address">
-                                <div>Địa chỉ: Khu công nghệ cao Hòa Lạc – Km29, ĐCT08, Thạch Hoà, Thạch Thất, Hà Nội</div>
-                                <div>Số điện thoại: 0368020200</div>
-                            </div>
+                            <ul id="address">
+                                <li><span className="bank-info-title">Địa chỉ:</span> Khu công nghệ cao Hòa Lạc – Km29, ĐCT08, Thạch Hoà, Thạch Thất, Hà Nội</li>
+                                <li><span className="bank-info-title">Số điện thoại:</span> 0368020200</li>
+                            </ul>
                         </FormGroup>
                         <FormGroup check>
                             <Label check>
@@ -137,13 +137,13 @@ export default function Withdrawal() {
                                         showContent(1);
                                     }}
                                 />{' '}
-                                Rút tiền bằng chuyển khoản qua ngân hàng
-                                <div id="bank-info">
-                                    <div>Vui lòng ghi thông tin tài khoản ngân hàng theo mẫu:
+                                <span className="type-recharge">Rút tiền bằng chuyển khoản qua ngân hàng</span>
+                                <ul id="bank-info">
+                                    <li><span className="bank-info-title">Vui lòng ghi thông tin tài khoản ngân hàng theo mẫu:</span>
                                         <i> Tên ngân hàng + Tên chủ tài khoản ngân hàng + Số số tài khoản ngân hàng + Số điện thoại + Rút tiền ví FBS. </i><br />
-                                        Ví dụ: TP Bank, Nguyen Quang Huy, 02923354901, 0368020200, rut tien vi FBS.
-                                    </div>
-                                    <div>
+                                    </li>
+                                    <li><span className="bank-info-title">Ví dụ: </span>TP Bank, Nguyen Quang Huy, 02923354901, 0368020200, rut tien vi FBS.</li>
+                                    <div className="description-withdrawal">
                                         <Input
                                             className="content"
                                             type="textarea"
@@ -152,7 +152,7 @@ export default function Withdrawal() {
                                             placeholder="Nhập thông tin tài khoản ngân hàng"
                                         />
                                     </div>
-                                </div>
+                                </ul>
                             </Label>
                         </FormGroup>
                     </FormGroup>
@@ -168,7 +168,11 @@ export default function Withdrawal() {
                     />
                     <Button color="success" onClick={() => {
                         if (parseFloat(money) > 0 && money !== '') {
-                            toggle();
+                            if (content.trim() !== '') {
+                                toggle();
+                            } else {
+                                Notify('Vui lòng nhập thông tin tài khoản ngân hàng của bạn', 'error', 'top-right');
+                            }
                         } else {
                             Notify('Vui lòng nhập số tiền cần rút', 'error', 'top-right');
                         }

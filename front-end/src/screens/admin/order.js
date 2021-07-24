@@ -74,6 +74,10 @@ function Order() {
     }
 
     const search = () => {
+        if (currentPage > 0) {
+            setCurrentPage(0);
+            setOffset(0);
+        }
         receivedData(orderCode, from, to, status);
     }
 

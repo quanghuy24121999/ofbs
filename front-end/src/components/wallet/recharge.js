@@ -35,6 +35,9 @@ export default function Recharge() {
         } else if (type === 1) {
             document.getElementById('bank-info').style.display = 'flex';
             document.getElementById('address').style.display = 'none';
+        } else if (type === 2) {
+            document.getElementById('bank-info').style.display = 'none';
+            document.getElementById('address').style.display = 'none';
         }
     }
 
@@ -67,6 +70,7 @@ export default function Recharge() {
                             'success', 'top-right'
                         );
                         toggle();
+                        setMoney(0);
                     })
 
                 })
@@ -196,9 +200,10 @@ export default function Recharge() {
     return (
         <Container className="wallet-recharge">
             <Row>
-                <Col>
-                    <FormGroup tag="fieldset">
-                        <h6>Chọn phương thức nạp tiền</h6>
+                <Col lg="6" md="6" sm="12">
+                    <FormGroup tag="fieldset" className="recharge">
+                        <div className="recharge-title">Chọn phương thức nạp tiền</div>
+                        <hr />
                         <FormGroup check>
                             <Label check>
                                 <Input
@@ -210,12 +215,12 @@ export default function Recharge() {
                                         showContent(0);
                                     }}
                                 />{' '}
-                                Nạp tiền bằng tiền mặt
+                                <span className="type-recharge">Nạp tiền bằng tiền mặt</span>
                             </Label>
-                            <div id="address">
-                                <div>Địa chỉ: Khu công nghệ cao Hòa Lạc – Km29, ĐCT08, Thạch Hoà, Thạch Thất, Hà Nội</div>
-                                <div>Số điện thoại: 0368020200</div>
-                            </div>
+                            <ul id="address">
+                                <li><span className="bank-info-title">Địa chỉ: </span>Khu công nghệ cao Hòa Lạc – Km29, ĐCT08, Thạch Hoà, Thạch Thất, Hà Nội</li>
+                                <li><span className="bank-info-title">Số điện thoại:</span> 0368020200</li>
+                            </ul>
                         </FormGroup>
                         <FormGroup check>
                             <Label check>
@@ -228,17 +233,17 @@ export default function Recharge() {
                                         showContent(1);
                                     }}
                                 />{' '}
-                                Nạp tiền bằng chuyển khoản qua ngân hàng
-                                <div id="bank-info">
-                                    <div>Ngân hàng: Tien Phong Bank (TPBank)</div>
-                                    <div>Số tài khoản: 02923354901</div>
-                                    <div>Tên chủ tài khoản: Nguyễn Quang Huy</div>
-                                    <div>Số điện thoại: 0368020200</div>
-                                    <div>Nội dung chuyển tiền (vui lòng ghi theo mẫu):
+                                <span className="type-recharge">Nạp tiền bằng chuyển khoản qua ngân hàng</span>
+                                <ul id="bank-info">
+                                    <li><span className="bank-info-title">Ngân hàng:</span> Tien Phong Bank (TPBank)</li>
+                                    <li><span className="bank-info-title">Số tài khoản:</span> 02923354901</li>
+                                    <li><span className="bank-info-title">Tên chủ tài khoản:</span> Nguyễn Quang Huy</li>
+                                    <li><span className="bank-info-title">Số điện thoại:</span> 0368020200</li>
+                                    <li><span className="bank-info-title">Nội dung chuyển tiền (vui lòng ghi theo mẫu):</span>
                                         <i> Tên tài khoản FBS + số điện thoại đăng ký FBS + nạp tiền ví FBS. </i>
                                         Ví dụ: Nguyen Quang Huy 0368020200 nap tien vi FBS.
-                                    </div>
-                                </div>
+                                    </li>
+                                </ul>
                             </Label>
                         </FormGroup>
                         <FormGroup check>
@@ -252,12 +257,12 @@ export default function Recharge() {
                                         showContent(2);
                                     }}
                                 />{' '}
-                                Nạp tiền bằng ví Paypal
+                                <span className="type-recharge">Nạp tiền bằng ví Paypal</span>
                             </Label>
                         </FormGroup>
                     </FormGroup>
                 </Col>
-                <Col className="form-recharge">
+                <Col lg="6" md="6" sm="12" className="form-recharge">
                     <div>Nhập số tiền muốn nạp (VNĐ)</div>
                     <Input
                         type="number"

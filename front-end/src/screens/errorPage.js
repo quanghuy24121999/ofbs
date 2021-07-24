@@ -3,6 +3,7 @@ import { Container } from 'reactstrap';
 
 import TopMenu from '../components/common/topMenu';
 import Footer from '../components/common/footer';
+import { FaExclamationTriangle } from 'react-icons/fa';
 
 export default class errorPage extends Component {
     render() {
@@ -10,9 +11,10 @@ export default class errorPage extends Component {
             <div className="not-found">
                 <TopMenu />
                 <Container className="not-found-content">
-                    <div>Trang này không tồn tại !!!</div>
+                    <div><FaExclamationTriangle className="icon-not-found" /></div>
+                    <div>Trang này không tồn tại !</div>
                 </Container>
-                <Footer/>
+                <Footer />
             </div>
         )
     }

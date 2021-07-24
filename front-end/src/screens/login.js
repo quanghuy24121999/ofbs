@@ -49,7 +49,6 @@ class login extends Component {
             Notify('Tài khoản của bạn đã bị chặn. Vui lòng liên hệ với admin qua messenger để được hỗ trợ', 'error', 'top-right');
           } else {
             if (res.data.user.role.id === 1) {
-              Notify("Đăng nhập thành công !", "success", "top-right");
               localStorage.setItem('currentAdmin', phone);
               localStorage.setItem('token', res.data.token);
               localStorage.setItem('setTime', new Date().getTime());

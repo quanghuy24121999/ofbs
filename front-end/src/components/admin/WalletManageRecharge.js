@@ -46,6 +46,10 @@ export default function WalletManageRecharge() {
     };
 
     const search = () => {
+        if (currentPage > 0) {
+            setCurrentPage(0);
+            setOffset(0);
+        }
         receivedData(paymentCode, fromDate, toDate);
     }
 
@@ -68,7 +72,7 @@ export default function WalletManageRecharge() {
                         const data = res.data;
                         const slice = data.slice(offset, offset + perPage)
                         const historyPaging = slice.map((history, index) => {
-                            return <HistoryItem key={index} history={history} type='charge'/>
+                            return <HistoryItem key={index} history={history} type='charge' receivedData={receivedData}/>
                         })
 
                         setHistory(historyPaging);

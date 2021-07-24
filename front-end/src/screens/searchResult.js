@@ -114,7 +114,6 @@ export default class searchResult extends Component {
 
     onSubmit(e) {
         e.preventDefault();
-        console.log(localStorage.getItem('restaurantText'))
         this.setState({
             currentPage: 0,
             offset: 0
