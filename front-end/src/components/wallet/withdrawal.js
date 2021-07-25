@@ -170,8 +170,10 @@ export default function Withdrawal() {
                         if (parseFloat(money) > 0 && money !== '') {
                             if (content.trim() !== '') {
                                 toggle();
-                            } else {
+                            } else if (active === 1) {
                                 Notify('Vui lòng nhập thông tin tài khoản ngân hàng của bạn', 'error', 'top-right');
+                            } else {
+                                toggle();
                             }
                         } else {
                             Notify('Vui lòng nhập số tiền cần rút', 'error', 'top-right');

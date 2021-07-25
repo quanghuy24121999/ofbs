@@ -57,7 +57,7 @@ export default function RestaurantView(props) {
                 const data = res.data;
                 const slice = data.slice(offset, offset + perPage)
                 const restaurantPaging = slice.map((restaurant, index) => {
-                    return <RestaurantItem receivedData={receivedData} key={index} restaurant={restaurant} count={index + 1} isPending={false} />
+                    return <RestaurantItem receivedData={receivedData} key={index} restaurant={restaurant} count={index + 1} isPending={false} currentPage={currentPage}/>
                 })
 
                 setRestaurants(restaurantPaging);

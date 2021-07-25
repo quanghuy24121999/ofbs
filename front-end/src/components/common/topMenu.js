@@ -99,7 +99,7 @@ const TopMenu = () => {
                                         <div className="notification-list">
                                             {
                                                 notifications.length > 0 ? (notifications.map((notification, index) => {
-                                                    return <NotificationItem key={index} notification={notification} />
+                                                    return <NotificationItem key={index} notification={notification} loadData={loadData}/>
                                                 })) : (
                                                     <h5>Không có thông báo nào </h5>
                                                 )

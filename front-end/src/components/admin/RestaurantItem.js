@@ -4,13 +4,13 @@ import {
     ModalFooter
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { FaEye } from 'react-icons/fa';
 import { api } from '../../config/axios';
 
 export default function RestaurantItem(props) {
     const restaurant = props.restaurant;
     const count = props.count;
     const isPending = props.isPending;
+    let currentPage = props.currentPage;
     const status = restaurant.restaurant_status;
 
     let restaurantStatus = restaurant.restaurant_status;
@@ -175,7 +175,11 @@ export default function RestaurantItem(props) {
 
     return (
         <tr>
-            <td>{count}</td>
+            <td>
+                {
+                    (currentPage === 0 ? count : count + 10 * currentPage)
+                }
+            </td>
             <td>{restaurant.restaurant_name}</td>
             <td>{restaurant.restaurant_type}</td>
             <td>{restaurant.province}</td>

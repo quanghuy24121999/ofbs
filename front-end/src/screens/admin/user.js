@@ -71,7 +71,7 @@ export default function User() {
                 const data = res.data;
                 const slice = data.slice(offset, offset + perPage)
                 const userPaging = slice.map((user, index) => {
-                    return <UserItem receivedData={receivedData} key={index} user={user} count={index + 1} />
+                    return <UserItem receivedData={receivedData} key={index} user={user} count={index + 1} currentPage={currentPage}/>
                 })
 
                 setUsers(userPaging);

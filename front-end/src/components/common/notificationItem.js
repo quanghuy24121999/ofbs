@@ -27,21 +27,23 @@ export default function NotificationItem(props) {
         link = '/users/profile/wallet';
     }
 
-        const read = () => {
-            api.get(`/notifications/getNotificationById?id=${notification.id}`)
-                .then(res => {
-                    const notification = res.data;
-                    api.post(`/notifications/insertNotification`, {
-                        "id": notification.id,
-                        "content": notification.content,
-                        "customer": notification.customer,
-                        "provider": notification.provider,
-                        "forAdmin": notification.forAdmin,
-                        "type": notification.type,
-                        "read": true
-                    });
-                })
-        }
+    const read = () => {
+        api.get(`/notifications/getNotificationById?id=${notification.id}`)
+            .then(res => {
+                const notification = res.data;
+                api.post(`/notifications/insertNotification`, {
+                    "id": notification.id,
+                    "content": notification.content,
+                    "customer": notification.customer,
+                    "provider": notification.provider,
+                    "forAdmin": notification.forAdmin,
+                    "type": notification.type,
+                    "read": true
+                });
+            }).then(() => {
+                props.loadData();
+            })
+    }
 
     return (
         <Link
