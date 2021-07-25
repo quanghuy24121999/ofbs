@@ -45,7 +45,7 @@ export default function RestaurantDetail(props) {
                     setStatus('Đang chờ duyệt');
                 }
             })
-    })
+    }, [restaurantId])
 
     let image;
     if (restaurantAvatar === '') {

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import SlideBar from '../../components/admin/SlideBar';
 import { FaBars } from 'react-icons/fa';
@@ -27,7 +28,7 @@ export default function RestaurantCombo(props) {
     useEffect(() => {
         window.scrollTo(0, 0);
         receivedData();
-    }, [currentPage, combos]);
+    }, [currentPage]);
 
     const handlePageClick = (e) => {
         const selectedPage = e.selected;
@@ -44,7 +45,7 @@ export default function RestaurantCombo(props) {
                 const data = res.data;
                 const slice = data.slice(offset, offset + perPage)
                 const combosPaging = slice.map((combo, index) => {
-                    return <RestaurantComboItem key={index} combo={combo} count={index + 1} restaurantId={restaurantId} />
+                    return <RestaurantComboItem key={index} combo={combo} count={index + 1} restaurantId={restaurantId} receivedData={receivedData}/>
                 })
 
                 setCombos(combosPaging);

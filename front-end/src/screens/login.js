@@ -67,7 +67,6 @@ class login extends Component {
             }
           }
         }).catch((error) => {
-          console.log(error)
           Notify("Tài khoản hoặc mật khẩu không chính xác !", "error", "top-right");
         });
     } else {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    Nav, NavItem, Container, Row, Col, Table,
+    Nav, NavItem, Container, Table,
     Label, Input, Button, Modal, ModalHeader,
     ModalBody, ModalFooter, Alert, CardImg, Form
 } from 'reactstrap';

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { Button, Container, Input, Table } from 'reactstrap';
 import { FaBars, FaSearch } from 'react-icons/fa';

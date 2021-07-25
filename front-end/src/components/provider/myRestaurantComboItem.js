@@ -1,3 +1,6 @@
+/* eslint-disable no-sequences */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import {
     Button, Modal, ModalHeader,
@@ -90,30 +93,22 @@ export default function MyRestaurantComboItem(props) {
     const toggle1 = () => {
         setModa1(!modal1);
         getDishes(0, '');
-        if (modal1 === true) {
-            api.get(`/dishes/getDishesByComboId?comboId=${combo.combo_id}`)
-                .then(res => {
-                    setDishModal(res.data);
-                })
-        }
     }
 
     const getDishes = (categoryId, nameSearch) => {
         api.get(`/dishes/getDishesByRestaurantId?restaurantId=${restaurantId}&categoryId=${categoryId}&dishName=${nameSearch}&statusId=1`)
             .then(res => {
                 const data = res.data;
-                // const slice = data.slice(offset, offset + perPage);
-                // setPageCount(Math.ceil(data.length / perPage));
                 setDishesPaging(data);
             })
     }
 
-    useEffect(() => {
+    const getDishByCombo = () => {
         api.get(`/dishes/getDishesByComboId?comboId=${combo.combo_id}`)
             .then(res => {
                 setDishModal(res.data);
             })
-    }, [dishesModal, modal, modal1]);
+    }
 
     useEffect(() => {
         getDishes(category, nameSearch);
@@ -169,7 +164,7 @@ export default function MyRestaurantComboItem(props) {
         } else if (!validateCapacity(price)) {
             Notify('Giá combo phải ít hơn 10 ký tự', 'error', 'top-right');
             return false;
-        } else if(!validateUsername(description.trim())) {
+        } else if (!validateUsername(description.trim())) {
             Notify('Vui lòng nhập mô tả combo', 'error', 'top-right');
             return false;
         } else {
@@ -352,8 +347,8 @@ export default function MyRestaurantComboItem(props) {
                                     {
                                         dishesModal && (
                                             dishesModal.map((dish, index) => {
-                                                priceDish = priceDish + dish.price;
-                                                return <DishComboItem key={index} dish={dish} combo={combo} count={index + 1} dishModal={dishesModal} />
+                                                priceDish = priceDish + parseFloat(dish.price);
+                                                return <DishComboItem key={index} dish={dish} combo={combo} count={index + 1} dishModal={dishesModal} getDishByCombo={getDishByCombo} />
                                             })
                                         )
                                     }
@@ -415,7 +410,7 @@ export default function MyRestaurantComboItem(props) {
                                         <tbody>
                                             {
                                                 dishesPaging && dishesPaging.map((dish, index) => {
-                                                    return <AddDishComboItem key={index} dish={dish} count={index + 1} combo={combo} dishModal={dishesModal} />
+                                                    return <AddDishComboItem key={index} dish={dish} count={index + 1} combo={combo} dishModal={dishesModal} getDishByCombo={getDishByCombo} />
                                                 })
                                             }
                                         </tbody>

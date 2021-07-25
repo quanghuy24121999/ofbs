@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import SlideBar from '../../components/admin/SlideBar';
 import { FaBars, FaSearch } from 'react-icons/fa';

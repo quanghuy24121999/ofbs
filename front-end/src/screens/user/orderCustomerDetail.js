@@ -55,7 +55,6 @@ export default class orderCustomerDetail extends Component {
                         }
                     } />
                 } else {
-                    console.log(res.data)
                     this.setState({
                         restaurantInfo: res.data[0],
                         orderDetailInfo: res.data[0],

@@ -6,7 +6,6 @@ import {
 } from 'reactstrap';
 import { FaEye } from 'react-icons/fa';
 import { api } from '../../config/axios';
-import { ToastContainer, toast } from 'react-toastify';
 
 import { formatDate, formatDateCheckRule, } from '../../common/formatDate';
 import { formatCurrency } from '../../common/formatCurrency';

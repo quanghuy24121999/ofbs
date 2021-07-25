@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import SlideBar from '../../components/admin/SlideBar';
 import { FaBars } from 'react-icons/fa';
@@ -27,7 +28,7 @@ export default function RestaurantDish(props) {
     useEffect(() => {
         window.scrollTo(0, 0);
         receivedData(0, '');
-    }, [currentPage, dishes]);
+    }, [currentPage]);
 
     const handlePageClick = (e) => {
         const selectedPage = e.selected;
@@ -45,7 +46,7 @@ export default function RestaurantDish(props) {
                 const data = res.data;
                 const slice = data.slice(offset, offset + perPage)
                 const dishesPaging = slice.map((dish, index) => {
-                    return <RestaurantDishItem key={index} dish={dish} count={index + 1} restaurantId={restaurantId} />
+                    return <RestaurantDishItem key={index} dish={dish} count={index + 1} restaurantId={restaurantId} receivedData={receivedData}/>
                 })
 
                 setDishes(dishesPaging);

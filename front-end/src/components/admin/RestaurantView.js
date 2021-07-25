@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import { FaSearch } from 'react-icons/fa';
 import ReactPaginate from 'react-paginate';

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useCart } from 'react-use-cart';
 import {
     Button, Modal, Badge, Input, Form,
@@ -31,7 +31,6 @@ export default function Cart(props) {
     const [period, setPeriod] = useState('Trưa');
     const [time, setTime] = useState('');
     const [note, setNote] = useState('');
-    const [linkPaypal, setLinkPaypal] = useState('');
 
     const toggle = () => {
         setModal(!modal);
@@ -59,8 +58,6 @@ export default function Cart(props) {
         cartTotal,
         updateCartMetadata,
         metadata,
-        updateItemQuantity,
-        removeItem,
         emptyCart
     } = useCart();
 
@@ -154,7 +151,6 @@ export default function Cart(props) {
                 window.location.replace(res.data);
                 // }
             }).catch(err => {
-                console.log(err)
             });
     }
 

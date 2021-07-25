@@ -123,14 +123,14 @@ const TopMenu = () => {
                                     </Link>
                                 </NavItem>
                                 <NavItem>
-                                    <Link className="link" onClick={toggle1}>Đăng xuất</Link>
+                                    <Button className="link" color="transparent" onClick={toggle1}>Đăng xuất</Button>
                                     <Modal isOpen={modal1} toggle={toggle1} className={``}>
                                         <ModalHeader toggle={toggle1}>Thông báo</ModalHeader>
                                         <ModalBody>
                                             Bạn có chắc chắn muốn đăng xuất ?
                                         </ModalBody>
                                         <ModalFooter>
-                                            <Link className="btn btn-success" onClick={logout} to="/">Đồng ý</Link>
+                                            <Button className="btn btn-success" onClick={logout} to="/">Đồng ý</Button>
                                             <Button color="secondary" onClick={toggle1}>Quay lại</Button>
                                         </ModalFooter>
                                     </Modal>

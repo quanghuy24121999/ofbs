@@ -7,6 +7,7 @@ import {
 import { FaEye } from 'react-icons/fa';
 import { api, url } from '../../config/axios';
 import { Notify } from '../../common/notify';
+import { formatCurrency } from '../../common/formatCurrency';
 
 export default function RestaurantDishItem(props) {
     const dish = props.dish;
@@ -65,9 +66,10 @@ export default function RestaurantDishItem(props) {
                 ).then(res => {
                     toggle();
                     toggle1();
-                    Notify('Gỡ món ăn thành công', 'success', 'top-left');
+                    Notify('Gỡ món ăn thành công', 'success', 'top-right');
+                    props.receivedData(0, '');
                 }).catch(res => {
-                    Notify('Gỡ món ăn không thành công', 'error', 'top-left');
+                    Notify('Gỡ món ăn không thành công', 'error', 'top-right');
                 })
             })
     }
@@ -76,7 +78,7 @@ export default function RestaurantDishItem(props) {
         <tr>
             <td>{count}</td>
             <td>{dish.dish_name}</td>
-            <td>{dish.price}</td>
+            <td>{formatCurrency(dish.price)}</td>
             <td>{dish.category_name}</td>
             <td>{statusDish}</td>
             <td>
@@ -121,7 +123,9 @@ export default function RestaurantDishItem(props) {
                     </Row>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="danger" onClick={toggle1}>Gỡ</Button>
+                    {
+                        statusDish !== 'Đã bị gỡ' && <Button color="danger" onClick={toggle1}>Gỡ</Button>
+                    }
                     <Modal isOpen={modal1} toggle={toggle1} className={``}>
                         <ModalHeader toggle={toggle1}>Thông báo</ModalHeader>
                         <ModalBody>

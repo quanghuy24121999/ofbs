@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    Nav, NavItem, Container, Row, Col, Table,
+    Nav, NavItem, Container, Table,
     Input, Button,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';

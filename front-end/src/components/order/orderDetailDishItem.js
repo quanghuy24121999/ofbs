@@ -24,7 +24,6 @@ export default function OrderDetailDishItem(props) {
                         {
                             listOrderDetails.map((item, index) => {
                                 if (item.dish_name) {
-                                    console.log(item)
                                     total += item.price * item.quantity;
                                     return (<tr key={index} className="od-dish-item">
                                         <th>{count++}</th>

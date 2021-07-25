@@ -68,7 +68,6 @@ export default function UserItem(props) {
             }
         })
             .then(res => {
-                console.log(res.data)
                 setUserDetail(res.data);
             })
     }

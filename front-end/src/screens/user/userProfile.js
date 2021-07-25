@@ -116,7 +116,7 @@ export default class userProfile extends Component {
         } else if (email !== '' && !validateEmail(email)) {
             Notify('Email sai định dạng', 'error', 'top-right');
             return false;
-        } else if (address !== '' &&!validateUsername(address)) {
+        } else if (address !== '' && !validateUsername(address)) {
             Notify('Địa chỉ quá dài (nhỏ hơn 100 ký tự)', 'error', 'top-right');
             return false;
         } else if (dob > formatDateForInput(new Date())) {
@@ -129,6 +129,7 @@ export default class userProfile extends Component {
 
     toggle() {
         this.setState({ modal: !this.state.modal })
+        this.setState({ nestedModal: this.state.modal })
     }
 
     toggleNested() {
@@ -231,8 +232,8 @@ export default class userProfile extends Component {
                     if (res.data.image_id === null) {
                         this.setState({ userImage: '' });
                     }
-                    this.toggle();
                     this.toggleNested();
+                    this.toggle();
                     Notify('Bạn đã lưu thành công', 'success', 'top-right');
                 }).catch(() => {
                     Notify('Cập nhật không thành công', 'error', 'top-right');
@@ -354,11 +355,12 @@ export default class userProfile extends Component {
                     <Modal isOpen={modal} toggle={this.toggle} className="">
                         <ModalHeader toggle={this.toggle}>Chỉnh sửa</ModalHeader>
                         <ModalBody>
-                            {/* <Form onSubmit={(event) => {
-                                event.preventDefault();
-                                this.onSubmit();
-                            }}> */}
-                            <Form id="myForm" noValidate={false}>
+                            <Form id="myForm" noValidate={false} onSubmit={(e) => {
+                                e.preventDefault();
+                                if (this.validate()) {
+                                    this.toggleNested();
+                                }
+                            }}>
                                 <Label for="username"><b>Tên người dùng <span className="require-icon">*</span></b></Label>
                                 <Input
                                     type="text"
@@ -392,7 +394,6 @@ export default class userProfile extends Component {
                                 <Input
                                     type="text"
                                     name="address"
-                                    id="address"
                                     onChange={this.onChangeAddress}
                                     value={address}
                                 />
@@ -418,18 +419,15 @@ export default class userProfile extends Component {
                                     value={dob}
                                     onChange={this.onChangeDob}
                                 />
-                                {/* <Input type="submit" value="Lưu" className="btn btn-success btn-save" /> */}
+                                <Input type="submit" value="Lưu lại" className="btn btn-success btn-save" />
                             </Form>
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="success" onClick={() => {
-                                if (this.validate()) {
-                                    this.toggleNested();
-                                }
-                            }}
+                            {/* <Button color="success" 
+                                type="submit"
                             >
                                 Lưu lại
-                            </Button>
+                            </Button> */}
                             <Button color="secondary" onClick={this.toggle}>Quay lại</Button>
                             <Modal isOpen={nestedModal} toggle={this.toggleNested} onClosed={closeAll ? this.toggle : undefined}>
                                 <ModalHeader>Thông báo</ModalHeader>

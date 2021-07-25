@@ -16,7 +16,6 @@ export default function MyRestaurantServiceItem(props) {
     const service = props.service;
     const restaurantId = props.restaurantId;
     let currentPage = props.currentPage;
-    let count = 1;
     let serviceStatus = service.status_name;
     if (serviceStatus === "active") {
         serviceStatus = 'Đang kinh doanh';

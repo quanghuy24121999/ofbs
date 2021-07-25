@@ -1,3 +1,4 @@
+/* eslint-disable no-sequences */
 import React, { Component } from 'react';
 import {
     Row, Col, NavItem, Nav, Container,
@@ -426,7 +427,7 @@ export default class myRestaurantDetail extends Component {
         const { provinces, districts, types, status, provinceCode, districtCode,
             restaurantAddress, restaurantBusinessCode, restaurantDescription,
             restaurantName, restaurantPhone, restaurantSize, restaurantType, modal,
-            modal1, restaurantStatus, restaurantAvatar, restaurantCertificate, images
+            restaurantStatus, restaurantAvatar, restaurantCertificate, images
         } = this.state;
 
         let image;
