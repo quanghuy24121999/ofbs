@@ -296,6 +296,7 @@ export default function MyRestaurantMenuItem(props) {
                                         type="number"
                                         name="price"
                                         id="price"
+                                        min={1000}
                                         placeholder="Nhập giá món ăn"
                                         onChange={onChangePrice}
                                         value={price}

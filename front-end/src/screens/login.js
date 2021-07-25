@@ -67,10 +67,10 @@ class login extends Component {
             }
           }
         }).catch((error) => {
-          Notify("Tài khoản hoặc mật khẩu không chính xác !", "error", "top-right");
+          Notify("Số điện thoại hoặc mật khẩu không chính xác", "error", "top-right");
         });
     } else {
-      Notify('Số điện thoại của bạn không đúng định dạng', 'error', 'top-right');
+      Notify('Số điện thoại sai định dạng', 'error', 'top-right');
     }
   }
 

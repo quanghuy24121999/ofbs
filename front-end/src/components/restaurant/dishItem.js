@@ -1,26 +1,28 @@
-import React, { useState } from 'react'
+import React from 'react';
 import {
     Button, Card, CardImg, CardBody,
-    CardTitle, CardText, Modal, ModalHeader,
-    ModalBody, ModalFooter
+    CardTitle, CardText
 } from 'reactstrap';
 import { useCart } from 'react-use-cart';
 import { formatCurrency } from '../../common/formatCurrency';
 import { url } from '../../config/axios';
+import { Notify } from '../../common/notify';
 
 export default function Dish(props) {
-    const [modal, setModal] = useState(false);
-    const toggle = () => setModal(!modal);
-
     const { addItem, items } = useCart();
     const dish = props.dish;
+    const user = localStorage.getItem('currentUser');
 
     const checkAddItem = (dish) => {
         if (items === undefined || items === null || items.length === 0
             || items[0].restaurant_id === dish.restaurant_id) {
-            addItem(dish);
+            if (user !== undefined && user !== null && user !== '') {
+                addItem(dish);
+            } else {
+                Notify('Bạn phải đăng nhập để thực hiện chức năng này', 'error', 'top-right');
+            }
         } else {
-            toggle();
+            Notify('Bạn phải hoàn tất thanh toán của nhà hàng khác trước khi thêm vào giỏ hàng', 'error', 'top-right');
         }
     }
 
@@ -36,15 +38,6 @@ export default function Dish(props) {
                     </Button>
                 </CardBody>
             </Card>
-            <Modal isOpen={modal} toggle={toggle} className={``}>
-                <ModalHeader toggle={toggle}>Thông báo</ModalHeader>
-                <ModalBody>
-                    Bạn phải hoàn tất thanh toán của nhà hàng khác trước khi thêm vào giỏ hàng !
-                </ModalBody>
-                <ModalFooter>
-                    <Button color="success" onClick={toggle}>Ok</Button>
-                </ModalFooter>
-            </Modal>
         </div>
     )
 }

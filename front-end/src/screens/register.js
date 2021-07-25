@@ -110,7 +110,7 @@ class register extends Component {
                             }
                         });
                 } else {
-                    Notify('Số điện thoại của bạn không đúng định dạng', 'error', 'top-right');
+                    Notify('Số điện thoại sai định dạng', 'error', 'top-right');
                 }
             } else {
                 Notify('Tên của bạn quá dài', 'error', 'top-right');

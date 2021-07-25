@@ -1,28 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import {
-    Button, Card, CardImg, Modal, ModalHeader,
-    ModalBody, ModalFooter
+    Button, Card, CardImg
 } from 'reactstrap';
 import { useCart } from 'react-use-cart';
 import { api, url } from '../../config/axios';
 import { formatCurrency } from '../../common/formatCurrency';
+import { Notify } from '../../common/notify';
 
 export default function ComboItem(props) {
     const { addItem, items } = useCart();
-
+    const user = localStorage.getItem('currentUser');
     const combo = props.combo;
     const comboId = props.comboId;
 
     const [dishes, setDishes] = useState([]);
-    const [modal, setModal] = useState(false);
-    const toggle = () => setModal(!modal);
 
     const checkAddItem = (combo) => {
         if (items === undefined || items === null || items.length === 0
             || items[0].restaurant_id === combo.restaurant_id) {
-            addItem(combo);
+            if (user !== undefined && user !== null && user !== '') {
+                addItem(combo);
+            } else {
+                Notify('Bạn phải đăng nhập để thực hiện chức năng này', 'error', 'top-right');
+            }
         } else {
-            toggle();
+            Notify('Bạn phải hoàn tất thanh toán của nhà hàng khác trước khi thêm vào giỏ hàng', 'error', 'top-right');
         }
     }
 
@@ -55,14 +57,5 @@ export default function ComboItem(props) {
         >
             Đặt ngay
         </Button>
-        <Modal isOpen={modal} toggle={toggle} className={``}>
-            <ModalHeader toggle={toggle}>Thông báo</ModalHeader>
-            <ModalBody>
-                Bạn phải hoàn tất thanh toán của nhà hàng khác trước khi thêm vào giỏ hàng !
-            </ModalBody>
-            <ModalFooter>
-                <Button color="success" onClick={toggle}>Ok</Button>
-            </ModalFooter>
-        </Modal>
     </Card>
 }

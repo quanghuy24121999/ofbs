@@ -312,6 +312,7 @@ export default function MyRestaurantComboItem(props) {
                                             type="number"
                                             name="price"
                                             id="price"
+                                            min={1000}
                                             placeholder="Nhập giá combo"
                                             onChange={onChangePrice}
                                             value={price}
