@@ -15,6 +15,7 @@ import { formatDate } from '../../common/formatDate';
 export default function UserItem(props) {
     const user = props.user;
     const count = props.count;
+    let currentPage = props.currentPage;
     let role = user.role.name;
     let status = user.status.name;
     let image = '';
@@ -98,7 +99,11 @@ export default function UserItem(props) {
 
     return (
         <tr>
-            <td>{count}</td>
+            <td>
+                {
+                    (currentPage === 0 ? count : count + 10 * currentPage)
+                }
+            </td>
             <td>{user.name}</td>
             <td>{user.phoneNumber}</td>
             <td>{role}</td>
