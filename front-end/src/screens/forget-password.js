@@ -85,7 +85,6 @@ export default class forgetPassword extends Component {
                                 document.getElementById('btn-forget-password').style.display = "none";
                             }).catch((error) => {
                                 recapcha.clear();
-                                console.log(error);
                                 Notify("Lỗi hệ thống !", "error", "top-right");
                             });
                     }
@@ -127,7 +126,6 @@ export default class forgetPassword extends Component {
                     })
                 })
                 .catch((error) => {
-                    console.log(error);
                     Notify("Mã OTP không chính xác !", "error", "top-right");
                     recapcha.clear();
                     window.location.reload();

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { FaBell } from "react-icons/fa";
 import {
     NavItem

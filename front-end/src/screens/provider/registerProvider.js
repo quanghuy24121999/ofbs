@@ -221,9 +221,8 @@ export default class registerPromotion extends Component {
 
     validate() {
         const { restaurantAddress, restaurantBusinessCode, restaurantName,
-            restaurantPhone, restaurantSize, restaurantDescription, user
+            restaurantSize, restaurantDescription
         } = this.state;
-        let checkPhone = this.validatePhoneExist();
 
         if (this.checkRequire()) {
             if (this.checkCodeExist() === true) {

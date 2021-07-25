@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import {
     CardImg, Button, Input
@@ -8,7 +9,6 @@ import { url } from '../../config/axios';
 
 export default function CartDishItem(props) {
     const item = props.dish;
-    const { metadata } = useCart();
     const customerQuantity = props.calNumTable;
     const {
         updateItemQuantity,

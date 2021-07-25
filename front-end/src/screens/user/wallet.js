@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
-import { api } from '../../config/axios';
 import {
-    Nav, NavItem, Container, Form,
-    Row, Col, CardImg, Button, Modal,
-    ModalHeader, ModalBody, ModalFooter,
-    Input, Label, Alert, NavLink
+    Nav, NavItem, Container, Row, NavLink
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 

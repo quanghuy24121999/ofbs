@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 import { Container } from 'reactstrap';
@@ -16,7 +17,6 @@ export default function Success() {
 
         api.get(`/users/findByPhoneNumber/${localStorage.getItem('currentUser')}`)
             .then(res => {
-                console.log(res.data);
                 const currentUser = res.data;
                 if (paymentHistoryId !== null && paymentHistoryId !== undefined && paymentHistoryId !== '') {
                     api.get(`payment/getPaymentById?paymentId=${paymentHistoryId}`, {

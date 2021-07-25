@@ -15,6 +15,8 @@ export default function DishComboItem(props) {
             }
         })
             .then(res => {
+            }).finally(() => {
+                props.getDishByCombo();
             })
     }
 
@@ -23,9 +25,11 @@ export default function DishComboItem(props) {
             <td>{count}</td>
             <td>{dish.dish_name}</td>
             <td>{dish.category_name}</td>
-            <td>
-                <Button color="danger" onClick={deleteDish}><FaTrashAlt className="icon-delete" />Xóa</Button>
-            </td>
-        </tr>
+            {
+                !props.isAdmin && <td>
+                    <Button color="danger" onClick={deleteDish}><FaTrashAlt className="icon-delete" />Xóa</Button>
+                </td>
+            }
+        </tr >
     )
 }

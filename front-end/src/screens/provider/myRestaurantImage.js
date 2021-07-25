@@ -123,7 +123,7 @@ export default class myRestaurantImage extends Component {
     }
 
     render() {
-        const { imageUploads, modal, modal1, modal2, imgDeleteId } = this.state;
+        const { imageUploads, modal1, modal2, imgDeleteId } = this.state;
 
         return (
             <div className="myRes-image">

@@ -9,6 +9,7 @@ import { api, url } from '../../config/axios';
 
 import DishComboItem from '../restaurant/dishComboItem';
 import { Notify } from '../../common/notify';
+import { formatCurrency } from '../../common/formatCurrency';
 
 export default function RestaurantComboItem(props) {
     const combo = props.combo;
@@ -73,9 +74,10 @@ export default function RestaurantComboItem(props) {
                 ).then(res => {
                     toggle();
                     toggle1();
-                    Notify('Gỡ combo thành công', 'success', 'top-left');
+                    Notify('Gỡ combo thành công', 'success', 'top-right');
+                    props.receivedData();
                 }).catch(res => {
-                    Notify('Gỡ combo không thành công', 'error', 'top-left');
+                    Notify('Gỡ combo không thành công', 'error', 'top-right');
                 })
             })
     }
@@ -84,7 +86,7 @@ export default function RestaurantComboItem(props) {
         <tr>
             <td>{count}</td>
             <td>{combo.combo_name}</td>
-            <td>{combo.combo_price}</td>
+            <td>{formatCurrency(combo.combo_price)}</td>
             <td>{comboStatus}</td>
             <td>
                 <Button onClick={toggle} color="primary">
@@ -137,7 +139,7 @@ export default function RestaurantComboItem(props) {
                                     {
                                         dishModal && (
                                             dishModal.map((dish, index) => {
-                                                return <DishComboItem key={index} dish={dish} combo={combo} count={index + 1} />
+                                                return <DishComboItem key={index} dish={dish} combo={combo} count={index + 1} isAdmin={true} />
                                             })
                                         )
                                     }
@@ -147,7 +149,9 @@ export default function RestaurantComboItem(props) {
                     </Row>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="danger" onClick={toggle1}>Gỡ</Button>
+                    {
+                        comboStatus !== 'Đã bị gỡ' && <Button color="danger" onClick={toggle1}>Gỡ</Button>
+                    }
                     <Modal isOpen={modal1} toggle={toggle1} className={``}>
                         <ModalHeader toggle={toggle1}>Thông báo</ModalHeader>
                         <ModalBody>

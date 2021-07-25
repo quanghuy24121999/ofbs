@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { api } from '../../config/axios';
 import React, { useEffect } from 'react';
 import {
@@ -56,12 +57,13 @@ export default function AddDishComboItem(props) {
                             }
                             )
                                 .then(res => {
-                                    Notify("Thêm thành công !", "success", "top-left");
+                                    Notify("Thêm thành công !", "success", "top-right");
+                                    props.getDishByCombo();
                                 })
                         })
                 })
         } else {
-            Notify("Món ăn đã có trong combo !", "warning", "top-left");
+            Notify("Món ăn đã có trong combo !", "warning", "top-right");
         }
     }
 

@@ -102,7 +102,6 @@ class register extends Component {
                                             document.getElementById('btn-forget-password').style.display = "none";
                                         }).catch((error) => {
                                             recapcha.clear();
-                                            console.log(error);
                                             Notify("Lỗi hệ thống !", "error", "top-right");
                                         });
                                 }
@@ -141,7 +140,6 @@ class register extends Component {
                     window.location.reload();
                 })
                 .catch((error) => {
-                    console.log(error);
                     Notify("Đăng ký thất bại !", "error", "top-right");
                     recapcha.clear();
                     window.location.reload();

@@ -180,7 +180,7 @@ export default class home extends Component {
                                 name="text"
                                 id="text-search"
                                 placeholder="Tìm kiếm"
-                                value={localStorage.getItem("restaurantText")}
+                                value={localStorage.getItem("restaurantText") !== null ? localStorage.getItem("restaurantText") : ''}
                                 onChange={this.onChangeRestaurantName}
                             />
                         </FormGroup>
