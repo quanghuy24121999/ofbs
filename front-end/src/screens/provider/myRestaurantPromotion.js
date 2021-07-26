@@ -15,7 +15,7 @@ import Footer from '../../components/common/footer';
 import MyRestaurantPromotionItem from '../../components/provider/myRestaurantPromotionItem';
 import { formatDateForInput } from '../../common/formatDate';
 import { Notify } from '../../common/notify';
-import { validateDescription, validatePromotionPercentage, validateUsername } from '../../common/validate';
+import { validateDescription, validateEmpty, validatePromotionPercentage, validateUsername } from '../../common/validate';
 
 let restaurantId = '';
 export default class myRestaurantPromotion extends Component {
@@ -123,11 +123,17 @@ export default class myRestaurantPromotion extends Component {
     }
 
     validate() {
-        if (!validateUsername(this.state.name)) {
-            Notify('Tên khuyến mãui phải ít hơn 100 ký tự', 'error', 'top-right');
+        if (!validateEmpty(this.state.name.trim())) {
+            Notify('Vui lòng nhập tên khuyến mãi', 'error', 'top-right');
+            return false;
+        } else if (!validateUsername(this.state.name)) {
+            Notify('Tên khuyến mãi phải ít hơn 100 ký tự', 'error', 'top-right');
             return false;
         } else if (!validatePromotionPercentage(this.state.discount)) {
             Notify('Phần trăm khuyến mãi phải ít hơn 3 ký tự', 'error', 'top-right');
+            return false;
+        } if (!validateEmpty(this.state.description.trim())) {
+            Notify('Mô tả không được để trống', 'error', 'top-right');
             return false;
         } else if (!validateDescription(this.state.description)) {
             Notify('Mô tả khuyến mãi phải ít hơn 2000 ký tự', 'error', 'top-right');

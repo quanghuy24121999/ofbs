@@ -471,6 +471,7 @@ export default class myRestaurantMenu extends Component {
                                             type="number"
                                             name="price"
                                             id="price"
+                                            min={1000}
                                             placeholder="Nhập giá món ăn"
                                             onChange={this.onChangePrice}
                                             value={price}

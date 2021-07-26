@@ -443,7 +443,7 @@ export default function MyRestaurantOrderItem(props) {
                                                                 })
                                                             })
                                                         })
-                                                        
+
                                                         // Cộng ví provider
                                                         api({
                                                             method: 'post',
@@ -598,13 +598,13 @@ export default function MyRestaurantOrderItem(props) {
                                         }).then(res => {
 
                                             window.location.reload();
-                                            Notify('Xác nhận hoành thành đơn hàng thành công', 'success', 'top-right');
+                                            Notify('Đồng ý hoành thành đơn hàng thành công', 'success', 'top-right');
                                         })
                                     })
                                 })
                             })
                     }).catch(err => {
-                        Notify('Xác nhận hoành thành đơn hàng không thành công', 'error', 'top-right');
+                        Notify('Đồng ý hoành thành đơn hàng không thành công', 'error', 'top-right');
                     })
             });
         }).catch(err => {
@@ -650,7 +650,7 @@ export default function MyRestaurantOrderItem(props) {
                                                 {
                                                     orderStatus === 'Đang chờ duyệt' && (
                                                         <Col lg="6" md="6" sm="6">
-                                                            <Button color="success" onClick={toggle1}>
+                                                            <Button color="success" style={{ width: '110px' }} onClick={toggle1}>
                                                                 Nhận đơn
                                                             </Button>
                                                             <Modal isOpen={modal1} toggle={toggle1} className={``}>
@@ -666,8 +666,8 @@ export default function MyRestaurantOrderItem(props) {
                                                                     />
                                                                 </ModalBody>
                                                                 <ModalFooter>
-                                                                    <Button color="success" onClick={() => acceptOrder()}>Xác nhận</Button>
-                                                                    <Button color="secondary" onClick={toggle1}>Trở lại</Button>
+                                                                    <Button color="success" onClick={() => acceptOrder()}>Đồng ý</Button>
+                                                                    <Button color="secondary" onClick={toggle1}>Quay lại</Button>
                                                                 </ModalFooter>
                                                             </Modal>
                                                         </Col>
@@ -677,7 +677,7 @@ export default function MyRestaurantOrderItem(props) {
                                                 {
                                                     (orderStatus === 'Chưa diễn ra')
                                                     && <Col lg="5" md="5" sm="5">
-                                                        <Button color="success" onClick={toggle3}>Hoàn thành</Button>
+                                                        <Button color="success" style={{ width: '110px' }} onClick={toggle3}>Hoàn thành</Button>
                                                         <Modal isOpen={modal3} toggle={toggle3} className={``}>
                                                             <ModalHeader toggle={toggle3}>Thông báo</ModalHeader>
                                                             <ModalBody>
@@ -691,8 +691,8 @@ export default function MyRestaurantOrderItem(props) {
                                                                 />
                                                             </ModalBody>
                                                             <ModalFooter>
-                                                                <Button color="success" onClick={() => completeOrder()}>Xác nhận</Button>
-                                                                <Button color="secondary" onClick={toggle3}>Trở lại</Button>
+                                                                <Button color="success" onClick={() => completeOrder()}>Đồng ý</Button>
+                                                                <Button color="secondary" onClick={toggle3}>Quay lại</Button>
                                                             </ModalFooter>
                                                         </Modal>
                                                     </Col>
@@ -700,7 +700,7 @@ export default function MyRestaurantOrderItem(props) {
                                                 {
                                                     (orderStatus === 'Đang chờ duyệt' || orderStatus === 'Chưa diễn ra')
                                                     && <Col lg="5" md="5" sm="5">
-                                                        <Button color="danger" onClick={toggle2}>Hủy đơn</Button>
+                                                        <Button color="danger" style={{ width: '110px' }} onClick={toggle2}>Hủy đơn</Button>
                                                         <Modal isOpen={modal2} toggle={toggle2} className={``}>
                                                             <ModalHeader toggle={toggle2}>Thông báo</ModalHeader>
                                                             <ModalBody>
@@ -714,8 +714,8 @@ export default function MyRestaurantOrderItem(props) {
                                                                 />
                                                             </ModalBody>
                                                             <ModalFooter>
-                                                                <Button color="success" onClick={() => cancelOrder()}>Xác nhận</Button>
-                                                                <Button color="secondary" onClick={toggle2}>Trở lại</Button>
+                                                                <Button color="success" onClick={() => cancelOrder()}>Đồng ý</Button>
+                                                                <Button color="secondary" onClick={toggle2}>Quay lại</Button>
                                                             </ModalFooter>
                                                         </Modal>
                                                     </Col>
@@ -736,7 +736,7 @@ export default function MyRestaurantOrderItem(props) {
                         }
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="secondary" onClick={toggle}>Trở lại</Button>
+                        <Button color="secondary" onClick={toggle}>Quay lại</Button>
                     </ModalFooter>
                 </Modal>
             </td>

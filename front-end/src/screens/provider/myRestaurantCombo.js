@@ -337,6 +337,7 @@ export default class myRestaurantCombo extends Component {
                                             type="number"
                                             name="price"
                                             id="price"
+                                            min={1000}
                                             placeholder="Nhập giá combo"
                                             onChange={this.onChangePrice}
                                             value={price}

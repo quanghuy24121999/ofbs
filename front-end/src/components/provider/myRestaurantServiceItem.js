@@ -10,7 +10,7 @@ import { FaEdit } from 'react-icons/fa';
 
 import { formatCurrency } from '../../common/formatCurrency';
 import { Notify } from '../../common/notify';
-import { validateCapacity, validateUsername } from '../../common/validate';
+import { validateCapacity, validateDescription, validateEmpty, validateUsername } from '../../common/validate';
 
 export default function MyRestaurantServiceItem(props) {
     const service = props.service;
@@ -96,11 +96,20 @@ export default function MyRestaurantServiceItem(props) {
     }
 
     const validate = () => {
-        if (!validateUsername(name)) {
+        if (!validateEmpty(name.trim())) {
+            Notify('Vui lòng nhập tên dịch vụ', 'error', 'top-right');
+            return false;
+        } else if (!validateUsername(name)) {
             Notify('Tên dịch vụ phải ít hơn 100 ký tự', 'error', 'top-right');
             return false;
         } else if (!validateCapacity(price)) {
             Notify('Giá dịch vụ phải ít hơn 10 ký tự', 'error', 'top-right');
+            return false;
+        } if (!validateEmpty(description.trim())) {
+            Notify('Mô tả không được để trống', 'error', 'top-right');
+            return false;
+        } else if (!validateDescription(description)) {
+            Notify('Mô tả phải nhỏ hơn 2000 ký tự', 'error', 'top-right');
             return false;
         } else {
             return true;
@@ -301,6 +310,7 @@ export default function MyRestaurantServiceItem(props) {
                                         type="number"
                                         name="price"
                                         id="price"
+                                        min={1000}
                                         placeholder="Nhập giá dịch vụ"
                                         onChange={onChangePrice}
                                         value={price}

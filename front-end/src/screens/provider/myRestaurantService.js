@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { api, url } from '../../config/axios';
 import {
-    Nav, NavItem, Container,Form,
+    Nav, NavItem, Container, Form,
     Label, Input, Button, Modal, ModalHeader,
     ModalBody, ModalFooter, Alert, CardImg,
     Table
@@ -15,7 +15,7 @@ import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
 import MyRestaurantServiceItem from '../../components/provider/myRestaurantServiceItem';
 import { Notify } from '../../common/notify';
-import { validateCapacity, validateDescription, validateUsername } from '../../common/validate';
+import { validateCapacity, validateDescription, validateEmpty, validateUsername } from '../../common/validate';
 
 let restaurantId = '';
 
@@ -87,7 +87,7 @@ export default class myRestaurantService extends Component {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
                 const servicesPaging = slice.map((service, index) => {
-                    return <MyRestaurantServiceItem key={index} service={service} count={index + 1} restaurantId={restaurantId} currentPage={this.state.currentPage}/>
+                    return <MyRestaurantServiceItem key={index} service={service} count={index + 1} restaurantId={restaurantId} currentPage={this.state.currentPage} />
                 })
 
                 this.setState({
@@ -136,13 +136,19 @@ export default class myRestaurantService extends Component {
     }
 
     validate() {
-        if (!validateUsername(this.state.name)) {
+        if (!validateEmpty(this.state.name.trim())) {
+            Notify('Vui lòng nhập tên dịch vụ', 'error', 'top-right');
+            return false;
+        } else if (!validateUsername(this.state.name)) {
             Notify('Tên dịch vụ phải ít hơn 100 ký tự', 'error', 'top-right');
             return false;
         } else if (!validateCapacity(this.state.price)) {
             Notify('Giá dịch vụ phải ít hơn 10 ký tự', 'error', 'top-right');
             return false;
-        } else if (!validateDescription(this.state.description)) {
+        } if (!validateEmpty(this.state.description.trim())) {
+            Notify('Mô tả không được để trống', 'error', 'top-right');
+            return false;
+        } else if (!validateDescription(this.state.description.trim())) {
             Notify('Mô tả dịch vụ phải ít hơn 2000 ký tự', 'error', 'top-right');
             return false;
         } else {
@@ -474,6 +480,7 @@ export default class myRestaurantService extends Component {
                                             type="number"
                                             name="price"
                                             id="price"
+                                            min={1000}
                                             placeholder="Nhập giá dịch vụ"
                                             onChange={this.onChangePrice}
                                             value={price}
