@@ -203,7 +203,7 @@ export default function RestaurantItem(props) {
             </td>
             {
                 !isPending && status === 'active' && <td>
-                    <Button color="danger" onClick={toggle2}>
+                    <Button color="danger" style={{ height: '62px', width: '100%' }} onClick={toggle2}>
                         Chặn
                     </Button>
                     <Modal isOpen={modal2} toggle={toggle2} className={``}>
@@ -213,16 +213,16 @@ export default function RestaurantItem(props) {
                         </ModalBody>
                         <ModalFooter>
                             <Button color="success" onClick={() => banRestaurant()}>
-                                Có
+                                Đồng ý
                             </Button>
-                            <Button color="secondary" onClick={toggle2}>Trở lại</Button>
+                            <Button color="secondary" onClick={toggle2}>Quay lại</Button>
                         </ModalFooter>
                     </Modal>
                 </td>
             }
             {
                 !isPending && status === 'banned' && <td>
-                    <Button color="danger" onClick={toggle3}>
+                    <Button style={{ width: '100%' }} color="success" onClick={toggle3}>
                         Bỏ chặn
                     </Button>
                     <Modal isOpen={modal3} toggle={toggle3} className={``}>
@@ -232,9 +232,9 @@ export default function RestaurantItem(props) {
                         </ModalBody>
                         <ModalFooter>
                             <Button color="success" onClick={() => unbanRestaurant()}>
-                                Có
+                                Đồng ý
                             </Button>
-                            <Button color="secondary" onClick={toggle3}>Trở lại</Button>
+                            <Button color="secondary" onClick={toggle3}>Quay lại</Button>
                         </ModalFooter>
                     </Modal>
                 </td>
@@ -251,9 +251,9 @@ export default function RestaurantItem(props) {
                         </ModalBody>
                         <ModalFooter>
                             <Button color="success" onClick={() => acceptRestaurant()}>
-                                Có
+                                Đồng ý
                             </Button>
-                            <Button color="secondary" onClick={toggle}>Trở lại</Button>
+                            <Button color="secondary" onClick={toggle}>Quay lại</Button>
                         </ModalFooter>
                     </Modal>
                 </td>
@@ -270,9 +270,9 @@ export default function RestaurantItem(props) {
                         </ModalBody>
                         <ModalFooter>
                             <Button color="success" onClick={() => denyRestaurant()}>
-                                Có
+                                Đồng ý
                             </Button>
-                            <Button color="secondary" onClick={toggle1}>Trở lại</Button>
+                            <Button color="secondary" onClick={toggle1}>Quay lại</Button>
                         </ModalFooter>
                     </Modal>
                 </td>

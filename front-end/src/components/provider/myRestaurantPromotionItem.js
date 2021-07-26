@@ -10,7 +10,7 @@ import ImageUploading from "react-images-uploading";
 
 import { formatDate, formatDateForInput } from '../../common/formatDate';
 import { Notify } from '../../common/notify';
-import { validatePromotionPercentage, validateUsername } from '../../common/validate';
+import { validateDescription, validateEmpty, validatePromotionPercentage, validateUsername } from '../../common/validate';
 
 export default function MyRestaurantPromotionItem(props) {
     const promotion = props.promotion;
@@ -80,11 +80,20 @@ export default function MyRestaurantPromotionItem(props) {
     }
 
     const validate = () => {
-        if (!validateUsername(name)) {
-            Notify('Tên khuyến mãui phải ít hơn 100 ký tự', 'error', 'top-right');
+        if (!validateEmpty(name.trim())) {
+            Notify('Vui lòng nhập tên khuyến mãi', 'error', 'top-right');
+            return false;
+        } else if (!validateUsername(name)) {
+            Notify('Tên khuyến mãi phải ít hơn 100 ký tự', 'error', 'top-right');
             return false;
         } else if (!validatePromotionPercentage(discount)) {
             Notify('Phần trăm khuyến mãi phải ít hơn 3 ký tự', 'error', 'top-right');
+            return false;
+        } if (!validateEmpty(description.trim())) {
+            Notify('Mô tả không được để trống', 'error', 'top-right');
+            return false;
+        } else if (!validateDescription(description)) {
+            Notify('Mô tả khuyến mãi phải ít hơn 2000 ký tự', 'error', 'top-right');
             return false;
         } else {
             return true;

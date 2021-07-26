@@ -128,8 +128,10 @@ export default function User() {
                                 value={status}
                                 onChange={onchangeStatus}
                             >
+                                <option value="">Tất cả</option>
                                 <option value="active">Đang hoạt động</option>
                                 <option value="inactive">Ngừng hoạt động</option>
+                                <option value="banned">Đã bị chặn</option>
                             </Input>
                         </div>
                         <div>

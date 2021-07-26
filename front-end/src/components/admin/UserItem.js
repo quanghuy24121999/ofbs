@@ -136,7 +136,7 @@ export default function UserItem(props) {
             </td>
             {
                 user.status.name === 'banned' && <td>
-                    <Button color="success" onClick={toggle1}>
+                    <Button style={{ width: '90%' }} color="success" onClick={toggle1}>
                         Bỏ Chặn
                     </Button>
                     <Modal isOpen={modal1} toggle={toggle1} className={``}>
@@ -146,16 +146,16 @@ export default function UserItem(props) {
                         </ModalBody>
                         <ModalFooter>
                             <Button color="success" onClick={() => unbanUser(user.id)}>
-                                Có
+                                Đồng ý
                             </Button>
-                            <Button color="secondary" onClick={toggle1}>Trở lại</Button>
+                            <Button color="secondary" onClick={toggle1}>Quay lại</Button>
                         </ModalFooter>
                     </Modal>
                 </td>
             }
             {
                 user.status.name === 'active' && <td>
-                    <Button color="danger" onClick={toggle2}>
+                    <Button style={{ width: '90%' }} color="danger" onClick={toggle2}>
                         Chặn
                     </Button>
                     <Modal isOpen={modal2} toggle={toggle2} className={``}>
@@ -165,9 +165,9 @@ export default function UserItem(props) {
                         </ModalBody>
                         <ModalFooter>
                             <Button color="success" onClick={() => banUser(user.id)}>
-                                Có
+                                Đồng ý
                             </Button>
-                            <Button color="secondary" onClick={toggle2}>Trở lại</Button>
+                            <Button color="secondary" onClick={toggle2}>Quay lại</Button>
                         </ModalFooter>
                     </Modal>
                 </td>

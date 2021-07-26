@@ -82,6 +82,7 @@ export default function RestaurantView(props) {
                         value={statusSearch}
                         onChange={onchangeStatusSearch}
                     >
+                        <option value="">Tất cả</option>
                         <option value="active">Đang hoạt động</option>
                         <option value="inactive">Ngừng hoạt động</option>
                         <option value="pending">Đang chờ duyệt</option>
