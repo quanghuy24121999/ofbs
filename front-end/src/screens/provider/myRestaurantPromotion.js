@@ -211,6 +211,12 @@ export default class myRestaurantPromotion extends Component {
             images, name, description
         } = this.state;
 
+        let yearEnd = (new Date(start)).getFullYear();
+        let monthEnd = (new Date(start)).getMonth() + 1;
+        let dayEnd = (new Date(start)).getDate() + 1;
+
+        let minEnd = formatDateForInput(`${yearEnd}-${monthEnd}-${dayEnd}`);
+
         return (
             <div className="myRes-promotion">
                 <TopMenu />
@@ -385,7 +391,7 @@ export default class myRestaurantPromotion extends Component {
                                             type="date"
                                             name="end"
                                             id="end"
-                                            min={start}
+                                            min={minEnd}
                                             placeholder="Nhập ngày kết thúc"
                                             onChange={this.onChangeEnd}
                                             value={end}
