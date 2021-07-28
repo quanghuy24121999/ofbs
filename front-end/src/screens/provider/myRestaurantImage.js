@@ -284,8 +284,8 @@ export default class myRestaurantImage extends Component {
                         Bạn có chắc chắn xóa ảnh này ?
                     </ModalBody>
                     <ModalFooter>
-                        <div className="btn btn-success" onClick={() => this.deleteImage(imgDeleteId)}>Có</div>{' '}
-                        <Button color="secondary" onClick={this.toggle2}>Trở lại</Button>
+                        <div className="btn btn-success" onClick={() => this.deleteImage(imgDeleteId)}>Đồng ý</div>{' '}
+                        <Button color="secondary" onClick={this.toggle2}>Quay lại</Button>
                     </ModalFooter>
                 </Modal>
             </div >

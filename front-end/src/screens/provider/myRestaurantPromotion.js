@@ -415,7 +415,7 @@ export default class myRestaurantPromotion extends Component {
                             <ModalFooter>
                                 {/* <Button color="success" onClick={() => this.addPromotion()}>Lưu</Button>{' '} */}
 
-                                <Button color="secondary" onClick={this.toggle}>Trở lại</Button>
+                                <Button color="secondary" onClick={this.toggle}>Quay lại</Button>
                             </ModalFooter>
                         </Modal>
 

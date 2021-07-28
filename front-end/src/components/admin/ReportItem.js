@@ -39,7 +39,7 @@ export default function ReportItem(props) {
                     url: `/feedbacks/updateStatusFeedback?feedbackId=${report.id}`
                 }).then(res => {
                     props.getData();
-                    Notify('Xử lý báo cáo thành công', 'success', 'top-left');
+                    Notify('Xử lý báo cáo thành công', 'success', 'top-right');
                     toggle();
                 })
             })
@@ -71,9 +71,9 @@ export default function ReportItem(props) {
                     </ModalBody>
                     <ModalFooter>
                         <Button color="success" onClick={() => complete()}>
-                            Có
+                            Đồng ý
                         </Button>
-                        <Button color="secondary" onClick={toggle}>Trở lại</Button>
+                        <Button color="secondary" onClick={toggle}>Quay lại</Button>
                     </ModalFooter>
                 </Modal>
             </td>

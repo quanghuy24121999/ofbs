@@ -127,7 +127,7 @@ export default function OrderItem(props) {
                         }
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="secondary" onClick={toggle}>Trở lại</Button>
+                        <Button color="secondary" onClick={toggle}>Quay lại</Button>
                     </ModalFooter>
                 </Modal>
             </td>

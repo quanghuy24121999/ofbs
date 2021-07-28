@@ -494,7 +494,7 @@ export default class myRestaurantMenu extends Component {
                             </ModalBody>
                             <ModalFooter>
                                 {/* <Button color="success" onClick={() => this.addDish()}>Lưu</Button>{' '} */}
-                                <Button color="secondary" onClick={this.toggle}>Trở lại</Button>
+                                <Button color="secondary" onClick={this.toggle}>Quay lại</Button>
                             </ModalFooter>
                         </Modal>
 

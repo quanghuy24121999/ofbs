@@ -476,7 +476,7 @@ export default class orderCustomerDetail extends Component {
                             </ModalBody>
                             <ModalFooter>
                                 <Button color="success" onClick={() => this.cancelOrder()}>Xác nhận</Button>
-                                <Button color="secondary" onClick={this.toggle}>Trở lại</Button>
+                                <Button color="secondary" onClick={this.toggle}>Quay lại</Button>
                             </ModalFooter>
                         </Modal>
                     </div>

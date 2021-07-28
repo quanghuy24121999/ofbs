@@ -555,7 +555,7 @@ export default class userProfile extends Component {
                                         </Form>
                                     </ModalBody>
                                     <ModalFooter>
-                                        <Button color="secondary" onClick={this.toggleChange}>Trở lại</Button>
+                                        <Button color="secondary" onClick={this.toggleChange}>Quay lại</Button>
                                         {/* <Button color="success" onClick={this.validateConfirmPassword}>Lưu lại</Button> */}
                                         {/* <Modal isOpen={nestedModalChange} toggle={this.toggleNestedChange} onClosed={closeAllChange ? this.toggleChange : undefined}>
                                             <ModalHeader>Thông báo</ModalHeader>

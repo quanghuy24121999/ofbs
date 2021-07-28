@@ -390,7 +390,7 @@ export default function Cart(props) {
                         <h3>Giỏ hàng trống !</h3>
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="secondary" onClick={toggle}>Trở lại</Button>
+                        <Button color="secondary" onClick={toggle}>Quay lại</Button>
                     </ModalFooter>
                 </Modal>
             </div>
@@ -586,7 +586,7 @@ export default function Cart(props) {
                     <ModalFooter className="cart-footer">
                         <div>
                             {/* <Button onClick={toggleConfirm} color="success">Thanh toán</Button>{' '} */}
-                            <Button color="secondary" onClick={toggle}>Trở lại</Button>
+                            <Button color="secondary" onClick={toggle}>Quay lại</Button>
                         </div>
                     </ModalFooter>
                 </Modal>

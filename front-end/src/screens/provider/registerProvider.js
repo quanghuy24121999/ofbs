@@ -565,7 +565,7 @@ export default class registerPromotion extends Component {
                                 </ModalBody>
                                 <ModalFooter>
                                     <Button color="success" onClick={this.onSubmitRegister}>Có</Button>{' '}
-                                    <Button color="secondary" onClick={this.toggle}>Trở lại</Button>
+                                    <Button color="secondary" onClick={this.toggle}>Quay lại</Button>
                                 </ModalFooter>
                             </Modal>
                             <Modal isOpen={modal1} toggle={this.toggle1} className={``}>

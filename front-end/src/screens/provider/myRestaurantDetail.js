@@ -136,7 +136,7 @@ export default class myRestaurantDetail extends Component {
                     restaurantDescription: restaurant.description,
                     restaurantBusinessCode: restaurant.bussinessLicenseId
                 }, () => {
-                    let statusName = this.state.restaurantStatus.name; 
+                    let statusName = this.state.restaurantStatus.name;
                     let tempObj = { id: '', name: '' }
                     let tempArr = [];
                     let count = 0;
@@ -294,7 +294,7 @@ export default class myRestaurantDetail extends Component {
             } else if (!validateEmpty(restaurantPhone)) {
                 Notify('Số điện thoại không được để trống', 'error', 'top-right');
                 return false;
-            } else if (!validateEmpty(restaurantSize.trim()) || restaurantSize === '0') {
+            } else if (!validateEmpty(restaurantSize) || restaurantSize === '0') {
                 Notify('Sức chứa không được để trống hoặc sai định dạng', 'error', 'top-right');
                 return false;
             } else if (!validateEmpty(restaurantBusinessCode)) {
@@ -780,8 +780,8 @@ export default class myRestaurantDetail extends Component {
                                     Bạn có chắc chắn cập nhật thông tin ?
                                 </ModalBody>
                                 <ModalFooter>
-                                    <Button color="success" onClick={this.onSubmitUpdate}>Có</Button>{' '}
-                                    <Button color="secondary" onClick={this.toggle}>Trở lại</Button>
+                                    <Button color="success" onClick={this.onSubmitUpdate}>Đồng ý</Button>{' '}
+                                    <Button color="secondary" onClick={this.toggle}>Quay lại</Button>
                                 </ModalFooter>
                             </Modal>
                         </Col>
