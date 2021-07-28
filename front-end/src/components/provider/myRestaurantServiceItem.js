@@ -127,8 +127,10 @@ export default function MyRestaurantServiceItem(props) {
 
                     if (status === 1) {
                         serviceStatus = 'active';
-                    } else {
+                    } else if (status === 2) {
                         serviceStatus = 'inactive';
+                    } else {
+                        serviceStatus = 'banned';
                     }
 
                     switch (category) {
@@ -301,8 +303,15 @@ export default function MyRestaurantServiceItem(props) {
                                         onChange={onChangeStatus}
                                         value={status}
                                     >
-                                        <option value="1">Đang kinh doanh</option>
-                                        <option value="2">Ngừng kinh doanh</option>
+                                        {
+                                            serviceStatus === 'Đã bị gỡ' ? (
+                                                <option value="0">Đã bị gỡ</option>
+                                            ) :
+                                                <>
+                                                    <option value="1">Đang kinh doanh</option>
+                                                    <option value="2">Ngừng kinh doanh</option>
+                                                </>
+                                        }
                                     </Input>
 
                                     <Label for="price"><b>Giá dịch vụ <span className="require-icon">*</span></b></Label>

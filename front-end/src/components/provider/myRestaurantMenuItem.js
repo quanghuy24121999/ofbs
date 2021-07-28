@@ -33,8 +33,10 @@ export default function MyRestaurantMenuItem(props) {
 
     if (statusDish === 'active') {
         statusDish = 'Đang kinh doanh';
-    } else {
+    } else if (statusDish === 'inactive') {
         statusDish = 'Ngừng kinh doanh';
+    } else {
+        statusDish = 'Đã bị gỡ';
     }
 
     const onChangeName = (e) => { setName(e.target.value) };
@@ -127,8 +129,10 @@ export default function MyRestaurantMenuItem(props) {
 
                     if (status === 1) {
                         dishStatus = 'active';
-                    } else {
+                    } else if (status === 2) {
                         dishStatus = 'inactive';
+                    } else {
+                        dishStatus = 'banned';
                     }
 
                     switch (category) {
@@ -287,8 +291,15 @@ export default function MyRestaurantMenuItem(props) {
                                         onChange={onChangeStatus}
                                         value={status}
                                     >
-                                        <option value="1">Đang kinh doanh</option>
-                                        <option value="2">Ngừng kinh doanh</option>
+                                        {
+                                            statusDish === 'Đã bị gỡ' ? (
+                                                <option value="0">Đã bị gỡ</option>
+                                            ) :
+                                                <>
+                                                    <option value="1">Đang kinh doanh</option>
+                                                    <option value="2">Ngừng kinh doanh</option>
+                                                </>
+                                        }
                                     </Input>
 
                                     <Label for="price"><b>Giá món ăn <span className="require-icon">*</span></b></Label>

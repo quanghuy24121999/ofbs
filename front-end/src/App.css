@@ -1324,7 +1324,7 @@ hr {
 }
 
 .restaurant-detail-nav > .active > a {
-  color: #000 !important;
+  color: #198754 !important;
 }
 
 .image-slide {
@@ -1531,12 +1531,14 @@ hr {
 
 .star-rating-nav > .nav-item > .active {
   background-color: #fff !important;
-  color: #000 !important;
+  color: #198754 !important;
 }
 
 .nav-link {
   color: #000000;
   cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 500;
 }
 
 .feedback-user {
@@ -1630,7 +1632,7 @@ hr {
 }
 
 .order-nav-status > .nav-item > .nav-link.active {
-  color: #000 !important;
+  color: #198754 !important;
   background-color: #fff !important;
   border-radius: 0;
 }
