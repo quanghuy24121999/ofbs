@@ -524,7 +524,8 @@ export default class registerPromotion extends Component {
                                     <Col>
                                         <Input className="cb-accept" type="checkbox" id="cb-accept" />
                                         <b>Tôi đồng ý với các</b>
-                                        <Link className="link-rule" to={``}>điều khoản</Link>
+                                        {/* <Link className="link-rule" to={``}>điều khoản</Link> */}
+                                        <a target="_blank" className="link-rule" href="https://drive.google.com/file/d/1cDyuko1YEeiRQ5ui5D-rBMZrjkRsUcpE/view?usp=sharing" rel="noreferrer">điều khoản</a>
                                     </Col>
                                 </Row>
                             </Form>

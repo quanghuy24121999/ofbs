@@ -27,8 +27,10 @@ export default function MyRestaurantComboItem(props) {
 
     if (statusCombo === 'active') {
         statusCombo = 'Đang kinh doanh';
-    } else {
+    } else if (statusCombo === 'inactive') {
         statusCombo = 'Ngừng kinh doanh';
+    } else {
+        statusCombo = 'Đã bị gỡ';
     }
 
     const [modal, setModal] = useState(false);
@@ -182,8 +184,10 @@ export default function MyRestaurantComboItem(props) {
 
                     if (status === 1) {
                         dishStatus = 'active';
-                    } else {
+                    } else if (status === 2) {
                         dishStatus = 'inactive';
+                    } else {
+                        dishStatus = 'banned';
                     }
                     api.get(`/combos/getCombosByRestaurantId?restaurantId=${restaurantId}&isActive=0`)
                         .then(res => {
@@ -303,8 +307,15 @@ export default function MyRestaurantComboItem(props) {
                                             onChange={onChangeStatus}
                                             value={status}
                                         >
-                                            <option value="1">Đang kinh doanh</option>
-                                            <option value="2">Ngừng kinh doanh</option>
+                                            {
+                                                statusCombo === 'Đã bị gỡ' ? (
+                                                    <option value="0">Đã bị gỡ</option>
+                                                ) :
+                                                    <>
+                                                        <option value="1">Đang kinh doanh</option>
+                                                        <option value="2">Ngừng kinh doanh</option>
+                                                    </>
+                                            }
                                         </Input>
 
                                         <Label for="price"><b>Giá combo <span className="require-icon">*</span></b></Label>
