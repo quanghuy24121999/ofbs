@@ -132,11 +132,11 @@ export default function RestaurantDishItem(props) {
                             Bạn có chắc chắn muốn gỡ món ăn này ?
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="success" onClick={ban}>Gỡ</Button>
-                            <Button color="secondary" onClick={toggle1}>Trở lại</Button>
+                            <Button color="success" onClick={ban}>Đồng ý</Button>
+                            <Button color="secondary" onClick={toggle1}>Quay lại</Button>
                         </ModalFooter>
                     </Modal>
-                    <Button color="secondary" onClick={toggle}>Trở lại</Button>
+                    <Button color="secondary" onClick={toggle}>Quay lại</Button>
                 </ModalFooter>
             </Modal>
         </tr>

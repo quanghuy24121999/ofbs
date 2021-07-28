@@ -331,7 +331,7 @@ export default function MyRestaurantMenuItem(props) {
                     </ModalBody>
                     <ModalFooter>
                         {/* <Button color="success" onClick={() => updateDish()}>Lưu</Button>{' '} */}
-                        <Button color="secondary" onClick={toggle}>Trở lại</Button>
+                        <Button color="secondary" onClick={toggle}>Quay lại</Button>
                     </ModalFooter>
                 </Modal>
             </td>

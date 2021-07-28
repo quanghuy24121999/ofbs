@@ -437,7 +437,7 @@ export default function MyRestaurantComboItem(props) {
                 </ModalBody>
                 <ModalFooter>
                     {/* <Button color="success" onClick={() => updateCombo()}>Lưu</Button>{' '} */}
-                    <Button color="secondary" onClick={toggle}>Trở lại</Button>
+                    <Button color="secondary" onClick={toggle}>Quay lại</Button>
                 </ModalFooter>
             </Modal>
         </tr >

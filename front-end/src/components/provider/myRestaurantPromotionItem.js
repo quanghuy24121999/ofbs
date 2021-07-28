@@ -312,7 +312,7 @@ export default function MyRestaurantPromotionItem(props) {
                 </ModalBody>
                 <ModalFooter>
                     {/* <Button color="success" onClick={() => updatePromotion()}>Lưu</Button>{' '} */}
-                    <Button color="secondary" onClick={toggle}>Trở lại</Button>
+                    <Button color="secondary" onClick={toggle}>Quay lại</Button>
                 </ModalFooter>
             </Modal>
         </tr>

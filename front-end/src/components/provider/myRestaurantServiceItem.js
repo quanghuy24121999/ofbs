@@ -343,7 +343,7 @@ export default function MyRestaurantServiceItem(props) {
                     </ModalBody>
                     <ModalFooter>
                         {/* <Button color="success" onClick={() => updateService(service.id)}>Lưu</Button>{' '} */}
-                        <Button color="secondary" onClick={toggle}>Trở lại</Button>
+                        <Button color="secondary" onClick={toggle}>Quay lại</Button>
                     </ModalFooter>
                 </Modal>
             </td>
