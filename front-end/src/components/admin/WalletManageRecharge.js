@@ -274,7 +274,7 @@ export default function WalletManageRecharge() {
                             <ModalFooter>
                                 <Button color="success" onClick={() => {
                                     if (validate()) {
-                                        toggle();
+                                        toggle1();
                                     }
                                 }}>
                                     Nạp tiền

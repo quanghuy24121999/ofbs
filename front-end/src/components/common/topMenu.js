@@ -96,9 +96,12 @@ const TopMenu = () => {
                             <NavItem>
                                 <Link className="link" to="/promotion">Ưu đãi hôm nay</Link>
                             </NavItem>
-                            <NavItem>
-                                <Link className="link" to="/provider-register">Đăng ký nhà hàng</Link>
-                            </NavItem>
+                            {
+                                currentUser &&
+                                <NavItem>
+                                    <Link className="link" to="/provider-register">Đăng ký nhà hàng</Link>
+                                </NavItem>
+                            }
                         </div>
                         {currentUser ? (
                             <div className="authen">
