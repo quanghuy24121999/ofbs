@@ -767,8 +767,22 @@ export default class myRestaurantDetail extends Component {
                             <Row>
                                 <Col className="update-restaurant">
                                     <Button className="btn-update-restaurant" onClick={() => {
+                                        let userId = '';
+
                                         if (this.validate()) {
-                                            this.toggle();
+                                            api.get(`/restaurants/getProviderIdByPhoneNumber/${restaurantPhone}`)
+                                                .then(res => {
+                                                    userId = res.data;
+
+                                                    if (userId !== this.state.user.id) {
+                                                        Notify('Số điện thoại đã tồn tại', 'error', 'top-right');
+                                                    } else {
+                                                        this.toggle();
+                                                    }
+
+                                                }).catch(() => {
+                                                    this.toggle();
+                                                })
                                         }
                                     }} color="success">Cập nhật</Button>
                                 </Col>
