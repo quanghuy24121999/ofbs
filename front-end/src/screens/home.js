@@ -171,6 +171,7 @@ export default class home extends Component {
                 <div className="wallpaper">
                     <CardImg className="image" src={wallpaper} alt="Wallpaper" />
                     <div className="home-title">Feast Booking</div>
+                    <div className="home-sub-title">- Đặt tiệc tiện lợi -</div>
                 </div>
                 <div className="home-search">
                     <Form className="search-form">

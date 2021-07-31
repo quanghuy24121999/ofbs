@@ -17,6 +17,8 @@ export default function HistoryItem(props) {
 
     const [modal, setModal] = useState(false);
     const [modal1, setModal1] = useState(false);
+    const [modal2, setModal2] = useState(false);
+    const [modal3, setModal3] = useState(false);
 
     const toggle = () => {
         setModal(!modal);
@@ -24,6 +26,14 @@ export default function HistoryItem(props) {
 
     const toggle1 = () => {
         setModal1(!modal1);
+    }
+
+    const toggle2 = () => {
+        setModal2(!modal2);
+    }
+
+    const toggle3 = () => {
+        setModal3(!modal3);
     }
 
     if (type === 'refund') {
@@ -81,37 +91,62 @@ export default function HistoryItem(props) {
                     },
                     url: `/payment/updateStatus?paymentId=${history.id}&status=${status}`
                 }).then(res => {
-                    api({
-                        method: 'PATCH',
-                        headers: {
-                            'Authorization': 'Bearer ' + localStorage.getItem('token')
-                        },
-                        url: `users/updateBalance?balance=${parseFloat(currentUser.balance) + parseFloat(history.balance_change)}&userId=${currentUser.id}`
-                    })
-                        .then(res => {
-                            let customer = null;
-                            let provider = null;
-
-                            if (currentUser.role.name === 'ROLE_PROVIDER') {
-                                provider = currentUser;
-                            } else if (currentUser.role.name === 'ROLE_CUSTOMER') {
-                                customer = currentUser;
-                            }
-                            api.post(`/notifications/insertNotification`,
-                                {
-                                    "content": content,
-                                    "customer": customer,
-                                    "provider": provider,
-                                    "forAdmin": false,
-                                    "type": "report",
-                                    "read": false
-                                }
-                            ).then(res => {
-                                Notify(notify, 'success', 'top-right');
-                                props.receivedData('', '', '');
-                                toggle();
-                            })
+                    if (event === 'accept') {
+                        api({
+                            method: 'PATCH',
+                            headers: {
+                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                            },
+                            url: `users/updateBalance?balance=${parseFloat(currentUser.balance) + parseFloat(history.balance_change)}&userId=${currentUser.id}`
                         })
+                            .then(res => {
+                                let customer = null;
+                                let provider = null;
+
+                                if (currentUser.role.name === 'ROLE_PROVIDER') {
+                                    provider = currentUser;
+                                } else if (currentUser.role.name === 'ROLE_CUSTOMER') {
+                                    customer = currentUser;
+                                }
+                                api.post(`/notifications/insertNotification`,
+                                    {
+                                        "content": content,
+                                        "customer": customer,
+                                        "provider": provider,
+                                        "forAdmin": false,
+                                        "type": "report",
+                                        "read": false
+                                    }
+                                ).then(res => {
+                                    Notify(notify, 'success', 'top-right');
+                                    props.receivedData('', '', '');
+                                    toggle();
+                                })
+                            })
+                    } else {
+                        let customer = null;
+                        let provider = null;
+
+                        if (currentUser.role.name === 'ROLE_PROVIDER') {
+                            provider = currentUser;
+                        } else if (currentUser.role.name === 'ROLE_CUSTOMER') {
+                            customer = currentUser;
+                        }
+                        api.post(`/notifications/insertNotification`,
+                            {
+                                "content": content,
+                                "customer": customer,
+                                "provider": provider,
+                                "forAdmin": false,
+                                "type": "report",
+                                "read": false
+                            }
+                        ).then(res => {
+                            Notify(notify, 'success', 'top-right');
+                            props.receivedData('', '', '');
+                            toggle();
+                        })
+                    }
                 })
             })
     }
@@ -140,6 +175,15 @@ export default function HistoryItem(props) {
         })
             .then(res => {
                 const currentUser = res.data;
+                let customer = null;
+                let provider = null;
+
+                if (currentUser.role.name === 'ROLE_PROVIDER') {
+                    provider = currentUser;
+                } else if (currentUser.role.name === 'ROLE_CUSTOMER') {
+                    customer = currentUser;
+                }
+
                 api({
                     method: 'PATCH',
                     headers: {
@@ -147,37 +191,46 @@ export default function HistoryItem(props) {
                     },
                     url: `/payment/updateStatus?paymentId=${history.id}&status=${status}`
                 }).then(res => {
-                    api({
-                        method: 'PATCH',
-                        headers: {
-                            'Authorization': 'Bearer ' + localStorage.getItem('token')
-                        },
-                        url: `users/updateBalance?balance=${parseFloat(currentUser.balance) + parseFloat(history.balance_change)}&userId=${currentUser.id}`
-                    })
-                        .then(res => {
-                            let customer = null;
-                            let provider = null;
-
-                            if (currentUser.role.name === 'ROLE_PROVIDER') {
-                                provider = currentUser;
-                            } else if (currentUser.role.name === 'ROLE_CUSTOMER') {
-                                customer = currentUser;
-                            }
-                            api.post(`/notifications/insertNotification`,
-                                {
-                                    "content": content,
-                                    "customer": customer,
-                                    "provider": provider,
-                                    "forAdmin": false,
-                                    "type": "report",
-                                    "read": false
-                                }
-                            ).then(res => {
-                                Notify(notify, 'success', 'top-right');
-                                props.receivedData('', '', '');
-                                toggle1();
-                            })
+                    if (event === 'accept') {
+                        api({
+                            method: 'PATCH',
+                            headers: {
+                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                            },
+                            url: `users/updateBalance?balance=${parseFloat(currentUser.balance) + parseFloat(history.balance_change)}&userId=${currentUser.id}`
                         })
+                            .then(res => {
+                                api.post(`/notifications/insertNotification`,
+                                    {
+                                        "content": content,
+                                        "customer": customer,
+                                        "provider": provider,
+                                        "forAdmin": false,
+                                        "type": "report",
+                                        "read": false
+                                    }
+                                ).then(res => {
+                                    Notify(notify, 'success', 'top-right');
+                                    props.receivedData('', '', '');
+                                    toggle1();
+                                })
+                            })
+                    } else {
+                        api.post(`/notifications/insertNotification`,
+                            {
+                                "content": content,
+                                "customer": customer,
+                                "provider": provider,
+                                "forAdmin": false,
+                                "type": "report",
+                                "read": false
+                            }
+                        ).then(res => {
+                            Notify(notify, 'success', 'top-right');
+                            props.receivedData('', '', '');
+                            toggle1();
+                        })
+                    }
                 })
             })
     }
@@ -216,12 +269,12 @@ export default function HistoryItem(props) {
                 typePayment === 'withdrawal' && <td>
                     <Button
                         color="danger"
-                        onClick={toggle}
+                        onClick={toggle1}
                     >
                         Hủy
                     </Button>
-                    <Modal isOpen={modal} toggle={toggle} className={``}>
-                        <ModalHeader toggle={toggle}>Thông báo</ModalHeader>
+                    <Modal isOpen={modal1} toggle={toggle1} className={``}>
+                        <ModalHeader toggle={toggle1}>Thông báo</ModalHeader>
                         <ModalBody>
                             Lưu thay đổi ?
                         </ModalBody>
@@ -229,7 +282,7 @@ export default function HistoryItem(props) {
                             <Button color="success" onClick={() => updateStatus('deny')}>
                                 Đồng ý
                             </Button>
-                            <Button color="secondary" onClick={toggle}>Quay lại</Button>
+                            <Button color="secondary" onClick={toggle1}>Quay lại</Button>
                         </ModalFooter>
                     </Modal>
                 </td>
@@ -238,12 +291,12 @@ export default function HistoryItem(props) {
                 typePayment === 'charge' && <td>
                     <Button
                         color="primary"
-                        onClick={toggle1}
+                        onClick={toggle2}
                     >
                         Xác nhận
                     </Button>
-                    <Modal isOpen={modal1} toggle={toggle1} className={``}>
-                        <ModalHeader toggle={toggle1}>Thông báo</ModalHeader>
+                    <Modal isOpen={modal2} toggle={toggle2} className={``}>
+                        <ModalHeader toggle={toggle2}>Thông báo</ModalHeader>
                         <ModalBody>
                             Lưu thay đổi ?
                         </ModalBody>
@@ -251,7 +304,7 @@ export default function HistoryItem(props) {
                             <Button color="success" onClick={() => updateStatusCharge('accept')}>
                                 Đồng ý
                             </Button>
-                            <Button color="secondary" onClick={toggle1}>Quay lại</Button>
+                            <Button color="secondary" onClick={toggle2}>Quay lại</Button>
                         </ModalFooter>
                     </Modal>
                 </td>
@@ -260,12 +313,12 @@ export default function HistoryItem(props) {
                 typePayment === 'charge' && <td>
                     <Button
                         color="danger"
-                        onClick={toggle1}
+                        onClick={toggle3}
                     >
                         Hủy
                     </Button>
-                    <Modal isOpen={modal1} toggle={toggle1} className={``}>
-                        <ModalHeader toggle={toggle1}>Thông báo</ModalHeader>
+                    <Modal isOpen={modal3} toggle={toggle3} className={``}>
+                        <ModalHeader toggle={toggle3}>Thông báo</ModalHeader>
                         <ModalBody>
                             Lưu thay đổi ?
                         </ModalBody>
@@ -273,7 +326,7 @@ export default function HistoryItem(props) {
                             <Button color="success" onClick={() => updateStatusCharge('deny')}>
                                 Đồng ý
                             </Button>
-                            <Button color="secondary" onClick={toggle1}>Quay lại</Button>
+                            <Button color="secondary" onClick={toggle3}>Quay lại</Button>
                         </ModalFooter>
                     </Modal>
                 </td>

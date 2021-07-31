@@ -291,6 +291,18 @@ input[type="number"]:focus,
   font-family: "Sofia", sans-serif;
 }
 
+.home-sub-title {
+  position: absolute;
+  top: 25%;
+  text-align: center;
+  left: 50%;
+  font-size: 25px;
+  font-weight: 500;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  font-family: 'Arima Madurai', cursive;
+}
+
 .image {
   width: 100%;
   height: 635px;
@@ -734,13 +746,21 @@ label {
   list-style: inside;
 }
 
-/* #address {
+#bank-info1 {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0;
+  list-style: inside;
+}
+
+#address1 {
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 0;
   list-style: inside;
-} */
+}
 
 .content {
   height: 100px;

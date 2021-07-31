@@ -97,6 +97,7 @@ export default function Recharge() {
                             }
                         }
                     ).then(res => {
+                        setMoney('');
                         Notify('Yêu cầu nạp tiền của bạn đã được gửi lên hệ thống, chúng tôi sẽ xem xét và xử lý sớm nhất',
                             'success', 'top-right'
                         );

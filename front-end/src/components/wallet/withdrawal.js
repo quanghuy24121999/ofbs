@@ -25,11 +25,11 @@ export default function Withdrawal() {
 
     const showContent = (type) => {
         if (type === 0) {
-            document.getElementById('address').style.display = 'flex';
-            document.getElementById('bank-info').style.display = 'none';
+            document.getElementById('address1').style.display = 'flex';
+            document.getElementById('bank-info1').style.display = 'none';
         } else if (type === 1) {
-            document.getElementById('bank-info').style.display = 'flex';
-            document.getElementById('address').style.display = 'none';
+            document.getElementById('bank-info1').style.display = 'flex';
+            document.getElementById('address1').style.display = 'none';
         }
     }
 
@@ -61,6 +61,7 @@ export default function Withdrawal() {
                             Notify('Yêu cầu rút tiền của bạn đã được gửi lên hệ thống, chúng tôi sẽ xem xét và xử lý sớm nhất',
                                 'success', 'top-right'
                             );
+                            setMoney('');
                             toggle();
                         })
                     } else {
@@ -121,7 +122,7 @@ export default function Withdrawal() {
                                 />{' '}
                                 <span className="type-recharge">Rút tiền bằng tiền mặt</span>
                             </Label>
-                            <ul id="address">
+                            <ul id="address1">
                                 <li><span className="bank-info-title">Địa chỉ:</span> Khu công nghệ cao Hòa Lạc – Km29, ĐCT08, Thạch Hoà, Thạch Thất, Hà Nội</li>
                                 <li><span className="bank-info-title">Số điện thoại:</span> 0368020200</li>
                             </ul>
@@ -138,7 +139,7 @@ export default function Withdrawal() {
                                     }}
                                 />{' '}
                                 <span className="type-recharge">Rút tiền bằng chuyển khoản qua ngân hàng</span>
-                                <ul id="bank-info">
+                                <ul id="bank-info1">
                                     <li><span className="bank-info-title">Vui lòng ghi thông tin tài khoản ngân hàng theo mẫu:</span>
                                         <i> Tên ngân hàng + Tên chủ tài khoản ngân hàng + Số số tài khoản ngân hàng + Số điện thoại + Rút tiền ví FBS. </i><br />
                                     </li>
