@@ -12,12 +12,16 @@ import ReactPaginate from 'react-paginate';
 
 import Notification from '../../components/admin/Notification';
 import OrderItem from '../../components/admin/OrderItem';
+import { formatDateForInput } from '../../common/formatDate';
 
 function Order() {
+    let fromDate = new Date().setDate(new Date().getDate() - 7);
+    let toDate = new Date();
+
     const [toggled, setToggled] = useState(false);
     const [orderCode, setOrderCode] = useState('');
-    const [from, setFrom] = useState('');
-    const [to, setTo] = useState('');
+    const [from, setFrom] = useState(formatDateForInput(fromDate));
+    const [to, setTo] = useState(formatDateForInput(toDate));
     const [status, setStatus] = useState('');
     const [offset, setOffset] = useState(0);
     const [perPage, setPerpage] = useState(10);
@@ -41,9 +45,13 @@ function Order() {
         setTo(e.target.value);
     };
 
+    const onchangeStatus = (e) => {
+        setStatus(e.target.value);
+    }
+
     useEffect(() => {
         window.scrollTo(0, 0);
-        receivedData(orderCode, from, to, status);
+        receivedData(orderCode, from, to, 'pending');
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage])
 
@@ -134,6 +142,19 @@ function Order() {
                                 min={from}
                                 onChange={onChangeTo}
                             />
+                        </div>
+                        <div>
+                            <Input
+                                type="select"
+                                value={status}
+                                onChange={onchangeStatus}
+                            >
+                                <option value="">Tất cả</option>
+                                <option value="pending">Đang chờ duyệt</option>
+                                <option value="preparing">Chưa diễn ra</option>
+                                <option value="accomplished">Đã hoàn thành</option>
+                                <option value="cancelled">Đã Hủy</option>
+                            </Input>
                         </div>
                         <div>
                             <Button color="success" className="btn-search-order" onClick={search}><FaSearch className="icon-search" /></Button>

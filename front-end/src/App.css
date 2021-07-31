@@ -57,13 +57,14 @@ input[type="number"]:focus,
   align-items: center;
   justify-content: center;
   color: #e2e2e2;
-  font-weight: 400;
+  font-weight: 450;
   line-height: 1.6;
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 1rem;
   margin: 0 6px;
   padding: 3px 15px;
-  border: 1.9px solid #737373;
+  border: 1.9px solid #2c2828;
+  background-color: #2c2828;
   border-radius: 20px;
 }
 
@@ -82,6 +83,14 @@ input[type="number"]:focus,
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.user-top-menu-image {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  margin-left: -10px;
+  margin-right: 5px;
 }
 
 .authen {
@@ -718,20 +727,20 @@ label {
 }
 
 #bank-info {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0;
-  list-style: inside;
-}
-
-#address {
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 0;
   list-style: inside;
 }
+
+/* #address {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0;
+  list-style: inside;
+} */
 
 .content {
   height: 100px;
@@ -2492,13 +2501,14 @@ tr > td:nth-child(6) {
 }
 
 .search-order-admin > div:nth-child(2),
-.search-order-admin > div:nth-child(3) {
+.search-order-admin > div:nth-child(3),
+.search-order-admin > div:nth-child(4) {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.search-order-admin > div:nth-child(4) {
+.search-order-admin > div:nth-child(5) {
   width: 20%;
 }
 
@@ -2531,7 +2541,8 @@ tr > td:nth-child(6) {
 }
 
 .admin-wallet-search > div:nth-child(2),
-.admin-wallet-search > div:nth-child(3) {
+.admin-wallet-search > div:nth-child(3),
+.admin-wallet-search > div:nth-child(5) {
   display: flex;
   flex-direction: row;
   justify-content: center;
