@@ -51,19 +51,19 @@ function Restaurant() {
                 <Container>
                     <Nav pills className="order-nav-status">
                         <NavItem onClick={() => onChangeTab(1)}>
-                            <NavLink active id="1">Các nhà hàng trong hệ thống</NavLink>
+                            <NavLink active id="1">Các nhà hàng đang chờ duyệt</NavLink>
                         </NavItem>
                         <NavItem onClick={() => onChangeTab(2)}>
-                            <NavLink id="2">Các nhà hàng đang chờ duyệt</NavLink>
+                            <NavLink id="2">Các nhà hàng trong hệ thống</NavLink>
                         </NavItem>
                     </Nav>
                     {
-                        tab === 1 && <Row className="wallet-row">
+                        tab === 2 && <Row className="wallet-row">
                             <RestaurantView isPending={false}/>
                         </Row>
                     }
                     {
-                        tab === 2 && <Row className="wallet-row">
+                        tab === 1 && <Row className="wallet-row">
                             <RestaurantPending isPending={true}/>
                         </Row>
                     }

@@ -15,7 +15,7 @@ import { api } from '../../config/axios';
 export default function Recharge() {
     const [money, setMoney] = useState('');
     // const [otp, setOtp] = useState('');
-    const [active, setActive] = useState(0);
+    const [active, setActive] = useState(1);
     const [modal, setModal] = useState(false);
 
     const toggle = () => setModal(!modal);
@@ -29,52 +29,53 @@ export default function Recharge() {
     // }
 
     const showContent = (type) => {
-        if (type === 0) {
-            document.getElementById('address').style.display = 'flex';
-            document.getElementById('bank-info').style.display = 'none';
-        } else if (type === 1) {
+        // if (type === 0) {
+        //     document.getElementById('address').style.display = 'flex';
+        //     document.getElementById('bank-info').style.display = 'none';
+        if (type === 1) {
             document.getElementById('bank-info').style.display = 'flex';
-            document.getElementById('address').style.display = 'none';
+            // document.getElementById('address').style.display = 'none';
         } else if (type === 2) {
             document.getElementById('bank-info').style.display = 'none';
-            document.getElementById('address').style.display = 'none';
+            // document.getElementById('address').style.display = 'none';
         }
     }
 
 
     const paypalChechout = () => {
         let description = '';
-        if (active === 0) {
-            description = 'Nạp tiền vào ví FBS - Tiền mặt';
-            api.get(`/users/findByPhoneNumber/${localStorage.getItem("currentUser")}`)
-                .then(res => {
-                    const currentUser = res.data;
-                    api.post(`/payment/save`,
-                        {
-                            "user": currentUser,
-                            "fromToUser": currentUser,
-                            "balanceChange": parseFloat(money),
-                            "currentBalance": parseFloat(currentUser.balance) + parseFloat(money),
-                            "description": description,
-                            "paymentType": {
-                                "name": "charge"
-                            }
-                        },
-                        {
-                            headers: {
-                                'Authorization': 'Bearer ' + localStorage.getItem('token')
-                            }
-                        }
-                    ).then(res => {
-                        Notify('Yêu cầu nạp tiền của bạn đã được gửi lên hệ thống, chúng tôi sẽ xem xét và xử lý sớm nhất',
-                            'success', 'top-right'
-                        );
-                        toggle();
-                        setMoney(0);
-                    })
+        // if (active === 0) {
+        //     description = 'Nạp tiền vào ví FBS - Tiền mặt';
+        //     api.get(`/users/findByPhoneNumber/${localStorage.getItem("currentUser")}`)
+        //         .then(res => {
+        //             const currentUser = res.data;
+        //             api.post(`/payment/save`,
+        //                 {
+        //                     "user": currentUser,
+        //                     "fromToUser": currentUser,
+        //                     "balanceChange": parseFloat(money),
+        //                     "currentBalance": parseFloat(currentUser.balance) + parseFloat(money),
+        //                     "description": description,
+        //                     "paymentType": {
+        //                         "name": "charge"
+        //                     }
+        //                 },
+        //                 {
+        //                     headers: {
+        //                         'Authorization': 'Bearer ' + localStorage.getItem('token')
+        //                     }
+        //                 }
+        //             ).then(res => {
+        //                 Notify('Yêu cầu nạp tiền của bạn đã được gửi lên hệ thống, chúng tôi sẽ xem xét và xử lý sớm nhất',
+        //                     'success', 'top-right'
+        //                 );
+        //                 toggle();
+        //                 setMoney(0);
+        //             })
 
-                })
-        } else if (active === 1) {
+        //         })
+        // } 
+        if (active === 1) {
             description = 'Nạp tiền vào ví FBS - Chuyển khoản qua ngân hàng';
             api.get(`/users/findByPhoneNumber/${localStorage.getItem("currentUser")}`)
                 .then(res => {
@@ -204,7 +205,7 @@ export default function Recharge() {
                     <FormGroup tag="fieldset" className="recharge">
                         <div className="recharge-title">Chọn phương thức nạp tiền</div>
                         <hr />
-                        <FormGroup check>
+                        {/* <FormGroup check>
                             <Label check>
                                 <Input
                                     type="radio"
@@ -221,7 +222,7 @@ export default function Recharge() {
                                 <li><span className="bank-info-title">Địa chỉ: </span>Khu công nghệ cao Hòa Lạc – Km29, ĐCT08, Thạch Hoà, Thạch Thất, Hà Nội</li>
                                 <li><span className="bank-info-title">Số điện thoại:</span> 0368020200</li>
                             </ul>
-                        </FormGroup>
+                        </FormGroup> */}
                         <FormGroup check>
                             <Label check>
                                 <Input

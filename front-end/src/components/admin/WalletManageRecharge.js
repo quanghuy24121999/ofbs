@@ -1,23 +1,38 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
-import { Input, Table, Button, Container } from 'reactstrap';
+import { Input, Table, Button, Container, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import ReactPaginate from 'react-paginate';
 import { FaSearch } from 'react-icons/fa';
 
 import { api } from '../../config/axios';
 import HistoryItem from '../wallet/historyItem';
+import { Notify } from '../../common/notify';
+import { validateEmpty } from '../../common/validate';
 
 export default function WalletManageRecharge() {
     const [paymentCode, setPaymentCode] = useState('');
     const [fromDate, setFromDate] = useState('');
     const [toDate, setToDate] = useState('');
     const [balance, setBalance] = useState(0);
+    const [money, setMoney] = useState('');
+    const [phone, setPhone] = useState('');
+    const [userName, setUsername] = useState('');
 
     const [offset, setOffset] = useState(0);
     const [perPage, setPerpage] = useState(10);
     const [currentPage, setCurrentPage] = useState(0);
     const [history, setHistory] = useState([]);
     const [pageCount, setPageCount] = useState(0);
+    const [modal, setModal] = useState(false);
+    const [modal1, setModal1] = useState(false);
+
+    const toggle = () => {
+        setModal(!modal);
+    }
+
+    const toggle1 = () => {
+        setModal1(!modal1);
+    }
 
     const onChangeFrom = (e) => {
         setFromDate(e.target.value);
@@ -29,6 +44,14 @@ export default function WalletManageRecharge() {
 
     const onChangePaymentCode = (e) => {
         setPaymentCode(e.target.value);
+    };
+
+    const onChangeMoney = (e) => {
+        setMoney(e.target.value);
+    };
+
+    const onChangePhone = (e) => {
+        setPhone(e.target.value);
     };
 
     useEffect(() => {
@@ -73,12 +96,107 @@ export default function WalletManageRecharge() {
                         const data = res.data;
                         const slice = data.slice(offset, offset + perPage)
                         const historyPaging = slice.map((history, index) => {
-                            return <HistoryItem key={index} history={history} type='charge' receivedData={receivedData}/>
+                            return <HistoryItem key={index} history={history} type='charge' receivedData={receivedData} />
                         })
 
                         setHistory(historyPaging);
                         setPageCount(Math.ceil(data.length / perPage));
                     })
+            })
+    }
+
+    const validate = () => {
+        if (!validateEmpty(money) || money === '0') {
+            Notify('Vui lòng nhập số tiền hoặc số tiền không hợp lệ', 'error', 'top-right');
+            return false;
+        } else if (!validateEmpty(phone.trim())) {
+            Notify('Số điện thoại không được để trống', 'error', 'top-right');
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    const recharge = () => {
+        let phoneFormat = '+84' + phone.substring(1, phone.length);
+        api.get(`/users/findByPhoneNumber/${phoneFormat}`)
+            .then(res => {
+                const currentUser = res.data;
+                if (currentUser.length !== 0) {
+                    api.post(`/payment/save`,
+                        {
+                            "user": currentUser,
+                            "fromToUser": currentUser,
+                            "balanceChange": parseFloat(money),
+                            "currentBalance": parseFloat(currentUser.balance) + parseFloat(money),
+                            "description": 'Nạp tiền vào ví FBS - Tiền mặt',
+                            "paymentType": {
+                                "name": "charge"
+                            }
+                        },
+                        {
+                            headers: {
+                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                            }
+                        }
+                    ).then(res => {
+                        api({
+                            method: 'PATCH',
+                            headers: {
+                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                            },
+                            url: `/payment/updateStatus?paymentId=${res.data.id}&status=success`
+                        }).then(res => {
+                            api({
+                                method: 'PATCH',
+                                headers: {
+                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                },
+                                url: `users/updateBalance?balance=${parseFloat(currentUser.balance) + parseFloat(money)}&userId=${currentUser.id}`
+                            }).then(res => {
+                                let customer = null;
+                                let provider = null;
+
+                                if (currentUser.role.name === 'ROLE_PROVIDER') {
+                                    provider = currentUser;
+                                } else if (currentUser.role.name === 'ROLE_CUSTOMER') {
+                                    customer = currentUser;
+                                }
+
+                                api.post(`/notifications/insertNotification`,
+                                    {
+                                        "content": `Chúng tôi đã xử lý yêu cầu nạp tiền vào ví của bạn, vui lòng kiểm tra số dư trong ví`,
+                                        "customer": customer,
+                                        "provider": provider,
+                                        "forAdmin": false,
+                                        "type": "report",
+                                        "read": false
+                                    }
+                                ).then(res => {
+                                    Notify('Nạp tiền vào ví thành công', 'success', 'top-right');
+                                    toggle1();
+                                    toggle();
+                                    setMoney('');
+                                    setPhone('');
+                                })
+                            })
+                        })
+                    })
+                } else {
+                    Notify('Số điện thoại không có trong hệ thống', 'error', 'top-right');
+                }
+            })
+    }
+
+    const check = () => {
+        let phoneFormat = '+84' + phone.substring(1, phone.length);
+        api.get(`/users/findByPhoneNumber/${phoneFormat}`)
+            .then(res => {
+                if (res.data !== null && res.data !== '' && res.data !== undefined) {
+                    setUsername(res.data.name)
+                } else {
+                    setUsername('Không có thông tin');
+                }
             })
     }
 
@@ -117,6 +235,66 @@ export default function WalletManageRecharge() {
                     <div>
                         <Button color="primary" className="btn-search-wallet" onClick={() => search()}><FaSearch className="icon-search" /></Button>
                     </div>
+                    <div><Button color="primary" onClick={() => {
+                        toggle();
+                    }}>Xử lý nạp tiền</Button>
+                        <Modal isOpen={modal} toggle={toggle} className={``}>
+                            <ModalHeader toggle={toggle}>Nạp tiền</ModalHeader>
+                            <ModalBody>
+                                <div>
+                                    <b>Nhập số tiền <span className="require-icon">*</span></b>
+                                    <Input
+                                        className="mt-2"
+                                        type="number"
+                                        min={1}
+                                        placeholder="Nhập số tiền"
+                                        value={money}
+                                        onChange={onChangeMoney}
+                                    />
+                                </div>
+                                <div className="mt-3">
+                                    <b>Số điện thoại (tài khoản) nạp tiền <span className="require-icon">*</span></b>
+                                    <Input
+                                        className="mt-2"
+                                        type="text"
+                                        placeholder="Nhập số điện thoại. Vd: 012345678"
+                                        value={phone}
+                                        onChange={onChangePhone}
+                                    />
+                                </div>
+                                <div className="mt-2">
+                                    <Button color="primary" onClick={() => {
+                                        check();
+                                    }}>
+                                        Kiểm tra
+                                    </Button>
+                                    <span style={{ marginLeft: '10px', fontWeight: '500' }}>{userName}</span>
+                                </div>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button color="success" onClick={() => {
+                                    if (validate()) {
+                                        toggle();
+                                    }
+                                }}>
+                                    Nạp tiền
+                                </Button>
+                                <Modal isOpen={modal1} toggle={toggle1} className={``}>
+                                    <ModalHeader toggle={toggle1}>Nạp tiền</ModalHeader>
+                                    <ModalBody>
+                                        Bạn có chắc chắn muốn nạp tiền ?
+                                    </ModalBody>
+                                    <ModalFooter>
+                                        <Button color="success" onClick={() => recharge()}>
+                                            Đồng ý
+                                        </Button>
+                                        <Button color="secondary" onClick={toggle1}>Quay lại</Button>
+                                    </ModalFooter>
+                                </Modal>
+                                <Button color="secondary" onClick={toggle}>Quay lại</Button>
+                            </ModalFooter>
+                        </Modal>
+                    </div>
                 </div>
                 <Table>
                     <thead>
@@ -127,6 +305,7 @@ export default function WalletManageRecharge() {
                             <th>Thời gian</th>
                             <th>Ghi chú</th>
                             <th>Trạng thái</th>
+                            <th></th>
                             <th></th>
                         </tr>
                     </thead>

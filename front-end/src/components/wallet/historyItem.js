@@ -50,7 +50,23 @@ export default function HistoryItem(props) {
         money = <div style={{ color: 'red', fontWeight: '500' }}>-{formatCurrency(money * (-1))}</div>
     }
 
-    const updateStatus = () => {
+    const updateStatus = (event) => {
+        let content = '';
+        let notify = '';
+        let status = '';
+
+        if (event === 'accept') {
+            content = `Yêu cầu rút tiền của bạn đã được xử lý, vui lòng kiểm tra số tài khoản, 
+            nếu chưa nhận được tiền trong vòng 24h vui lòng liên hệ lại với chúng tôi qua Messenger`;
+            notify = `Xác nhận thành công`;
+            status = 'success';
+        } else if (event === 'deny') {
+            content = `Yêu cầu rút tiền của bạn bị hủy do không đáp ứng yêu cầu của chúng tôi, vui lòng 
+            liên hệ lại với chúng tôi qua Messenger để biết thêm thông tin`;
+            notify = `Hủy thành thành công`;
+            status = 'fail';
+        }
+
         api.get(`/users/findByPhoneNumber/${history.phone_login}`, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -63,7 +79,7 @@ export default function HistoryItem(props) {
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
                     },
-                    url: `/payment/updateStatus?paymentId=${history.id}&status=success`
+                    url: `/payment/updateStatus?paymentId=${history.id}&status=${status}`
                 }).then(res => {
                     api({
                         method: 'PATCH',
@@ -83,8 +99,7 @@ export default function HistoryItem(props) {
                             }
                             api.post(`/notifications/insertNotification`,
                                 {
-                                    "content": `Yêu cầu rút tiền của bạn đã được xử lý, vui lòng kiểm tra số tài khoản, 
-                                        nếu chưa nhận được tiền trong vòng 24h vui lòng liên hệ lại với chúng tôi qua Messenger `,
+                                    "content": content,
                                     "customer": customer,
                                     "provider": provider,
                                     "forAdmin": false,
@@ -92,7 +107,7 @@ export default function HistoryItem(props) {
                                     "read": false
                                 }
                             ).then(res => {
-                                Notify('Xác nhận thành công', 'success', 'top-right');
+                                Notify(notify, 'success', 'top-right');
                                 props.receivedData('', '', '');
                                 toggle();
                             })
@@ -101,7 +116,23 @@ export default function HistoryItem(props) {
             })
     }
 
-    const updateStatusCharge = () => {
+    const updateStatusCharge = (event) => {
+        let content = '';
+        let notify = '';
+        let status = '';
+
+        if (event === 'accept') {
+            content = `Yêu cầu nạp tiền của bạn đã được xử lý, vui lòng kiểm tra số tài khoản, 
+            nếu chưa nhận được tiền trong vòng 24h vui lòng liên hệ lại với chúng tôi qua Messenger`;
+            notify = `Xác nhận thành công`;
+            status = 'success';
+        } else if (event === 'deny') {
+            content = `Yêu cầu nạp tiền của bạn bị hủy do không đáp ứng yêu cầu của chúng tôi, vui lòng 
+            liên hệ lại với chúng tôi qua Messenger để biết thêm thông tin`;
+            notify = `Hủy thành thành công`;
+            status = 'fail';
+        }
+
         api.get(`/users/findByPhoneNumber/${history.phone_login}`, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -114,7 +145,7 @@ export default function HistoryItem(props) {
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
                     },
-                    url: `/payment/updateStatus?paymentId=${history.id}&status=success`
+                    url: `/payment/updateStatus?paymentId=${history.id}&status=${status}`
                 }).then(res => {
                     api({
                         method: 'PATCH',
@@ -134,8 +165,7 @@ export default function HistoryItem(props) {
                             }
                             api.post(`/notifications/insertNotification`,
                                 {
-                                    "content": `Yêu cầu nạp tiền của bạn đã được xử lý, vui lòng kiểm tra số tài khoản, 
-                                        nếu chưa nhận được tiền trong vòng 24h vui lòng liên hệ lại với chúng tôi qua Messenger`,
+                                    "content": content,
                                     "customer": customer,
                                     "provider": provider,
                                     "forAdmin": false,
@@ -143,7 +173,7 @@ export default function HistoryItem(props) {
                                     "read": false
                                 }
                             ).then(res => {
-                                Notify('Xác nhận thành công', 'success', 'top-right');
+                                Notify(notify, 'success', 'top-right');
                                 props.receivedData('', '', '');
                                 toggle1();
                             })
@@ -174,7 +204,29 @@ export default function HistoryItem(props) {
                             Lưu thay đổi ?
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="success" onClick={() => updateStatus()}>
+                            <Button color="success" onClick={() => updateStatus('accept')}>
+                                Đồng ý
+                            </Button>
+                            <Button color="secondary" onClick={toggle}>Quay lại</Button>
+                        </ModalFooter>
+                    </Modal>
+                </td>
+            }
+            {
+                typePayment === 'withdrawal' && <td>
+                    <Button
+                        color="danger"
+                        onClick={toggle}
+                    >
+                        Hủy
+                    </Button>
+                    <Modal isOpen={modal} toggle={toggle} className={``}>
+                        <ModalHeader toggle={toggle}>Thông báo</ModalHeader>
+                        <ModalBody>
+                            Lưu thay đổi ?
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="success" onClick={() => updateStatus('deny')}>
                                 Đồng ý
                             </Button>
                             <Button color="secondary" onClick={toggle}>Quay lại</Button>
@@ -196,7 +248,29 @@ export default function HistoryItem(props) {
                             Lưu thay đổi ?
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="success" onClick={() => updateStatusCharge()}>
+                            <Button color="success" onClick={() => updateStatusCharge('accept')}>
+                                Đồng ý
+                            </Button>
+                            <Button color="secondary" onClick={toggle1}>Quay lại</Button>
+                        </ModalFooter>
+                    </Modal>
+                </td>
+            }
+            {
+                typePayment === 'charge' && <td>
+                    <Button
+                        color="danger"
+                        onClick={toggle1}
+                    >
+                        Hủy
+                    </Button>
+                    <Modal isOpen={modal1} toggle={toggle1} className={``}>
+                        <ModalHeader toggle={toggle1}>Thông báo</ModalHeader>
+                        <ModalBody>
+                            Lưu thay đổi ?
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="success" onClick={() => updateStatusCharge('deny')}>
                                 Đồng ý
                             </Button>
                             <Button color="secondary" onClick={toggle1}>Quay lại</Button>

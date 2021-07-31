@@ -727,20 +727,20 @@ label {
 }
 
 #bank-info {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0;
-  list-style: inside;
-}
-
-#address {
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 0;
   list-style: inside;
 }
+
+/* #address {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0;
+  list-style: inside;
+} */
 
 .content {
   height: 100px;
@@ -2501,13 +2501,14 @@ tr > td:nth-child(6) {
 }
 
 .search-order-admin > div:nth-child(2),
-.search-order-admin > div:nth-child(3) {
+.search-order-admin > div:nth-child(3),
+.search-order-admin > div:nth-child(4) {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.search-order-admin > div:nth-child(4) {
+.search-order-admin > div:nth-child(5) {
   width: 20%;
 }
 
@@ -2540,7 +2541,8 @@ tr > td:nth-child(6) {
 }
 
 .admin-wallet-search > div:nth-child(2),
-.admin-wallet-search > div:nth-child(3) {
+.admin-wallet-search > div:nth-child(3),
+.admin-wallet-search > div:nth-child(5) {
   display: flex;
   flex-direction: row;
   justify-content: center;

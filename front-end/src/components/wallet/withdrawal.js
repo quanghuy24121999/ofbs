@@ -182,7 +182,7 @@ export default function Withdrawal() {
                     <Modal isOpen={modal} toggle={toggle} className={``}>
                         <ModalHeader toggle={toggle}>Thông báo</ModalHeader>
                         <ModalBody>
-                            Bạn có chắc muốn nạp tiền ?
+                            Bạn có chắc muốn rút tiền ?
                         </ModalBody>
                         <ModalFooter>
                             <Button color="success" onClick={withdrawal}>Đồng ý</Button>{' '}
