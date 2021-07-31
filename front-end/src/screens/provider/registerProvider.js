@@ -532,30 +532,30 @@ export default class registerPromotion extends Component {
                             <Button onClick={() => {
                                 let userId = '';
                                 let isAuthen = this.isAuthentication();
-                                if (!validatePhoneNumber(restaurantPhone)) {
-                                    Notify('Số điện thoại sai định dạng', 'error', 'top-right');
-                                    return false;
-                                } else
-                                    if (isAuthen) {
-                                        api.get(`/restaurants/getProviderIdByPhoneNumber/${this.state.restaurantPhone}`)
-                                            .then(res => {
-                                                userId = res.data;
-                                                if (userId !== this.state.user.id) {
-                                                    Notify('Số điện thoại đã tồn tại', 'error', 'top-right');
-                                                } else {
-                                                    if (this.validate()) {
+                                if (isAuthen) {
+                                    if (this.validate()) {
+                                        if (!validatePhoneNumber(restaurantPhone)) {
+                                            Notify('Số điện thoại sai định dạng', 'error', 'top-right');
+                                            return false;
+                                        } else {
+                                            api.get(`/restaurants/getProviderIdByPhoneNumber/${this.state.restaurantPhone}`)
+                                                .then(res => {
+                                                    userId = res.data;
+
+                                                    if (userId !== this.state.user.id) {
+                                                        Notify('Số điện thoại đã tồn tại', 'error', 'top-right');
+                                                    } else {
                                                         this.toggle();
                                                     }
-                                                }
 
-                                            }).catch(() => {
-                                                if (this.validate()) {
+                                                }).catch(() => {
                                                     this.toggle();
-                                                }
-                                            })
-                                    } else {
-                                        Notify('Bạn phải đăng nhập để thực hiện chức năng này', 'error', 'top-right');
+                                                })
+                                        }
                                     }
+                                } else {
+                                    Notify('Bạn phải đăng nhập để thực hiện chức năng này', 'error', 'top-right');
+                                }
                             }
                             } className="btn-register-restaurant" color="success">Đăng ký</Button>
                             <Modal isOpen={modal} toggle={this.toggle} className={``}>

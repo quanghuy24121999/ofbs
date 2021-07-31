@@ -45,7 +45,7 @@ export function validateItemCart(number) {
 }
 
 export function validateEmpty(text) {
-    text = toString(text);
+    text = text.toString();
     if (text.trim() !== '') {
         return true;
     } else {

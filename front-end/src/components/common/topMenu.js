@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import {
     Collapse, Modal, ModalHeader, ModalBody, ModalFooter,
@@ -7,7 +8,8 @@ import {
 
 import { Link, Redirect } from "react-router-dom";
 import image from '../../images/logo_header-removebg-preview.png';
-import { api } from '../../config/axios';
+import userImage from '../../images/default-avatar-user.png';
+import { api, url } from '../../config/axios';
 import { FaBell } from "react-icons/fa";
 
 import NotificationItem from "./notificationItem";
@@ -16,6 +18,7 @@ const TopMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isDisplay, setIsDisplay] = useState(false);
     const [currentUser, setCurrentUser] = useState();
+    const [avatar, setAvatar] = useState();
     const [notifications, setNotifications] = useState([]);
     const [isLogout, setIsLogout] = useState(false);
     const [modal1, setModal1] = useState(false);
@@ -42,6 +45,18 @@ const TopMenu = () => {
                             })
                     }
                 }
+
+                api.get(`/users/profile/?userId=${user.id}`, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                }).then(res => {
+                    if (res.data.image_id === '') {
+                        setAvatar(<CardImg className="user-top-menu-image" top src={userImage} />);
+                    } else {
+                        setAvatar(<CardImg className="user-top-menu-image" top src={url + '/images/' + res.data.image_id} />)
+                    }
+                })
             });
     }
 
@@ -99,7 +114,7 @@ const TopMenu = () => {
                                         <div className="notification-list">
                                             {
                                                 notifications.length > 0 ? (notifications.map((notification, index) => {
-                                                    return <NotificationItem key={index} notification={notification} loadData={loadData}/>
+                                                    return <NotificationItem key={index} notification={notification} loadData={loadData} />
                                                 })) : (
                                                     <h5>Không có thông báo nào </h5>
                                                 )
@@ -119,6 +134,7 @@ const TopMenu = () => {
                                             state: { userId: localStorage.getItem('userId') }
                                         }}
                                     >
+                                        {avatar}
                                         {currentUser.name}
                                     </Link>
                                 </NavItem>
