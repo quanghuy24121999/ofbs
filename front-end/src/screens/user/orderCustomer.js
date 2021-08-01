@@ -133,8 +133,8 @@ export default class orderCustomer extends Component {
                         breakLabel={"..."}
                         breakClassName={"break-me"}
                         pageCount={this.state.pageCount}
-                        marginPagesDisplayed={5}
-                        pageRangeDisplayed={5}
+                        marginPagesDisplayed={1}
+                        pageRangeDisplayed={1}
                         onPageChange={this.handlePageClick}
                         containerClassName={"pagination"}
                         subContainerClassName={"pages pagination"}

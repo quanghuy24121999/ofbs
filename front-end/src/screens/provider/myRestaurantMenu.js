@@ -212,7 +212,7 @@ export default class myRestaurantMenu extends Component {
 
     toggle() {
         this.setState({ modal: !this.state.modal });
-        
+
     };
 
     onChange = (imageList, addUpdateIndex) => {
@@ -243,7 +243,7 @@ export default class myRestaurantMenu extends Component {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
                 const dishesPaging = slice.map((dish, index) => {
-                    return <MyRestaurantMenuItem key={index} dish={dish} count={index + 1} restaurantId={restaurantId} currentPage={this.state.currentPage}/>
+                    return <MyRestaurantMenuItem key={index} dish={dish} count={index + 1} restaurantId={restaurantId} currentPage={this.state.currentPage} />
                 })
 
                 this.setState({
@@ -260,7 +260,7 @@ export default class myRestaurantMenu extends Component {
 
         return (
             <div className="myRes-menu">
-                <TopMenu />
+                <TopMenu searchResMenu/>
                 <Nav pills className="restaurant-detail-nav container">
                     <NavItem >
                         <Link to={`/users/profile/my-restaurant/detail`}>Thông tin</Link>
@@ -348,7 +348,7 @@ export default class myRestaurantMenu extends Component {
                 <Container>
                     <h3>Món ăn</h3>
                     <hr />
-                    <div className="menu-search">
+                    <div className="menu-search" id="menu-search">
                         <div>
                             <Input
                                 type="text"
@@ -499,21 +499,23 @@ export default class myRestaurantMenu extends Component {
                         </Modal>
 
                     </div>
-                    <Table>
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Tên món ăn</th>
-                                <th>Giá (VNĐ)</th>
-                                <th>Loại món ăn</th>
-                                <th>Trạng thái</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.state.dishesPaging}
-                        </tbody>
-                    </Table>
+                    <div className="table-responsive">
+                        <Table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Tên món ăn</th>
+                                    <th>Giá (VNĐ)</th>
+                                    <th>Loại món ăn</th>
+                                    <th>Trạng thái</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.state.dishesPaging}
+                            </tbody>
+                        </Table>
+                    </div>
                     <ReactPaginate
                         previousLabel={"Trang trước"}
                         nextLabel={"Trang sau"}

@@ -191,8 +191,8 @@ export default class searchResult extends Component {
 
         return (
             <div>
-                <TopMenu />
-                <div className="result-search">
+                <TopMenu searchRes/>
+                <div className="result-search" id="result-search">
                     <Form className="result-search-form">
                         <FormGroup className="result-search-text">
                             <Input
@@ -250,16 +250,16 @@ export default class searchResult extends Component {
                                 </Label>
                             </FormGroup>
                         </div>
-                        <Button onClick={this.onSubmit} type="submit" className="btn-result-search" color="primary"><FaSearch className="icon-search" /></Button> 
+                        <Button onClick={this.onSubmit} type="submit" className="btn-result-search" color="primary"><FaSearch className="icon-search" /></Button>
                     </Form>
                 </div>
                 {
                     loading ? (
-                        <Container className="search-content">
+                        <Container className="search-content" id="search-content">
                             <Spinner />
                         </Container>
                     ) : (
-                        <Container className="search-content">
+                        <Container className="search-content" id="search-content">
                             <Row className="result-search-row">
                                 {this.state.restaurants}
                             </Row>
@@ -269,8 +269,8 @@ export default class searchResult extends Component {
                                 breakLabel={"..."}
                                 breakClassName={"break-me"}
                                 pageCount={this.state.pageCount}
-                                marginPagesDisplayed={5}
-                                pageRangeDisplayed={5}
+                                marginPagesDisplayed={1}
+                                pageRangeDisplayed={1}
                                 onPageChange={this.handlePageClick}
                                 containerClassName={"pagination"}
                                 subContainerClassName={"pages pagination"}

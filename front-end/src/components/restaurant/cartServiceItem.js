@@ -47,15 +47,17 @@ export default function CartServiceItem(props) {
             {
                 item.service_name &&
                 (<div className="cart">
-                    <CardImg
-                        className="cart-dish-img"
-                        top
-                        src={url + '/images/' + item.image_service_id}
-                        alt=""
-                    />
-                    <div className="cart-detail">
-                        <div className="cart-dish-name">{item.service_name}</div>
-                        <div className="cart-dish-price">{formatCurrency(item.price) + ' VNĐ'}</div>
+                    <div>
+                        <CardImg
+                            className="cart-dish-img"
+                            top
+                            src={url + '/images/' + item.image_service_id}
+                            alt=""
+                        />
+                        <div className="cart-detail">
+                            <div className="cart-dish-name">{item.service_name}</div>
+                            <div className="cart-dish-price">{formatCurrency(item.price) + ' VNĐ'}</div>
+                        </div>
                     </div>
                     <div className="cart-group-btn">
                         <Button className="btn-sub" onClick={() => { decrese() }}>

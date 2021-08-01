@@ -95,7 +95,7 @@ export default function Info() {
             <hr />
             <div className="history">
                 <h3 className="history-title">Lịch sử giao dịch</h3>
-                <div className="wallet-search">
+                <div className="wallet-search" id="wallet-search">
                     <div>
                         <Input
                             type="text"
@@ -141,6 +141,8 @@ export default function Info() {
                         <Button color="primary" className="btn-search-wallet" onClick={search}><FaSearch className="icon-search" /></Button>
                     </div>
                 </div>
+            </div>
+            <div className="table-responsive">
                 <Table>
                     <thead>
                         <tr>
@@ -156,20 +158,20 @@ export default function Info() {
                         {history.length > 0 && history}
                     </tbody>
                 </Table>
-                <ReactPaginate
-                    previousLabel={"Trang trước"}
-                    nextLabel={"Trang sau"}
-                    breakLabel={"..."}
-                    breakClassName={"break-me"}
-                    pageCount={pageCount}
-                    marginPagesDisplayed={5}
-                    pageRangeDisplayed={5}
-                    onPageChange={handlePageClick}
-                    containerClassName={"pagination"}
-                    subContainerClassName={"pages pagination"}
-                    activeClassName={"active"}
-                />
             </div>
+            <ReactPaginate
+                previousLabel={"Trang trước"}
+                nextLabel={"Trang sau"}
+                breakLabel={"..."}
+                breakClassName={"break-me"}
+                pageCount={pageCount}
+                marginPagesDisplayed={5}
+                pageRangeDisplayed={5}
+                onPageChange={handlePageClick}
+                containerClassName={"pagination"}
+                subContainerClassName={"pages pagination"}
+                activeClassName={"active"}
+            />
         </Container>
     )
 }

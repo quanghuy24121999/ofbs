@@ -444,11 +444,13 @@ export default class orderCustomerDetail extends Component {
                     <hr></hr>
 
                     <Row className="od-content-detail">
-                        <Col><OrderDetailDishItem listOrderDetails={listOrderDetails} /></Col>
-                        <Row>
-                            <Col><OrderDetailComboItem listOrderDetails={listOrderDetails} /></Col>
-                            <Col><OrderDetailServiceItem listOrderDetails={listOrderDetails} /></Col>
-                        </Row>
+                        <Col lg="12" sm="12" md="12"><OrderDetailDishItem listOrderDetails={listOrderDetails} /></Col>
+                        <Col lg="12" sm="12" md="12">
+                            <Row>
+                                <Col><OrderDetailComboItem listOrderDetails={listOrderDetails} /></Col>
+                                <Col><OrderDetailServiceItem listOrderDetails={listOrderDetails} /></Col>
+                            </Row>
+                        </Col>
                     </Row>
                     <div className="order-detail-footer">
                         <div className="order-detail-amount">
@@ -458,7 +460,7 @@ export default class orderCustomerDetail extends Component {
                         {
                             orderDetailInfo.order_status !== "cancelled" &&
                             orderDetailInfo.order_status !== "accomplished" &&
-                            <Button color="danger" onClick={this.toggle}>Hủy đặt</Button>
+                            <Button className="btn-cancel-order" color="danger" onClick={this.toggle}>Hủy đặt</Button>
                         }
                         <Modal isOpen={this.state.modal} toggle={this.toggle} className={``}>
                             <ModalHeader toggle={this.toggle}>Thông báo</ModalHeader>

@@ -21,7 +21,7 @@ export default function Wallet() {
 
     return (
         <div>
-            <TopMenu />
+            <TopMenu searchWallet/>
             <Nav pills className="restaurant-detail-nav container">
                 <NavItem >
                     <Link to={`/users/profile`}>Hồ sơ</Link>

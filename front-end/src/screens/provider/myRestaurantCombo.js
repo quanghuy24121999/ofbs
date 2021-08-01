@@ -82,7 +82,7 @@ export default class myRestaurantCombo extends Component {
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
                 const combosPaging = slice.map((combo, index) => {
-                    return <MyRestaurantMenuItem key={index} combo={combo} count={index + 1} restaurantId={restaurantId} currentPage={this.state.currentPage}/>
+                    return <MyRestaurantMenuItem key={index} combo={combo} count={index + 1} restaurantId={restaurantId} currentPage={this.state.currentPage} />
                 })
 
                 this.setState({
@@ -364,20 +364,22 @@ export default class myRestaurantCombo extends Component {
                             </ModalFooter>
                         </Modal>
                     </div>
-                    <Table>
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Tên combo</th>
-                                <th>Giá (VNĐ)</th>
-                                <th>Trạng thái</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.state.combosPaging}
-                        </tbody>
-                    </Table>
+                    <div className="table-responsive">
+                        <Table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Tên combo</th>
+                                    <th>Giá (VNĐ)</th>
+                                    <th>Trạng thái</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.state.combosPaging}
+                            </tbody>
+                        </Table>
+                    </div>
                     <ReactPaginate
                         previousLabel={"Trang trước"}
                         nextLabel={"Trang sau"}
