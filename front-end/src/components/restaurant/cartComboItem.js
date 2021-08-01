@@ -62,15 +62,17 @@ export default function CartComboItem(props) {
             {
                 item.combo_name &&
                 (<div className="cart">
-                    <CardImg
-                        className="cart-dish-img"
-                        top
-                        src={url + '/images/' + item.image_dish_id}
-                        alt=""
-                    />
-                    <div className="cart-detail">
-                        <div className="cart-dish-name">{item.combo_name}</div>
-                        <div className="cart-dish-price">{formatCurrency(item.price) + ' VNĐ'}</div>
+                    <div>
+                        <CardImg
+                            className="cart-dish-img"
+                            top
+                            src={url + '/images/' + item.image_dish_id}
+                            alt=""
+                        />
+                        <div className="cart-detail">
+                            <div className="cart-dish-name">{item.combo_name}</div>
+                            <div className="cart-dish-price">{formatCurrency(item.price) + ' VNĐ'}</div>
+                        </div>
                     </div>
                     <div className="cart-group-btn">
                         <Button className="btn-sub" onClick={() => { decrese() }}>

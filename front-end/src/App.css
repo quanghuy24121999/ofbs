@@ -40,6 +40,19 @@ input[type="number"]:focus,
   box-shadow: none;
 }
 
+.navbar-toggler {
+  border: 0;
+}
+
+.navbar-dark .navbar-toggler {
+  color: transparent !important;
+  border-color: transparent !important;
+}
+
+.table-responsive {
+  width: 100%;
+}
+
 /*================================================== TOP MENU ================================================== */
 .top-menu {
   position: fixed;
@@ -300,7 +313,7 @@ input[type="number"]:focus,
   font-weight: 500;
   transform: translate(-50%, -50%);
   width: 100%;
-  font-family: 'Arima Madurai', cursive;
+  font-family: "Arima Madurai", cursive;
 }
 
 .image {
@@ -831,7 +844,13 @@ label {
   margin: 0 10px;
 }
 
-.cart > img {
+.cart > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cart > div > img {
   width: 60px;
   height: 60px;
 }
@@ -860,9 +879,10 @@ label {
 
 .cart-group-btn {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   flex-direction: row;
+  width: 45%;
 }
 
 .cart-dish-quantity {
@@ -941,6 +961,7 @@ hr {
   margin: 10px 0;
   font-size: 2rem;
   font-weight: 499;
+  text-align: center;
 }
 
 .icon-success {
@@ -2698,7 +2719,8 @@ a {
   }
 
   .search-form {
-    width: 70%;
+    width: 80%;
+    padding: 30px;
   }
 
   .search-location {
@@ -2711,8 +2733,36 @@ a {
     width: 100%;
   }
 
+  .citySelect > label > b,
+  .districtSelect > label > b {
+    display: none;
+  }
+
+  .citySelect > select,
+  .districtSelect > select {
+    margin-top: -20px;
+  }
+
+  .search-other {
+    flex-direction: column;
+    margin-top: -10px;
+  }
+
+  .search-other > div {
+    font-weight: 500;
+  }
+
+  .search-other > div:nth-child(2) {
+    margin-top: -10px;
+  }
+
   .btn-search {
-    transform: translateX(40%) translateY(30px);
+    position: unset;
+    font-size: 24px;
+    width: 100%;
+    height: auto;
+    bottom: 0;
+    transform: translateX(0) translateY(0);
   }
 
   .home-title {
@@ -2720,13 +2770,22 @@ a {
   }
 
   .home-content {
-    margin-top: 265px;
+    margin-top: 50px;
+  }
+
+  .content-title {
+    font-size: 1.2rem;
+    font-weight: 500;
   }
 
   .heading-title,
   .heading-see-all {
-    font-size: 16px;
-    border-left-width: 2px;
+    font-size: 1.1rem;
+    border-left-width: 0;
+    padding-left: 0;
+    padding-bottom: 5px;
+    margin: 0 auto;
+    border-bottom: 2px solid var(--color-primary);
   }
 
   .card-title {
@@ -2741,7 +2800,7 @@ a {
     display: none;
   }
 
-  .btn-success {
+  .search-form > .btn-search {
     font-size: 14px;
   }
 
@@ -2758,6 +2817,10 @@ a {
   .nav-section > .nav-item,
   .authen > .nav-item {
     margin: 5px 0;
+  }
+
+  .authen > li:last-child {
+    align-self: center;
   }
 
   /*============================ USER PROFILE =============================*/
@@ -2785,12 +2848,18 @@ a {
   .user-address,
   .user-gender,
   .user-dob {
-    justify-content: center;
+    justify-content: flex-start;
+  }
+
+  .user-dob {
+    border-bottom: 1px solid #b5b5b5;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
   }
 
   .btn-edit,
   .btn-user-change-password {
-    width: 30%;
+    width: 44%;
   }
 
   /*============================ SEARCH RESULT =============================*/
@@ -2815,7 +2884,8 @@ a {
 
   .result-search-location,
   .result-search-other {
-    padding-left: 12px;
+    padding-left: 10px;
+    margin-top: -7px;
   }
 
   .btn-result-search {
@@ -2824,15 +2894,169 @@ a {
 
   .search-content {
     margin-top: 280px;
+    transition: all 1s ease 0s;
   }
 
   .search-item > .item {
     margin: 0;
   }
 
-  /* .btn-toggle {
+  .pagination {
+    flex-wrap: wrap;
+    margin: 10px 0;
+  }
+
+  .icon-search-top {
+    color: #adadad;
+    font-size: 1.2rem;
+    line-height: 0;
+  }
+
+  .option {
     display: flex;
-  } */
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /*============================ USER ORDER =============================*/
+  .od-info {
+    padding-left: 20px;
+  }
+
+  .btn-cancel-order {
+    width: 30%;
+  }
+
+  .order-detail-amount > h5 {
+    font-size: 1.2rem !important;
+  }
+
+  .order-detail-footer {
+    flex-wrap: wrap;
+  }
+
+  /*============================ USER RESTAURANT =============================*/
+  .restaurant-row > div > div {
+    margin: 0;
+  }
+
+  .menu-search,
+  .service-search,
+  .wallet-search {
+    position: fixed;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffff;
+    box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
+    padding: 10px;
+    top: 70px;
+    left: 0;
+    right: 0;
+    margin: 0;
+  }
+
+  .menu-search > div,
+  .service-search > div {
+    margin: 3px 0;
+  }
+
+  .wallet-search > div {
+    width: 90% !important;
+    margin: 3px 0 !important;
+  }
+
+  .btn-menu-search,
+  .btn-service-search,
+  .btn-search-wallet {
+    padding: 5px 30px;
+    margin: 0;
+  }
+
+  .btn-add-combo > button,
+  .add-promotion > button {
+    margin: 0 auto;
+  }
+
+  .custome-modal,
+  .modal-add-dish-to-combo,
+  .modal-order {
+    max-width: 100%;
+  }
+
+  .search-order {
+    width: 90%;
+  }
+
+  /*============================== RESTAURANT ====================================*/
+  .menu-search-dish {
+    margin: 0 auto;
+    width: 80%;
+  }
+
+  .cart-display {
+    right: 18px;
+    top: 140px;
+  }
+
+  .cart-select > div,
+  .cart-other-option > div {
+    margin: 0px 2px;
+  }
+
+  .cart {
+    flex-direction: column;
+  }
+
+  .cart-detail {
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+  }
+
+  .cart > div > img {
+    margin: 7px 10px;
+  }
+
+  .cart-dish-quantity {
+    max-width: 60px;
+  }
+
+  .info-cart-modal {
+    max-width: 100%;
+  }
+
+  .dish-search-row > div > div > div {
+    margin: 0;
+  }
+
+  .combo-header {
+    flex-direction: column;
+  }
+
+  .input-restaurant-type {
+    margin-top: 10px;
+  }
+
+  /*============================== NOTIFICATION ====================================*/
+  .notification {
+    width: 350px;
+    height: 300px;
+    left: -165px;
+  }
+
+  .admin-notification {
+    width: 350px;
+    left: -225px;
+  }
+
+  /*============================== ADMIN ====================================*/
+  .admin-nav-number-user {
+    margin-left: 5px;
+    margin-top: -20px;
+  }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1199.98px) {

@@ -420,21 +420,23 @@ export default class myRestaurantPromotion extends Component {
                         </Modal>
 
                     </div>
-                    <Table className="promotion-table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Tên khuyến mãi</th>
-                                <th>Ngày bắt đầu</th>
-                                <th>Ngày kết thúc</th>
-                                <th>Trạng thái</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.state.promotionsPaging}
-                        </tbody>
-                    </Table>
+                    <div className="table-responsive">
+                        <Table className="promotion-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Tên khuyến mãi</th>
+                                    <th>Ngày bắt đầu</th>
+                                    <th>Ngày kết thúc</th>
+                                    <th>Trạng thái</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.state.promotionsPaging}
+                            </tbody>
+                        </Table>
+                    </div>
                     <ReactPaginate
                         previousLabel={"Trang trước"}
                         nextLabel={"Trang sau"}

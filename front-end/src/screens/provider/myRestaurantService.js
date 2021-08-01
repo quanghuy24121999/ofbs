@@ -269,7 +269,7 @@ export default class myRestaurantService extends Component {
 
         return (
             <div className="myRes-service">
-                <TopMenu />
+                <TopMenu searchResService/>
                 <Nav pills className="restaurant-detail-nav container">
                     <NavItem >
                         <Link to={`/users/profile/my-restaurant/detail`}>Thông tin</Link>
@@ -357,7 +357,7 @@ export default class myRestaurantService extends Component {
                 <Container>
                     <h3>Dịch vụ</h3>
                     <hr />
-                    <div className="service-search">
+                    <div className="service-search" id="service-search">
                         <div>
                             <Input
                                 type="text"
@@ -508,22 +508,23 @@ export default class myRestaurantService extends Component {
                         </Modal>
 
                     </div>
-                    <Table>
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Tên dịch vụ</th>
-                                <th>Giá (VNĐ)</th>
-                                <th>Loại dịch vụ</th>
-                                <th>Trạng thái</th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.state.servicesPaging}
-                        </tbody>
-                    </Table>
+                    <div className="table-responsive">
+                        <Table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Tên dịch vụ</th>
+                                    <th>Giá (VNĐ)</th>
+                                    <th>Loại dịch vụ</th>
+                                    <th>Trạng thái</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.state.servicesPaging}
+                            </tbody>
+                        </Table>
+                    </div>
                     <ReactPaginate
                         previousLabel={"Trang trước"}
                         nextLabel={"Trang sau"}

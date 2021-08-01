@@ -185,20 +185,22 @@ export default class myRestaurantOrder extends Component {
                             <Button color="primary" className="btn-search-order" onClick={this.search}><FaSearch className="icon-search" /></Button>
                         </div>
                     </div>
-                    <Table className="order-table">
-                        <thead>
-                            <tr>
-                                <th>Mã đơn</th>
-                                <th>Tổng tiền (VNĐ)</th>
-                                <th>Ngày đặt</th>
-                                <th>Trạng thái</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.state.ordersPaging}
-                        </tbody>
-                    </Table>
+                    <div className="table-responsive">
+                        <Table className="order-table">
+                            <thead>
+                                <tr>
+                                    <th>Mã đơn</th>
+                                    <th>Tổng tiền (VNĐ)</th>
+                                    <th>Ngày đặt</th>
+                                    <th>Trạng thái</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.state.ordersPaging}
+                            </tbody>
+                        </Table>
+                    </div>
                     <ReactPaginate
                         previousLabel={"Trang trước"}
                         nextLabel={"Trang sau"}

@@ -10,11 +10,11 @@ import { Link, Redirect } from "react-router-dom";
 import image from '../../images/logo_header-removebg-preview.png';
 import userImage from '../../images/default-avatar-user.png';
 import { api, url } from '../../config/axios';
-import { FaBell } from "react-icons/fa";
+import { FaBell, FaSearch } from "react-icons/fa";
 
 import NotificationItem from "./notificationItem";
 
-const TopMenu = () => {
+const TopMenu = (props) => {
     const [isOpen, setIsOpen] = useState(false);
     const [isDisplay, setIsDisplay] = useState(false);
     const [currentUser, setCurrentUser] = useState();
@@ -80,13 +80,89 @@ const TopMenu = () => {
         }
     }
 
+    const displaySearch = (type) => {
+        if (type === 'searchRes') {
+            let element = document.getElementById('result-search');
+            let element1 = document.getElementById('search-content');
+
+            if (element !== undefined && element !== null) {
+                if (element.style.display === "none") {
+                    element.style.display = "flex";
+                    if (element1 !== undefined && element1 !== null) {
+                        element1.style.marginTop = '270px';
+                    }
+                } else {
+                    if (element1 !== undefined && element1 !== null) {
+                        element1.style.marginTop = '80px';
+                    }
+                    element.style.display = "none";
+                }
+            }
+        } else if (type === 'searchResMenu') {
+            let element = document.getElementById('menu-search');
+
+            if (element !== undefined && element !== null) {
+                if (element.style.display === "none" || element.style.display === "") {
+                    element.style.display = "flex";
+                } else {
+                    element.style.display = "none";
+                }
+            }
+        } else if (type === 'searchResService') {
+            let element = document.getElementById('service-search');
+
+            if (element !== undefined && element !== null) {
+                if (element.style.display === "none" || element.style.display === "") {
+                    element.style.display = "flex";
+                } else {
+                    element.style.display = "none";
+                }
+            }
+        } else if (type === 'searchWallet') {
+            let element = document.getElementById('wallet-search');
+
+            if (element !== undefined && element !== null) {
+                if (element.style.display === "none" || element.style.display === "") {
+                    element.style.display = "flex";
+                } else {
+                    element.style.display = "none";
+                }
+            }
+        }
+    }
+
     return (
         <div>
             <Navbar dark className="top-menu" expand="md">
                 <NavbarBrand className="logo" href="/">
                     <CardImg src={image} alt="Logo" />
                 </NavbarBrand>
-                <NavbarToggler onClick={toggle} color="success" />
+                <div className="option">
+                    {
+                        props.searchRes && <div className="icon-search-top" onClick={() => displaySearch('searchRes')}>
+                            <FaSearch />
+                        </div>
+                    }
+
+                    {
+                        props.searchResMenu && <div className="icon-search-top" onClick={() => displaySearch('searchResMenu')}>
+                            <FaSearch />
+                        </div>
+                    }
+
+                    {
+                        props.searchResService && <div className="icon-search-top" onClick={() => displaySearch('searchResService')}>
+                            <FaSearch />
+                        </div>
+                    }
+
+                    {
+                        props.searchWallet && <div className="icon-search-top" onClick={() => displaySearch('searchWallet')}>
+                            <FaSearch />
+                        </div>
+                    }
+                    <NavbarToggler onClick={toggle} color="success" />
+                </div>
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="mr-auto nav" navbar>
                         <div className="nav-section">
