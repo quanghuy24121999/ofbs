@@ -202,7 +202,7 @@ export default function Recharge() {
     return (
         <Container className="wallet-recharge">
             <Row>
-                <Col lg="6" md="6" sm="12">
+                <Col lg="6" md="12" sm="12">
                     <FormGroup tag="fieldset" className="recharge">
                         <div className="recharge-title">Chọn phương thức nạp tiền</div>
                         <hr />
@@ -264,7 +264,7 @@ export default function Recharge() {
                         </FormGroup>
                     </FormGroup>
                 </Col>
-                <Col lg="6" md="6" sm="12" className="form-recharge">
+                <Col lg="6" md="12" sm="12" className="form-recharge">
                     <div>Nhập số tiền muốn nạp (VNĐ)</div>
                     <Input
                         type="number"

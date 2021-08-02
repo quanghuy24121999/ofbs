@@ -628,7 +628,7 @@ export default function MyRestaurantOrderItem(props) {
                         {
                             orderDetailInfo && <Container>
                                 <Row>
-                                    <Col lg="6" md="6" sm="12" className="info-order">
+                                    <Col lg="6" md="12" sm="12" className="info-order">
                                         <h4>Thông tin đơn hàng</h4>
                                         <hr />
                                         <div className="od-info-code"><b>Mã số đơn hàng: </b>{orderDetailInfo.order_code}</div>
@@ -649,7 +649,7 @@ export default function MyRestaurantOrderItem(props) {
                                             <Row className="info-order-btn">
                                                 {
                                                     orderStatus === 'Đang chờ duyệt' && (
-                                                        <Col lg="6" md="6" sm="6">
+                                                        <Col lg="6" md="12" sm="6">
                                                             <Button color="success" style={{ width: '110px' }} onClick={toggle1}>
                                                                 Nhận đơn
                                                             </Button>
@@ -724,7 +724,7 @@ export default function MyRestaurantOrderItem(props) {
                                             </Row>
                                         </div>
                                     </Col>
-                                    <Col lg="6" md="6" sm="12">
+                                    <Col lg="6" md="12" sm="12">
                                         <Row>
                                             <Col lg="12" md="12" sm="12"><OrderDetailDishItem listOrderDetails={listOrderDetails} /></Col>
                                             <Col lg="12" md="12" sm="12"><OrderDetailComboItem listOrderDetails={listOrderDetails} /></Col>

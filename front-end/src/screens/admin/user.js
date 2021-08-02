@@ -72,7 +72,7 @@ export default function User() {
                 const data = res.data;
                 const slice = data.slice(offset, offset + perPage)
                 const userPaging = slice.map((user, index) => {
-                    return <UserItem receivedData={receivedData} key={index} user={user} count={index + 1} currentPage={currentPage}/>
+                    return <UserItem receivedData={receivedData} key={index} user={user} count={index + 1} currentPage={currentPage} />
                 })
 
                 setUsers(userPaging);
@@ -99,13 +99,36 @@ export default function User() {
                     </div>
                     <div className="admin-nav-number-user"></div>
                     <div className="admin-nav-infor">
+                        <div
+                            className="admin-icon-search"
+                            onClick={() => {
+                                let element = document.getElementById('admin-search-user');
+                                let element1 = document.getElementById('admin-user-content');
+
+                                if (element !== undefined && element !== null) {
+                                    if (element.style.display === "none" || element.style.display === "") {
+                                        element.style.display = "flex";
+                                        if (element1 !== undefined && element1 !== null) {
+                                            element1.style.marginTop = '300px';
+                                        }
+                                    } else {
+                                        element.style.display = "none";
+                                        if (element1 !== undefined && element1 !== null) {
+                                            element1.style.marginTop = '100px';
+                                        }
+                                    }
+                                }
+                            }}
+                        >
+                            <FaSearch />
+                        </div>
                         <Notification />
                         <Link className="btn btn-primary" to='/login' onClick={Logout}>Đăng xuất</Link>
                     </div>
                 </div>
-                <Container>
+                <Container id="admin-user-content">
                     <h4>Quản lý người dùng</h4>
-                    <div className="admin-search-user">
+                    <div className="admin-search-user" id="admin-search-user">
                         <div>
                             <Input
                                 type="text"
@@ -141,24 +164,26 @@ export default function User() {
                         </div>
                     </div>
                     <hr />
-                    <Table className="restaurant-table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Tên người dùng</th>
-                                <th>Số điện thoại</th>
-                                <th>Vai trò</th>
-                                <th>Trạng thái</th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                users.length > 0 && users
-                            }
-                        </tbody>
-                    </Table>
+                    <div className="table-responsive">
+                        <Table className="restaurant-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Tên người dùng</th>
+                                    <th>Số điện thoại</th>
+                                    <th>Vai trò</th>
+                                    <th>Trạng thái</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    users.length > 0 && users
+                                }
+                            </tbody>
+                        </Table>
+                    </div>
                     <ReactPaginate
                         previousLabel={"Trang trước"}
                         nextLabel={"Trang sau"}

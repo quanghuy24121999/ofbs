@@ -19,7 +19,7 @@ const SlideBar = ({ toggled, handleToggleSidebar, inComponent }) => {
     return (
         <ProSidebar
             toggled={toggled}
-            breakPoint="md"
+            breakPoint="lg"
             onToggle={handleToggleSidebar}
         >
             <SidebarHeader>

@@ -92,13 +92,13 @@ export default function RestaurantDishItem(props) {
                     <Row>
                         {
                             imageId && (
-                                <Col>
+                                <Col lg="6" md="6" sm="12">
                                     <CardImg id="user-image" className="dish-image" top src={url + `/images/${imageId}`} alt="món ăn" />
                                 </Col>
                             )
                         }
                         {
-                            dishModal && <Col className="info">
+                            dishModal && <Col lg="6" md="6" sm="12" className="info">
                                 <div>
                                     <b>Tên món ăn:</b>{' ' + dishModal.name}
                                 </div>

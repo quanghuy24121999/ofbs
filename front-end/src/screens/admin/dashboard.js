@@ -125,13 +125,15 @@ function Dashboard() {
                     <div className="btn-toggle" onClick={() => handleToggleSidebar(true)}>
                         <FaBars />
                     </div>
-                    <div className="admin-nav-number-user">Số người đang sử dụng hệ thống: {totalUser}</div>
+                    <div className="admin-nav-number-user"></div>
                     <div className="admin-nav-infor">
                         <Notification />
                         <Link className="btn btn-primary" to='/login' onClick={Logout}>Đăng xuất</Link>
                     </div>
                 </div>
-                <Container>
+                <Container className="admin-dashboard-content">
+                    <div className="admin-nav-number-user">Số người đang sử dụng hệ thống: {totalUser}</div>
+                    <hr />
                     <Row className="dashboard-row">
                         <Col lg="8" md="12" sm="12">
                             <div>

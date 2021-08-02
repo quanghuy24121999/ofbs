@@ -57,29 +57,31 @@ export default function Report() {
                         <Link className="btn btn-primary" to='/login' onClick={Logout}>Đăng xuất</Link>
                     </div>
                 </div>
-                <Container>
+                <Container className="admin-report-content">
                     <h4>Báo cáo của khách hàng</h4>
                     <hr />
-                    <Table className="report-table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Nội dung</th>
-                                <th>Thời gian</th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                reports.length > 0 && (
-                                    reports.map((report, index) => {
-                                        return <ReportItem getData={getData} key={index} report={report} count={index + 1} />
-                                    })
-                                )
-                            }
-                        </tbody>
-                    </Table>
+                    <div className="table-responsive">
+                        <Table className="report-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nội dung</th>
+                                    <th>Thời gian</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    reports.length > 0 && (
+                                        reports.map((report, index) => {
+                                            return <ReportItem getData={getData} key={index} report={report} count={index + 1} />
+                                        })
+                                    )
+                                }
+                            </tbody>
+                        </Table>
+                    </div>
                 </Container>
             </div>
         </div>

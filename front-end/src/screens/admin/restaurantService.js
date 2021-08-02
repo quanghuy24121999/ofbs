@@ -45,7 +45,7 @@ export default function RestaurantService(props) {
                 const data = res.data;
                 const slice = data.slice(offset, offset + perPage)
                 const servicesPaging = slice.map((service, index) => {
-                    return <RestaurantServiceItem key={index} service={service} count={index + 1} restaurantId={restaurantId} receivedData={receivedData}/>
+                    return <RestaurantServiceItem key={index} service={service} count={index + 1} restaurantId={restaurantId} receivedData={receivedData} />
                 })
 
                 setServices(servicesPaging);
@@ -132,21 +132,23 @@ export default function RestaurantService(props) {
                     </NavItem>
                 </Nav>
                 <Container>
-                    <Table>
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Tên dịch vụ</th>
-                                <th>Giá (VNĐ)</th>
-                                <th>Loại dịch vụ</th>
-                                <th>Trạng thái</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {services.length > 0 && services}
-                        </tbody>
-                    </Table>
+                    <div className="table-responsive">
+                        <Table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Tên dịch vụ</th>
+                                    <th>Giá (VNĐ)</th>
+                                    <th>Loại dịch vụ</th>
+                                    <th>Trạng thái</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {services.length > 0 && services}
+                            </tbody>
+                        </Table>
+                    </div>
                     <ReactPaginate
                         previousLabel={"Trang trước"}
                         nextLabel={"Trang sau"}

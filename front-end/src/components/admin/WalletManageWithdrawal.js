@@ -73,7 +73,7 @@ export default function WalletManageWithdrawal() {
                         const data = res.data;
                         const slice = data.slice(offset, offset + perPage)
                         const historyPaging = slice.map((history, index) => {
-                            return <HistoryItem key={index} history={history} type='withdrawal' receivedData={receivedData}/>
+                            return <HistoryItem key={index} history={history} type='withdrawal' receivedData={receivedData} />
                         })
 
                         setHistory(historyPaging);
@@ -83,10 +83,10 @@ export default function WalletManageWithdrawal() {
     }
 
     return (
-        <Container>
+        <Container className="admin-wallet">
             <div className="history">
                 <h3 className="history-title">Quản lý rút tiền</h3>
-                <div className="admin-wallet-search">
+                <div className="admin-wallet-search" id="admin-wallet-search">
                     <div>
                         <Input
                             type="text"
@@ -118,23 +118,25 @@ export default function WalletManageWithdrawal() {
                         <Button color="primary" className="btn-search-wallet" onClick={() => search()}><FaSearch className="icon-search" /></Button>
                     </div>
                 </div>
-                <Table>
-                    <thead>
-                        <tr>
-                            <th>Mã giao dịch</th>
-                            <th>Loại</th>
-                            <th>Số tiền (VNĐ)</th>
-                            <th>Thời gian</th>
-                            <th>Ghi chú</th>
-                            <th>Trạng thái</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {history.length > 0 && history}
-                    </tbody>
-                </Table>
+                <div className="table-responsive">
+                    <Table>
+                        <thead>
+                            <tr>
+                                <th>Mã giao dịch</th>
+                                <th>Loại</th>
+                                <th>Số tiền (VNĐ)</th>
+                                <th>Thời gian</th>
+                                <th>Ghi chú</th>
+                                <th>Trạng thái</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {history.length > 0 && history}
+                        </tbody>
+                    </Table>
+                </div>
                 <ReactPaginate
                     previousLabel={"Trang trước"}
                     nextLabel={"Trang sau"}

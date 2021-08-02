@@ -201,101 +201,101 @@ export default function WalletManageRecharge() {
     }
 
     return (
-        <Container>
-            <div className="history">
-                <h3 className="history-title">Quản lý nạp tiền</h3>
-                <div className="admin-wallet-search">
-                    <div>
-                        <Input
-                            type="text"
-                            value={paymentCode}
-                            onChange={onChangePaymentCode}
-                            placeholder="Mã giao dịch"
-                        />
-                    </div>
-
-                    <div className="order-from">
-                        <div><b>Từ </b></div>
-                        <Input
-                            type="date"
-                            value={fromDate}
-                            max={toDate}
-                            onChange={onChangeFrom}
-                        />
-                    </div>
-                    <div className="order-to">
-                        <div><b>Đến </b></div>
-                        <Input
-                            type="date"
-                            value={toDate}
-                            min={fromDate}
-                            onChange={onChangeTo}
-                        />
-                    </div>
-                    <div>
-                        <Button color="primary" className="btn-search-wallet" onClick={() => search()}><FaSearch className="icon-search" /></Button>
-                    </div>
-                    <div><Button color="primary" onClick={() => {
-                        toggle();
-                    }}>Xử lý nạp tiền</Button>
-                        <Modal isOpen={modal} toggle={toggle} className={``}>
-                            <ModalHeader toggle={toggle}>Nạp tiền</ModalHeader>
-                            <ModalBody>
-                                <div>
-                                    <b>Nhập số tiền <span className="require-icon">*</span></b>
-                                    <Input
-                                        className="mt-2"
-                                        type="number"
-                                        min={1}
-                                        placeholder="Nhập số tiền"
-                                        value={money}
-                                        onChange={onChangeMoney}
-                                    />
-                                </div>
-                                <div className="mt-3">
-                                    <b>Số điện thoại (tài khoản) nạp tiền <span className="require-icon">*</span></b>
-                                    <Input
-                                        className="mt-2"
-                                        type="text"
-                                        placeholder="Nhập số điện thoại. Vd: 012345678"
-                                        value={phone}
-                                        onChange={onChangePhone}
-                                    />
-                                </div>
-                                <div className="mt-2">
-                                    <Button color="primary" onClick={() => {
-                                        check();
-                                    }}>
-                                        Kiểm tra
-                                    </Button>
-                                    <span style={{ marginLeft: '10px', fontWeight: '500' }}>{userName}</span>
-                                </div>
-                            </ModalBody>
-                            <ModalFooter>
-                                <Button color="success" onClick={() => {
-                                    if (validate()) {
-                                        toggle1();
-                                    }
-                                }}>
-                                    Nạp tiền
-                                </Button>
-                                <Modal isOpen={modal1} toggle={toggle1} className={``}>
-                                    <ModalHeader toggle={toggle1}>Nạp tiền</ModalHeader>
-                                    <ModalBody>
-                                        Bạn có chắc chắn muốn nạp tiền ?
-                                    </ModalBody>
-                                    <ModalFooter>
-                                        <Button color="success" onClick={() => recharge()}>
-                                            Đồng ý
-                                        </Button>
-                                        <Button color="secondary" onClick={toggle1}>Quay lại</Button>
-                                    </ModalFooter>
-                                </Modal>
-                                <Button color="secondary" onClick={toggle}>Quay lại</Button>
-                            </ModalFooter>
-                        </Modal>
-                    </div>
+        <Container className="admin-wallet">
+            <h3 className="history-title">Quản lý nạp tiền</h3>
+            <div className="admin-wallet-search" id="admin-wallet-search">
+                <div>
+                    <Input
+                        type="text"
+                        value={paymentCode}
+                        onChange={onChangePaymentCode}
+                        placeholder="Mã giao dịch"
+                    />
                 </div>
+
+                <div className="order-from">
+                    <div><b>Từ </b></div>
+                    <Input
+                        type="date"
+                        value={fromDate}
+                        max={toDate}
+                        onChange={onChangeFrom}
+                    />
+                </div>
+                <div className="order-to">
+                    <div><b>Đến </b></div>
+                    <Input
+                        type="date"
+                        value={toDate}
+                        min={fromDate}
+                        onChange={onChangeTo}
+                    />
+                </div>
+                <div>
+                    <Button color="primary" className="btn-search-wallet" onClick={() => search()}><FaSearch className="icon-search" /></Button>
+                </div>
+                <div><Button color="primary" onClick={() => {
+                    toggle();
+                }}>Xử lý nạp tiền</Button>
+                    <Modal isOpen={modal} toggle={toggle} className={``}>
+                        <ModalHeader toggle={toggle}>Nạp tiền</ModalHeader>
+                        <ModalBody>
+                            <div>
+                                <b>Nhập số tiền <span className="require-icon">*</span></b>
+                                <Input
+                                    className="mt-2"
+                                    type="number"
+                                    min={1}
+                                    placeholder="Nhập số tiền"
+                                    value={money}
+                                    onChange={onChangeMoney}
+                                />
+                            </div>
+                            <div className="mt-3">
+                                <b>Số điện thoại (tài khoản) nạp tiền <span className="require-icon">*</span></b>
+                                <Input
+                                    className="mt-2"
+                                    type="text"
+                                    placeholder="Nhập số điện thoại. Vd: 012345678"
+                                    value={phone}
+                                    onChange={onChangePhone}
+                                />
+                            </div>
+                            <div className="mt-2">
+                                <Button color="primary" onClick={() => {
+                                    check();
+                                }}>
+                                    Kiểm tra
+                                </Button>
+                                <span style={{ marginLeft: '10px', fontWeight: '500' }}>{userName}</span>
+                            </div>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="success" onClick={() => {
+                                if (validate()) {
+                                    toggle1();
+                                }
+                            }}>
+                                Nạp tiền
+                            </Button>
+                            <Modal isOpen={modal1} toggle={toggle1} className={``}>
+                                <ModalHeader toggle={toggle1}>Nạp tiền</ModalHeader>
+                                <ModalBody>
+                                    Bạn có chắc chắn muốn nạp tiền ?
+                                </ModalBody>
+                                <ModalFooter>
+                                    <Button color="success" onClick={() => recharge()}>
+                                        Đồng ý
+                                    </Button>
+                                    <Button color="secondary" onClick={toggle1}>Quay lại</Button>
+                                </ModalFooter>
+                            </Modal>
+                            <Button color="secondary" onClick={toggle}>Quay lại</Button>
+                        </ModalFooter>
+                    </Modal>
+                </div>
+            </div>
+            <div className="table-responsive">
                 <Table>
                     <thead>
                         <tr>
@@ -313,20 +313,20 @@ export default function WalletManageRecharge() {
                         {history.length > 0 && history}
                     </tbody>
                 </Table>
-                <ReactPaginate
-                    previousLabel={"Trang trước"}
-                    nextLabel={"Trang sau"}
-                    breakLabel={"..."}
-                    breakClassName={"break-me"}
-                    pageCount={pageCount}
-                    marginPagesDisplayed={5}
-                    pageRangeDisplayed={5}
-                    onPageChange={handlePageClick}
-                    containerClassName={"pagination"}
-                    subContainerClassName={"pages pagination"}
-                    activeClassName={"active"}
-                />
             </div>
+            <ReactPaginate
+                previousLabel={"Trang trước"}
+                nextLabel={"Trang sau"}
+                breakLabel={"..."}
+                breakClassName={"break-me"}
+                pageCount={pageCount}
+                marginPagesDisplayed={5}
+                pageRangeDisplayed={5}
+                onPageChange={handlePageClick}
+                containerClassName={"pagination"}
+                subContainerClassName={"pages pagination"}
+                activeClassName={"active"}
+            />
         </Container>
     )
 }

@@ -115,10 +115,10 @@ export default function UserItem(props) {
                         <Container>
                             {
                                 usereDetail !== '' && <Row className="admin-user-row">
-                                    <Col lg="6" md="12" sm="12">
+                                    <Col lg="6" md="6" sm="12">
                                         {image}
                                     </Col>
-                                    <Col lg="6" md="12" sm="12" className="admin-user-info">
+                                    <Col lg="6" md="6" sm="12" className="admin-user-info">
                                         <div><span>Tên người dùng: </span>{usereDetail.user_name}</div>
                                         <div><span>Số điện thoại: </span>{usereDetail.phone_number}</div>
                                         <div><span>Ngày sinh: </span>{formatDate(usereDetail.date_of_birth)}</div>

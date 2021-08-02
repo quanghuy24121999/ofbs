@@ -18,8 +18,7 @@ export default function RestaurantPending() {
             })
     }
     return (
-        <div>
-            <hr />
+        <div className="table-responsive">
             <Table className="restaurant-table">
                 <thead>
                     <tr>
@@ -36,7 +35,7 @@ export default function RestaurantPending() {
                 <tbody>
                     {
                         restaurants.map((restaurant, index) => {
-                            return <RestaurantPendingItem getData={getData} key={index} restaurant={restaurant} count={index + 1} isPending={true} currentPage={0}/>
+                            return <RestaurantPendingItem getData={getData} key={index} restaurant={restaurant} count={index + 1} isPending={true} currentPage={0} />
                         })
                     }
                 </tbody>
