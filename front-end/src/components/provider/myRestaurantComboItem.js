@@ -402,7 +402,7 @@ export default function MyRestaurantComboItem(props) {
                                         </Input>
                                     </div>
                                     <div>
-                                        <Button onClick={searchDish} className="btn-combo-menu-search" color="success">
+                                        <Button onClick={searchDish} className="btn-combo-menu-search" color="primary">
                                             <FaSearch className="icon-search" />
                                         </Button>
                                     </div>

@@ -1223,6 +1223,7 @@ hr {
   right: 0;
   top: 0;
   background: white;
+  animation: slideIn 0.5s ease 0s;
 }
 
 .result-search-form {
@@ -2715,6 +2716,23 @@ a {
 
 /*=============================================== RESPONSIVE ===========================================*/
 @media only screen and (max-width: 767.98px) {
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
   /*============================ HOME =============================*/
   .content-restaurant-list {
     max-width: 100%;
@@ -2960,6 +2978,7 @@ a {
     left: 0;
     right: 0;
     margin: 0;
+    animation: slideIn 0.5s ease 0s;
   }
 
   .menu-search > div,
@@ -3116,6 +3135,7 @@ a {
     right: 0;
     margin: 0;
     z-index: 1;
+    animation: slideIn 0.5s ease 0s;
   }
 
   .search-order-admin > div,
@@ -3239,7 +3259,7 @@ a {
     padding: 0 3px;
   }
 
-  .admin-wallet-search > div:nth-child(4){
+  .admin-wallet-search > div:nth-child(4) {
     width: 50%;
     margin: 5px 0 !important;
     padding: 0 3px;
@@ -3257,7 +3277,8 @@ a {
     display: flex !important;
   }
 
-  .dish-image, .service-image {
+  .dish-image,
+  .service-image {
     min-width: 0;
   }
 
