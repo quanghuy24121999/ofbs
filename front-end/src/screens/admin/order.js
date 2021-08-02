@@ -109,13 +109,36 @@ function Order() {
                     </div>
                     <div className="admin-nav-number-user"></div>
                     <div className="admin-nav-infor">
+                        <div
+                            className="admin-icon-search"
+                            onClick={() => {
+                                let element = document.getElementById('search-order-admin');
+                                let element1 = document.getElementById('admin-order-content');
+
+                                if (element !== undefined && element !== null) {
+                                    if (element.style.display === "none" || element.style.display === "") {
+                                        element.style.display = "flex";
+                                        if (element1 !== undefined && element1 !== null) {
+                                            element1.style.marginTop = '350px';
+                                        }
+                                    } else {
+                                        element.style.display = "none";
+                                        if (element1 !== undefined && element1 !== null) {
+                                            element1.style.marginTop = '100px';
+                                        }
+                                    }
+                                }
+                            }}
+                        >
+                            <FaSearch />
+                        </div>
                         <Notification />
                         <Link className="btn btn-primary" to='/login' onClick={Logout}>Đăng xuất</Link>
                     </div>
                 </div>
-                <Container>
+                <Container id="admin-order-content">
                     <h4>Quản lý đơn hàng</h4>
-                    <div className="search-order-admin">
+                    <div className="search-order-admin" id="search-order-admin">
                         <div>
                             <Input
                                 type="text"
@@ -157,24 +180,26 @@ function Order() {
                             </Input>
                         </div>
                         <div>
-                            <Button color="success" className="btn-search-order" onClick={search}><FaSearch className="icon-search" /></Button>
+                            <Button color="primary" className="btn-search-order" onClick={search}><FaSearch className="icon-search" /></Button>
                         </div>
                     </div>
                     <hr />
-                    <Table className="order-table">
-                        <thead>
-                            <tr>
-                                <th>Mã đơn</th>
-                                <th>Tổng tiền (VNĐ)</th>
-                                <th>Ngày đặt</th>
-                                <th>Trạng thái</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {orders.length > 0 && orders}
-                        </tbody>
-                    </Table>
+                    <div className="table-responsive">
+                        <Table className="order-table">
+                            <thead>
+                                <tr>
+                                    <th>Mã đơn</th>
+                                    <th>Tổng tiền (VNĐ)</th>
+                                    <th>Ngày đặt</th>
+                                    <th>Trạng thái</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {orders.length > 0 && orders}
+                            </tbody>
+                        </Table>
+                    </div>
                     <ReactPaginate
                         previousLabel={"Trang trước"}
                         nextLabel={"Trang sau"}

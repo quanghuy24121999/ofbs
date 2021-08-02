@@ -58,7 +58,7 @@ export default function RestaurantView(props) {
                 const data = res.data;
                 const slice = data.slice(offset, offset + perPage)
                 const restaurantPaging = slice.map((restaurant, index) => {
-                    return <RestaurantItem receivedData={receivedData} key={index} restaurant={restaurant} count={index + 1} isPending={false} currentPage={currentPage}/>
+                    return <RestaurantItem receivedData={receivedData} key={index} restaurant={restaurant} count={index + 1} isPending={false} currentPage={currentPage} />
                 })
 
                 setRestaurants(restaurantPaging);
@@ -66,7 +66,7 @@ export default function RestaurantView(props) {
             })
     }
     return (
-        <Container>
+        <Container className="admin-res-view">
             <div className="admin-search-restaurant">
                 <div>
                     <Input
@@ -97,27 +97,29 @@ export default function RestaurantView(props) {
                 </div>
             </div>
             <hr />
-            <Table className="restaurant-table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Tên nhà hàng</th>
-                        <th>Loại hình</th>
-                        <th>Địa chỉ</th>
-                        <th>Quy mô</th>
+            <div className="table-responsive">
+                <Table className="restaurant-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Tên nhà hàng</th>
+                            <th>Loại hình</th>
+                            <th>Địa chỉ</th>
+                            <th>Quy mô</th>
+                            {
+                                !props.isPending && <th>Trạng thái</th>
+                            }
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         {
-                            !props.isPending && <th>Trạng thái</th>
+                            restaurants.length > 0 && restaurants
                         }
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        restaurants.length > 0 && restaurants
-                    }
-                </tbody>
-            </Table>
+                    </tbody>
+                </Table>
+            </div>
             <ReactPaginate
                 previousLabel={"Trang trước"}
                 nextLabel={"Trang sau"}

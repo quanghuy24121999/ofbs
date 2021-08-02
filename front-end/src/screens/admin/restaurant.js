@@ -48,7 +48,7 @@ function Restaurant() {
                         <Link className="btn btn-primary" to='/login' onClick={Logout}>Đăng xuất</Link>
                     </div>
                 </div>
-                <Container>
+                <Container className="admin-res-content">
                     <Nav pills className="order-nav-status">
                         <NavItem onClick={() => onChangeTab(1)}>
                             <NavLink active id="1">Các nhà hàng đang chờ duyệt</NavLink>
