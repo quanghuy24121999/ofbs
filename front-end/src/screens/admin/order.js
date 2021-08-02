@@ -148,6 +148,19 @@ function Order() {
                                 onChange={onChangeOrderCode}
                             />
                         </div>
+                        <div>
+                            <Input
+                                type="select"
+                                value={status}
+                                onChange={onchangeStatus}
+                            >
+                                <option value="">Tất cả</option>
+                                <option value="pending">Đang chờ duyệt</option>
+                                <option value="preparing">Chưa diễn ra</option>
+                                <option value="accomplished">Đã hoàn thành</option>
+                                <option value="cancelled">Đã Hủy</option>
+                            </Input>
+                        </div>
                         <div className="order-from">
                             <div><b>Từ </b></div>
                             <Input
@@ -165,19 +178,6 @@ function Order() {
                                 min={from}
                                 onChange={onChangeTo}
                             />
-                        </div>
-                        <div>
-                            <Input
-                                type="select"
-                                value={status}
-                                onChange={onchangeStatus}
-                            >
-                                <option value="">Tất cả</option>
-                                <option value="pending">Đang chờ duyệt</option>
-                                <option value="preparing">Chưa diễn ra</option>
-                                <option value="accomplished">Đã hoàn thành</option>
-                                <option value="cancelled">Đã Hủy</option>
-                            </Input>
                         </div>
                         <div>
                             <Button color="primary" className="btn-search-order" onClick={search}><FaSearch className="icon-search" /></Button>

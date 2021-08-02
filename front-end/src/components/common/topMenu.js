@@ -133,9 +133,10 @@ const TopMenu = (props) => {
 
     return (
         <div>
-            <Navbar dark className="top-menu" expand="md">
-                <NavbarBrand className="logo" href="/">
-                    <CardImg src={image} alt="Logo" />
+            <Navbar dark className="top-menu" expand="xl">
+                <NavbarBrand className="logo">
+                    <Link to="/"> <CardImg src={image} alt="Logo" />
+                    </Link>
                 </NavbarBrand>
                 <div className="option">
                     {

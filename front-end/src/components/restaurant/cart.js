@@ -415,14 +415,14 @@ export default function Cart(props) {
                             <ModalBody>
                                 <Container>
                                     <Row>
-                                        <Col lg="6" md="6" sm="12">
+                                        <Col lg="6" md="12" sm="12">
                                             <Row>
                                                 <Col lg="12" md="12" sm="12"><OrderDetailDishItem listOrderDetails={items} /></Col>
                                                 <Col className="mt-4" lg="12" md="12" sm="12"><OrderDetailComboItem listOrderDetails={items} /></Col>
                                                 <Col className="mt-4" lg="12" md="12" sm="12"><OrderDetailServiceItem listOrderDetails={items} /></Col>
                                             </Row>
                                         </Col>
-                                        <Col lg="6" md="6" sm="12">
+                                        <Col lg="6" md="12" sm="12">
                                             <div>
                                                 <b>Vui lòng kiểm tra lại đơn hàng trước khi thực hiện thanh toán.<br /><br /></b>
                                                 <span className="od-dish-item-total">Tổng tiền đơn hàng: {formatCurrency(cartTotal)} VNĐ</span><br /><br />

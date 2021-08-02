@@ -106,7 +106,7 @@ export default function Withdrawal() {
     return (
         <Container className="wallet-recharge">
             <Row >
-                <Col lg="6" md="6" sm="12">
+                <Col lg="6" md="12" sm="12">
                     <FormGroup tag="fieldset" className="recharge">
                         <div className="recharge-title">Chọn phương thức rút tiền</div>
                         <FormGroup check>
@@ -158,7 +158,7 @@ export default function Withdrawal() {
                         </FormGroup>
                     </FormGroup>
                 </Col>
-                <Col lg="6" md="6" sm="12" className="form-recharge">
+                <Col lg="6" md="12" sm="12" className="form-recharge">
                     <div>Nhập số tiền muốn rút (VNĐ)</div>
                     <Input
                         type="number"

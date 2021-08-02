@@ -2994,6 +2994,15 @@ a {
     width: 90%;
   }
 
+  .info-order {
+    padding: 0;
+    align-items: center;
+  }
+
+  .info-order-btn > div > button {
+    margin: 3px 0;
+  }
+
   /*============================== RESTAURANT ====================================*/
   .menu-search-dish {
     margin: 0 auto;
@@ -3159,20 +3168,133 @@ a {
   .admin-wallet {
     padding: 0;
   }
+
+  .admin-user-modal {
+    max-width: 100%;
+  }
+
+  .admin-user-row > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1199.98px) {
-  /*============================ USER PROFILE =============================*/
+  /*============================ TOP MENU =============================*/
+  .nav-section,
+  .authen {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 
-  .btn-edit,
+  .nav-section > li,
+  .authen > li {
+    margin: 3px 0;
+  }
+
+  /*============================ USER PROFILE =============================*/
   .btn-user-change-password {
-    width: 40%;
+    width: 50%;
+  }
+
+  .info-order {
+    padding: 0;
+    align-items: center;
+  }
+
+  .info-order-btn {
+    display: flex;
+    justify-content: center;
+  }
+
+  .info-order-btn > div > button {
+    margin: 3px 0;
+  }
+
+  .wallet-search,
+  .search-order-admin,
+  .admin-wallet-search {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .wallet-search > div,
+  .search-order-admin > div {
+    margin: 3px 0 !important;
+    padding: 0 3px;
+    width: 50% !important;
+  }
+
+  .admin-wallet-search > div:nth-child(1),
+  .admin-wallet-search > div:nth-child(5) {
+    width: 100%;
+  }
+
+  .admin-wallet-search > div:nth-child(2),
+  .admin-wallet-search > div:nth-child(3) {
+    width: 45%;
+    margin: 5px 0 !important;
+    padding: 0 3px;
+  }
+
+  .admin-wallet-search > div:nth-child(4){
+    width: 50%;
+    margin: 5px 0 !important;
+    padding: 0 3px;
   }
 
   /*============================ SEARCH RESULT =============================*/
 
+  .icon-search-top,
+  .admin-icon-search {
+    display: none;
+  }
+
+  /*============================ ADMIN =============================*/
+  .admin .btn-toggle {
+    display: flex !important;
+  }
+
+  .dish-image, .service-image {
+    min-width: 0;
+  }
+
+  .admin-user-modal {
+    max-width: 75%;
+  }
+
+  /*============================ COMMON =============================*/
+
+  .result-search,
+  .menu-search,
+  .service-search,
+  .search-order-admin,
+  .admin-search-user,
+  .admin-wallet-search,
+  .wallet-search {
+    display: flex !important;
+  }
+
+  .result-search-form {
+    padding: 10px;
+  }
+
   .search-content {
-    margin-top: 220px;
+    margin-top: 250px !important;
+  }
+
+  #admin-order-content,
+  #admin-user-content,
+  #admin-wallet-content {
+    margin-top: 20px !important;
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
   }
 }
 
@@ -3187,7 +3309,8 @@ a {
   .service-search,
   .search-order-admin,
   .admin-search-user,
-  .admin-wallet-search {
+  .admin-wallet-search,
+  .wallet-search {
     display: flex !important;
   }
 
