@@ -40,12 +40,6 @@ export default function Success() {
                                     },
                                     url: `users/updateBalance?balance=${parseFloat(currentUser.balance) + parseFloat(balanceChange)}&userId=${currentUser.id}`
                                 })
-
-                                    // api.patch(`users/updateBalance?balance=${paymentHistory.currentBalance}&userId=${paymentHistory.user.id}`, {
-                                    //     headers: {
-                                    //         'Authorization': 'Bearer ' + localStorage.getItem('token')
-                                    //     }
-                                    // })
                                     .then(res => {
                                         Notify('Nạp tiền vào ví thành công', 'success', 'top-right');
                                         localStorage.removeItem("paymentHistoryId");
