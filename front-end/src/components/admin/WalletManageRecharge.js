@@ -17,6 +17,7 @@ export default function WalletManageRecharge() {
     const [money, setMoney] = useState('');
     const [phone, setPhone] = useState('');
     const [userName, setUsername] = useState('');
+    const [currentUser, setCurrentUser] = useState('');
 
     const [offset, setOffset] = useState(0);
     const [perPage, setPerpage] = useState(10);
@@ -109,6 +110,9 @@ export default function WalletManageRecharge() {
         if (!validateEmpty(money) || money === '0') {
             Notify('Vui lòng nhập số tiền hoặc số tiền không hợp lệ', 'error', 'top-right');
             return false;
+        } else if (parseFloat(money) < 10000) {
+            Notify('Số tiền nạp phải từ 10,000 VNĐ', 'error', 'top-right');
+            return false;
         } else if (!validateEmpty(phone.trim())) {
             Notify('Số điện thoại không được để trống', 'error', 'top-right');
             return false;
@@ -118,74 +122,66 @@ export default function WalletManageRecharge() {
     }
 
     const recharge = () => {
-        let phoneFormat = '+84' + phone.substring(1, phone.length);
-        api.get(`/users/findByPhoneNumber/${phoneFormat}`)
-            .then(res => {
-                const currentUser = res.data;
-                if (currentUser.length !== 0) {
-                    api.post(`/payment/save`,
+        api.post(`/payment/save`,
+            {
+                "user": currentUser,
+                "fromToUser": currentUser,
+                "balanceChange": parseFloat(money),
+                "currentBalance": parseFloat(currentUser.balance) + parseFloat(money),
+                "description": 'Nạp tiền vào ví FBS - Tiền mặt',
+                "paymentType": {
+                    "name": "charge"
+                }
+            },
+            {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            }
+        ).then(res => {
+            api({
+                method: 'PATCH',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                },
+                url: `/payment/updateStatus?paymentId=${res.data.id}&status=success`
+            }).then(res => {
+                api({
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    },
+                    url: `users/updateBalance?balance=${parseFloat(currentUser.balance) + parseFloat(money)}&userId=${currentUser.id}`
+                }).then(res => {
+                    let customer = null;
+                    let provider = null;
+
+                    if (currentUser.role.name === 'ROLE_PROVIDER') {
+                        provider = currentUser;
+                    } else if (currentUser.role.name === 'ROLE_CUSTOMER') {
+                        customer = currentUser;
+                    }
+
+                    api.post(`/notifications/insertNotification`,
                         {
-                            "user": currentUser,
-                            "fromToUser": currentUser,
-                            "balanceChange": parseFloat(money),
-                            "currentBalance": parseFloat(currentUser.balance) + parseFloat(money),
-                            "description": 'Nạp tiền vào ví FBS - Tiền mặt',
-                            "paymentType": {
-                                "name": "charge"
-                            }
-                        },
-                        {
-                            headers: {
-                                'Authorization': 'Bearer ' + localStorage.getItem('token')
-                            }
+                            "content": `Chúng tôi đã xử lý yêu cầu nạp tiền vào ví của bạn, vui lòng kiểm tra số dư trong ví`,
+                            "customer": customer,
+                            "provider": provider,
+                            "forAdmin": false,
+                            "type": "report",
+                            "read": false
                         }
                     ).then(res => {
-                        api({
-                            method: 'PATCH',
-                            headers: {
-                                'Authorization': 'Bearer ' + localStorage.getItem('token')
-                            },
-                            url: `/payment/updateStatus?paymentId=${res.data.id}&status=success`
-                        }).then(res => {
-                            api({
-                                method: 'PATCH',
-                                headers: {
-                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
-                                },
-                                url: `users/updateBalance?balance=${parseFloat(currentUser.balance) + parseFloat(money)}&userId=${currentUser.id}`
-                            }).then(res => {
-                                let customer = null;
-                                let provider = null;
-
-                                if (currentUser.role.name === 'ROLE_PROVIDER') {
-                                    provider = currentUser;
-                                } else if (currentUser.role.name === 'ROLE_CUSTOMER') {
-                                    customer = currentUser;
-                                }
-
-                                api.post(`/notifications/insertNotification`,
-                                    {
-                                        "content": `Chúng tôi đã xử lý yêu cầu nạp tiền vào ví của bạn, vui lòng kiểm tra số dư trong ví`,
-                                        "customer": customer,
-                                        "provider": provider,
-                                        "forAdmin": false,
-                                        "type": "report",
-                                        "read": false
-                                    }
-                                ).then(res => {
-                                    Notify('Nạp tiền vào ví thành công', 'success', 'top-right');
-                                    toggle1();
-                                    toggle();
-                                    setMoney('');
-                                    setPhone('');
-                                })
-                            })
-                        })
+                        Notify('Nạp tiền vào ví thành công', 'success', 'top-right');
+                        toggle1();
+                        toggle();
+                        setMoney('');
+                        setPhone('');
+                        setUsername('');
                     })
-                } else {
-                    Notify('Số điện thoại không có trong hệ thống', 'error', 'top-right');
-                }
+                })
             })
+        })
     }
 
     const check = () => {
@@ -193,7 +189,7 @@ export default function WalletManageRecharge() {
         api.get(`/users/findByPhoneNumber/${phoneFormat}`)
             .then(res => {
                 if (res.data !== null && res.data !== '' && res.data !== undefined) {
-                    setUsername(res.data.name)
+                    setUsername(res.data.name);
                 } else {
                     setUsername('Không có thông tin');
                 }
@@ -245,7 +241,7 @@ export default function WalletManageRecharge() {
                                 <Input
                                     className="mt-2"
                                     type="number"
-                                    min={1}
+                                    min={10000}
                                     placeholder="Nhập số tiền"
                                     value={money}
                                     onChange={onChangeMoney}
@@ -273,7 +269,17 @@ export default function WalletManageRecharge() {
                         <ModalFooter>
                             <Button color="success" onClick={() => {
                                 if (validate()) {
-                                    toggle1();
+                                    let phoneFormat = '+84' + phone.substring(1, phone.length);
+                                    api.get(`/users/findByPhoneNumber/${phoneFormat}`)
+                                        .then(res => {
+                                            if (res.data !== null && res.data !== '' && res.data !== undefined) {
+                                                setUsername(res.data.name);
+                                                toggle1();
+                                            } else {
+                                                Notify('Số điện thoại không có trong hệ thống', 'error', 'top-right');
+                                                setUsername('Không có thông tin');
+                                            }
+                                        })
                                 }
                             }}>
                                 Nạp tiền

@@ -679,12 +679,12 @@ label {
 }
 
 .wallet-search > div:nth-child(1) {
-  width: 30%;
+  width: 25%;
   margin: 0 10px;
 }
 
 .wallet-search > div:nth-child(2) {
-  width: 10%;
+  width: 15%;
   margin: 0 10px;
 }
 
@@ -694,7 +694,7 @@ label {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 20%;
+  width: 25%;
   margin: 0 10px;
 }
 
@@ -708,6 +708,7 @@ label {
 }
 
 .history {
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -2580,7 +2581,7 @@ tr > td:nth-child(6) {
 }
 
 .admin-wallet-search > div:nth-child(1) {
-  width: 30%;
+  width: 25%;
   margin: 0 10px;
 }
 
@@ -2591,7 +2592,7 @@ tr > td:nth-child(6) {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 20%;
+  width: 25%;
   margin: 0 10px;
 }
 

@@ -270,12 +270,16 @@ export default function Recharge() {
                         type="number"
                         value={money}
                         onChange={onChangeMoney}
-                        min={1}
+                        min={10000}
                         placeholder="Nhập số tiền muốn nạp"
                     />
                     <Button color="success" onClick={() => {
                         if (parseFloat(money) > 0 && money !== '') {
-                            toggle();
+                            if (parseFloat(money) >= 10000) {
+                                toggle();
+                            } else {
+                                Notify('Số tiền nạp phải từ 10,000 VNĐ', 'error', 'top-right');
+                            }
                         } else {
                             Notify('Vui lòng nhập số tiền cần nạp', 'error', 'top-right');
                         }

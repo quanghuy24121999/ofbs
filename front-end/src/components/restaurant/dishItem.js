@@ -19,7 +19,7 @@ export default function Dish(props) {
             if (user !== undefined && user !== null && user !== '') {
                 addItem(dish);
             } else {
-                Notify('Bạn phải đăng nhập để thực hiện chức năng này', 'error', 'top-right');
+                Notify('Vui lòng đăng nhập để thực hiện chức năng này', 'error', 'top-right');
             }
         } else {
             Notify('Bạn phải hoàn tất thanh toán của nhà hàng khác trước khi thêm vào giỏ hàng', 'error', 'top-right');
