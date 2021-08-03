@@ -13,6 +13,7 @@ import OrderDetailDishItem from '../order/orderDetailDishItem';
 import OrderDetailComboItem from '../order/orderDetailComboItem';
 import OrderDetailServiceItem from '../order/orderDetailServiceItem';
 import { Notify } from '../../common/notify';
+import RuleOrder from '../common/ruleOrder';
 
 let restaurantId = '';
 
@@ -704,6 +705,7 @@ export default function MyRestaurantOrderItem(props) {
                                                         <Modal isOpen={modal2} toggle={toggle2} className={``}>
                                                             <ModalHeader toggle={toggle2}>Thông báo</ModalHeader>
                                                             <ModalBody>
+                                                                <RuleOrder />
                                                                 <Label for="password"><b>Nhập mật khẩu của bạn: </b></Label>
                                                                 <Input
                                                                     type="password"

@@ -356,6 +356,8 @@ export default function Cart(props) {
                                                                     })
                                                                 })
                                                         } else {
+                                                            toggle();
+                                                            toggle1();
                                                             Notify('Số tiền trong ví của bạn không đủ', 'error', 'top-right');
                                                         }
                                                     } else if (active === 1) {
