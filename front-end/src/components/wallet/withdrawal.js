@@ -164,17 +164,21 @@ export default function Withdrawal() {
                         type="number"
                         value={money}
                         onChange={onChangeMoney}
-                        min={1}
+                        min={10000}
                         placeholder="Nhập số tiền muốn rút"
                     />
                     <Button color="success" onClick={() => {
                         if (parseFloat(money) > 0 && money !== '') {
-                            if (content.trim() !== '') {
-                                toggle();
-                            } else if (active === 1) {
-                                Notify('Vui lòng nhập thông tin tài khoản ngân hàng của bạn', 'error', 'top-right');
+                            if (parseFloat(money) >= 10000) {
+                                if (content.trim() !== '') {
+                                    toggle();
+                                } else if (active === 1) {
+                                    Notify('Vui lòng nhập thông tin tài khoản ngân hàng của bạn', 'error', 'top-right');
+                                } else {
+                                    toggle();
+                                }
                             } else {
-                                toggle();
+                                Notify('Số tiền rút phải từ 10,000 VNĐ', 'error', 'top-right');
                             }
                         } else {
                             Notify('Vui lòng nhập số tiền cần rút', 'error', 'top-right');

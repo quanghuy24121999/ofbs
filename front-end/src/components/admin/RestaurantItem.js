@@ -73,7 +73,10 @@ export default function RestaurantItem(props) {
                             )
                                 .then(res => {
                                     toggle2();
-                                    props.receivedData();
+                                    props.receivedData(
+                                        (props.namSearch !== undefined && props.namSearch !== null) ? props.namSearch : '',
+                                        props.statusSearch
+                                    );
                                 })
                         })
                 })
@@ -104,7 +107,10 @@ export default function RestaurantItem(props) {
                             )
                                 .then(res => {
                                     toggle3();
-                                    props.receivedData();
+                                    props.receivedData(
+                                        (props.namSearch !== undefined && props.namSearch !== null) ? props.namSearch : '',
+                                        props.statusSearch
+                                    );
                                 })
                         })
                 })

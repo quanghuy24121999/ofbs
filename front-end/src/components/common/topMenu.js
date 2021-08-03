@@ -66,6 +66,7 @@ const TopMenu = (props) => {
         localStorage.removeItem('currentUser');
         localStorage.removeItem('token');
         localStorage.removeItem('resId');
+        localStorage.removeItem('react-use-cart');
         localStorage.clear();
         setIsLogout(true);
     }
