@@ -178,7 +178,7 @@ export default function Withdrawal() {
                                     toggle();
                                 }
                             } else {
-                                Notify('Số tiền rút phải từ 10,000 VNĐ', 'error', 'top-right');
+                                Notify('Số tiền tối thiểu có thể nạp hoặc rút là 10000VNĐ', 'error', 'top-right');
                             }
                         } else {
                             Notify('Vui lòng nhập số tiền cần rút', 'error', 'top-right');

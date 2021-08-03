@@ -111,7 +111,7 @@ export default function WalletManageRecharge() {
             Notify('Vui lòng nhập số tiền hoặc số tiền không hợp lệ', 'error', 'top-right');
             return false;
         } else if (parseFloat(money) < 10000) {
-            Notify('Số tiền nạp phải từ 10,000 VNĐ', 'error', 'top-right');
+            Notify('Số tiền tối thiểu có thể nạp hoặc rút là 10000VNĐ', 'error', 'top-right');
             return false;
         } else if (!validateEmpty(phone.trim())) {
             Notify('Số điện thoại không được để trống', 'error', 'top-right');
