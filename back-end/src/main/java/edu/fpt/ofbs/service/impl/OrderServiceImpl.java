@@ -35,7 +35,7 @@ public class OrderServiceImpl implements OrderService{
 		
 		order.setOrderCode("FBS" + order.getCustomerId() + order.getRestaurantId() + "OD" + orderDate.getTime());
 		
-		orderRepository.insertOrder(order.getTime(), orderDate, order.getCustomerId(), order.getRestaurantId(), order.getTableType(), order.getNumberOfGuests(), order.getNote(), order.getOrganizeDate(), order.getOrderCode());
+		orderRepository.insertOrder(order.getTime(), orderDate, order.getCustomerId(), order.getRestaurantId(), order.getTableType(), order.getNumberOfGuests(), order.getNote(), order.getOrganizeDate(), order.getOrderCode(), order.getOrganizeAddress());
 	}
 	
 	@Override
