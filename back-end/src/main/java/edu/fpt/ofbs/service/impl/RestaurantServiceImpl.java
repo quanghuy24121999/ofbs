@@ -35,7 +35,7 @@ public class RestaurantServiceImpl implements RestaurantService{
 	
 	@Override
 	public IRestaurantDTO getRestaurantById(long id){
-		return restaurantRepository.getRestaurantById(id).get(0);
+		return restaurantRepository.getRestaurantById(id);
 	}
 	
 	@Override
@@ -70,8 +70,8 @@ public class RestaurantServiceImpl implements RestaurantService{
 	}
 	
 	@Override
-	public List<IRestaurantDTO> getRestaurantPending(String restaurantName, String status){
-		return restaurantRepository.getRestaurantPending(restaurantName, status);
+	public List<IRestaurantDTO> adminViewRestaurant(String restaurantName, String status){
+		return restaurantRepository.adminViewRestaurant(restaurantName, status);
 	}
 	
 	@Override

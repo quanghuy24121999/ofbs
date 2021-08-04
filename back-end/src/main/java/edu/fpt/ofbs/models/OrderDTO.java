@@ -29,4 +29,6 @@ public class OrderDTO {
 	private Date organizeDate;
 	
 	private String orderCode;
+	
+	private String organizeAddress;
 }
