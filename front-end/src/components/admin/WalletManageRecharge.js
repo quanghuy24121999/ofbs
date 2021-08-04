@@ -16,8 +16,10 @@ export default function WalletManageRecharge() {
     const [balance, setBalance] = useState(0);
     const [money, setMoney] = useState('');
     const [phone, setPhone] = useState('');
+    const [nameCharge, setNameCharge] = useState('');
+    const [phoneCharge, setPhoneCharge] = useState('');
     const [userName, setUsername] = useState('');
-    const [currentUser, setCurrentUser] = useState('');
+    const [chargeUser, setChargeUser] = useState('');
 
     const [offset, setOffset] = useState(0);
     const [perPage, setPerpage] = useState(10);
@@ -55,6 +57,14 @@ export default function WalletManageRecharge() {
         setPhone(e.target.value);
     };
 
+    const onChangeNameCharge = (e) => {
+        setNameCharge(e.target.value);
+    };
+
+    const onChangePhoneCharge = (e) => {
+        setPhoneCharge(e.target.value);
+    };
+
     useEffect(() => {
         window.scrollTo(0, 0);
         receivedData(paymentCode, fromDate, toDate);
@@ -86,8 +96,6 @@ export default function WalletManageRecharge() {
         }
         api.get(`/users/findByPhoneNumber/${currentUser}`)
             .then(res => {
-                const currentUser = res.data;
-                setBalance(currentUser.balance);
                 api.get(`/payment/history?userId=0&paymentCode=${paymentCode}&status=pending&fromDate=${fromDate}&toDate=${toDate}&paymentType=charge`, {
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -122,13 +130,21 @@ export default function WalletManageRecharge() {
     }
 
     const recharge = () => {
+        let des = '';
+        if (nameCharge !== '') {
+            des += '. Tên người nạp: ' + nameCharge;
+        }
+
+        if (phoneCharge !== '') {
+            des += ', số điện thoại người nạp: ' + phoneCharge;
+        }
         api.post(`/payment/save`,
             {
-                "user": currentUser,
-                "fromToUser": currentUser,
+                "user": chargeUser,
+                "fromToUser": chargeUser,
                 "balanceChange": parseFloat(money),
-                "currentBalance": parseFloat(currentUser.balance) + parseFloat(money),
-                "description": 'Nạp tiền vào ví FBS - Tiền mặt',
+                "currentBalance": parseFloat(chargeUser.balance) + parseFloat(money),
+                "description": 'Nạp tiền vào ví FBS - Tiền mặt' + des,
                 "paymentType": {
                     "name": "charge"
                 }
@@ -151,15 +167,15 @@ export default function WalletManageRecharge() {
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
                     },
-                    url: `users/updateBalance?balance=${parseFloat(currentUser.balance) + parseFloat(money)}&userId=${currentUser.id}`
+                    url: `users/updateBalance?balance=${parseFloat(chargeUser.balance) + parseFloat(money)}&userId=${chargeUser.id}`
                 }).then(res => {
                     let customer = null;
                     let provider = null;
 
-                    if (currentUser.role.name === 'ROLE_PROVIDER') {
-                        provider = currentUser;
-                    } else if (currentUser.role.name === 'ROLE_CUSTOMER') {
-                        customer = currentUser;
+                    if (chargeUser.role.name === 'ROLE_PROVIDER') {
+                        provider = chargeUser;
+                    } else if (chargeUser.role.name === 'ROLE_CUSTOMER') {
+                        customer = chargeUser;
                     }
 
                     api.post(`/notifications/insertNotification`,
@@ -265,6 +281,26 @@ export default function WalletManageRecharge() {
                                 </Button>
                                 <span style={{ marginLeft: '10px', fontWeight: '500' }}>{userName}</span>
                             </div>
+                            <div className="mt-3">
+                                <b>Tên người nạp tiền (nếu nạp hộ)</b>
+                                <Input
+                                    className="mt-2"
+                                    type="text"
+                                    placeholder="Tên người nạp tiền"
+                                    value={nameCharge}
+                                    onChange={onChangeNameCharge}
+                                />
+                            </div>
+                            <div className="mt-3">
+                                <b>Số điện thoại người nạp tiền (nếu nạp hộ)</b>
+                                <Input
+                                    className="mt-2"
+                                    type="text"
+                                    placeholder="Số điện thoại người nạp tiền"
+                                    value={phoneCharge}
+                                    onChange={onChangePhoneCharge}
+                                />
+                            </div>
                         </ModalBody>
                         <ModalFooter>
                             <Button color="success" onClick={() => {
@@ -273,6 +309,8 @@ export default function WalletManageRecharge() {
                                     api.get(`/users/findByPhoneNumber/${phoneFormat}`)
                                         .then(res => {
                                             if (res.data !== null && res.data !== '' && res.data !== undefined) {
+                                                setBalance(res.data.balance);
+                                                setChargeUser(res.data);
                                                 setUsername(res.data.name);
                                                 toggle1();
                                             } else {

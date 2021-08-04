@@ -634,13 +634,32 @@ export default function MyRestaurantOrderItem(props) {
                                         <hr />
                                         <div className="od-info-code"><b>Mã số đơn hàng: </b>{orderDetailInfo.order_code}</div>
                                         <div className="od-info-name"><b>Tên khách hàng: </b>{user.name}</div>
-                                        <div className="od-info-phone"><b>Số điện thoại: </b>{order.customer_phone_number}</div>
                                         <div className="od-info-type"><b>Loại bàn: </b>{orderDetailInfo.table_type}</div>
                                         <div className="od-info-guest-number"><b>Số lượng khách: </b>{orderDetailInfo.number_of_guests}</div>
                                         <div className="od-info-order-date"><b>Thời gian đặt: </b>{formatDate(orderDetailInfo.order_date)}</div>
                                         <div className="od-info-organize-date">
                                             <b>Thời gian tổ chức: </b>{orderDetailInfo.time + ' ' + formatDate(orderDetailInfo.organize_date)}
                                         </div>
+                                        {
+                                            orderDetailInfo.organize_ward === null ? (<div className="od-info-organize-address">
+                                                <b>Địa điểm tổ chức: </b>{orderDetailInfo.organize_address}
+                                            </div>) : (
+                                                (orderDetailInfo.order_status === 'preparing') ? (
+                                                    <div className="order-date"><b>Địa điểm tổ chức: </b>{`
+                                                    ${orderDetailInfo.organize_address}, ${orderDetailInfo.organize_ward}, ${orderDetailInfo.organize_district}, ${orderDetailInfo.organize_province}`}
+                                                    </div>
+                                                ) : (
+                                                    <div className="order-date"><b>Địa điểm tổ chức: </b>{`
+                                                ${orderDetailInfo.organize_ward}, ${orderDetailInfo.organize_district}, ${orderDetailInfo.organize_province}`}
+                                                    </div>
+                                                )
+                                            )
+                                        }
+                                        {
+                                            (orderDetailInfo.order_status === 'preparing') && (
+                                                <div><b>Số điện thoại của khách hàng: </b>{orderDetailInfo.customer_phone_number}</div>
+                                            )
+                                        }
                                         <div className="od-info-note"><b>Ghi chú: </b>{orderDetailInfo.note}</div>
                                         <div className="od-info-status"><b>Trạng thái: </b>{displayOrderStatus}</div>
                                         <hr />

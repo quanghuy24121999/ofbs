@@ -38,7 +38,7 @@ import edu.fpt.ofbs.utils.Utils;
 public class PaymentController {
 	public static final String URL_PAYPAL_SUCCESS = "/payment/pay/success";
 	public static final String URL_PAYPAL_CANCEL = "/payment/pay/cancel";
-	public static final String URL_PAYPAL_BASE = "http://ofbs.xyz";
+	public static final String URL_PAYPAL_BASE = "http://localhost:3000";
 	private Logger log = LoggerFactory.getLogger(getClass());
 
 	@Autowired
