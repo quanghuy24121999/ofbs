@@ -26,4 +26,6 @@ public interface IOrderDTO {
 	String getCustomer_phone_number();
 
 	String getCustomer_name();
+	
+	String getOrganize_address();
 }
