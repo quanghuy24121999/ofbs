@@ -753,7 +753,8 @@ label {
   display: none;
 }
 
-#bank-info {
+#bank-info, 
+#cart-address {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -2669,7 +2670,7 @@ footer {
 }
 
 .footer-content {
-  padding: 100px;
+  padding: 50px;
 }
 
 .list-link {

@@ -436,6 +436,20 @@ export default class orderCustomerDetail extends Component {
                             <div className="od-info-organize-date">
                                 <b>Thời gian tổ chức: </b>{orderDetailInfo.time + ' ' + formatDate(orderDetailInfo.organize_date)}
                             </div>
+                            {
+                                orderDetailInfo.organize_ward === null ? (<div className="od-info-organize-address">
+                                    <b>Địa điểm tổ chức: </b>{orderDetailInfo.organize_address}
+                                </div>) : (
+                                    <div className="order-date"><b>Địa điểm tổ chức: </b>{`
+                                    ${orderDetailInfo.organize_address}, ${orderDetailInfo.organize_ward}, ${orderDetailInfo.organize_district}, ${orderDetailInfo.organize_province}`}
+                                    </div>
+                                )
+                            }
+                            {
+                                (orderDetailInfo.order_status === 'preparing') && (
+                                    <div><b>Số điện thoại của nhà hàng: </b>{orderDetailInfo.restaurant_phone_number}</div>
+                                )
+                            }
                             <div className="od-info-note"><b>Ghi chú: </b>{orderDetailInfo.note}</div>
                             <div className="od-info-status"><b>Trạng thái: </b>{orderStatus}</div>
                         </Col>

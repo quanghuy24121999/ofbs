@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { useCart } from 'react-use-cart';
 import {
@@ -18,12 +19,14 @@ import { validateCapacity, validateItemCart } from '../../common/validate';
 import OrderDetailDishItem from '../order/orderDetailDishItem';
 import OrderDetailComboItem from '../order/orderDetailComboItem';
 import OrderDetailServiceItem from '../order/orderDetailServiceItem';
+import subVn from 'sub-vn';
 
 
 export default function Cart(props) {
     const [modal, setModal] = useState(false);
     const [modal1, setModal1] = useState(false);
     const [active, setActive] = useState(0);
+    const [display, setDisplay] = useState(1);
 
     const [modalConfirm, setModalComfirm] = useState(false);
     const [typeTable, setTypeTable] = useState(6);
@@ -31,6 +34,16 @@ export default function Cart(props) {
     const [period, setPeriod] = useState('Trưa');
     const [time, setTime] = useState('');
     const [note, setNote] = useState('');
+    const [organizeAddress, setOrganizeAddress] = useState('');
+    const [resAddress, setresAddress] = useState('');
+    const [provinceCode, setProvinceCode] = useState('');
+    const [districtCode, setDistrictCode] = useState('');
+    const [provinceName, setProvinceName] = useState('Thành phố Hà Nội');
+    const [districtName, setDistrictName] = useState('Quận Ba Đình');
+    const [wardName, setwardName] = useState('Phường Phúc Xá');
+    const [provinces, setProvinces] = useState(subVn.getProvinces());
+    const [districts, setDistricts] = useState(subVn.getDistrictsByProvinceCode('01'));
+    const [wards, setWards] = useState(subVn.getWardsByDistrictCode('001'));
 
     const toggle = () => {
         setModal(!modal);
@@ -47,7 +60,17 @@ export default function Cart(props) {
         }
     }
     const toggle1 = () => setModal1(!modal1);
-    const toggleConfirm = () => setModalComfirm(!modalConfirm);
+    const toggleConfirm = () => {
+        setModalComfirm(!modalConfirm);
+        if (!modalConfirm) {
+            const restaurantId = props.restaurantId;
+            api.get(`/restaurants/getRestaurantById?restaurantId=${restaurantId}`)
+                .then(res => {
+                    const restaurant = res.data;
+                    setresAddress(`${restaurant.restaurantName}, ${restaurant.address}, ${restaurant.district}, ${restaurant.province}`);
+                })
+        }
+    }
     let maxDate = new Date();
     maxDate.setFullYear(maxDate.getFullYear() + 1);
 
@@ -111,6 +134,47 @@ export default function Cart(props) {
         })
     }
 
+    const onChangeOrganizeAddress = (e) => {
+        e.preventDefault();
+        setOrganizeAddress(e.target.value);
+        updateCartMetadata({
+            organizeAddress: e.target.value
+        })
+    }
+
+    const onProvinceClick = (event) => {
+        event.preventDefault();
+        let provinceCode = event.target.value;
+        let index = event.nativeEvent.target.selectedIndex;
+        let provinceName = event.nativeEvent.target[index].text;
+
+        setDistricts(subVn.getDistrictsByProvinceCode(provinceCode));
+        setWards(subVn.getWardsByProvinceCode(provinceCode));
+        setProvinceCode(provinceCode);
+        setProvinceName(provinceName);
+        setDistrictName((subVn.getDistrictsByProvinceCode(provinceCode))[0].name)
+        setwardName((subVn.getWardsByProvinceCode(provinceCode))[0].name);
+    }
+
+    const onDistrictClick = (event) => {
+        event.preventDefault();
+        let districtCode = event.target.value;
+        let index = event.nativeEvent.target.selectedIndex;
+        let districtName = event.nativeEvent.target[index].text;
+
+        setWards(subVn.getWardsByDistrictCode(districtCode))
+        setDistrictName(districtName);
+        setDistrictCode(districtCode);
+        setwardName((subVn.getWardsByDistrictCode(districtCode))[0].name);
+    }
+
+    const onWardClick = (event) => {
+        event.preventDefault();
+        let index = event.nativeEvent.target.selectedIndex;
+        let wardName = event.nativeEvent.target[index].text;
+        setwardName(wardName);
+    }
+
     const validateCart = () => {
         let count = 0;
 
@@ -157,6 +221,22 @@ export default function Cart(props) {
     const onSubmitCart = () => {
         let currentUser;
         const restaurantId = props.restaurantId;
+        let address = '';
+        let province = '';
+        let district = '';
+        let ward = '';
+
+        if (display === 1) {
+            address = organizeAddress;
+            province = provinceName;
+            district = districtName;
+            ward = wardName;
+        } else if (display === 2) {
+            address = resAddress;
+            province = null;
+            district = null;
+            ward = null;
+        }
 
         let arr = [];
 
@@ -179,7 +259,11 @@ export default function Cart(props) {
                     "restaurantId": parseInt(restaurantId),
                     "tableType": parseInt(typeTable),
                     "numberOfGuests": customerQuantity,
-                    "note": note
+                    "note": note,
+                    "organizeAddress": address,
+                    "organizeProvince": province,
+                    "organizeDistrict": district,
+                    "organizeWard": ward
                 }, {
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -247,7 +331,6 @@ export default function Cart(props) {
                                         updateCartMetadata({
                                             customerQuantity: 1,
                                             period: "",
-                                            time: "",
                                             type: 0
                                         })
 
@@ -551,7 +634,106 @@ export default function Cart(props) {
                                         />
                                     </div>
                                 </div>
+                                <Row tag="fieldset" className="restaurant">
+                                    <Col check>
+                                        <Label check>
+                                            <Input
+                                                type="radio"
+                                                name="radio1"
+                                                checked={display === 1}
+                                                onClick={() => {
+                                                    setDisplay(1);
+                                                }}
+                                            />{' '}
+                                            <span className="type-restaurant">Tổ chức tại nhà</span>
+                                        </Label>
+                                    </Col>
+                                    <Col check>
+                                        <Label check>
+                                            <Input
+                                                type="radio"
+                                                name="radio1"
+                                                checked={display === 2}
+                                                onClick={() => {
+                                                    setDisplay(2);
+                                                }}
+                                            />{' '}
+                                            <span className="type-restaurant">Tổ chức tại nhà hàng</span>
+                                        </Label>
+                                    </Col>
+                                </Row>
 
+                                {
+                                    display === 1 && <div id="cart-address">
+                                        <Row className="content-row-2">
+                                            <Col lg="6" md="6" sm="12">
+                                                <Label for="citySelect"><b>Chọn tỉnh/ thành phố <span className="require-icon">*</span></b></Label>
+                                                <Input
+                                                    type="select"
+                                                    name="citySelect"
+                                                    id="citySelect"
+                                                    value={provinceCode}
+                                                    onChange={onProvinceClick}
+                                                >
+                                                    {provinces.map((province) => {
+                                                        return (
+                                                            <option key={province.code} value={province.code}>
+                                                                {province.name}
+                                                            </option>
+                                                        );
+                                                    })}
+                                                </Input>
+                                            </Col>
+
+                                            <Col lg="6" md="6" sm="12">
+                                                <Label for="districtSelect"><b>Chọn quận/ huyện <span className="require-icon">*</span></b></Label>
+                                                <Input
+                                                    type="select"
+                                                    name="districtSelect"
+                                                    id="districtSelect"
+                                                    onChange={onDistrictClick}
+                                                >
+                                                    {districts.map((district) => {
+                                                        return (
+                                                            <option key={district.code} value={district.code}>
+                                                                {district.name}
+                                                            </option>
+                                                        );
+                                                    })}
+                                                </Input>
+                                            </Col>
+                                        </Row>
+                                        <Row className="content-row-2">
+                                            <Col lg="6" md="6" sm="12">
+                                                <Label for="districtSelect"><b>Chọn xã/ phường <span className="require-icon">*</span></b></Label>
+                                                <Input
+                                                    type="select"
+                                                    name="wardsSelect"
+                                                    id="wardsSelect"
+                                                    onChange={onWardClick}
+                                                >
+                                                    {wards.map((ward) => {
+                                                        return (
+                                                            <option key={ward.code} value={ward.code}>
+                                                                {ward.name}
+                                                            </option>
+                                                        );
+                                                    })}
+                                                </Input>
+                                            </Col>
+                                            <Col lg="6" md="6" sm="12">
+                                                <Label><b>Địa chỉ cụ thể <span className="require-icon">*</span></b></Label>
+                                                <Input
+                                                    type="text"
+                                                    placeholder="Địa chỉ cụ thể"
+                                                    required="required"
+                                                    onChange={onChangeOrganizeAddress}
+                                                    value={metadata.organizeAddress}
+                                                />
+                                            </Col>
+                                        </Row>
+                                    </div>
+                                }
                                 <Label for="note"><b>Ghi chú </b></Label>
                                 <Input
                                     type="textarea"
