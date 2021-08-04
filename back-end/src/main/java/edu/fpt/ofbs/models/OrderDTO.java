@@ -15,20 +15,27 @@ import lombok.Setter;
 @Setter
 public class OrderDTO {
 	private String time;
-	
+
 	private long customerId;
-	
+
 	private long restaurantId;
-	
+
 	private int tableType;
-	
+
 	private int numberOfGuests;
-	
+
 	private String note;
-	
+
 	private Date organizeDate;
-	
+
 	private String orderCode;
-	
+
 	private String organizeAddress;
+
+	private String organizeWard;
+
+	private String organizeDistrict;
+
+	private String organizeProvince;
+
 }

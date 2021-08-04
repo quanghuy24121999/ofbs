@@ -61,4 +61,13 @@ public class Order {
 	
 	@Column(name = "organize_address")
 	private String organizeAddress;
+	
+	@Column(name = "organize_ward")
+	private String organizeWard;
+	
+	@Column(name = "organize_district")
+	private String organizeDistrict;
+	
+	@Column(name = "organize_province")
+	private String organizeProvince;
 }

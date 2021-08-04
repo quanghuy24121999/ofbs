@@ -26,6 +26,14 @@ public interface IOrderDTO {
 	String getCustomer_phone_number();
 
 	String getCustomer_name();
-	
+
 	String getOrganize_address();
+
+	String getOrganize_ward();
+
+	String getOrganize_district();
+
+	String getOrganize_province();
+
+	String getRestaurant_phone_number();
 }
