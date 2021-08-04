@@ -20,8 +20,9 @@ public interface OrderRepository extends JpaRepository<Order, Long>{
 	List<IOrderDTO> getOrderByRestaurantId (long restaurantId, String orderCode);
 	
 	@Modifying
-	@Query(value = "exec sp_insertOrder ?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10", nativeQuery = true)
-	void insertOrder(String time, Date orderDate, long customerId, long restaurantId, int tableType, int NumberOfGuests, String note, Date organizeDate, String orderCode, String orderAddress);
+	@Query(value = "exec sp_insertOrder ?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13", nativeQuery = true)
+	void insertOrder(String time, Date orderDate, long customerId, long restaurantId, int tableType, int NumberOfGuests, String note, Date organizeDate, String orderCode, 
+			String organizeAddress, String organizeWard, String organizeDistrict, String organizeProvince);
 	
 	@Modifying
 	@Query(value = "exec sp_setOrderStatus ?1, ?2", nativeQuery = true)

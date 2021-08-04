@@ -25,7 +25,7 @@ public interface IOrderDetailDTO {
 
 	long getCustomer_id();
 
-	String getPhone_number();
+	String getCustomer_phone_number();
 
 	int getNumber_of_guests();
 
@@ -54,4 +54,14 @@ public interface IOrderDetailDTO {
 	int getQuantity();
 	
 	String getOrder_code();
+	
+	String getOrganize_address();
+	
+	String getOrganize_ward();
+	
+	String getOrganize_district();
+	
+	String getOrganize_province();
+	
+	String getRestaurant_phone_number();
 }
