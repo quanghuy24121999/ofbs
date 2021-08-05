@@ -215,7 +215,7 @@ export default function RestaurantItem(props) {
                     <Modal isOpen={modal2} toggle={toggle2} className={``}>
                         <ModalHeader toggle={toggle2}>Thông báo</ModalHeader>
                         <ModalBody>
-                            Lưu thay đổi ?
+                        Bạn có chắc chắn chặn nhà hàng này không ?
                         </ModalBody>
                         <ModalFooter>
                             <Button color="success" onClick={() => banRestaurant()}>
@@ -234,7 +234,7 @@ export default function RestaurantItem(props) {
                     <Modal isOpen={modal3} toggle={toggle3} className={``}>
                         <ModalHeader toggle={toggle3}>Thông báo</ModalHeader>
                         <ModalBody>
-                            Lưu thay đổi ?
+                            Bạn có chắc chắn bỏ chặn nhà hàng này không ?
                         </ModalBody>
                         <ModalFooter>
                             <Button color="success" onClick={() => unbanRestaurant()}>
@@ -253,7 +253,16 @@ export default function RestaurantItem(props) {
                     <Modal isOpen={modal} toggle={toggle} className={``}>
                         <ModalHeader toggle={toggle}>Thông báo</ModalHeader>
                         <ModalBody>
-                            Lưu thay đổi ?
+                            <div style={{ color: 'blue' }}>
+                                Để kiểm duyệt và đưa một nhà hàng vào hoạt động,
+                                admin phải kiểm tra kĩ các thông tin của nhà hàng:
+                                <ul>
+                                    <li>Ảnh đại diện của nhà hàng</li>
+                                    <li>Ảnh chi tiết của nhà hàng</li>
+                                    <li>Thực đơn món ăn, combo món ăn, dịch vụ của nhà hàng</li>
+                                </ul>
+                            </div>
+                            Bạn có chắc chắn duyệt nhà hàng này không ?
                         </ModalBody>
                         <ModalFooter>
                             <Button color="success" onClick={() => acceptRestaurant()}>
@@ -272,7 +281,7 @@ export default function RestaurantItem(props) {
                     <Modal isOpen={modal1} toggle={toggle1} className={``}>
                         <ModalHeader toggle={toggle1}>Thông báo</ModalHeader>
                         <ModalBody>
-                            Lưu thay đổi ?
+                            Bạn có chắc chắn hủy yêu cầu duyệt của nhà hàng này không ?
                         </ModalBody>
                         <ModalFooter>
                             <Button color="success" onClick={() => denyRestaurant()}>

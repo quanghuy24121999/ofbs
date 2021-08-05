@@ -462,6 +462,14 @@ input[type="number"]:focus,
 
 .card-title {
   min-height: 46px;
+  line-height: 1.5rem;
+  height: 3rem;
+  overflow: hidden;
+  display: block;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
 }
 
 .star-ratings {
@@ -544,6 +552,34 @@ input[type="number"]:focus,
   align-items: flex-start !important;
   font-size: 1.2rem;
   font-weight: 500;
+}
+
+.combo-image {
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+}
+
+.combo-list {
+  max-height: 190px;
+  overflow-y: auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.combo-btn {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.combo-btn > button {
+  width: 100%;
+}
+
+.combo-btn > div {
+  text-align: center;
 }
 /*================================================ USER PROFILE ================================================*/
 .user-profile {
@@ -753,7 +789,7 @@ label {
   display: none;
 }
 
-#bank-info, 
+#bank-info,
 #cart-address {
   display: flex;
   flex-direction: column;

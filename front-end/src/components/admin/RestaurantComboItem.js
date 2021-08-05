@@ -114,7 +114,7 @@ export default function RestaurantComboItem(props) {
                                     </div>
 
                                     <div>
-                                        <b>Giá combo:</b>{' ' + comboModal.price}
+                                    <b>Giá combo:</b>{' ' + formatCurrency(comboModal.price) + ' VNĐ'}
                                     </div>
 
                                     <div>

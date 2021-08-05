@@ -6,6 +6,7 @@ import {
 } from 'reactstrap';
 import { Notify } from '../../common/notify';
 import { api } from '../../config/axios';
+import Spinner from '../common/spinner';
 
 // import firebase from "../../config/firebase";
 
@@ -17,6 +18,7 @@ export default function Recharge() {
     // const [otp, setOtp] = useState('');
     const [active, setActive] = useState(1);
     const [modal, setModal] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const toggle = () => setModal(!modal);
 
@@ -137,6 +139,7 @@ export default function Recharge() {
                             }
                         })
                             .then(res => {
+                                setLoading(false);
                                 window.location.replace(res.data);
                             }).catch(err => {
                                 console.log(err);
@@ -288,6 +291,10 @@ export default function Recharge() {
                         <ModalHeader toggle={toggle}>Thông báo</ModalHeader>
                         <ModalBody>
                             Bạn có chắc muốn nạp tiền ?
+                            {loading && <div className="mt-3">
+                                <Spinner type="puffloader" />
+                            </div>
+                            }
                         </ModalBody>
                         <ModalFooter>
                             <Button color="success" onClick={paypalChechout}>Đồng ý</Button>{' '}

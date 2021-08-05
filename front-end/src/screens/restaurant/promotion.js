@@ -68,7 +68,7 @@ export default class promotion extends Component {
                     {
                         this.state.loading ? (
                             <div className="promotion-list">
-                                <Spinner />
+                                <Spinner type="barloader" />
                             </div>
                         ) : (
                             <div className="promotion-list">

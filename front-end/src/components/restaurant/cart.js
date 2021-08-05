@@ -20,6 +20,7 @@ import OrderDetailDishItem from '../order/orderDetailDishItem';
 import OrderDetailComboItem from '../order/orderDetailComboItem';
 import OrderDetailServiceItem from '../order/orderDetailServiceItem';
 import subVn from 'sub-vn';
+import Spinner from '../common/spinner';
 
 
 export default function Cart(props) {
@@ -27,6 +28,7 @@ export default function Cart(props) {
     const [modal1, setModal1] = useState(false);
     const [active, setActive] = useState(0);
     const [display, setDisplay] = useState(1);
+    const [loading, setLoading] = useState(false);
 
     const [modalConfirm, setModalComfirm] = useState(false);
     const [typeTable, setTypeTable] = useState(6);
@@ -203,17 +205,8 @@ export default function Cart(props) {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
         })
-
-            // api.post(`/payment/pay?price=${cartTotal * 0.1 / 23000}&description=${'Thanh toán đơn hàng FBS'}`, {
-            //     headers: {
-            //         'Authorization': 'Bearer ' + localStorage.getItem('token')
-            //     }
-            // })
             .then(res => {
-                // setLinkPaypal(res.data);
-                // if (linkPaypal !== '') {
                 window.location.replace(res.data);
-                // }
             }).catch(err => {
             });
     }
@@ -225,6 +218,7 @@ export default function Cart(props) {
         let province = '';
         let district = '';
         let ward = '';
+        setLoading(true);
 
         if (display === 1) {
             address = organizeAddress;
@@ -394,6 +388,7 @@ export default function Cart(props) {
                                                                                         },
                                                                                         url: `/orders/updateStatus?orderId=${localStorage.getItem("orderId")}&status=pending`
                                                                                     }).then(res => {
+                                                                                        setLoading(false);
                                                                                         localStorage.removeItem("orderId");
                                                                                         Notify('Thanh toán đơn hàng thành công', 'success', 'top-right');
                                                                                         toggle();
@@ -444,11 +439,22 @@ export default function Cart(props) {
                                                             Notify('Số tiền trong ví của bạn không đủ', 'error', 'top-right');
                                                         }
                                                     } else if (active === 1) {
-                                                        emptyCart();
-                                                        setModalComfirm(!modalConfirm);
-                                                        payment();
-                                                        toggle();
-                                                        toggle1();
+                                                        api({
+                                                            method: 'POST',
+                                                            url: `/payment/pay?price=${cartTotal * 0.1 / 23000}&description=${'Thanh toán đơn hàng FBS'}`,
+                                                            headers: {
+                                                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                            }
+                                                        })
+                                                            .then(res => {
+                                                                setLoading(false);
+                                                                emptyCart();
+                                                                setModalComfirm(!modalConfirm);
+                                                                toggle();
+                                                                toggle1();
+                                                                window.location.replace(res.data);
+                                                            }).catch(err => {
+                                                            });
                                                     }
                                                 })
                                             })
@@ -537,7 +543,7 @@ export default function Cart(props) {
                                                                 checked={active === 1}
                                                                 onClick={() => setActive(1)}
                                                             />{' '}
-                                                            Thanh toán băng ví Paypal
+                                                            Thanh toán bằng ví Paypal
                                                         </Label>
                                                     </FormGroup>
                                                 </FormGroup>
@@ -553,6 +559,10 @@ export default function Cart(props) {
                                     <ModalHeader toggle={toggleConfirm}>Thông báo</ModalHeader>
                                     <ModalBody>
                                         Bạn có chắc chắn thanh toán đơn hàng này ?
+                                        {loading && <div className="mt-3">
+                                            <Spinner type="puffloader" />
+                                        </div>
+                                        }
                                     </ModalBody>
                                     <ModalFooter>
                                         <Button color="success" onClick={() => {
@@ -629,7 +639,7 @@ export default function Cart(props) {
                                             min={formatDateForInput(new Date())}
                                             max={formatDateForInput(maxDate)}
                                             onChange={onChangeTime}
-                                            value={metadata.time}
+                                            value={time}
                                             required="required"
                                         />
                                     </div>

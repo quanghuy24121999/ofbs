@@ -256,7 +256,7 @@ export default class searchResult extends Component {
                 {
                     loading ? (
                         <Container className="search-content" id="search-content">
-                            <Spinner />
+                            <Spinner type="barloader"/>
                         </Container>
                     ) : (
                         <Container className="search-content" id="search-content">
