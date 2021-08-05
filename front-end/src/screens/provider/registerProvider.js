@@ -561,10 +561,19 @@ export default class registerPromotion extends Component {
                             <Modal isOpen={modal} toggle={this.toggle} className={``}>
                                 <ModalHeader toggle={this.toggle}>Thông báo</ModalHeader>
                                 <ModalBody>
+                                    <div style={{ color: 'blue' }}>
+                                        Sau khi hoàn tất đăng ký nhà hàng mới, để được hệ thống kiểm duyệt đưa vào hoạt động,
+                                        bạn phải thêm đầy đủ các thông tin của nhà hàng:
+                                        <ul>
+                                            <li>Ảnh đại diện của nhà hàng</li>
+                                            <li>Ảnh chi tiết của nhà hàng</li>
+                                            <li>Thực đơn món ăn, combo món ăn, dịch vụ của nhà hàng</li>
+                                        </ul>
+                                    </div>
                                     Bạn có chắc chắn đăng ký ?
                                 </ModalBody>
                                 <ModalFooter>
-                                    <Button color="success" onClick={this.onSubmitRegister}>Có</Button>{' '}
+                                    <Button color="success" onClick={this.onSubmitRegister}>Đồng ý</Button>{' '}
                                     <Button color="secondary" onClick={this.toggle}>Quay lại</Button>
                                 </ModalFooter>
                             </Modal>

@@ -112,7 +112,7 @@ export default function RestaurantDishItem(props) {
                                 </div>
 
                                 <div>
-                                    <b>Giá món ăn:</b>{' ' + dishModal.price}
+                                    <b>Giá món ăn:</b>{' ' + formatCurrency(dishModal.price) + ' VNĐ'}
                                 </div>
 
                                 <div>

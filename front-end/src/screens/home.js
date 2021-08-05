@@ -254,7 +254,7 @@ export default class home extends Component {
                 {
                     loading ? (
                         <div className="home-content">
-                            <Spinner />
+                            <Spinner type="barloader"/>
                         </div>
                     ) : (<div className="home-content">
                         <div className="content-title">Trung tâm tổ chức sự kiện nổi bật</div>
