@@ -165,7 +165,7 @@ export default class menu extends Component {
                         onChange={this.onChangeInputDishName}
                         value={inputDishName}
                     />
-                    <Button onClick={this.searchDishByName} color="success" className="btn-search-dish">
+                    <Button onClick={this.searchDishByName} color="primary" className="btn-search-dish">
                         <FaSearch />
                     </Button>
                 </Container>

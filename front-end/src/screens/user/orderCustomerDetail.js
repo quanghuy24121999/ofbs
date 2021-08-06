@@ -97,10 +97,8 @@ export default class orderCustomerDetail extends Component {
         return percent;
     }
 
-    cancelOrder() {
+    cancelPendingOrder() {
         const { orderDetailInfo, password, restaurantInfo } = this.state;
-        const check = this.checkCancelOrder(formatDateCheckRule(orderDetailInfo.organize_date), orderDetailInfo.order_status);
-
         api.post('/users/login', {
             phoneLogin: currentUser,
             password: password
@@ -122,256 +120,375 @@ export default class orderCustomerDetail extends Component {
                                     {
                                         "content": `Đơn hàng ${orderDetailInfo.order_code} của ${restaurantInfo.restaurant_name} đã bị hủy`,
                                         "customer": null,
-                                        "provider": res.data,
+                                        "provider": provider,
                                         "forAdmin": false,
                                         "type": "order",
                                         "read": false
                                     }
                                 ).then(res => {
-                                    if (check === 1) {
-                                        api.get(`/users/findByRole?roleName=ROLE_ADMIN`)
-                                            .then(res => {
-                                                const admin = res.data;
-                                                // Trừ tiền admin - provider
-                                                api.post(`/payment/save`,
-                                                    {
-                                                        "user": admin,
-                                                        "fromToUser": provider,
-                                                        "balanceChange": parseFloat(-(orderDetailInfo.total_amount * 0.1 * (0.9 + check))),
-                                                        "currentBalance": parseFloat(admin.balance) - (parseFloat(orderDetailInfo.total_amount * 0.1 * (0.9 + check))),
-                                                        "description": "Hoàn tiền đơn hàng " + orderDetailInfo.order_code + " cho nhà hàng",
-                                                        "paymentType": {
-                                                            "name": "refund"
-                                                        }
-                                                    },
-                                                    {
-                                                        headers: {
-                                                            'Authorization': 'Bearer ' + localStorage.getItem('token')
-                                                        }
+                                    api.get(`/users/findByRole?roleName=ROLE_ADMIN`)
+                                        .then(res => {
+                                            const admin = res.data;
+                                            // Trừ tiền admin - customer
+                                            api.post(`/payment/save`,
+                                                {
+                                                    "user": admin,
+                                                    "fromToUser": customer,
+                                                    "balanceChange": parseFloat(-(orderDetailInfo.total_amount * 0.1)),
+                                                    "currentBalance": parseFloat(admin.balance) - (parseFloat(orderDetailInfo.total_amount * 0.1)),
+                                                    "description": "Hoàn tiền đơn hàng " + orderDetailInfo.order_code + " cho khách hàng",
+                                                    "paymentType": {
+                                                        "name": "refund"
                                                     }
-                                                ).then(res => {
-                                                    const paymentHistory = res.data;
+                                                },
+                                                {
+                                                    headers: {
+                                                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                    }
+                                                }
+                                            ).then(res => {
+                                                const paymentHistory = res.data;
+                                                api({
+                                                    method: 'PATCH',
+                                                    headers: {
+                                                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                    },
+                                                    url: `/payment/updateStatus?paymentId=${paymentHistory.id}&status=success`
+                                                }).then(() => {
                                                     api({
                                                         method: 'PATCH',
                                                         headers: {
                                                             'Authorization': 'Bearer ' + localStorage.getItem('token')
                                                         },
-                                                        url: `/payment/updateStatus?paymentId=${paymentHistory.id}&status=success`
-                                                    }).then(() => {
-                                                        api({
-                                                            method: 'PATCH',
-                                                            headers: {
-                                                                'Authorization': 'Bearer ' + localStorage.getItem('token')
-                                                            },
-                                                            url: `users/updateBalance?balance=${parseFloat(admin.balance) + parseFloat(paymentHistory.balanceChange)}&userId=${admin.id}`
-                                                        })
-                                                    })
-                                                })
-
-                                                // Cộng ví provider
-                                                api.post(`/payment/save`,
-                                                    {
-                                                        "user": provider,
-                                                        "fromToUser": admin,
-                                                        "balanceChange": parseFloat((orderDetailInfo.total_amount * 0.1 * (0.9 + check))),
-                                                        "currentBalance": parseFloat(provider.balance) + (parseFloat(orderDetailInfo.total_amount * 0.1 * (0.9 + check))),
-                                                        "description": "Hoàn tiền đơn hàng " + orderDetailInfo.order_code,
-                                                        "paymentType": {
-                                                            "name": "refund"
-                                                        }
-                                                    },
-                                                    {
-                                                        headers: {
-                                                            'Authorization': 'Bearer ' + localStorage.getItem('token')
-                                                        }
-                                                    }
-                                                ).then(res => {
-                                                    const paymentHistory = res.data;
-                                                    api({
-                                                        method: 'PATCH',
-                                                        headers: {
-                                                            'Authorization': 'Bearer ' + localStorage.getItem('token')
-                                                        },
-                                                        url: `/payment/updateStatus?paymentId=${paymentHistory.id}&status=success`
-                                                    }).then(() => {
-                                                        api({
-                                                            method: 'PATCH',
-                                                            headers: {
-                                                                'Authorization': 'Bearer ' + localStorage.getItem('token')
-                                                            },
-                                                            url: `users/updateBalance?balance=${parseFloat(provider.balance) + parseFloat(paymentHistory.balanceChange)}&userId=${provider.id}`
-                                                        }).then(res => {
-                                                            window.location.reload();
-                                                            Notify('Hủy đơn thành công', 'success', 'top-right');
-                                                        })
+                                                        url: `users/updateBalance?balance=${parseFloat(admin.balance) + parseFloat(paymentHistory.balanceChange)}&userId=${admin.id}`
                                                     })
                                                 })
                                             })
-                                    } else {
-                                        api.get(`/users/findByRole?roleName=ROLE_ADMIN`)
-                                            .then(res => {
-                                                const admin = res.data;
-                                                // Trừ tiền ví admin - customer
-                                                api.post(`/payment/save`,
-                                                    {
-                                                        "user": admin,
-                                                        "fromToUser": customer,
-                                                        "balanceChange": parseFloat(-(orderDetailInfo.total_amount * 0.1 * (1 - check))),
-                                                        "currentBalance": parseFloat(admin.balance) - (parseFloat(orderDetailInfo.total_amount * 0.1 * (1 - check))),
-                                                        "description": "Hoàn tiền đơn hàng " + orderDetailInfo.order_code + " cho khách hàng",
-                                                        "paymentType": {
-                                                            "name": "refund"
-                                                        }
-                                                    },
-                                                    {
-                                                        headers: {
-                                                            'Authorization': 'Bearer ' + localStorage.getItem('token')
-                                                        }
+
+                                            // Cộng ví customer
+                                            api.post(`/payment/save`,
+                                                {
+                                                    "user": customer,
+                                                    "fromToUser": admin,
+                                                    "balanceChange": parseFloat((orderDetailInfo.total_amount * 0.1)),
+                                                    "currentBalance": parseFloat(provider.balance) + (parseFloat(orderDetailInfo.total_amount * 0.1)),
+                                                    "description": "Hoàn tiền đơn hàng " + orderDetailInfo.order_code,
+                                                    "paymentType": {
+                                                        "name": "refund"
                                                     }
-                                                ).then(res => {
-                                                    const paymentHistory = res.data;
+                                                },
+                                                {
+                                                    headers: {
+                                                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                    }
+                                                }
+                                            ).then(res => {
+                                                const paymentHistory = res.data;
+                                                api({
+                                                    method: 'PATCH',
+                                                    headers: {
+                                                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                    },
+                                                    url: `/payment/updateStatus?paymentId=${paymentHistory.id}&status=success`
+                                                }).then(() => {
                                                     api({
                                                         method: 'PATCH',
                                                         headers: {
                                                             'Authorization': 'Bearer ' + localStorage.getItem('token')
                                                         },
-                                                        url: `/payment/updateStatus?paymentId=${paymentHistory.id}&status=success`
-                                                    }).then(() => {
-                                                        api({
-                                                            method: 'PATCH',
-                                                            headers: {
-                                                                'Authorization': 'Bearer ' + localStorage.getItem('token')
-                                                            },
-                                                            url: `users/updateBalance?balance=${parseFloat(admin.balance) + parseFloat(paymentHistory.balanceChange)}&userId=${admin.id}`
-                                                        })
-                                                    })
-                                                })
-
-                                                // Cộng ví customer
-                                                api.post(`/payment/save`,
-                                                    {
-                                                        "user": customer,
-                                                        "fromToUser": admin,
-                                                        "balanceChange": parseFloat((orderDetailInfo.total_amount * 0.1 * (1 - check))),
-                                                        "currentBalance": parseFloat(customer.balance) + (parseFloat(orderDetailInfo.total_amount * 0.1 * (1 - check))),
-                                                        "description": "Hoàn tiền đơn hàng " + orderDetailInfo.order_code,
-                                                        "paymentType": {
-                                                            "name": "refund"
-                                                        }
-                                                    },
-                                                    {
-                                                        headers: {
-                                                            'Authorization': 'Bearer ' + localStorage.getItem('token')
-                                                        }
-                                                    }
-                                                ).then(res => {
-                                                    const paymentHistory = res.data;
-                                                    api({
-                                                        method: 'PATCH',
-                                                        headers: {
-                                                            'Authorization': 'Bearer ' + localStorage.getItem('token')
-                                                        },
-                                                        url: `/payment/updateStatus?paymentId=${paymentHistory.id}&status=success`
-                                                    }).then(() => {
-                                                        api({
-                                                            method: 'PATCH',
-                                                            headers: {
-                                                                'Authorization': 'Bearer ' + localStorage.getItem('token')
-                                                            },
-                                                            url: `users/updateBalance?balance=${parseFloat(customer.balance) + parseFloat(paymentHistory.balanceChange)}&userId=${customer.id}`
-                                                        }).then(res => {
-                                                            api.get(`/users/findByRole?roleName=ROLE_ADMIN`)
-                                                                .then(res => {
-                                                                    const admin1 = res.data;
-                                                                    // Trừ tiền admin - provider
-                                                                    api.post(`/payment/save`,
-                                                                        {
-                                                                            "user": admin1,
-                                                                            "fromToUser": provider,
-                                                                            "balanceChange": parseFloat(-(orderDetailInfo.total_amount * 0.1 * (0.9 + check))),
-                                                                            "currentBalance": parseFloat(admin1.balance) - (parseFloat(orderDetailInfo.total_amount * 0.1 * (0.9 + check))),
-                                                                            "description": "Hoàn tiền đơn hàng " + orderDetailInfo.order_code + " cho nhà hàng",
-                                                                            "paymentType": {
-                                                                                "name": "refund"
-                                                                            }
-                                                                        },
-                                                                        {
-                                                                            headers: {
-                                                                                'Authorization': 'Bearer ' + localStorage.getItem('token')
-                                                                            }
-                                                                        }
-                                                                    ).then(res => {
-                                                                        const paymentHistory = res.data;
-                                                                        api({
-                                                                            method: 'PATCH',
-                                                                            headers: {
-                                                                                'Authorization': 'Bearer ' + localStorage.getItem('token')
-                                                                            },
-                                                                            url: `/payment/updateStatus?paymentId=${paymentHistory.id}&status=success`
-                                                                        }).then(() => {
-                                                                            api({
-                                                                                method: 'PATCH',
-                                                                                headers: {
-                                                                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
-                                                                                },
-                                                                                url: `users/updateBalance?balance=${parseFloat(admin1.balance) + parseFloat(paymentHistory.balanceChange)}&userId=${admin1.id}`
-                                                                            })
-                                                                        })
-                                                                    })
-
-                                                                    // Cộng ví provider
-                                                                    api.post(`/payment/save`,
-                                                                        {
-                                                                            "user": provider,
-                                                                            "fromToUser": admin1,
-                                                                            "balanceChange": parseFloat((orderDetailInfo.total_amount * 0.1 * (0.9 + check))),
-                                                                            "currentBalance": parseFloat(provider.balance) + (parseFloat(orderDetailInfo.total_amount * 0.1 * (0.9 + check))),
-                                                                            "description": "Hoàn tiền đơn hàng " + orderDetailInfo.order_code,
-                                                                            "paymentType": {
-                                                                                "name": "refund"
-                                                                            }
-                                                                        },
-                                                                        {
-                                                                            headers: {
-                                                                                'Authorization': 'Bearer ' + localStorage.getItem('token')
-                                                                            }
-                                                                        }
-                                                                    ).then(res => {
-                                                                        const paymentHistory = res.data;
-                                                                        api({
-                                                                            method: 'PATCH',
-                                                                            headers: {
-                                                                                'Authorization': 'Bearer ' + localStorage.getItem('token')
-                                                                            },
-                                                                            url: `/payment/updateStatus?paymentId=${paymentHistory.id}&status=success`
-                                                                        }).then(() => {
-                                                                            api({
-                                                                                method: 'PATCH',
-                                                                                headers: {
-                                                                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
-                                                                                },
-                                                                                url: `users/updateBalance?balance=${parseFloat(provider.balance) + parseFloat(paymentHistory.balanceChange)}&userId=${provider.id}`
-                                                                            }).then(res => {
-                                                                                window.location.reload();
-                                                                                Notify('Hủy đơn thành công', 'success', 'top-right');
-                                                                            })
-                                                                        })
-                                                                    })
-                                                                })
-                                                        })
+                                                        url: `users/updateBalance?balance=${parseFloat(customer.balance) + parseFloat(paymentHistory.balanceChange)}&userId=${customer.id}`
+                                                    }).then(res => {
+                                                        window.location.reload();
                                                     })
                                                 })
                                             })
-                                    }
+                                        })
                                 })
                             })
                     })
-            }).catch(err => {
-                Notify('Hủy đơn không thành công', 'error', 'top-right');
             })
-        }).catch(err => {
-            Notify('Mật khẩu không đúng', 'error', 'top-right');
         })
+    }
+
+    cancelOrder() {
+        const { orderDetailInfo, password, restaurantInfo } = this.state;
+        const check = this.checkCancelOrder(formatDateCheckRule(orderDetailInfo.organize_date), orderDetailInfo.order_status);
+
+        if (check === 0) {
+            this.cancelPendingOrder();
+        } else {
+            api.post('/users/login', {
+                phoneLogin: currentUser,
+                password: password
+            }).then(res => {
+                const customer = res.data.user;
+                api({
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    },
+                    url: `/orders/updateStatus?orderId=${orderDetailInfo.order_id}&status=cancelled`
+                }).then(res => {
+                    api.get(`/restaurants/getProviderPhoneLogin?restaurantId=${restaurantInfo.restaurant_id}`)
+                        .then(res => {
+                            api.get(`/users/findByPhoneNumber/${res.data}`)
+                                .then(res => {
+                                    const provider = res.data;
+                                    api.post(`/notifications/insertNotification`,
+                                        {
+                                            "content": `Đơn hàng ${orderDetailInfo.order_code} của ${restaurantInfo.restaurant_name} đã bị hủy`,
+                                            "customer": null,
+                                            "provider": res.data,
+                                            "forAdmin": false,
+                                            "type": "order",
+                                            "read": false
+                                        }
+                                    ).then(res => {
+                                        if (check === 1) {
+                                            api.get(`/users/findByRole?roleName=ROLE_ADMIN`)
+                                                .then(res => {
+                                                    const admin = res.data;
+                                                    // Trừ tiền admin - provider
+                                                    api.post(`/payment/save`,
+                                                        {
+                                                            "user": admin,
+                                                            "fromToUser": provider,
+                                                            "balanceChange": parseFloat(-(orderDetailInfo.total_amount * 0.1 * (0.9 + check))),
+                                                            "currentBalance": parseFloat(admin.balance) - (parseFloat(orderDetailInfo.total_amount * 0.1 * (0.9 + check))),
+                                                            "description": "Hoàn tiền đơn hàng " + orderDetailInfo.order_code + " cho nhà hàng",
+                                                            "paymentType": {
+                                                                "name": "refund"
+                                                            }
+                                                        },
+                                                        {
+                                                            headers: {
+                                                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                            }
+                                                        }
+                                                    ).then(res => {
+                                                        const paymentHistory = res.data;
+                                                        api({
+                                                            method: 'PATCH',
+                                                            headers: {
+                                                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                            },
+                                                            url: `/payment/updateStatus?paymentId=${paymentHistory.id}&status=success`
+                                                        }).then(() => {
+                                                            api({
+                                                                method: 'PATCH',
+                                                                headers: {
+                                                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                                },
+                                                                url: `users/updateBalance?balance=${parseFloat(admin.balance) + parseFloat(paymentHistory.balanceChange)}&userId=${admin.id}`
+                                                            })
+                                                        })
+                                                    })
+
+                                                    // Cộng ví provider
+                                                    api.post(`/payment/save`,
+                                                        {
+                                                            "user": provider,
+                                                            "fromToUser": admin,
+                                                            "balanceChange": parseFloat((orderDetailInfo.total_amount * 0.1 * (0.9 + check))),
+                                                            "currentBalance": parseFloat(provider.balance) + (parseFloat(orderDetailInfo.total_amount * 0.1 * (0.9 + check))),
+                                                            "description": "Hoàn tiền đơn hàng " + orderDetailInfo.order_code,
+                                                            "paymentType": {
+                                                                "name": "refund"
+                                                            }
+                                                        },
+                                                        {
+                                                            headers: {
+                                                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                            }
+                                                        }
+                                                    ).then(res => {
+                                                        const paymentHistory = res.data;
+                                                        api({
+                                                            method: 'PATCH',
+                                                            headers: {
+                                                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                            },
+                                                            url: `/payment/updateStatus?paymentId=${paymentHistory.id}&status=success`
+                                                        }).then(() => {
+                                                            api({
+                                                                method: 'PATCH',
+                                                                headers: {
+                                                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                                },
+                                                                url: `users/updateBalance?balance=${parseFloat(provider.balance) + parseFloat(paymentHistory.balanceChange)}&userId=${provider.id}`
+                                                            }).then(res => {
+                                                                window.location.reload();
+                                                                Notify('Hủy đơn thành công', 'success', 'top-right');
+                                                            })
+                                                        })
+                                                    })
+                                                })
+                                        } else {
+                                            api.get(`/users/findByRole?roleName=ROLE_ADMIN`)
+                                                .then(res => {
+                                                    const admin = res.data;
+                                                    // Trừ tiền ví admin - customer
+                                                    api.post(`/payment/save`,
+                                                        {
+                                                            "user": admin,
+                                                            "fromToUser": customer,
+                                                            "balanceChange": parseFloat(-(orderDetailInfo.total_amount * 0.1 * (1 - check))),
+                                                            "currentBalance": parseFloat(admin.balance) - (parseFloat(orderDetailInfo.total_amount * 0.1 * (1 - check))),
+                                                            "description": "Hoàn tiền đơn hàng " + orderDetailInfo.order_code + " cho khách hàng",
+                                                            "paymentType": {
+                                                                "name": "refund"
+                                                            }
+                                                        },
+                                                        {
+                                                            headers: {
+                                                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                            }
+                                                        }
+                                                    ).then(res => {
+                                                        const paymentHistory = res.data;
+                                                        api({
+                                                            method: 'PATCH',
+                                                            headers: {
+                                                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                            },
+                                                            url: `/payment/updateStatus?paymentId=${paymentHistory.id}&status=success`
+                                                        }).then(() => {
+                                                            api({
+                                                                method: 'PATCH',
+                                                                headers: {
+                                                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                                },
+                                                                url: `users/updateBalance?balance=${parseFloat(admin.balance) + parseFloat(paymentHistory.balanceChange)}&userId=${admin.id}`
+                                                            })
+                                                        })
+                                                    })
+
+                                                    // Cộng ví customer
+                                                    api.post(`/payment/save`,
+                                                        {
+                                                            "user": customer,
+                                                            "fromToUser": admin,
+                                                            "balanceChange": parseFloat((orderDetailInfo.total_amount * 0.1 * (1 - check))),
+                                                            "currentBalance": parseFloat(customer.balance) + (parseFloat(orderDetailInfo.total_amount * 0.1 * (1 - check))),
+                                                            "description": "Hoàn tiền đơn hàng " + orderDetailInfo.order_code,
+                                                            "paymentType": {
+                                                                "name": "refund"
+                                                            }
+                                                        },
+                                                        {
+                                                            headers: {
+                                                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                            }
+                                                        }
+                                                    ).then(res => {
+                                                        const paymentHistory = res.data;
+                                                        api({
+                                                            method: 'PATCH',
+                                                            headers: {
+                                                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                            },
+                                                            url: `/payment/updateStatus?paymentId=${paymentHistory.id}&status=success`
+                                                        }).then(() => {
+                                                            api({
+                                                                method: 'PATCH',
+                                                                headers: {
+                                                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                                },
+                                                                url: `users/updateBalance?balance=${parseFloat(customer.balance) + parseFloat(paymentHistory.balanceChange)}&userId=${customer.id}`
+                                                            }).then(res => {
+                                                                api.get(`/users/findByRole?roleName=ROLE_ADMIN`)
+                                                                    .then(res => {
+                                                                        const admin1 = res.data;
+                                                                        // Trừ tiền admin - provider
+                                                                        api.post(`/payment/save`,
+                                                                            {
+                                                                                "user": admin1,
+                                                                                "fromToUser": provider,
+                                                                                "balanceChange": parseFloat(-(orderDetailInfo.total_amount * 0.1 * (0.9 + check))),
+                                                                                "currentBalance": parseFloat(admin1.balance) - (parseFloat(orderDetailInfo.total_amount * 0.1 * (0.9 + check))),
+                                                                                "description": "Hoàn tiền đơn hàng " + orderDetailInfo.order_code + " cho nhà hàng",
+                                                                                "paymentType": {
+                                                                                    "name": "refund"
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                headers: {
+                                                                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                                                }
+                                                                            }
+                                                                        ).then(res => {
+                                                                            const paymentHistory = res.data;
+                                                                            api({
+                                                                                method: 'PATCH',
+                                                                                headers: {
+                                                                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                                                },
+                                                                                url: `/payment/updateStatus?paymentId=${paymentHistory.id}&status=success`
+                                                                            }).then(() => {
+                                                                                api({
+                                                                                    method: 'PATCH',
+                                                                                    headers: {
+                                                                                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                                                    },
+                                                                                    url: `users/updateBalance?balance=${parseFloat(admin1.balance) + parseFloat(paymentHistory.balanceChange)}&userId=${admin1.id}`
+                                                                                })
+                                                                            })
+                                                                        })
+
+                                                                        // Cộng ví provider
+                                                                        api.post(`/payment/save`,
+                                                                            {
+                                                                                "user": provider,
+                                                                                "fromToUser": admin1,
+                                                                                "balanceChange": parseFloat((orderDetailInfo.total_amount * 0.1 * (0.9 + check))),
+                                                                                "currentBalance": parseFloat(provider.balance) + (parseFloat(orderDetailInfo.total_amount * 0.1 * (0.9 + check))),
+                                                                                "description": "Hoàn tiền đơn hàng " + orderDetailInfo.order_code,
+                                                                                "paymentType": {
+                                                                                    "name": "refund"
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                headers: {
+                                                                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                                                }
+                                                                            }
+                                                                        ).then(res => {
+                                                                            const paymentHistory = res.data;
+                                                                            api({
+                                                                                method: 'PATCH',
+                                                                                headers: {
+                                                                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                                                },
+                                                                                url: `/payment/updateStatus?paymentId=${paymentHistory.id}&status=success`
+                                                                            }).then(() => {
+                                                                                api({
+                                                                                    method: 'PATCH',
+                                                                                    headers: {
+                                                                                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                                                    },
+                                                                                    url: `users/updateBalance?balance=${parseFloat(provider.balance) + parseFloat(paymentHistory.balanceChange)}&userId=${provider.id}`
+                                                                                }).then(res => {
+                                                                                    window.location.reload();
+                                                                                    Notify('Hủy đơn thành công', 'success', 'top-right');
+                                                                                })
+                                                                            })
+                                                                        })
+                                                                    })
+                                                            })
+                                                        })
+                                                    })
+                                                })
+                                        }
+                                    })
+                                })
+                        })
+                }).catch(err => {
+                    Notify('Hủy đơn không thành công', 'error', 'top-right');
+                })
+            }).catch(err => {
+                Notify('Mật khẩu không đúng', 'error', 'top-right');
+            })
+        }
     }
 
     render() {
