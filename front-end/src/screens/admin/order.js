@@ -22,7 +22,7 @@ function Order() {
     const [orderCode, setOrderCode] = useState('');
     const [from, setFrom] = useState(formatDateForInput(fromDate));
     const [to, setTo] = useState(formatDateForInput(toDate));
-    const [status, setStatus] = useState('');
+    const [status, setStatus] = useState('pending');
     const [offset, setOffset] = useState(0);
     const [perPage, setPerpage] = useState(10);
     const [currentPage, setCurrentPage] = useState(0);
@@ -51,7 +51,7 @@ function Order() {
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        receivedData(orderCode, from, to, 'pending');
+        receivedData(orderCode, from, to, status);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage])
 
