@@ -13,7 +13,7 @@ import DishComboItem from './dishComboItem';
 export default function ComboItem(props) {
     const { addItem, items } = useCart();
     const user = localStorage.getItem('currentUser');
-    const combo = props.combo; console.log(combo)
+    const combo = props.combo;
     let comboStatus = combo.status_name;
     const comboId = props.comboId;
 

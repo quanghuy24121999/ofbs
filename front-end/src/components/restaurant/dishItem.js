@@ -70,7 +70,7 @@ export default function Dish(props) {
                                 color: '#198754'
                             }} />
                     </span>
-                    <Modal isOpen={modal} toggle={toggle} className={``}>
+                    <Modal isOpen={modal} toggle={toggle} className={`modal-dish-detail`}>
                         <ModalHeader toggle={toggle}>Chi tiết món ăn</ModalHeader>
                         <ModalBody>
                             <Row>
