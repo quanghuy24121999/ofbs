@@ -139,20 +139,21 @@ export default function Recharge() {
                         },
                         url: `/payment/updateStatus?paymentId=${res.data.id}&status=${status}`
                     }).then(res => {
-                        api({
-                            method: 'PATCH',
-                            headers: {
-                                'Authorization': 'Bearer ' + localStorage.getItem('token')
-                            },
-                            url: `users/updateBalance?balance=${parseFloat(currentUser.balance) + parseFloat(balanceChange)}&userId=${currentUser.id}`
-                        }).then(() => {
-                            if (status === 'success') {
+                        if (status === 'success') {
+                            api({
+                                method: 'PATCH',
+                                headers: {
+                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                },
+                                url: `users/updateBalance?balance=${parseFloat(currentUser.balance) + parseFloat(balanceChange)}&userId=${currentUser.id}`
+                            }).then(() => {
                                 Notify('Nạp tiền vào ví thành công', 'success', 'top-right');
-                            } else if (status === 'fail') {
-                                Notify('Nạp tiền vào ví không thành công', 'error', 'top-right');
-                            }
+                                setMoney('');
+                            })
+                        } else if (status === 'fail') {
+                            Notify('Nạp tiền vào ví không thành công', 'error', 'top-right');
                             setMoney('');
-                        })
+                        }
                     })
                 })
             })
