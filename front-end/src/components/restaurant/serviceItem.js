@@ -100,7 +100,7 @@ export default function ServiceItem(props) {
                                         </div>
 
                                         <div>
-                                            <b>Giá dịch vụ:</b>{' ' + serviceModal.price}
+                                            <b>Giá dịch vụ:</b>{' ' + formatCurrency(serviceModal.price) + ' VNĐ'}
                                         </div>
 
                                         <div>
