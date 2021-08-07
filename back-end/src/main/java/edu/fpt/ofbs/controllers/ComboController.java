@@ -39,7 +39,7 @@ public class ComboController {
 	}
 	
 	@PostMapping("/save")
-	public ResponseEntity<?> updateInforDish(@RequestBody Combo combo) {
+	public ResponseEntity<?> addCombo(@RequestBody Combo combo) {
 		try {
 			comboService.saveCombo(combo);
 
