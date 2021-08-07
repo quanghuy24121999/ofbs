@@ -69,6 +69,6 @@ public class OrderDetailServiceImpl implements OrderDetailService{
 	
 	@Override
 	public List<IOrderDetailDTO> getOrderDetailByOrderCode(String orderCode){
-		return orderDetailRepository.getOrderIdByOrderCode(orderCode);
+		return orderDetailRepository.getOrderDetailByOrderCode(orderCode);
 	}
 }
