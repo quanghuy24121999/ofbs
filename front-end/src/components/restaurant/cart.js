@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useCart } from 'react-use-cart';
 import {
     Button, Modal, Badge, Input, Form,
@@ -7,6 +7,7 @@ import {
     Label, FormGroup, Row, Col, Container
 } from 'reactstrap';
 import { FaShoppingCart } from 'react-icons/fa'
+import { PayPalButton } from "react-paypal-button-v2";
 import { api } from '../../config/axios';
 
 import CartDishItem from './cartDishItem';
@@ -61,7 +62,10 @@ export default function Cart(props) {
             })
         }
     }
-    const toggle1 = () => setModal1(!modal1);
+    const toggle1 = () => {
+        setModal1(!modal1);
+        setActive(0);
+    }
     const toggleConfirm = () => {
         setModalComfirm(!modalConfirm);
         if (!modalConfirm) {
@@ -439,22 +443,27 @@ export default function Cart(props) {
                                                             Notify('Số tiền trong ví của bạn không đủ', 'error', 'top-right');
                                                         }
                                                     } else if (active === 1) {
+                                                        // api({
+                                                        //     method: 'POST',
+                                                        //     url: `/payment/pay?price=${cartTotal * 0.1 / 23000}&description=${'Thanh toán đơn hàng FBS'}`,
+                                                        //     headers: {
+                                                        //         'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                        //     }
+                                                        // })
+                                                        //     .then(res => {                                                        
                                                         api({
-                                                            method: 'POST',
-                                                            url: `/payment/pay?price=${cartTotal * 0.1 / 23000}&description=${'Thanh toán đơn hàng FBS'}`,
+                                                            method: 'PATCH',
                                                             headers: {
                                                                 'Authorization': 'Bearer ' + localStorage.getItem('token')
-                                                            }
+                                                            },
+                                                            url: `/orders/updateStatus?orderId=${localStorage.getItem("orderId")}&status=pending`
+                                                        }).then(res => {
+                                                            Notify('Thanh toán đơn hàng thành công', 'success', 'top-right');
+                                                            setLoading(false);
+                                                            // emptyCart();
+                                                            // toggle();
+                                                            // toggle1();
                                                         })
-                                                            .then(res => {
-                                                                setLoading(false);
-                                                                emptyCart();
-                                                                setModalComfirm(!modalConfirm);
-                                                                toggle();
-                                                                toggle1();
-                                                                window.location.replace(res.data);
-                                                            }).catch(err => {
-                                                            });
                                                     }
                                                 })
                                             })
@@ -530,7 +539,11 @@ export default function Cart(props) {
                                                                 type="radio"
                                                                 name="radio1"
                                                                 checked={active === 0}
-                                                                onClick={() => setActive(0)}
+                                                                onClick={() => {
+                                                                    setActive(0);
+                                                                    document.getElementById('paypal-btn').style.display = 'none';
+                                                                    document.getElementById('checkout-btn').style.display = 'block';
+                                                                }}
                                                             />{' '}
                                                             Thanh toán bằng ví FBS
                                                         </Label>
@@ -541,36 +554,62 @@ export default function Cart(props) {
                                                                 type="radio"
                                                                 name="radio1"
                                                                 checked={active === 1}
-                                                                onClick={() => setActive(1)}
+                                                                onClick={() => {
+                                                                    setActive(1);
+                                                                    document.getElementById('paypal-btn').style.display = 'block';
+                                                                    document.getElementById('checkout-btn').style.display = 'none';
+                                                                }}
                                                             />{' '}
                                                             Thanh toán bằng ví Paypal
                                                         </Label>
                                                     </FormGroup>
                                                 </FormGroup>
                                             </div>
-
+                                            <div id="paypal-btn" style={{ zIndex: '1', display: 'none' }}>
+                                                <PayPalButton
+                                                    options={{
+                                                        clientId: "AQaSaF02zb7zZbXZIlDArwaUY4L2RTY7NfZwoils6_dfoKGDO10lpJPe3zhe-X6qKVHCASPiOp4rIkNS",
+                                                        currency: "USD"
+                                                    }}
+                                                    amount={parseFloat(cartTotal * 0.1 / 23000).toFixed(2)}
+                                                    onSuccess={(details, data) => {
+                                                        onSubmitCart();
+                                                        setLoading(false);
+                                                        emptyCart();
+                                                        toggle();
+                                                        toggle1();
+                                                    }}
+                                                    onCancel={() => {
+                                                        Notify('Thanh toán đơn hàng không thành công', 'error', 'top-right');
+                                                        emptyCart();
+                                                        // setModalComfirm(!modalConfirm);
+                                                        toggle();
+                                                        toggle1();
+                                                    }}
+                                                />
+                                            </div>
+                                            <Button id="checkout-btn" style={{ width: '100%' }} color="success" onClick={toggleConfirm}>Thanh toán</Button>{' '}
+                                            <Modal isOpen={modalConfirm} toggle={toggleConfirm} className="cart-modal">
+                                                <ModalHeader toggle={toggleConfirm}>Thông báo</ModalHeader>
+                                                <ModalBody>
+                                                    Bạn có chắc chắn thanh toán đơn hàng này ?
+                                                    {loading && <div className="mt-3">
+                                                        <Spinner type="puffloader" />
+                                                    </div>
+                                                    }
+                                                </ModalBody>
+                                                <ModalFooter>
+                                                    <Button color="success" onClick={() => {
+                                                        onSubmitCart();
+                                                    }}>Đồng ý</Button>
+                                                    <Button color="secondary" onClick={toggleConfirm}>Quay lại</Button>
+                                                </ModalFooter>
+                                            </Modal>
                                         </Col>
                                     </Row>
                                 </Container>
                             </ModalBody>
                             <ModalFooter>
-                                <Button color="success" onClick={toggleConfirm}>Thanh toán</Button>{' '}
-                                <Modal isOpen={modalConfirm} toggle={toggleConfirm} className="cart-modal">
-                                    <ModalHeader toggle={toggleConfirm}>Thông báo</ModalHeader>
-                                    <ModalBody>
-                                        Bạn có chắc chắn thanh toán đơn hàng này ?
-                                        {loading && <div className="mt-3">
-                                            <Spinner type="puffloader" />
-                                        </div>
-                                        }
-                                    </ModalBody>
-                                    <ModalFooter>
-                                        <Button color="success" onClick={() => {
-                                            onSubmitCart();
-                                        }}>Đồng ý</Button>
-                                        <Button color="secondary" onClick={toggleConfirm}>Quay lại</Button>
-                                    </ModalFooter>
-                                </Modal>
                                 <Button color="secondary" onClick={toggle1}>Quay lại</Button>
                             </ModalFooter>
                         </Modal>
@@ -785,6 +824,6 @@ export default function Cart(props) {
                     </ModalFooter>
                 </Modal>
             </div>
-        </div>
+        </div >
     )
 }
