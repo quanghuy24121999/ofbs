@@ -73,7 +73,7 @@ export default function HistoryItem(props) {
         } else if (event === 'deny') {
             content = `Yêu cầu rút tiền của bạn bị hủy do không đáp ứng yêu cầu của chúng tôi, vui lòng 
             liên hệ lại với chúng tôi qua Messenger để biết thêm thông tin`;
-            notify = `Hủy thành thành công`;
+            notify = `Hủy thành công`;
             status = 'fail';
         }
 
@@ -144,7 +144,7 @@ export default function HistoryItem(props) {
                         ).then(res => {
                             Notify(notify, 'success', 'top-right');
                             props.receivedData('', '', '');
-                            toggle();
+                            toggle1();
                         })
                     }
                 })
@@ -164,7 +164,7 @@ export default function HistoryItem(props) {
         } else if (event === 'deny') {
             content = `Yêu cầu nạp tiền của bạn bị hủy do không đáp ứng yêu cầu của chúng tôi, vui lòng 
             liên hệ lại với chúng tôi qua Messenger để biết thêm thông tin`;
-            notify = `Hủy thành thành công`;
+            notify = `Hủy thành công`;
             status = 'fail';
         }
 
@@ -212,7 +212,7 @@ export default function HistoryItem(props) {
                                 ).then(res => {
                                     Notify(notify, 'success', 'top-right');
                                     props.receivedData('', '', '');
-                                    toggle1();
+                                    toggle2();
                                 })
                             })
                     } else {
@@ -228,7 +228,7 @@ export default function HistoryItem(props) {
                         ).then(res => {
                             Notify(notify, 'success', 'top-right');
                             props.receivedData('', '', '');
-                            toggle1();
+                            toggle3();
                         })
                     }
                 })
