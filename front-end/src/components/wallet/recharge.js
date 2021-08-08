@@ -28,10 +28,11 @@ export default function Recharge() {
             document.getElementById('bank-info').style.display = 'flex';
             document.getElementById('recharge-btn').style.display = 'block';
             document.getElementById('paypal-btn').style.display = 'none';
+            document.getElementById('input-money').readOnly = false;
         } else if (type === 2) {
             document.getElementById('bank-info').style.display = 'none';
-            document.getElementById('recharge-btn').style.display = 'none';
-            document.getElementById('paypal-btn').style.display = 'block';
+            // document.getElementById('recharge-btn').style.display = 'none';
+            // document.getElementById('paypal-btn').style.display = 'block';
         }
     }
 
@@ -210,12 +211,14 @@ export default function Recharge() {
                 <Col lg="6" md="12" sm="12" className="form-recharge">
                     <div>Nhập số tiền muốn nạp (VNĐ)</div>
                     <Input
+                        id="input-money"
                         type="number"
                         value={money}
                         onChange={onChangeMoney}
                         min={10000}
                         placeholder="Nhập số tiền muốn nạp"
                     />
+
                     <div id="paypal-btn" style={{ zIndex: '1', display: 'none' }}>
                         <PayPalButton
                             options={{
@@ -225,9 +228,15 @@ export default function Recharge() {
                             amount={parseFloat(money / 23000).toFixed(2)}
                             onSuccess={(details, data) => {
                                 paypal('success');
+                                document.getElementById('recharge-btn').style.display = 'block';
+                                document.getElementById('paypal-btn').style.display = 'none';
+                                document.getElementById('input-money').readOnly = false;
                             }}
                             onCancel={() => {
                                 paypal('fail');
+                                document.getElementById('recharge-btn').style.display = 'block';
+                                document.getElementById('paypal-btn').style.display = 'none';
+                                document.getElementById('input-money').readOnly = false;
                             }}
                         />
                     </div>
@@ -235,7 +244,15 @@ export default function Recharge() {
                     <Button id="recharge-btn" color="success" onClick={() => {
                         if (parseFloat(money) > 0 && money !== '') {
                             if (parseFloat(money) >= 10000) {
-                                toggle();
+                                if (active === 1) {
+                                    toggle();
+                                } else {
+                                    document.getElementById('recharge-btn').style.display = 'none';
+                                    document.getElementById('input-money').readOnly = true;
+                                    if (document.getElementById('paypal-btn')) {
+                                        document.getElementById('paypal-btn').style.display = 'block';
+                                    }
+                                }
                             } else {
                                 Notify('Số tiền tối thiểu có thể nạp hoặc rút là 10000VNĐ', 'error', 'top-right');
                             }

@@ -16,7 +16,7 @@ import CartServiceItem from './cartServiceItem';
 import { formatDateForInput } from '../../common/formatDate';
 import { formatCurrency } from '../../common/formatCurrency';
 import { Notify } from '../../common/notify';
-import { validateCapacity, validateItemCart } from '../../common/validate';
+import { validateCapacity, validateEmpty, validateItemCart, validateUsername } from '../../common/validate';
 import OrderDetailDishItem from '../order/orderDetailDishItem';
 import OrderDetailComboItem from '../order/orderDetailComboItem';
 import OrderDetailServiceItem from '../order/orderDetailServiceItem';
@@ -195,6 +195,12 @@ export default function Cart(props) {
             return false;
         } else if (count > 0) {
             Notify('Số lượng quá lớn', 'error', 'top-right');
+            return false;
+        } else if (!validateEmpty(organizeAddress.trim())) {
+            Notify('Vui lòng nhập địa chỉ cụ thể', 'error', 'top-right');
+            return false;
+        } else if (!validateUsername(organizeAddress.trim())) {
+            Notify('Tên địa chỉ quá dài (nhỏ hơn 100 ký tự)', 'error', 'top-right');
             return false;
         } else {
             return true;
