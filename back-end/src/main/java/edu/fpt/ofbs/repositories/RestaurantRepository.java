@@ -19,7 +19,7 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long>{
 	List<IRestaurantDTO> searchRestaurants(int type, String province, String district, String restaurantName);
 	
 	@Query(value = "exec sp_getRestaurantById ?1", nativeQuery = true)
-	IRestaurantDTO getRestaurantById(long id);
+	List<IRestaurantDTO> getRestaurantById(long id);
 	
 	@Query(value = "exec sp_getRestaurantsByProviderId ?1, ?2", nativeQuery = true)
 	List<IRestaurantDTO> getRestaurantByProviderId(long providerId, long statusId);

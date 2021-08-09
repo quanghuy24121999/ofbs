@@ -34,7 +34,7 @@ public class RestaurantServiceImpl implements RestaurantService{
 	}
 	
 	@Override
-	public IRestaurantDTO getRestaurantById(long id){
+	public List<IRestaurantDTO> getRestaurantById(long id){
 		return restaurantRepository.getRestaurantById(id);
 	}
 	
