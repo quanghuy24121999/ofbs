@@ -627,199 +627,202 @@ export default function Cart(props) {
                                 }
                             }}
                         >
-                            <div className="cart-option">
-                                <h4>Tùy chọn</h4>
-                                <div className="cart-other-option">
-                                    <div>
-                                        <Label for="type"><b>Loại bàn <span className="require-icon">*</span></b></Label>
-                                        <Input
-                                            type="select"
-                                            name="type"
-                                            id="type"
-                                            onChange={onchangeTypeTable}
-                                            value={metadata.type}
-                                            required="required"
-                                        >
-                                            <option value={6}>Bàn 6</option>
-                                            <option value={8}>Bàn 8</option>
-                                        </Input>
-                                    </div>
-
-                                    <div>
-                                        <Label for="period"><b>Buổi <span className="require-icon">*</span></b></Label>
-                                        <Input
-                                            type="select"
-                                            name="period"
-                                            id="period"
-                                            onChange={onchangePeriod}
-                                            value={metadata.period}
-                                            required="required"
-                                        >
-                                            <option value={'Trưa'}>Trưa</option>
-                                            <option value={'Tối'}>Tối</option>
-                                        </Input>
-                                    </div>
-                                </div>
-
-                                <div className="cart-other-option">
-                                    <div>
-                                        <Label for="customer-quantity"><b>Số lượng khách <span className="require-icon">*</span></b></Label>
-                                        <Input
-                                            type="number"
-                                            name="customer-quantity"
-                                            id="customer-quantity"
-                                            min={1}
-                                            onChange={onChangeCustomerQuantity}
-                                            value={customerQuantity}
-                                            required="required"
-                                        />
-                                    </div>
-
-                                    <div>
-                                        <Label for="choose-date"><b>Chọn ngày <span className="require-icon">*</span></b></Label>
-                                        <Input
-                                            type="date"
-                                            name="choose-date"
-                                            id="choose-date"
-                                            min={formatDateForInput(new Date())}
-                                            max={formatDateForInput(maxDate)}
-                                            onChange={onChangeTime}
-                                            value={time}
-                                            required="required"
-                                        />
-                                    </div>
-                                </div>
-                                <Row tag="fieldset" className="restaurant">
-                                    <Col check>
-                                        <Label check>
+                            <Row>
+                                <Col className="cart-option" lg="6" md="12" sm="12">
+                                    <h4>Tùy chọn</h4>
+                                    <div className="cart-other-option">
+                                        <div>
+                                            <Label for="type"><b>Loại bàn <span className="require-icon">*</span></b></Label>
                                             <Input
-                                                type="radio"
-                                                name="radio1"
-                                                checked={display === 1}
-                                                onClick={() => {
-                                                    setDisplay(1);
-                                                }}
-                                            />{' '}
-                                            <span className="type-restaurant">Tổ chức tại nhà</span>
-                                        </Label>
-                                    </Col>
-                                    <Col check>
-                                        <Label check>
+                                                type="select"
+                                                name="type"
+                                                id="type"
+                                                onChange={onchangeTypeTable}
+                                                value={metadata.type}
+                                                required="required"
+                                            >
+                                                <option value={6}>Bàn 6</option>
+                                                <option value={8}>Bàn 8</option>
+                                            </Input>
+                                        </div>
+
+                                        <div>
+                                            <Label for="period"><b>Buổi <span className="require-icon">*</span></b></Label>
                                             <Input
-                                                type="radio"
-                                                name="radio1"
-                                                checked={display === 2}
-                                                onClick={() => {
-                                                    setDisplay(2);
-                                                }}
-                                            />{' '}
-                                            <span className="type-restaurant">Tổ chức tại nhà hàng</span>
-                                        </Label>
-                                    </Col>
-                                </Row>
-
-                                {
-                                    display === 1 && <div id="cart-address">
-                                        <Row className="content-row-2">
-                                            <Col lg="6" md="6" sm="12">
-                                                <Label for="citySelect"><b>Chọn tỉnh/ thành phố <span className="require-icon">*</span></b></Label>
-                                                <Input
-                                                    type="select"
-                                                    name="citySelect"
-                                                    id="citySelect"
-                                                    value={provinceCode}
-                                                    onChange={onProvinceClick}
-                                                >
-                                                    {provinces.map((province) => {
-                                                        return (
-                                                            <option key={province.code} value={province.code}>
-                                                                {province.name}
-                                                            </option>
-                                                        );
-                                                    })}
-                                                </Input>
-                                            </Col>
-
-                                            <Col lg="6" md="6" sm="12">
-                                                <Label for="districtSelect"><b>Chọn quận/ huyện <span className="require-icon">*</span></b></Label>
-                                                <Input
-                                                    type="select"
-                                                    name="districtSelect"
-                                                    id="districtSelect"
-                                                    onChange={onDistrictClick}
-                                                >
-                                                    {districts.map((district) => {
-                                                        return (
-                                                            <option key={district.code} value={district.code}>
-                                                                {district.name}
-                                                            </option>
-                                                        );
-                                                    })}
-                                                </Input>
-                                            </Col>
-                                        </Row>
-                                        <Row className="content-row-2">
-                                            <Col lg="6" md="6" sm="12">
-                                                <Label for="districtSelect"><b>Chọn xã/ phường <span className="require-icon">*</span></b></Label>
-                                                <Input
-                                                    type="select"
-                                                    name="wardsSelect"
-                                                    id="wardsSelect"
-                                                    onChange={onWardClick}
-                                                >
-                                                    {wards.map((ward) => {
-                                                        return (
-                                                            <option key={ward.code} value={ward.code}>
-                                                                {ward.name}
-                                                            </option>
-                                                        );
-                                                    })}
-                                                </Input>
-                                            </Col>
-                                            <Col lg="6" md="6" sm="12">
-                                                <Label><b>Địa chỉ cụ thể <span className="require-icon">*</span></b></Label>
-                                                <Input
-                                                    type="text"
-                                                    placeholder="Địa chỉ cụ thể"
-                                                    required="required"
-                                                    onChange={onChangeOrganizeAddress}
-                                                    value={metadata.organizeAddress}
-                                                />
-                                            </Col>
-                                        </Row>
+                                                type="select"
+                                                name="period"
+                                                id="period"
+                                                onChange={onchangePeriod}
+                                                value={metadata.period}
+                                                required="required"
+                                            >
+                                                <option value={'Trưa'}>Trưa</option>
+                                                <option value={'Tối'}>Tối</option>
+                                            </Input>
+                                        </div>
                                     </div>
-                                }
-                                <Label for="note"><b>Ghi chú </b></Label>
-                                <Input
-                                    type="textarea"
-                                    name="note"
-                                    id="note"
-                                    placeholder="Yêu cầu cụ thể (nếu có)"
-                                    onChange={onChangeNote}
-                                    value={metadata.note}
-                                />
-                            </div>
-                            <hr></hr>
-                            <h4>Món ăn</h4>
-                            {
-                                items.map((item, index) => {
-                                    return <CartDishItem key={index} dish={item} calNumTable={calNumTable(customerQuantity, typeTable)} />
-                                })
-                            }
-                            <hr></hr>
-                            <h4>Combo món ăn</h4>
-                            {items.map((item, index) => {
-                                return <CartComboItem key={index} combo={item} calNumTable={calNumTable(customerQuantity, typeTable)} />
-                            })}
-                            <hr></hr>
-                            <h4>Dịch vụ</h4>
-                            {items.map((item, index) => {
-                                return <CartServiceItem key={index} service={item} />
-                            })}
-                            <hr></hr>
-                            <div className="cart-total-price">Tổng tiền: {formatCurrency(cartTotal) + "  VNĐ"}</div>
-                            <Input type="submit" value="Đặt hàng" className="btn btn-success btn-save" />
 
+                                    <div className="cart-other-option">
+                                        <div>
+                                            <Label for="customer-quantity"><b>Số lượng khách <span className="require-icon">*</span></b></Label>
+                                            <Input
+                                                type="number"
+                                                name="customer-quantity"
+                                                id="customer-quantity"
+                                                min={1}
+                                                onChange={onChangeCustomerQuantity}
+                                                value={customerQuantity}
+                                                required="required"
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <Label for="choose-date"><b>Chọn ngày <span className="require-icon">*</span></b></Label>
+                                            <Input
+                                                type="date"
+                                                name="choose-date"
+                                                id="choose-date"
+                                                min={formatDateForInput(new Date())}
+                                                max={formatDateForInput(maxDate)}
+                                                onChange={onChangeTime}
+                                                value={time}
+                                                required="required"
+                                            />
+                                        </div>
+                                    </div>
+                                    <Row tag="fieldset" className="restaurant">
+                                        <Col check>
+                                            <Label check>
+                                                <Input
+                                                    type="radio"
+                                                    name="radio1"
+                                                    checked={display === 1}
+                                                    onClick={() => {
+                                                        setDisplay(1);
+                                                    }}
+                                                />{' '}
+                                                <span className="type-restaurant">Tổ chức tại nhà</span>
+                                            </Label>
+                                        </Col>
+                                        <Col check>
+                                            <Label check>
+                                                <Input
+                                                    type="radio"
+                                                    name="radio1"
+                                                    checked={display === 2}
+                                                    onClick={() => {
+                                                        setDisplay(2);
+                                                    }}
+                                                />{' '}
+                                                <span className="type-restaurant">Tổ chức tại nhà hàng</span>
+                                            </Label>
+                                        </Col>
+                                    </Row>
+
+                                    {
+                                        display === 1 && <div id="cart-address">
+                                            <Row className="content-row-2">
+                                                <Col lg="6" md="6" sm="12">
+                                                    <Label for="citySelect"><b>Chọn tỉnh/ thành phố <span className="require-icon">*</span></b></Label>
+                                                    <Input
+                                                        type="select"
+                                                        name="citySelect"
+                                                        id="citySelect"
+                                                        value={provinceCode}
+                                                        onChange={onProvinceClick}
+                                                    >
+                                                        {provinces.map((province) => {
+                                                            return (
+                                                                <option key={province.code} value={province.code}>
+                                                                    {province.name}
+                                                                </option>
+                                                            );
+                                                        })}
+                                                    </Input>
+                                                </Col>
+
+                                                <Col lg="6" md="6" sm="12">
+                                                    <Label for="districtSelect"><b>Chọn quận/ huyện <span className="require-icon">*</span></b></Label>
+                                                    <Input
+                                                        type="select"
+                                                        name="districtSelect"
+                                                        id="districtSelect"
+                                                        onChange={onDistrictClick}
+                                                    >
+                                                        {districts.map((district) => {
+                                                            return (
+                                                                <option key={district.code} value={district.code}>
+                                                                    {district.name}
+                                                                </option>
+                                                            );
+                                                        })}
+                                                    </Input>
+                                                </Col>
+                                            </Row>
+                                            <Row className="content-row-2">
+                                                <Col lg="6" md="6" sm="12">
+                                                    <Label for="districtSelect"><b>Chọn xã/ phường <span className="require-icon">*</span></b></Label>
+                                                    <Input
+                                                        type="select"
+                                                        name="wardsSelect"
+                                                        id="wardsSelect"
+                                                        onChange={onWardClick}
+                                                    >
+                                                        {wards.map((ward) => {
+                                                            return (
+                                                                <option key={ward.code} value={ward.code}>
+                                                                    {ward.name}
+                                                                </option>
+                                                            );
+                                                        })}
+                                                    </Input>
+                                                </Col>
+                                                <Col lg="6" md="6" sm="12">
+                                                    <Label><b>Địa chỉ cụ thể <span className="require-icon">*</span></b></Label>
+                                                    <Input
+                                                        type="text"
+                                                        placeholder="Địa chỉ cụ thể"
+                                                        required="required"
+                                                        onChange={onChangeOrganizeAddress}
+                                                        value={metadata.organizeAddress}
+                                                    />
+                                                </Col>
+                                            </Row>
+                                        </div>
+                                    }
+                                    <Label for="note"><b>Ghi chú </b></Label>
+                                    <Input
+                                        type="textarea"
+                                        name="note"
+                                        id="note"
+                                        placeholder="Yêu cầu cụ thể (nếu có)"
+                                        onChange={onChangeNote}
+                                        value={metadata.note}
+                                    />
+                                </Col>
+                                {/* <hr></hr> */}
+                                <Col lg="6" md="12" sm="12">
+                                    <h4>Món ăn</h4>
+                                    {
+                                        items.map((item, index) => {
+                                            return <CartDishItem key={index} dish={item} calNumTable={calNumTable(customerQuantity, typeTable)} />
+                                        })
+                                    }
+                                    <hr></hr>
+                                    <h4>Combo món ăn</h4>
+                                    {items.map((item, index) => {
+                                        return <CartComboItem key={index} combo={item} calNumTable={calNumTable(customerQuantity, typeTable)} />
+                                    })}
+                                    <hr></hr>
+                                    <h4>Dịch vụ</h4>
+                                    {items.map((item, index) => {
+                                        return <CartServiceItem key={index} service={item} />
+                                    })}
+                                    <hr></hr>
+                                    <div className="cart-total-price">Tổng tiền: {formatCurrency(cartTotal) + "  VNĐ"}</div>
+                                    <Input type="submit" value="Đặt hàng" className="btn btn-success btn-save" />
+                                </Col>
+                            </Row>
                         </Form>
                     </ModalBody>
                     <ModalFooter className="cart-footer">
