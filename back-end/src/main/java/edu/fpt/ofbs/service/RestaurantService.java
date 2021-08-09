@@ -12,7 +12,7 @@ public interface RestaurantService {
 
 	List<IRestaurantDTO> searchRestaurants(int type, String province, String district, String restaurantName);
 
-	IRestaurantDTO getRestaurantById(long id);
+	List<IRestaurantDTO> getRestaurantById(long id);
 
 	Restaurant findRestaurantById(long id);
 
