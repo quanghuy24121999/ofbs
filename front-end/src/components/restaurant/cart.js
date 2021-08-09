@@ -196,10 +196,10 @@ export default function Cart(props) {
         } else if (count > 0) {
             Notify('Số lượng quá lớn', 'error', 'top-right');
             return false;
-        } else if (!validateEmpty(organizeAddress.trim())) {
+        } else if (display === 1 && !validateEmpty(organizeAddress.trim())) {
             Notify('Vui lòng nhập địa chỉ cụ thể', 'error', 'top-right');
             return false;
-        } else if (!validateUsername(organizeAddress.trim())) {
+        } else if (display === 1 && !validateUsername(organizeAddress.trim())) {
             Notify('Tên địa chỉ quá dài (nhỏ hơn 100 ký tự)', 'error', 'top-right');
             return false;
         } else {
