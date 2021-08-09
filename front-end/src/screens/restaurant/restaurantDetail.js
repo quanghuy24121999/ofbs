@@ -80,7 +80,7 @@ export default class restaurantDetail extends Component {
 
         api.get(`/restaurants/detail?restaurantId=${restaurantId}`)
             .then(res => {
-                this.setState({ restaurant: res.data })
+                this.setState({ restaurant: (res.data)[0] })
             })
 
         api.get(`/promotions/getPromotionsByRestaurantId?restaurantId=${restaurantId}&isActive=1`)
@@ -310,7 +310,7 @@ export default class restaurantDetail extends Component {
             rating, displayModal, moveToLogin, promotions, numberRates
         } = this.state;
         const restaurantId = this.props.match.params.restaurantId;
-
+        
         return (
             <div>
                 <Modal isOpen={displayModal} toggle={this.toggleModal} className="">

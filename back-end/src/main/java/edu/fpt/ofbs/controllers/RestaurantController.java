@@ -49,8 +49,8 @@ public class RestaurantController {
 
 	@GetMapping("/detail")
 	public ResponseEntity<?> getRestaurantById(@PathParam("restaurantId") long restaurantId) {
-		IRestaurantDTO restaurant = restaurantService.getRestaurantById(restaurantId);
-		return ResponseEntity.status(HttpStatus.OK).body(restaurant);
+		List<IRestaurantDTO> restaurants = restaurantService.getRestaurantById(restaurantId);
+		return ResponseEntity.status(HttpStatus.OK).body(restaurants);
 	}
 
 	@GetMapping("/providerTypes")
