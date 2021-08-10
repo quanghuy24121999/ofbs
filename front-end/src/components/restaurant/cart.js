@@ -352,7 +352,7 @@ export default function Cart(props) {
                                                     }
                                                 ).then(res => {
                                                     if (active === 0) {
-                                                        if (parseFloat(currentUser.balance) > parseFloat(cartTotal * 0.1)) {
+                                                        if (parseFloat(currentUser.balance) >= parseFloat(cartTotal * 0.1)) {
                                                             emptyCart();
                                                             setModalComfirm(!modalConfirm);
                                                             api.get(`/users/findByRole?roleName=ROLE_ADMIN`)
@@ -444,8 +444,9 @@ export default function Cart(props) {
                                                                     })
                                                                 })
                                                         } else {
-                                                            toggle();
+                                                            setLoading(false);                                                            
                                                             toggle1();
+                                                            toggleConfirm();
                                                             Notify('Số tiền trong ví của bạn không đủ', 'error', 'top-right');
                                                         }
                                                     } else if (active === 1) {
