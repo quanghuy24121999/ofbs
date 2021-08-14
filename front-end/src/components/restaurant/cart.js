@@ -491,7 +491,7 @@ export default function Cart(props) {
                     </Badge>
                 </Button>
 
-                <Modal isOpen={modal} toggle={toggle} className="cart-modal">
+                <Modal isOpen={modal} toggle={toggle} className="">
                     <ModalHeader toggle={toggle}>Giỏ hàng</ModalHeader>
                     <ModalBody>
                         <h3>Giỏ hàng trống !</h3>
@@ -596,7 +596,7 @@ export default function Cart(props) {
                                                 />
                                             </div>
                                             <Button id="checkout-btn" style={{ width: '100%' }} color="success" onClick={toggleConfirm}>Thanh toán</Button>{' '}
-                                            <Modal isOpen={modalConfirm} toggle={toggleConfirm} className="cart-modal">
+                                            <Modal isOpen={modalConfirm} toggle={toggleConfirm} className="">
                                                 <ModalHeader toggle={toggleConfirm}>Thông báo</ModalHeader>
                                                 <ModalBody>
                                                     Bạn có chắc chắn thanh toán đơn hàng này ?
