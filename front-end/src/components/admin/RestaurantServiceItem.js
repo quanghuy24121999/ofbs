@@ -13,6 +13,7 @@ export default function RestaurantServiceItem(props) {
     const service = props.service;
     let serviceDish = service.status_name;
     let count = props.count;
+    let currentPage = props.currentPage;
 
     if (serviceDish === 'active') {
         serviceDish = 'Đang kinh doanh';
@@ -76,7 +77,11 @@ export default function RestaurantServiceItem(props) {
 
     return (
         <tr>
-            <td>{count}</td>
+            <td>
+                {
+                    (currentPage === 0 ? count : count + 10 * currentPage)
+                }
+            </td>
             <td>{service.service_name}</td>
             <td>{formatCurrency(service.price)}</td>
             <td>{service.service_category_name}</td>

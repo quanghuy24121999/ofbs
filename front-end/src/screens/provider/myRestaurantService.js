@@ -270,7 +270,7 @@ export default class myRestaurantService extends Component {
 
         return (
             <div className="myRes-service">
-                <TopMenu searchResService/>
+                <TopMenu searchResService />
                 <Nav pills className="restaurant-detail-nav container">
                     <NavItem >
                         <Link to={`/users/profile/my-restaurant/detail`}>Thông tin</Link>
@@ -526,19 +526,27 @@ export default class myRestaurantService extends Component {
                             </tbody>
                         </Table>
                     </div>
-                    <ReactPaginate
-                        previousLabel={"Trang trước"}
-                        nextLabel={"Trang sau"}
-                        breakLabel={"..."}
-                        breakClassName={"break-me"}
-                        pageCount={this.state.pageCount}
-                        marginPagesDisplayed={5}
-                        pageRangeDisplayed={5}
-                        onPageChange={this.handlePageClick}
-                        containerClassName={"pagination"}
-                        subContainerClassName={"pages pagination"}
-                        activeClassName={"active"}
-                    />
+                    {
+                        (this.state.servicesPaging && this.state.servicesPaging.length > 0) ? <>
+                            {
+                                this.state.pageCount > 1 && <ReactPaginate
+                                    previousLabel={"Trang trước"}
+                                    nextLabel={"Trang sau"}
+                                    breakLabel={"..."}
+                                    breakClassName={"break-me"}
+                                    pageCount={this.state.pageCount}
+                                    marginPagesDisplayed={3}
+                                    pageRangeDisplayed={3}
+                                    onPageChange={this.handlePageClick}
+                                    containerClassName={"pagination"}
+                                    subContainerClassName={"pages pagination"}
+                                    activeClassName={"active"}
+                                />
+                            }
+                        </> : <div className="not-found">
+                            Không tìm thấy kết quả nào
+                        </div>
+                    }
                 </Container>
                 <Footer />
                 <Messenger />

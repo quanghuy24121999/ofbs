@@ -128,19 +128,27 @@ export default class orderCustomer extends Component {
                     <Row className="order-row">
                         {this.state.orderPaging}
                     </Row>
-                    <ReactPaginate
-                        previousLabel={"Trang trước"}
-                        nextLabel={"Trang sau"}
-                        breakLabel={"..."}
-                        breakClassName={"break-me"}
-                        pageCount={this.state.pageCount}
-                        marginPagesDisplayed={1}
-                        pageRangeDisplayed={1}
-                        onPageChange={this.handlePageClick}
-                        containerClassName={"pagination"}
-                        subContainerClassName={"pages pagination"}
-                        activeClassName={"active"}
-                    />
+                    {
+                        (this.state.orderPaging && this.state.orderPaging.length > 0) ? <>
+                            {
+                                this.state.pageCount > 1 && <ReactPaginate
+                                    previousLabel={"Trang trước"}
+                                    nextLabel={"Trang sau"}
+                                    breakLabel={"..."}
+                                    breakClassName={"break-me"}
+                                    pageCount={this.state.pageCount}
+                                    marginPagesDisplayed={3}
+                                    pageRangeDisplayed={3}
+                                    onPageChange={this.handlePageClick}
+                                    containerClassName={"pagination"}
+                                    subContainerClassName={"pages pagination"}
+                                    activeClassName={"active"}
+                                />
+                            }
+                        </> : <div className="not-found">
+                            Không tìm thấy kết quả nào
+                        </div>
+                    }
                 </Container>
                 <Footer />
                 <Messenger />

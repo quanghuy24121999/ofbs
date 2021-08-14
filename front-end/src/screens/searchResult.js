@@ -267,7 +267,7 @@ export default class searchResult extends Component {
                             {
                                 (this.state.restaurants && this.state.restaurants.length > 0) ? <>
                                     {
-                                        this.state.restaurants.length > 1 && <ReactPaginate
+                                        this.state.pageCount > 1 && <ReactPaginate
                                             previousLabel={"Trang trước"}
                                             nextLabel={"Trang sau"}
                                             breakLabel={"..."}

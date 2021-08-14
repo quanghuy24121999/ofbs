@@ -46,7 +46,7 @@ export default function RestaurantDish(props) {
                 const data = res.data;
                 const slice = data.slice(offset, offset + perPage)
                 const dishesPaging = slice.map((dish, index) => {
-                    return <RestaurantDishItem key={index} dish={dish} count={index + 1} restaurantId={restaurantId} receivedData={receivedData} />
+                    return <RestaurantDishItem key={index} dish={dish} currentPage={currentPage} count={index + 1} restaurantId={restaurantId} receivedData={receivedData} />
                 })
 
                 setDishes(dishesPaging);
@@ -150,19 +150,27 @@ export default function RestaurantDish(props) {
                             </tbody>
                         </Table>
                     </div>
-                    <ReactPaginate
-                        previousLabel={"Trang trước"}
-                        nextLabel={"Trang sau"}
-                        breakLabel={"..."}
-                        breakClassName={"break-me"}
-                        pageCount={pageCount}
-                        marginPagesDisplayed={2}
-                        pageRangeDisplayed={5}
-                        onPageChange={handlePageClick}
-                        containerClassName={"pagination"}
-                        subContainerClassName={"pages pagination"}
-                        activeClassName={"active"}
-                    />
+                    {
+                        (dishes && dishes.length > 0) ? <>
+                            {
+                                pageCount > 1 && <ReactPaginate
+                                    previousLabel={"Trang trước"}
+                                    nextLabel={"Trang sau"}
+                                    breakLabel={"..."}
+                                    breakClassName={"break-me"}
+                                    pageCount={pageCount}
+                                    marginPagesDisplayed={3}
+                                    pageRangeDisplayed={3}
+                                    onPageChange={handlePageClick}
+                                    containerClassName={"pagination"}
+                                    subContainerClassName={"pages pagination"}
+                                    activeClassName={"active"}
+                                />
+                            }
+                        </> : <div className="not-found">
+                            Không tìm thấy kết quả nào
+                        </div>
+                    }
                 </Container>
             </div>
         </div>

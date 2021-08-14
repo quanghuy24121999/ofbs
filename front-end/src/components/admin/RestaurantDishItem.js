@@ -13,6 +13,7 @@ export default function RestaurantDishItem(props) {
     const dish = props.dish;
     let statusDish = dish.status_name;
     let count = props.count;
+    let currentPage = props.currentPage;
 
     if (statusDish === 'active') {
         statusDish = 'Đang kinh doanh';
@@ -76,7 +77,11 @@ export default function RestaurantDishItem(props) {
 
     return (
         <tr>
-            <td>{count}</td>
+            <td>
+                {
+                    (currentPage === 0 ? count : count + 10 * currentPage)
+                }
+            </td>
             <td>{dish.dish_name}</td>
             <td>{formatCurrency(dish.price)}</td>
             <td>{dish.category_name}</td>
