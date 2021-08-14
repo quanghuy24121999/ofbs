@@ -10,6 +10,7 @@ import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
 import Cart from '../../components/restaurant/cart';
 import ComboItem from '../../components/restaurant/comboItem';
+import Messenger from '../../components/common/messenger';
 
 export default class combo extends Component {
     constructor(props) {
@@ -128,6 +129,7 @@ export default class combo extends Component {
                     />
                 </Container>
                 <Footer />
+                <Messenger />
             </div>
         )
     }

@@ -8,6 +8,7 @@ import { api } from '../config/axios';
 import TopMenu from '../components/common/topMenu';
 import { Notify } from '../common/notify';
 import { validateEmpty, validatePassword, validatePhoneNumber, validateUsername } from "../common/validate";
+import Messenger from "../components/common/messenger";
 
 let recap = null;
 let event = '';
@@ -246,6 +247,7 @@ class register extends Component {
                         id="btn-forget-password"
                     />
                 </Form>
+                <Messenger />
             </div>
         );
     }

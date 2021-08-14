@@ -7,6 +7,7 @@ import { FaSearch } from 'react-icons/fa';
 import { api } from '../../config/axios';
 import HistoryItem from './historyItem';
 import { formatCurrency } from '../../common/formatCurrency';
+import Messenger from '../common/messenger';
 
 export default function Info() {
     const [status, setStatus] = useState('');
@@ -172,6 +173,7 @@ export default function Info() {
                 subContainerClassName={"pages pagination"}
                 activeClassName={"active"}
             />
+            <Messenger />
         </Container>
     )
 }

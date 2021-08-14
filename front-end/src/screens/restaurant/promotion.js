@@ -7,6 +7,7 @@ import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
 import PromotionItem from '../../components/restaurant/promotionItem';
 import Spinner from '../../components/common/spinner';
+import Messenger from '../../components/common/messenger';
 
 export default class promotion extends Component {
     constructor(props) {
@@ -91,6 +92,7 @@ export default class promotion extends Component {
                     />
                 </Container>
                 <Footer />
+                <Messenger />
             </div >
         )
     }

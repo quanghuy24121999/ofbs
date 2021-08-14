@@ -12,6 +12,7 @@ import { FaSearch } from 'react-icons/fa';
 import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
 import MyRestaurantOrderItem from '../../components/provider/myRestaurantOrderItem';
+import Messenger from '../../components/common/messenger';
 
 let restaurantId = '';
 export default class myRestaurantOrder extends Component {
@@ -215,6 +216,7 @@ export default class myRestaurantOrder extends Component {
                         activeClassName={"active"} />
                 </Container>
                 <Footer />
+                <Messenger />
             </div>
         )
     }

@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import DishItem from '../../components/restaurant/dishItem';
 import Cart from '../../components/restaurant/cart';
 import { FaSearch } from 'react-icons/fa';
+import Messenger from '../../components/common/messenger';
 
 const responsive = {
     desktop: {
@@ -297,6 +298,7 @@ export default class menu extends Component {
                 )
                 }
                 <Footer />
+                <Messenger />
             </div >
         )
     }

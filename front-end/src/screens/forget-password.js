@@ -9,6 +9,7 @@ import firebase from "../config/firebase";
 import TopMenu from '../components/common/topMenu';
 import { Notify } from '../common/notify';
 import { validatePassword } from '../common/validate';
+import Messenger from '../components/common/messenger';
 
 let userId = '';
 let recap = null;
@@ -221,6 +222,7 @@ export default class forgetPassword extends Component {
                 </Form>
 
                 <ToastContainer />
+                <Messenger />
             </div>
         )
     }

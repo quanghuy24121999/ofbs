@@ -6,6 +6,7 @@ import { api } from '../../config/axios';
 import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
 import MyRestaurantItem from '../../components/provider/myRestaurantItem';
+import Messenger from '../../components/common/messenger';
 
 let userId = '';
 
@@ -163,6 +164,7 @@ export default class myRestaurant extends Component {
                         </Container>
                 }
                 <Footer />
+                <Messenger />
             </div>
         )
     }

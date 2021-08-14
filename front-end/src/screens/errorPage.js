@@ -4,6 +4,7 @@ import { Container } from 'reactstrap';
 import TopMenu from '../components/common/topMenu';
 import Footer from '../components/common/footer';
 import { FaExclamationTriangle } from 'react-icons/fa';
+import Messenger from '../components/common/messenger';
 
 export default class errorPage extends Component {
     render() {
@@ -15,6 +16,7 @@ export default class errorPage extends Component {
                     <div>Trang này không tồn tại !</div>
                 </Container>
                 <Footer />
+                <Messenger />
             </div>
         )
     }

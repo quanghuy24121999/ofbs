@@ -12,6 +12,7 @@ import { FaTrashAlt, FaRegPlusSquare } from 'react-icons/fa';
 
 import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
+import Messenger from '../../components/common/messenger';
 
 let restaurantId = '';
 export default class myRestaurantImage extends Component {
@@ -288,6 +289,7 @@ export default class myRestaurantImage extends Component {
                         <Button color="secondary" onClick={this.toggle2}>Quay lại</Button>
                     </ModalFooter>
                 </Modal>
+                <Messenger />
             </div >
         )
     }

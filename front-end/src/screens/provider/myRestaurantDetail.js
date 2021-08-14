@@ -15,6 +15,7 @@ import Footer from '../../components/common/footer';
 import RestaurantAvater from '../../images/default-restaurant.png';
 import { validateCapacity, validateDescription, validateECapacity, validateEmpty, validatePhoneNumber, validateUsername } from '../../common/validate';
 import { Notify } from '../../common/notify';
+import Messenger from '../../components/common/messenger';
 
 let restaurantId = '';
 export default class myRestaurantDetail extends Component {
@@ -802,6 +803,7 @@ export default class myRestaurantDetail extends Component {
                     </Row>
                 </Container>
                 <Footer />
+                <Messenger />
             </div>
         )
     }

@@ -12,6 +12,7 @@ import TopMenu from '../components/common/topMenu';
 import Footer from '../components/common/footer';
 import RestaurantItem from '../components/restaurant/restaurantItem';
 import Spinner from '../components/common/spinner';
+import Messenger from '../components/common/messenger';
 
 export default class searchResult extends Component {
     constructor(props) {
@@ -191,7 +192,7 @@ export default class searchResult extends Component {
 
         return (
             <div>
-                <TopMenu searchRes/>
+                <TopMenu searchRes />
                 <div className="result-search" id="result-search">
                     <Form className="result-search-form">
                         <FormGroup className="result-search-text">
@@ -256,29 +257,39 @@ export default class searchResult extends Component {
                 {
                     loading ? (
                         <Container className="search-content" id="search-content">
-                            <Spinner type="barloader"/>
+                            <Spinner type="barloader" />
                         </Container>
                     ) : (
                         <Container className="search-content" id="search-content">
                             <Row className="result-search-row">
                                 {this.state.restaurants}
                             </Row>
-                            <ReactPaginate
-                                previousLabel={"Trang trước"}
-                                nextLabel={"Trang sau"}
-                                breakLabel={"..."}
-                                breakClassName={"break-me"}
-                                pageCount={this.state.pageCount}
-                                marginPagesDisplayed={1}
-                                pageRangeDisplayed={1}
-                                onPageChange={this.handlePageClick}
-                                containerClassName={"pagination"}
-                                subContainerClassName={"pages pagination"}
-                                activeClassName={"active"} />
+                            {
+                                (this.state.restaurants && this.state.restaurants.length > 0) ? <>
+                                    {
+                                        this.state.restaurants.length > 1 && <ReactPaginate
+                                            previousLabel={"Trang trước"}
+                                            nextLabel={"Trang sau"}
+                                            breakLabel={"..."}
+                                            breakClassName={"break-me"}
+                                            pageCount={this.state.pageCount}
+                                            marginPagesDisplayed={3}
+                                            pageRangeDisplayed={3}
+                                            onPageChange={this.handlePageClick}
+                                            containerClassName={"pagination"}
+                                            subContainerClassName={"pages pagination"}
+                                            activeClassName={"active"}
+                                        />
+                                    }
+                                </> : <div className="not-found">
+                                    Không tìm thấy kết quả nào
+                                </div>
+                            }
                         </Container>
                     )
                 }
                 <Footer />
+                <Messenger />
             </div>
         )
     }

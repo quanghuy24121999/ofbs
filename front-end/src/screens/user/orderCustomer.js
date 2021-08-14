@@ -10,6 +10,7 @@ import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
 import OrderItem from '../../components/order/orderItem';
 import { onChangeLinkStatus } from '../../common/changeLink';
+import Messenger from '../../components/common/messenger';
 
 
 let userId = '';
@@ -142,6 +143,7 @@ export default class orderCustomer extends Component {
                     />
                 </Container>
                 <Footer />
+                <Messenger />
             </div>
         )
     }

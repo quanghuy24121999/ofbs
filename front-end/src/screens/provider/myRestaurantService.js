@@ -16,6 +16,7 @@ import Footer from '../../components/common/footer';
 import MyRestaurantServiceItem from '../../components/provider/myRestaurantServiceItem';
 import { Notify } from '../../common/notify';
 import { validateCapacity, validateDescription, validateEmpty, validateUsername } from '../../common/validate';
+import Messenger from '../../components/common/messenger';
 
 let restaurantId = '';
 
@@ -540,6 +541,7 @@ export default class myRestaurantService extends Component {
                     />
                 </Container>
                 <Footer />
+                <Messenger />
             </div>
         )
     }

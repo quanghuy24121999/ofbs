@@ -16,6 +16,7 @@ import MyRestaurantPromotionItem from '../../components/provider/myRestaurantPro
 import { formatDateForInput } from '../../common/formatDate';
 import { Notify } from '../../common/notify';
 import { validateDescription, validateEmpty, validatePromotionPercentage, validateUsername } from '../../common/validate';
+import Messenger from '../../components/common/messenger';
 
 let restaurantId = '';
 export default class myRestaurantPromotion extends Component {
@@ -451,6 +452,7 @@ export default class myRestaurantPromotion extends Component {
                         activeClassName={"active"} />
                 </Container>
                 <Footer />
+                <Messenger />
             </div>
         )
     }
