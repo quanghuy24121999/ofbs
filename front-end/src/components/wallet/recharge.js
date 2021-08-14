@@ -9,6 +9,7 @@ import { PayPalButton } from "react-paypal-button-v2";
 import { Notify } from '../../common/notify';
 import { api } from '../../config/axios';
 import Spinner from '../common/spinner';
+import Messenger from '../common/messenger';
 
 export default function Recharge() {
     const [money, setMoney] = useState('');
@@ -276,6 +277,7 @@ export default function Recharge() {
                     </Modal>
                 </Col>
             </Row>
+            <Messenger />
         </Container>
     )
 }

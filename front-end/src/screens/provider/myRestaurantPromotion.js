@@ -16,6 +16,7 @@ import MyRestaurantPromotionItem from '../../components/provider/myRestaurantPro
 import { formatDateForInput } from '../../common/formatDate';
 import { Notify } from '../../common/notify';
 import { validateDescription, validateEmpty, validatePromotionPercentage, validateUsername } from '../../common/validate';
+import Messenger from '../../components/common/messenger';
 
 let restaurantId = '';
 export default class myRestaurantPromotion extends Component {
@@ -437,20 +438,30 @@ export default class myRestaurantPromotion extends Component {
                             </tbody>
                         </Table>
                     </div>
-                    <ReactPaginate
-                        previousLabel={"Trang trước"}
-                        nextLabel={"Trang sau"}
-                        breakLabel={"..."}
-                        breakClassName={"break-me"}
-                        pageCount={this.state.pageCount}
-                        marginPagesDisplayed={5}
-                        pageRangeDisplayed={5}
-                        onPageChange={this.handlePageClick}
-                        containerClassName={"pagination"}
-                        subContainerClassName={"pages pagination"}
-                        activeClassName={"active"} />
+                    {
+                        (this.state.promotionsPaging && this.state.promotionsPaging.length > 0) ? <>
+                            {
+                                this.state.pageCount > 1 && <ReactPaginate
+                                    previousLabel={"Trang trước"}
+                                    nextLabel={"Trang sau"}
+                                    breakLabel={"..."}
+                                    breakClassName={"break-me"}
+                                    pageCount={this.state.pageCount}
+                                    marginPagesDisplayed={3}
+                                    pageRangeDisplayed={3}
+                                    onPageChange={this.handlePageClick}
+                                    containerClassName={"pagination"}
+                                    subContainerClassName={"pages pagination"}
+                                    activeClassName={"active"}
+                                />
+                            }
+                        </> : <div className="not-found">
+                            Không tìm thấy kết quả nào
+                        </div>
+                    }
                 </Container>
                 <Footer />
+                <Messenger />
             </div>
         )
     }

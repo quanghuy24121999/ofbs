@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import DishItem from '../../components/restaurant/dishItem';
 import Cart from '../../components/restaurant/cart';
 import { FaSearch } from 'react-icons/fa';
+import Messenger from '../../components/common/messenger';
 
 const responsive = {
     desktop: {
@@ -175,18 +176,27 @@ export default class menu extends Component {
                         <Row className="dish-search-row">
                             {this.state.dishSearch}
                         </Row>
-                        <ReactPaginate
-                            previousLabel={"Trang trước"}
-                            nextLabel={"Trang sau"}
-                            breakLabel={"..."}
-                            breakClassName={"break-me"}
-                            pageCount={this.state.pageCount}
-                            marginPagesDisplayed={5}
-                            pageRangeDisplayed={5}
-                            onPageChange={this.handlePageClick}
-                            containerClassName={"pagination"}
-                            subContainerClassName={"pages pagination"}
-                            activeClassName={"active"} />
+                        {
+                            (this.state.dishSearch && this.state.dishSearch.length > 0) ? <>
+                                {
+                                    this.state.pageCount > 1 && <ReactPaginate
+                                        previousLabel={"Trang trước"}
+                                        nextLabel={"Trang sau"}
+                                        breakLabel={"..."}
+                                        breakClassName={"break-me"}
+                                        pageCount={this.state.pageCount}
+                                        marginPagesDisplayed={3}
+                                        pageRangeDisplayed={3}
+                                        onPageChange={this.handlePageClick}
+                                        containerClassName={"pagination"}
+                                        subContainerClassName={"pages pagination"}
+                                        activeClassName={"active"}
+                                    />
+                                }
+                            </> : <div className="not-found">
+                                Không tìm thấy kết quả nào
+                            </div>
+                        }
                     </Container>
                 ) : (
                     <div className="list">
@@ -297,6 +307,7 @@ export default class menu extends Component {
                 )
                 }
                 <Footer />
+                <Messenger />
             </div >
         )
     }

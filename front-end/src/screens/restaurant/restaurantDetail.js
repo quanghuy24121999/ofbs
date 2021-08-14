@@ -24,6 +24,7 @@ import PromotionItemRes from '../../components/restaurant/promotionItemRes';
 import { onChangeRate } from '../../common/changeLink';
 import { Notify } from '../../common/notify';
 import { validateFeedback } from '../../common/validate';
+import Messenger from '../../components/common/messenger';
 
 export default class restaurantDetail extends Component {
     constructor(props) {
@@ -472,6 +473,7 @@ export default class restaurantDetail extends Component {
                         pathname: "/login"
                     }} />
                 }
+                <Messenger />
             </div>
         )
     }

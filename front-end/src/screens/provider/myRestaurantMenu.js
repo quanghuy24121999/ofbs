@@ -15,6 +15,7 @@ import Footer from '../../components/common/footer';
 import MyRestaurantMenuItem from '../../components/provider/myRestaurantMenuItem';
 import { Notify } from '../../common/notify';
 import { validateCapacity, validateDescription, validateEmpty, validateUsername } from '../../common/validate';
+import Messenger from '../../components/common/messenger';
 
 let restaurantId = '';
 export default class myRestaurantMenu extends Component {
@@ -260,7 +261,7 @@ export default class myRestaurantMenu extends Component {
 
         return (
             <div className="myRes-menu">
-                <TopMenu searchResMenu/>
+                <TopMenu searchResMenu />
                 <Nav pills className="restaurant-detail-nav container">
                     <NavItem >
                         <Link to={`/users/profile/my-restaurant/detail`}>Thông tin</Link>
@@ -516,20 +517,30 @@ export default class myRestaurantMenu extends Component {
                             </tbody>
                         </Table>
                     </div>
-                    <ReactPaginate
-                        previousLabel={"Trang trước"}
-                        nextLabel={"Trang sau"}
-                        breakLabel={"..."}
-                        breakClassName={"break-me"}
-                        pageCount={this.state.pageCount}
-                        marginPagesDisplayed={5}
-                        pageRangeDisplayed={5}
-                        onPageChange={this.handlePageClick}
-                        containerClassName={"pagination"}
-                        subContainerClassName={"pages pagination"}
-                        activeClassName={"active"} />
+                    {
+                        (this.state.dishesPaging && this.state.dishesPaging.length > 0) ? <>
+                            {
+                                this.state.pageCount > 1 && <ReactPaginate
+                                    previousLabel={"Trang trước"}
+                                    nextLabel={"Trang sau"}
+                                    breakLabel={"..."}
+                                    breakClassName={"break-me"}
+                                    pageCount={this.state.pageCount}
+                                    marginPagesDisplayed={3}
+                                    pageRangeDisplayed={3}
+                                    onPageChange={this.handlePageClick}
+                                    containerClassName={"pagination"}
+                                    subContainerClassName={"pages pagination"}
+                                    activeClassName={"active"}
+                                />
+                            }
+                        </> : <div className="not-found">
+                            Không tìm thấy kết quả nào
+                        </div>
+                    }
                 </Container>
                 <Footer />
+                <Messenger />
             </div>
         )
     }

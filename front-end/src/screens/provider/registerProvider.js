@@ -13,6 +13,7 @@ import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
 import { Notify } from '../../common/notify';
 import { validateCapacity, validateDescription, validateECapacity, validateEmpty, validatePhoneNumber, validateUsername } from '../../common/validate';
+import Messenger from '../../components/common/messenger';
 
 export default class registerPromotion extends Component {
     constructor(props) {
@@ -591,6 +592,7 @@ export default class registerPromotion extends Component {
                         </div>
                     </Container>
                     <Footer />
+                    <Messenger />
                 </div >
             )
     }

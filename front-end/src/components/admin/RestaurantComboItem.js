@@ -15,6 +15,7 @@ export default function RestaurantComboItem(props) {
     const combo = props.combo;
     let comboStatus = combo.status_name;
     let count = props.count;
+    let currentPage = props.currentPage;
 
     if (comboStatus === 'active') {
         comboStatus = 'Đang kinh doanh';
@@ -84,7 +85,11 @@ export default function RestaurantComboItem(props) {
 
     return (
         <tr>
-            <td>{count}</td>
+            <td>
+                {
+                    (currentPage === 0 ? count : count + 10 * currentPage)
+                }
+            </td>
             <td>{combo.combo_name}</td>
             <td>{formatCurrency(combo.combo_price)}</td>
             <td>{comboStatus}</td>
@@ -114,7 +119,7 @@ export default function RestaurantComboItem(props) {
                                     </div>
 
                                     <div>
-                                    <b>Giá combo:</b>{' ' + formatCurrency(comboModal.price) + ' VNĐ'}
+                                        <b>Giá combo:</b>{' ' + formatCurrency(comboModal.price) + ' VNĐ'}
                                     </div>
 
                                     <div>

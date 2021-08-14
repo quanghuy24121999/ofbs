@@ -8,6 +8,7 @@ import { api } from '../config/axios';
 import TopMenu from '../components/common/topMenu';
 import { Notify } from '../common/notify';
 import { validatePhoneNumber } from '../common/validate';
+import Messenger from '../components/common/messenger';
 
 class login extends Component {
   constructor(props) {
@@ -128,6 +129,7 @@ class login extends Component {
             <Link to="/register" className="link-register">Đăng kí tài khoản mới</Link>
           </div>
         </Form>
+        <Messenger />
       </div>
   }
 }

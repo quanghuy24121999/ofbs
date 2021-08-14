@@ -16,6 +16,7 @@ import { formatDate, formatDateCheckRule } from '../../common/formatDate';
 import { formatCurrency } from '../../common/formatCurrency';
 import { Notify } from '../../common/notify';
 import RuleOrder from '../../components/common/ruleOrder';
+import Messenger from '../../components/common/messenger';
 
 let currentUser = localStorage.getItem('currentUser');
 export default class orderCustomerDetail extends Component {
@@ -616,6 +617,7 @@ export default class orderCustomerDetail extends Component {
                 </Container>
 
                 <Footer />
+                <Messenger />
             </div>
         )
     }

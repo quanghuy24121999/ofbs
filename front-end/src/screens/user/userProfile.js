@@ -16,6 +16,7 @@ import imageUser from '../../images/default-avatar-user.png';
 import { formatDate, formatDateForInput } from '../../common/formatDate';
 import { Notify } from '../../common/notify';
 import { validateEmail, validateEmpty, validatePassword, validatePhoneNumber, validateUsername } from '../../common/validate';
+import Messenger from '../../components/common/messenger';
 
 let userId = '';
 export default class userProfile extends Component {
@@ -572,6 +573,7 @@ export default class userProfile extends Component {
                     </Row>
                 </Container>
                 <Footer />
+                <Messenger />
             </div>
         )
     }

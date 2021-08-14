@@ -6,6 +6,7 @@ import {
 } from 'reactstrap';
 import { Notify } from '../../common/notify';
 import { api } from '../../config/axios';
+import Messenger from '../common/messenger';
 
 export default function Withdrawal() {
     const [money, setMoney] = useState('');
@@ -196,6 +197,7 @@ export default function Withdrawal() {
                     </Modal>
                 </Col>
             </Row>
+            <Messenger />
         </Container>
     )
 }

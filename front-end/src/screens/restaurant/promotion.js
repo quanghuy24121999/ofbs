@@ -7,6 +7,7 @@ import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
 import PromotionItem from '../../components/restaurant/promotionItem';
 import Spinner from '../../components/common/spinner';
+import Messenger from '../../components/common/messenger';
 
 export default class promotion extends Component {
     constructor(props) {
@@ -71,26 +72,37 @@ export default class promotion extends Component {
                                 <Spinner type="barloader" />
                             </div>
                         ) : (
-                            <div className="promotion-list">
-                                {this.state.promotions}
-                            </div>
+                            <>
+                                <div className="promotion-list">
+                                    {this.state.promotions}
+                                </div>
+                                {
+                                    (this.state.promotions && this.state.promotions.length > 0) ? <>
+                                        {
+                                            this.state.pageCount > 1 && <ReactPaginate
+                                                previousLabel={"Trang trước"}
+                                                nextLabel={"Trang sau"}
+                                                breakLabel={"..."}
+                                                breakClassName={"break-me"}
+                                                pageCount={this.state.pageCount}
+                                                marginPagesDisplayed={3}
+                                                pageRangeDisplayed={3}
+                                                onPageChange={this.handlePageClick}
+                                                containerClassName={"pagination"}
+                                                subContainerClassName={"pages pagination"}
+                                                activeClassName={"active"}
+                                            />
+                                        }
+                                    </> : <div className="not-found">
+                                        Không tìm thấy kết quả nào
+                                    </div>
+                                }
+                            </>
                         )
                     }
-                    <ReactPaginate
-                        previousLabel={"Trang trước"}
-                        nextLabel={"Trang sau"}
-                        breakLabel={"..."}
-                        breakClassName={"break-me"}
-                        pageCount={this.state.pageCount}
-                        marginPagesDisplayed={5}
-                        pageRangeDisplayed={5}
-                        onPageChange={this.handlePageClick}
-                        containerClassName={"pagination"}
-                        subContainerClassName={"pages pagination"}
-                        activeClassName={"active"}
-                    />
                 </Container>
                 <Footer />
+                <Messenger />
             </div >
         )
     }

@@ -54,6 +54,12 @@ input[type="number"]:focus,
   padding: 15px 0;
 }
 
+.not-found {
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin: 100px 0;
+}
+
 /*================================================== TOP MENU ================================================== */
 .top-menu {
   position: fixed;

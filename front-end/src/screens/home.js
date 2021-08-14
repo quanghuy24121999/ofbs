@@ -6,7 +6,6 @@ import {
 import { Redirect } from 'react-router';
 import subVn from "sub-vn";
 import Carousel from 'react-multi-carousel';
-import MessengerCustomerChat from 'react-messenger-customer-chat';
 
 import TopMenu from '../components/common/topMenu';
 import Footer from '../components/common/footer';
@@ -14,6 +13,7 @@ import wallpaper from '../images/wallpaper.png';
 import RestaurantItem from '../components/restaurant/restaurantItem';
 import Spinner from '../components/common/spinner';
 import { api } from '../config/axios';
+import Messenger from '../components/common/messenger';
 
 const responsive = {
     desktop: {
@@ -254,7 +254,7 @@ export default class home extends Component {
                 {
                     loading ? (
                         <div className="home-content">
-                            <Spinner type="barloader"/>
+                            <Spinner type="barloader" />
                         </div>
                     ) : (<div className="home-content">
                         <div className="content-title">Trung tâm tổ chức sự kiện nổi bật</div>
@@ -311,11 +311,7 @@ export default class home extends Component {
                                     </Row>
                                 </Container>
                             </div>
-                        </div>
-                        <MessengerCustomerChat
-                            pageId="101222172255348"
-                            appId="1210692502707943"
-                        />
+                        </div>                        
                     </div>
                     )
                 }
@@ -328,6 +324,7 @@ export default class home extends Component {
                 }
                 <div className="p-3 bg-danger my-2 rounded" id="toast-message-error">
                 </div>
+                <Messenger />
             </div>
         );
     }

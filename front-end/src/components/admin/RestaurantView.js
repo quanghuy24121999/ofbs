@@ -129,19 +129,27 @@ export default function RestaurantView(props) {
                     </tbody>
                 </Table>
             </div>
-            <ReactPaginate
-                previousLabel={"Trang trước"}
-                nextLabel={"Trang sau"}
-                breakLabel={"..."}
-                breakClassName={"break-me"}
-                pageCount={pageCount}
-                marginPagesDisplayed={5}
-                pageRangeDisplayed={5}
-                onPageChange={handlePageClick}
-                containerClassName={"pagination"}
-                subContainerClassName={"pages pagination"}
-                activeClassName={"active"}
-            />
+            {
+                (restaurants && restaurants.length > 0) ? <>
+                    {
+                        pageCount > 1 && <ReactPaginate
+                            previousLabel={"Trang trước"}
+                            nextLabel={"Trang sau"}
+                            breakLabel={"..."}
+                            breakClassName={"break-me"}
+                            pageCount={pageCount}
+                            marginPagesDisplayed={3}
+                            pageRangeDisplayed={3}
+                            onPageChange={handlePageClick}
+                            containerClassName={"pagination"}
+                            subContainerClassName={"pages pagination"}
+                            activeClassName={"active"}
+                        />
+                    }
+                </> : <div className="not-found">
+                    Không tìm thấy kết quả nào
+                </div>
+            }
         </Container>
     )
 }

@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import ServiceItem from '../../components/restaurant/serviceItem';
 
 import Cart from '../../components/restaurant/cart';
+import Messenger from '../../components/common/messenger';
 
 const responsive = {
     desktop: {
@@ -325,6 +326,7 @@ export default class service extends Component {
                 </div>
 
                 <Footer />
+                <Messenger />
             </div>
         )
     }
