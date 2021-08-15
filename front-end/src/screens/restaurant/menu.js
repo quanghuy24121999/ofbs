@@ -202,106 +202,126 @@ export default class menu extends Component {
                     <div className="list">
                         <div className="list-dishes">
                             <Container className="list-dishes-title">Món khai vị </Container>
-                            <Container className="content-restaurant-list">
-                                <Row className="content-restaurant-row">
-                                    <Carousel
-                                        responsive={responsive}
-                                        additionalTransfrom={0}
-                                        autoPlay={this.props.deviceType !== "desktop" ? true : false}
-                                        autoPlaySpeed={3000}
-                                        centerMode={true}
-                                        // containerClass="container"
-                                        focusOnSelect={false}
-                                        infinite={true}
-                                        slidesToSlide={1}
-                                        containerClass="container-with-dots"
-                                    >
-                                        {dishType1.map((dish, index) => {
-                                            return <div key={index}>
-                                                <DishItem dish={dish} />
-                                            </div>
-                                        })}
-                                    </Carousel>
-                                </Row>
-                            </Container>
+                            <hr />
+                            {
+                                dishType1.length > 0 ? <Container className="content-restaurant-list">
+                                    <Row className="content-restaurant-row">
+                                        <Carousel
+                                            responsive={responsive}
+                                            additionalTransfrom={0}
+                                            autoPlay={this.props.deviceType !== "desktop" ? true : false}
+                                            autoPlaySpeed={3000}
+                                            centerMode={true}
+                                            // containerClass="container"
+                                            focusOnSelect={false}
+                                            infinite={true}
+                                            slidesToSlide={1}
+                                            containerClass="container-with-dots"
+                                        >
+                                            {dishType1.map((dish, index) => {
+                                                return <div key={index}>
+                                                    <DishItem dish={dish} />
+                                                </div>
+                                            })}
+                                        </Carousel>
+                                    </Row>
+                                </Container> : <Container style={{ fontSize: '1.2rem' }}>
+                                    Không có món ăn nào
+                                </Container>
+                            }
                         </div >
 
                         <div className="list-dishes">
                             <Container className="list-dishes-title">Món chính </Container>
-                            <Container className="content-restaurant-list">
-                                <Row className="content-restaurant-row">
-                                    <Carousel
-                                        responsive={responsive}
-                                        additionalTransfrom={0}
-                                        autoPlay={this.props.deviceType !== "desktop" ? true : false}
-                                        autoPlaySpeed={3000}
-                                        centerMode={true}
-                                        // containerClass="container"
-                                        focusOnSelect={false}
-                                        infinite={true}
-                                        slidesToSlide={1}
-                                        containerClass="container-with-dots"
-                                    >
-                                        {dishType2.map((dish, index) => {
-                                            return <div key={index}>
-                                                <DishItem dish={dish} />
-                                            </div>
-                                        })}
-                                    </Carousel>
-                                </Row>
-                            </Container>
+                            <hr />
+                            {
+                                dishType2.length > 0 ? <Container className="content-restaurant-list">
+                                    <Row className="content-restaurant-row">
+                                        <Carousel
+                                            responsive={responsive}
+                                            additionalTransfrom={0}
+                                            autoPlay={this.props.deviceType !== "desktop" ? true : false}
+                                            autoPlaySpeed={3000}
+                                            centerMode={true}
+                                            // containerClass="container"
+                                            focusOnSelect={false}
+                                            infinite={true}
+                                            slidesToSlide={1}
+                                            containerClass="container-with-dots"
+                                        >
+                                            {dishType2.map((dish, index) => {
+                                                return <div key={index}>
+                                                    <DishItem dish={dish} />
+                                                </div>
+                                            })}
+                                        </Carousel>
+                                    </Row>
+                                </Container> : <Container style={{ fontSize: '1.2rem' }}>
+                                    Không có món ăn nào
+                                </Container>
+                            }
                         </div>
 
                         <div className="list-dishes">
                             <Container className="list-dishes-title">Món tráng miệng </Container>
-                            <Container className="content-restaurant-list">
-                                <Row className="content-restaurant-row">
-                                    <Carousel
-                                        responsive={responsive}
-                                        additionalTransfrom={0}
-                                        autoPlay={this.props.deviceType !== "desktop" ? true : false}
-                                        autoPlaySpeed={3000}
-                                        centerMode={true}
-                                        // containerClass="container"
-                                        focusOnSelect={false}
-                                        infinite={true}
-                                        slidesToSlide={1}
-                                        containerClass="container-with-dots"
-                                    >
-                                        {dishType3.map((dish, index) => {
-                                            return <div key={index}>
-                                                <DishItem dish={dish} />
-                                            </div>
-                                        })}
-                                    </Carousel>
-                                </Row>
-                            </Container>
+                            <hr />
+                            {
+                                dishType3.length > 0 ? <Container className="content-restaurant-list">
+                                    <Row className="content-restaurant-row">
+                                        <Carousel
+                                            responsive={responsive}
+                                            additionalTransfrom={0}
+                                            autoPlay={this.props.deviceType !== "desktop" ? true : false}
+                                            autoPlaySpeed={3000}
+                                            centerMode={true}
+                                            // containerClass="container"
+                                            focusOnSelect={false}
+                                            infinite={true}
+                                            slidesToSlide={1}
+                                            containerClass="container-with-dots"
+                                        >
+                                            {dishType3.map((dish, index) => {
+                                                return <div key={index}>
+                                                    <DishItem dish={dish} />
+                                                </div>
+                                            })}
+                                        </Carousel>
+                                    </Row>
+                                </Container> : <Container style={{ fontSize: '1.2rem' }}>
+                                    Không có món ăn nào
+                                </Container>
+                            }
                         </div>
 
                         <div className="list-dishes">
                             <Container className="list-dishes-title">Đồ uống </Container>
-                            <Container className="content-restaurant-list">
-                                <Row className="content-restaurant-row">
-                                    <Carousel
-                                        responsive={responsive}
-                                        additionalTransfrom={0}
-                                        autoPlay={this.props.deviceType !== "desktop" ? true : false}
-                                        autoPlaySpeed={3000}
-                                        centerMode={true}
-                                        // containerClass="container"
-                                        focusOnSelect={false}
-                                        infinite={true}
-                                        slidesToSlide={1}
-                                        containerClass="container-with-dots"
-                                    >
-                                        {dishType4.map((dish, index) => {
-                                            return <div key={index}>
-                                                <DishItem dish={dish} />
-                                            </div>
-                                        })}
-                                    </Carousel>
-                                </Row>
-                            </Container>
+                            <hr />
+                            {
+                                dishType4.length > 0 ? <Container className="content-restaurant-list">
+                                    <Row className="content-restaurant-row">
+                                        <Carousel
+                                            responsive={responsive}
+                                            additionalTransfrom={0}
+                                            autoPlay={this.props.deviceType !== "desktop" ? true : false}
+                                            autoPlaySpeed={3000}
+                                            centerMode={true}
+                                            // containerClass="container"
+                                            focusOnSelect={false}
+                                            infinite={true}
+                                            slidesToSlide={1}
+                                            containerClass="container-with-dots"
+                                        >
+                                            {dishType4.map((dish, index) => {
+                                                return <div key={index}>
+                                                    <DishItem dish={dish} />
+                                                </div>
+                                            })}
+                                        </Carousel>
+                                    </Row>
+                                </Container> : <Container style={{ fontSize: '1.2rem' }}>
+                                    Không có món ăn nào
+                                </Container>
+                            }
                         </div>
                     </div>
                 )

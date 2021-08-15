@@ -83,7 +83,7 @@ export default class myRestaurant extends Component {
                 {
                     role === 'ROLE_CUSTOMER' ?
                         <Container>
-                            <h5>Bạn cần đăng ký nhà hàng để sử dụng chức năng này !</h5>
+                            <h5 className="mt-4 mb-4">Bạn cần đăng ký nhà hàng để sử dụng chức năng này !</h5>
                         </Container> :
                         <Container>
                             <Row className="restaurant-row">

@@ -140,188 +140,223 @@ export default class service extends Component {
                         <Link to={`/restaurant-detail/${restaurantId}/service`}>Dịch vụ</Link>
                     </NavItem>
                 </Nav>
-                <Cart restaurantId={this.props.match.params.restaurantId}/>
+                <Cart restaurantId={this.props.match.params.restaurantId} />
                 <div className="services">
                     <div className="list-services">
                         <Container className="list-dishes-title">Trang trí </Container>
-                        <Container className="content-restaurant-list">
-                            <Row className="content-restaurant-row">
-                                <Carousel
-                                    responsive={responsive}
-                                    additionalTransfrom={0}
-                                    autoPlay={this.props.deviceType !== "desktop" ? true : false}
-                                    autoPlaySpeed={3000}
-                                    centerMode={true}
-                                    // containerClass="container"
-                                    focusOnSelect={false}
-                                    infinite={true}
-                                    slidesToSlide={1}
-                                    containerClass="container-with-dots"
-                                >
-                                    {serviceType1.map((service, index) => {
-                                        return <div key={index}>
-                                            <ServiceItem service={service} index={index} />
-                                        </div>
-                                    })}
-                                </Carousel>
-                            </Row>
-                        </Container>
+                        <hr />
+                        {
+                            serviceType1.length > 0 ? <Container className="content-restaurant-list">
+                                <Row className="content-restaurant-row">
+                                    <Carousel
+                                        responsive={responsive}
+                                        additionalTransfrom={0}
+                                        autoPlay={this.props.deviceType !== "desktop" ? true : false}
+                                        autoPlaySpeed={3000}
+                                        centerMode={true}
+                                        // containerClass="container"
+                                        focusOnSelect={false}
+                                        infinite={true}
+                                        slidesToSlide={1}
+                                        containerClass="container-with-dots"
+                                    >
+                                        {serviceType1.map((service, index) => {
+                                            return <div key={index}>
+                                                <ServiceItem service={service} index={index} />
+                                            </div>
+                                        })}
+                                    </Carousel>
+                                </Row>
+                            </Container> : <Container style={{ fontSize: '1.2rem' }}>
+                                Không có dịch vụ nào
+                            </Container>
+                        }
                     </div >
 
                     <div className="list-services">
                         <Container className="list-dishes-title">Ban nhạc </Container>
-                        <Container className="content-restaurant-list">
-                            <Row className="content-restaurant-row">
-                                <Carousel
-                                    responsive={responsive}
-                                    additionalTransfrom={0}
-                                    autoPlay={this.props.deviceType !== "desktop" ? true : false}
-                                    autoPlaySpeed={3000}
-                                    centerMode={true}
-                                    // containerClass="container"
-                                    focusOnSelect={false}
-                                    infinite={true}
-                                    slidesToSlide={1}
-                                    containerClass="container-with-dots"
-                                >
-                                    {serviceType2.map((service, index) => {
-                                        return <div key={index}>
-                                            <ServiceItem service={service} index={index} />
-                                        </div>
-                                    })}
-                                </Carousel>
-                            </Row>
-                        </Container>
+                        <hr />
+                        {
+                            serviceType2.length > 0 ? <Container className="content-restaurant-list">
+                                <Row className="content-restaurant-row">
+                                    <Carousel
+                                        responsive={responsive}
+                                        additionalTransfrom={0}
+                                        autoPlay={this.props.deviceType !== "desktop" ? true : false}
+                                        autoPlaySpeed={3000}
+                                        centerMode={true}
+                                        // containerClass="container"
+                                        focusOnSelect={false}
+                                        infinite={true}
+                                        slidesToSlide={1}
+                                        containerClass="container-with-dots"
+                                    >
+                                        {serviceType2.map((service, index) => {
+                                            return <div key={index}>
+                                                <ServiceItem service={service} index={index} />
+                                            </div>
+                                        })}
+                                    </Carousel>
+                                </Row>
+                            </Container> : <Container style={{ fontSize: '1.2rem' }}>
+                                Không có dịch vụ nào
+                            </Container>
+                        }
                     </div >
 
                     <div className="list-services">
                         <Container className="list-dishes-title">Vũ đoàn </Container>
-                        <Container className="content-restaurant-list">
-                            <Row className="content-restaurant-row">
-                                <Carousel
-                                    responsive={responsive}
-                                    additionalTransfrom={0}
-                                    autoPlay={this.props.deviceType !== "desktop" ? true : false}
-                                    autoPlaySpeed={3000}
-                                    centerMode={true}
-                                    // containerClass="container"
-                                    focusOnSelect={false}
-                                    infinite={true}
-                                    slidesToSlide={1}
-                                    containerClass="container-with-dots"
-                                >
-                                    {serviceType3.map((service, index) => {
-                                        return <div key={index}>
-                                            <ServiceItem service={service} index={index} />
-                                        </div>
-                                    })}
-                                </Carousel>
-                            </Row>
-                        </Container>
+                        <hr />
+                        {
+                            serviceType3.length > 0 ? <Container className="content-restaurant-list">
+                                <Row className="content-restaurant-row">
+                                    <Carousel
+                                        responsive={responsive}
+                                        additionalTransfrom={0}
+                                        autoPlay={this.props.deviceType !== "desktop" ? true : false}
+                                        autoPlaySpeed={3000}
+                                        centerMode={true}
+                                        // containerClass="container"
+                                        focusOnSelect={false}
+                                        infinite={true}
+                                        slidesToSlide={1}
+                                        containerClass="container-with-dots"
+                                    >
+                                        {serviceType3.map((service, index) => {
+                                            return <div key={index}>
+                                                <ServiceItem service={service} index={index} />
+                                            </div>
+                                        })}
+                                    </Carousel>
+                                </Row>
+                            </Container> : <Container style={{ fontSize: '1.2rem' }}>
+                                Không có dịch vụ nào
+                            </Container>
+                        }
                     </div >
 
                     <div className="list-services">
                         <Container className="list-dishes-title">Ca sĩ </Container>
-                        <Container className="content-restaurant-list">
-                            <Row className="content-restaurant-row">
-                                <Carousel
-                                    responsive={responsive}
-                                    additionalTransfrom={0}
-                                    autoPlay={this.props.deviceType !== "desktop" ? true : false}
-                                    autoPlaySpeed={3000}
-                                    centerMode={true}
-                                    // containerClass="container"
-                                    focusOnSelect={false}
-                                    infinite={true}
-                                    slidesToSlide={1}
-                                    containerClass="container-with-dots"
-                                >
-                                    {serviceType4.map((service, index) => {
-                                        return <div key={index}>
-                                            <ServiceItem service={service} index={index} />
-                                        </div>
-                                    })}
-                                </Carousel>
-                            </Row>
-                        </Container>
+                        <hr />
+                        {
+                            serviceType4.length > 0 ? <Container className="content-restaurant-list">
+                                <Row className="content-restaurant-row">
+                                    <Carousel
+                                        responsive={responsive}
+                                        additionalTransfrom={0}
+                                        autoPlay={this.props.deviceType !== "desktop" ? true : false}
+                                        autoPlaySpeed={3000}
+                                        centerMode={true}
+                                        // containerClass="container"
+                                        focusOnSelect={false}
+                                        infinite={true}
+                                        slidesToSlide={1}
+                                        containerClass="container-with-dots"
+                                    >
+                                        {serviceType4.map((service, index) => {
+                                            return <div key={index}>
+                                                <ServiceItem service={service} index={index} />
+                                            </div>
+                                        })}
+                                    </Carousel>
+                                </Row>
+                            </Container> : <Container style={{ fontSize: '1.2rem' }}>
+                                Không có dịch vụ nào
+                            </Container>
+                        }
                     </div >
 
                     <div className="list-services">
                         <Container className="list-dishes-title">MC (Dẫn chương trình) </Container>
-                        <Container className="content-restaurant-list">
-                            <Row className="content-restaurant-row">
-                                <Carousel
-                                    responsive={responsive}
-                                    additionalTransfrom={0}
-                                    autoPlay={this.props.deviceType !== "desktop" ? true : false}
-                                    autoPlaySpeed={3000}
-                                    centerMode={true}
-                                    // containerClass="container"
-                                    focusOnSelect={false}
-                                    infinite={true}
-                                    slidesToSlide={1}
-                                    containerClass="container-with-dots"
-                                >
-                                    {serviceType5.map((service, index) => {
-                                        return <div key={index}>
-                                            <ServiceItem service={service} index={index} />
-                                        </div>
-                                    })}
-                                </Carousel>
-                            </Row>
-                        </Container>
+                        <hr />
+                        {
+                            serviceType5.length > 0 ? <Container className="content-restaurant-list">
+                                <Row className="content-restaurant-row">
+                                    <Carousel
+                                        responsive={responsive}
+                                        additionalTransfrom={0}
+                                        autoPlay={this.props.deviceType !== "desktop" ? true : false}
+                                        autoPlaySpeed={3000}
+                                        centerMode={true}
+                                        // containerClass="container"
+                                        focusOnSelect={false}
+                                        infinite={true}
+                                        slidesToSlide={1}
+                                        containerClass="container-with-dots"
+                                    >
+                                        {serviceType5.map((service, index) => {
+                                            return <div key={index}>
+                                                <ServiceItem service={service} index={index} />
+                                            </div>
+                                        })}
+                                    </Carousel>
+                                </Row>
+                            </Container> : <Container style={{ fontSize: '1.2rem' }}>
+                                Không có dịch vụ nào
+                            </Container>
+                        }
                     </div >
 
                     <div className="list-services">
                         <Container className="list-dishes-title">Quay phim - chụp ảnh </Container>
-                        <Container className="content-restaurant-list">
-                            <Row className="content-restaurant-row">
-                                <Carousel
-                                    responsive={responsive}
-                                    additionalTransfrom={0}
-                                    autoPlay={this.props.deviceType !== "desktop" ? true : false}
-                                    autoPlaySpeed={3000}
-                                    centerMode={true}
-                                    // containerClass="container"
-                                    focusOnSelect={false}
-                                    infinite={true}
-                                    slidesToSlide={1}
-                                    containerClass="container-with-dots"
-                                >
-                                    {serviceType6.map((service, index) => {
-                                        return <div key={index}>
-                                            <ServiceItem service={service} index={index} />
-                                        </div>
-                                    })}
-                                </Carousel>
-                            </Row>
-                        </Container>
+                        <hr />
+                        {
+                            serviceType6.length > 0 ? <Container className="content-restaurant-list">
+                                <Row className="content-restaurant-row">
+                                    <Carousel
+                                        responsive={responsive}
+                                        additionalTransfrom={0}
+                                        autoPlay={this.props.deviceType !== "desktop" ? true : false}
+                                        autoPlaySpeed={3000}
+                                        centerMode={true}
+                                        // containerClass="container"
+                                        focusOnSelect={false}
+                                        infinite={true}
+                                        slidesToSlide={1}
+                                        containerClass="container-with-dots"
+                                    >
+                                        {serviceType6.map((service, index) => {
+                                            return <div key={index}>
+                                                <ServiceItem service={service} index={index} />
+                                            </div>
+                                        })}
+                                    </Carousel>
+                                </Row>
+                            </Container> : <Container style={{ fontSize: '1.2rem' }}>
+                                Không có dịch vụ nào
+                            </Container>
+                        }
                     </div >
 
                     <div className="list-services">
                         <Container className="list-dishes-title">Xe cưới </Container>
-                        <Container className="content-restaurant-list">
-                            <Row className="content-restaurant-row">
-                                <Carousel
-                                    responsive={responsive}
-                                    additionalTransfrom={0}
-                                    autoPlay={this.props.deviceType !== "desktop" ? true : false}
-                                    autoPlaySpeed={3000}
-                                    centerMode={true}
-                                    // containerClass="container"
-                                    focusOnSelect={false}
-                                    infinite={true}
-                                    slidesToSlide={1}
-                                    containerClass="container-with-dots"
-                                >
-                                    {serviceType7.map((service, index) => {
-                                        return <div key={index}>
-                                            <ServiceItem service={service} index={index} />
-                                        </div>
-                                    })}
-                                </Carousel>
-                            </Row>
-                        </Container>
+                        <hr />
+                        {
+                            serviceType7.length > 0 ? <Container className="content-restaurant-list">
+                                <Row className="content-restaurant-row">
+                                    <Carousel
+                                        responsive={responsive}
+                                        additionalTransfrom={0}
+                                        autoPlay={this.props.deviceType !== "desktop" ? true : false}
+                                        autoPlaySpeed={3000}
+                                        centerMode={true}
+                                        // containerClass="container"
+                                        focusOnSelect={false}
+                                        infinite={true}
+                                        slidesToSlide={1}
+                                        containerClass="container-with-dots"
+                                    >
+                                        {serviceType7.map((service, index) => {
+                                            return <div key={index}>
+                                                <ServiceItem service={service} index={index} />
+                                            </div>
+                                        })}
+                                    </Carousel>
+                                </Row>
+                            </Container> : <Container style={{ fontSize: '1.2rem' }}>
+                                Không có dịch vụ nào
+                            </Container>
+                        }
                     </div >
                 </div>
 

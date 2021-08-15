@@ -13,7 +13,7 @@ import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
 
 import imageUser from '../../images/default-avatar-user.png';
-import { formatDate, formatDateForInput } from '../../common/formatDate';
+import { formatDate, formatDateCheckRule, formatDateForInput } from '../../common/formatDate';
 import { Notify } from '../../common/notify';
 import { validateEmail, validateEmpty, validatePassword, validatePhoneNumber, validateUsername } from '../../common/validate';
 import Messenger from '../../components/common/messenger';
@@ -98,6 +98,15 @@ export default class userProfile extends Component {
 
     validate() {
         const { username, phone, email, address, dob } = this.state;
+        const currentDate = new Date();
+        let formatedCurrentDate = formatDateCheckRule(currentDate);
+        let formatedDob = formatDateCheckRule(dob);
+
+        let day1 = new Date(formatedCurrentDate);
+        let day2 = new Date(formatedDob);
+
+        let different = day1 - day2;
+        let check = different / (1000 * 3600 * 24);
 
         if (!validateEmpty(username.trim())) {
             Notify('Vui lòng nhập tên đầy đủ', 'error', 'top-right');
@@ -120,7 +129,7 @@ export default class userProfile extends Component {
         } else if (address !== '' && !validateUsername(address)) {
             Notify('Địa chỉ quá dài (nhỏ hơn 100 ký tự)', 'error', 'top-right');
             return false;
-        } else if (dob > formatDateForInput(new Date())) {
+        } else if (check <= 0) {
             Notify('Ngày sinh phải nhỏ hơn này hiện tại', 'error', 'top-right');
             return false;
         } else {

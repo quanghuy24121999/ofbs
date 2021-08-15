@@ -173,7 +173,7 @@ export default class restaurantDetail extends Component {
                                 this.receivedData();
                                 api.get(`/restaurants/detail?restaurantId=${restaurantId}`)
                                     .then(res => {
-                                        this.setState({ restaurant: res.data })
+                                        this.setState({ restaurant: (res.data)[0] })
                                     })
                                 api.get(`/feedbacks/getFeedbacksByRestaurantId?restaurantId=${restaurantId}&rate=0`)
                                     .then(res => {
