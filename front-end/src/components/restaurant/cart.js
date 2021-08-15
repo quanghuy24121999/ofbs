@@ -444,7 +444,7 @@ export default function Cart(props) {
                                                                     })
                                                                 })
                                                         } else {
-                                                            setLoading(false);                                                            
+                                                            setLoading(false);
                                                             toggle1();
                                                             toggleConfirm();
                                                             Notify('Số tiền trong ví của bạn không đủ', 'error', 'top-right');
@@ -606,10 +606,17 @@ export default function Cart(props) {
                                                     }
                                                 </ModalBody>
                                                 <ModalFooter>
-                                                    <Button color="success" onClick={() => {
-                                                        onSubmitCart();
-                                                    }}>Đồng ý</Button>
-                                                    <Button color="secondary" onClick={toggleConfirm}>Quay lại</Button>
+                                                    {
+                                                        !loading && <>
+                                                            <Button id="btn-option" color="success" onClick={() => {
+                                                                onSubmitCart();
+                                                            }}>Đồng ý
+                                                            </Button>
+                                                            <Button id="btn-option" color="secondary" onClick={toggleConfirm}>
+                                                                Quay lại
+                                                            </Button>
+                                                        </>
+                                                    }
                                                 </ModalFooter>
                                             </Modal>
                                         </Col>

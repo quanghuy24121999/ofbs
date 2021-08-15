@@ -3,7 +3,7 @@ import SlideBar from '../../components/admin/SlideBar';
 import { FaBars } from 'react-icons/fa';
 import {
     Row, Col, NavItem, Nav, Container,
-    Label,CardImg
+    Label, CardImg
 } from 'reactstrap';
 import { api, url } from '../../config/axios';
 import { Link } from 'react-router-dom';
@@ -43,6 +43,14 @@ export default function RestaurantDetail(props) {
                 setRestaurant(res.data);
                 if (res.data.status.name === 'pending') {
                     setStatus('Đang chờ duyệt');
+                } else if (res.data.status.name === 'active') {
+                    setStatus('Đang hoạt động');
+                } else if (res.data.status.name === 'inactive') {
+                    setStatus('Ngừng hoạt động');
+                } else if (res.data.status.name === 'banned') {
+                    setStatus('Đã bị chặn');
+                } else if (res.data.status.name === 'cancelled') {
+                    setStatus('Không được duyệt');
                 }
             })
     }, [restaurantId])
