@@ -311,7 +311,7 @@ export default class restaurantDetail extends Component {
             rating, displayModal, moveToLogin, promotions, numberRates
         } = this.state;
         const restaurantId = this.props.match.params.restaurantId;
-        
+
         return (
             <div>
                 <Modal isOpen={displayModal} toggle={this.toggleModal} className="">
@@ -451,18 +451,27 @@ export default class restaurantDetail extends Component {
                                 <Row className="feedback-list">
                                     {this.state.feedbackPaging}
                                 </Row>
-                                <ReactPaginate
-                                    previousLabel={"Trang trước"}
-                                    nextLabel={"Trang sau"}
-                                    breakLabel={"..."}
-                                    breakClassName={"break-me"}
-                                    pageCount={this.state.pageCount}
-                                    marginPagesDisplayed={5}
-                                    pageRangeDisplayed={5}
-                                    onPageChange={this.handlePageClick}
-                                    containerClassName={"pagination"}
-                                    subContainerClassName={"pages pagination"}
-                                    activeClassName={"active"} />
+                                {
+                                    (this.state.feedbackPaging && this.state.feedbackPaging.length > 0) ? <>
+                                        {
+                                            this.state.pageCount > 1 && <ReactPaginate
+                                                previousLabel={"Trang trước"}
+                                                nextLabel={"Trang sau"}
+                                                breakLabel={"..."}
+                                                breakClassName={"break-me"}
+                                                pageCount={this.state.pageCount}
+                                                marginPagesDisplayed={3}
+                                                pageRangeDisplayed={3}
+                                                onPageChange={this.handlePageClick}
+                                                containerClassName={"pagination"}
+                                                subContainerClassName={"pages pagination"}
+                                                activeClassName={"active"}
+                                            />
+                                        }
+                                    </> : <div className="not-found">
+                                        Không tìm thấy kết quả nào
+                                    </div>
+                                }
                             </div>
                         </Col>
                     </Row>

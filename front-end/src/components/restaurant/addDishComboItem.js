@@ -30,6 +30,8 @@ export default function AddDishComboItem(props) {
         });
     }
 
+    checkExist();
+
     useEffect(() => {
         checkExist();
     }, [dishModal, check]);
