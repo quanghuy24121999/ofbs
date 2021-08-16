@@ -230,6 +230,14 @@ export default class myRestaurantService extends Component {
                                         this.toggle();
                                         this.updateImage(res.data.id);
                                         this.receivedData('', '');
+                                        this.setState({
+                                            images: [],
+                                            name: '',
+                                            category: 1,
+                                            status: 1,
+                                            price: '',
+                                            description: ''
+                                        })
                                         Notify("Thêm dịch vụ thành công", "success", "top-right");
                                     })
                                 } else {
