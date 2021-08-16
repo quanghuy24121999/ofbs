@@ -95,6 +95,10 @@ export default function MyRestaurantComboItem(props) {
     const toggle1 = () => {
         setModa1(!modal1);
         getDishes(0, '');
+        if (!modal1) {
+            setNameSearch('');
+            setCategory(0);
+        }
     }
 
     const getDishes = (categoryId, nameSearch) => {
@@ -225,6 +229,10 @@ export default function MyRestaurantComboItem(props) {
                 })
         }
     }
+
+    useEffect(() => {
+        setPrice(priceDish);
+    }, [priceDish])
 
     return (
         <tr>
@@ -362,7 +370,7 @@ export default function MyRestaurantComboItem(props) {
                                                 priceDish = priceDish + parseFloat(dish.price);
                                                 return <DishComboItem key={index} dish={dish} combo={combo} count={index + 1} dishModal={dishesModal} getDishByCombo={getDishByCombo} />
                                             })
-                                        )
+                                        )                                        
                                     }
                                 </tbody>
                             </Table>
