@@ -198,6 +198,15 @@ export default class myRestaurantMenu extends Component {
                                         this.toggle();
                                         this.updateImage(res.data.id);
                                         this.receivedData(0, '');
+                                        this.setState({
+                                            images: [],
+                                            name: '',
+                                            category: 1,
+                                            status: 1,
+                                            price: '',
+                                            description: ''
+                                        })
+
                                         Notify("Thêm món ăn thành công", "success", "top-right");
                                     })
                                 } else {

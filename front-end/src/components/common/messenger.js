@@ -6,6 +6,8 @@ export default function Messenger() {
         <MessengerCustomerChat
             pageId="101222172255348"
             appId="1210692502707943"
+            themeColor="#198754"
+            language="vi_VN"
         />
     )
 }
