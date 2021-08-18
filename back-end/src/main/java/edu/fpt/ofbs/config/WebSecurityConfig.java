@@ -75,8 +75,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 						"/users/numberOfUsersActive", "users/adminViewUsers", "users/updateUserStatus").hasRole("ADMIN")
 				.antMatchers(HttpMethod.POST, "/dishes").hasRole("PROVIDER")
 				.antMatchers(HttpMethod.DELETE, "/dishes").hasRole("PROVIDER")
-				.antMatchers("/combos/save", "/services/update", "/promotions/save", "/orders/restaurant").hasRole("PROVIDER")
+				.antMatchers("/combos/save", "/services/update", "/promotions/save").hasRole("PROVIDER")
 				.antMatchers("/users/updateRoleProvider").hasRole("CUSTOMER")
+				.antMatchers("/orders/restaurant").hasAnyRole("PROVIDER", "ADMIN")
 				.anyRequest().authenticated();
 		
 		// Thêm một lớp Filter kiểm tra jwt

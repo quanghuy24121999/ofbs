@@ -484,7 +484,7 @@ export default class myRestaurantService extends Component {
                                             <option value="2">Ngừng kinh doanh</option>
                                         </Input>
 
-                                        <Label for="price"><b>Giá dịch vụ <span className="require-icon">*</span></b></Label>
+                                        <Label for="price"><b>Giá dịch vụ (VNĐ) <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="number"
                                             name="price"

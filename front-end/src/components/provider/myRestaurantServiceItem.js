@@ -314,7 +314,7 @@ export default function MyRestaurantServiceItem(props) {
                                         }
                                     </Input>
 
-                                    <Label for="price"><b>Giá dịch vụ <span className="require-icon">*</span></b></Label>
+                                    <Label for="price"><b>Giá dịch vụ (VNĐ) <span className="require-icon">*</span></b></Label>
                                     <Input
                                         type="number"
                                         name="price"

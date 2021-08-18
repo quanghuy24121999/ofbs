@@ -302,7 +302,7 @@ export default function MyRestaurantMenuItem(props) {
                                         }
                                     </Input>
 
-                                    <Label for="price"><b>Giá món ăn <span className="require-icon">*</span></b></Label>
+                                    <Label for="price"><b>Giá món ăn (VNĐ) <span className="require-icon">*</span></b></Label>
                                     <Input
                                         type="number"
                                         name="price"

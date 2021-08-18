@@ -248,7 +248,7 @@ export default function MyRestaurantPromotionItem(props) {
                                     required="required"
                                 />
 
-                                <Label for="discount"><b>Phần trăm khuyến mãi <span className="require-icon">*</span></b></Label>
+                                <Label for="discount"><b>Phần trăm khuyến mãi (%) <span className="require-icon">*</span></b></Label>
                                 <Input
                                     type="number"
                                     name="discount"
