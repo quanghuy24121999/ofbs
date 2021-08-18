@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import Notification from '../../components/admin/Notification';
 
 export default function RestaurantImage(props) {
-    const { restaurantId } = props.location.state;
+    const { restaurantId, restaurantName } = props.location.state;
     const [toggled, setToggled] = useState(false);
     const handleToggleSidebar = (value) => {
         setToggled(value);
@@ -77,12 +77,14 @@ export default function RestaurantImage(props) {
                         <Link className="btn btn-primary" to='/login' onClick={Logout}>Đăng xuất</Link>
                     </div>
                 </div>
+                <div style={{ fontSize: '1.3rem', fontWeight: '500' }}>{restaurantName}</div>
                 <Nav pills className="restaurant-detail-nav admin-res-nav container">
                     <NavItem >
                         <Link to={{
                             pathname: `/admin/restaurant/detail`,
                             state: {
-                                restaurantId: restaurantId
+                                restaurantId: restaurantId,
+                                restaurantName: restaurantName
                             }
                         }}>
                             Thông tin
@@ -92,7 +94,8 @@ export default function RestaurantImage(props) {
                         <Link to={{
                             pathname: `/admin/restaurant/image`,
                             state: {
-                                restaurantId: restaurantId
+                                restaurantId: restaurantId,
+                                restaurantName: restaurantName
                             }
                         }}
                         >Ảnh
@@ -102,7 +105,8 @@ export default function RestaurantImage(props) {
                         <Link to={{
                             pathname: `/admin/restaurant/menu`,
                             state: {
-                                restaurantId: restaurantId
+                                restaurantId: restaurantId,
+                                restaurantName: restaurantName
                             }
                         }}
                         >
@@ -113,7 +117,8 @@ export default function RestaurantImage(props) {
                         <Link to={{
                             pathname: `/admin/restaurant/combo`,
                             state: {
-                                restaurantId: restaurantId
+                                restaurantId: restaurantId,
+                                restaurantName: restaurantName
                             }
                         }}
                         >
@@ -124,11 +129,24 @@ export default function RestaurantImage(props) {
                         <Link to={{
                             pathname: `/admin/restaurant/service`,
                             state: {
-                                restaurantId: restaurantId
+                                restaurantId: restaurantId,
+                                restaurantName: restaurantName
                             }
                         }}
                         >
                             Dịch vụ
+                        </Link>
+                    </NavItem>
+                    <NavItem>
+                        <Link to={{
+                            pathname: `/admin/restaurant/order`,
+                            state: {
+                                restaurantId: restaurantId,
+                                restaurantName: restaurantName
+                            }
+                        }}
+                        >
+                            Đơn hàng
                         </Link>
                     </NavItem>
                 </Nav>

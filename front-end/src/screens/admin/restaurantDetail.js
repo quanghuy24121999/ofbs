@@ -85,12 +85,14 @@ export default function RestaurantDetail(props) {
                         <Link className="btn btn-primary" to='/login' onClick={Logout}>Đăng xuất</Link>
                     </div>
                 </div>
+                <div style={{ fontSize: '1.3rem', fontWeight: '500' }}>{restaurant.restaurantName}</div>
                 <Nav pills className="restaurant-detail-nav admin-res-nav container">
                     <NavItem className="active">
                         <Link to={{
                             pathname: `/admin/restaurant/detail`,
                             state: {
-                                restaurantId: restaurantId
+                                restaurantId: restaurantId,
+                                restaurantName: restaurant.restaurantName
                             }
                         }}>
                             Thông tin
@@ -100,7 +102,8 @@ export default function RestaurantDetail(props) {
                         <Link to={{
                             pathname: `/admin/restaurant/image`,
                             state: {
-                                restaurantId: restaurantId
+                                restaurantId: restaurantId,
+                                restaurantName: restaurant.restaurantName
                             }
                         }}
                         >Ảnh
@@ -110,7 +113,8 @@ export default function RestaurantDetail(props) {
                         <Link to={{
                             pathname: `/admin/restaurant/menu`,
                             state: {
-                                restaurantId: restaurantId
+                                restaurantId: restaurantId,
+                                restaurantName: restaurant.restaurantName
                             }
                         }}
                         >
@@ -121,7 +125,8 @@ export default function RestaurantDetail(props) {
                         <Link to={{
                             pathname: `/admin/restaurant/combo`,
                             state: {
-                                restaurantId: restaurantId
+                                restaurantId: restaurantId,
+                                restaurantName: restaurant.restaurantName
                             }
                         }}
                         >
@@ -132,11 +137,24 @@ export default function RestaurantDetail(props) {
                         <Link to={{
                             pathname: `/admin/restaurant/service`,
                             state: {
-                                restaurantId: restaurantId
+                                restaurantId: restaurantId,
+                                restaurantName: restaurant.restaurantName
                             }
                         }}
                         >
                             Dịch vụ
+                        </Link>
+                    </NavItem>
+                    <NavItem>
+                        <Link to={{
+                            pathname: `/admin/restaurant/order`,
+                            state: {
+                                restaurantId: restaurantId,
+                                restaurantName: restaurant.restaurantName
+                            }
+                        }}
+                        >
+                            Đơn hàng
                         </Link>
                     </NavItem>
                 </Nav>

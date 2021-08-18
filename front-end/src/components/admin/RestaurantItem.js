@@ -180,118 +180,147 @@ export default function RestaurantItem(props) {
     }
 
     return (
-        <tr>
-            <td>
-                {
-                    (currentPage === 0 ? count : count + 10 * currentPage)
-                }
-            </td>
-            <td>{restaurant.restaurant_name}</td>
-            <td>{restaurant.restaurant_type}</td>
-            <td>{restaurant.province}</td>
-            <td>{'Khoảng: ' + restaurant.size + ' người'}</td>
+        <>
             {
-                !isPending && (
-                    <td>{restaurantStatus}</td>
+                props.myRes && props.myRes === true ? (
+                    <tr>
+                        <td>{restaurant.restaurant_name}</td>
+                        <td>{restaurant.province}</td>
+                        {
+                            !isPending && (
+                                <td>{restaurantStatus}</td>
+                            )
+                        }
+                        <td>
+                            <Link to={{
+                                pathname: `/admin/restaurant/detail`,
+                                state: {
+                                    restaurantId: restaurant.restaurant_id
+                                }
+                            }}
+                                className="btn btn-primary"
+                                style={{ backgroundColor: '#0d6efd' }}
+                            >
+                                Chi tiết
+                            </Link>
+                        </td>
+                    </tr>
+                ) : (
+                    <tr>
+                        <td>
+                            {
+                                (currentPage === 0 ? count : count + 10 * currentPage)
+                            }
+                        </td>
+                        <td>{restaurant.restaurant_name}</td>
+                        <td>{restaurant.restaurant_type}</td>
+                        <td>{restaurant.province}</td>
+                        <td>{'Khoảng: ' + restaurant.size + ' người'}</td>
+                        {
+                            !isPending && (
+                                <td>{restaurantStatus}</td>
+                            )
+                        }
+                        <td>
+                            <Link to={{
+                                pathname: `/admin/restaurant/detail`,
+                                state: {
+                                    restaurantId: restaurant.restaurant_id
+                                }
+                            }}
+                                className="btn btn-primary"
+                            >
+                                Chi tiết
+                            </Link>
+                        </td>
+                        {
+                            !isPending && status === 'active' && <td>
+                                <Button color="danger" style={{ height: '62px', width: '100%' }} onClick={toggle2}>
+                                    Chặn
+                                </Button>
+                                <Modal isOpen={modal2} toggle={toggle2} className={``}>
+                                    <ModalHeader toggle={toggle2}>Thông báo</ModalHeader>
+                                    <ModalBody>
+                                        Bạn có chắc chắn chặn nhà hàng này không ?
+                                    </ModalBody>
+                                    <ModalFooter>
+                                        <Button color="success" onClick={() => banRestaurant()}>
+                                            Đồng ý
+                                        </Button>
+                                        <Button color="secondary" onClick={toggle2}>Quay lại</Button>
+                                    </ModalFooter>
+                                </Modal>
+                            </td>
+                        }
+                        {
+                            !isPending && status === 'banned' && <td>
+                                <Button style={{ width: '100%' }} color="success" onClick={toggle3}>
+                                    Bỏ chặn
+                                </Button>
+                                <Modal isOpen={modal3} toggle={toggle3} className={``}>
+                                    <ModalHeader toggle={toggle3}>Thông báo</ModalHeader>
+                                    <ModalBody>
+                                        Bạn có chắc chắn bỏ chặn nhà hàng này không ?
+                                    </ModalBody>
+                                    <ModalFooter>
+                                        <Button color="success" onClick={() => unbanRestaurant()}>
+                                            Đồng ý
+                                        </Button>
+                                        <Button color="secondary" onClick={toggle3}>Quay lại</Button>
+                                    </ModalFooter>
+                                </Modal>
+                            </td>
+                        }
+                        {
+                            isPending && <td>
+                                <Button color="success" onClick={toggle}>
+                                    Duyệt
+                                </Button>
+                                <Modal isOpen={modal} toggle={toggle} className={``}>
+                                    <ModalHeader toggle={toggle}>Thông báo</ModalHeader>
+                                    <ModalBody>
+                                        <div style={{ color: 'blue' }}>
+                                            Để kiểm duyệt và đưa một nhà hàng vào hoạt động,
+                                            admin phải kiểm tra kĩ các thông tin của nhà hàng:
+                                            <ul>
+                                                <li>Ảnh đại diện của nhà hàng</li>
+                                                <li>Ảnh chi tiết của nhà hàng</li>
+                                                <li>Thực đơn món ăn, combo món ăn, dịch vụ của nhà hàng</li>
+                                            </ul>
+                                        </div>
+                                        Bạn có chắc chắn duyệt nhà hàng này không ?
+                                    </ModalBody>
+                                    <ModalFooter>
+                                        <Button color="success" onClick={() => acceptRestaurant()}>
+                                            Đồng ý
+                                        </Button>
+                                        <Button color="secondary" onClick={toggle}>Quay lại</Button>
+                                    </ModalFooter>
+                                </Modal>
+                            </td>
+                        }
+                        {
+                            isPending && <td>
+                                <Button color="danger" onClick={toggle1}>
+                                    Hủy
+                                </Button>
+                                <Modal isOpen={modal1} toggle={toggle1} className={``}>
+                                    <ModalHeader toggle={toggle1}>Thông báo</ModalHeader>
+                                    <ModalBody>
+                                        Bạn có chắc chắn hủy yêu cầu duyệt của nhà hàng này không ?
+                                    </ModalBody>
+                                    <ModalFooter>
+                                        <Button color="success" onClick={() => denyRestaurant()}>
+                                            Đồng ý
+                                        </Button>
+                                        <Button color="secondary" onClick={toggle1}>Quay lại</Button>
+                                    </ModalFooter>
+                                </Modal>
+                            </td>
+                        }
+                    </tr >
                 )
             }
-            <td>
-                <Link to={{
-                    pathname: `/admin/restaurant/detail`,
-                    state: {
-                        restaurantId: restaurant.restaurant_id
-                    }
-                }}
-                    className="btn btn-primary"
-                >
-                    Chi tiết
-                </Link>
-            </td>
-            {
-                !isPending && status === 'active' && <td>
-                    <Button color="danger" style={{ height: '62px', width: '100%' }} onClick={toggle2}>
-                        Chặn
-                    </Button>
-                    <Modal isOpen={modal2} toggle={toggle2} className={``}>
-                        <ModalHeader toggle={toggle2}>Thông báo</ModalHeader>
-                        <ModalBody>
-                        Bạn có chắc chắn chặn nhà hàng này không ?
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button color="success" onClick={() => banRestaurant()}>
-                                Đồng ý
-                            </Button>
-                            <Button color="secondary" onClick={toggle2}>Quay lại</Button>
-                        </ModalFooter>
-                    </Modal>
-                </td>
-            }
-            {
-                !isPending && status === 'banned' && <td>
-                    <Button style={{ width: '100%' }} color="success" onClick={toggle3}>
-                        Bỏ chặn
-                    </Button>
-                    <Modal isOpen={modal3} toggle={toggle3} className={``}>
-                        <ModalHeader toggle={toggle3}>Thông báo</ModalHeader>
-                        <ModalBody>
-                            Bạn có chắc chắn bỏ chặn nhà hàng này không ?
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button color="success" onClick={() => unbanRestaurant()}>
-                                Đồng ý
-                            </Button>
-                            <Button color="secondary" onClick={toggle3}>Quay lại</Button>
-                        </ModalFooter>
-                    </Modal>
-                </td>
-            }
-            {
-                isPending && <td>
-                    <Button color="success" onClick={toggle}>
-                        Duyệt
-                    </Button>
-                    <Modal isOpen={modal} toggle={toggle} className={``}>
-                        <ModalHeader toggle={toggle}>Thông báo</ModalHeader>
-                        <ModalBody>
-                            <div style={{ color: 'blue' }}>
-                                Để kiểm duyệt và đưa một nhà hàng vào hoạt động,
-                                admin phải kiểm tra kĩ các thông tin của nhà hàng:
-                                <ul>
-                                    <li>Ảnh đại diện của nhà hàng</li>
-                                    <li>Ảnh chi tiết của nhà hàng</li>
-                                    <li>Thực đơn món ăn, combo món ăn, dịch vụ của nhà hàng</li>
-                                </ul>
-                            </div>
-                            Bạn có chắc chắn duyệt nhà hàng này không ?
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button color="success" onClick={() => acceptRestaurant()}>
-                                Đồng ý
-                            </Button>
-                            <Button color="secondary" onClick={toggle}>Quay lại</Button>
-                        </ModalFooter>
-                    </Modal>
-                </td>
-            }
-            {
-                isPending && <td>
-                    <Button color="danger" onClick={toggle1}>
-                        Hủy
-                    </Button>
-                    <Modal isOpen={modal1} toggle={toggle1} className={``}>
-                        <ModalHeader toggle={toggle1}>Thông báo</ModalHeader>
-                        <ModalBody>
-                            Bạn có chắc chắn hủy yêu cầu duyệt của nhà hàng này không ?
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button color="success" onClick={() => denyRestaurant()}>
-                                Đồng ý
-                            </Button>
-                            <Button color="secondary" onClick={toggle1}>Quay lại</Button>
-                        </ModalFooter>
-                    </Modal>
-                </td>
-            }
-        </tr>
+        </>
     )
 }

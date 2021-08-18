@@ -326,7 +326,7 @@ export default function MyRestaurantComboItem(props) {
                                             }
                                         </Input>
 
-                                        <Label for="price"><b>Giá combo <span className="require-icon">*</span></b></Label>
+                                        <Label for="price"><b>Giá combo (VNĐ) <span className="require-icon">*</span></b></Label>
                                         <Input
                                             type="number"
                                             name="price"

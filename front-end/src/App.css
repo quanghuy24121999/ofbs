@@ -2670,6 +2670,10 @@ tr > td:nth-child(6) {
   max-width: 50%;
 }
 
+.admin-provider-modal {
+  max-width: 60%;
+}
+
 .admin-user-row {
   width: 100%;
   display: flex;

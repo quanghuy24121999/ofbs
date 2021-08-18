@@ -827,7 +827,12 @@ export default function Cart(props) {
                                         return <CartServiceItem key={index} service={item} />
                                     })}
                                     <hr></hr>
-                                    <div className="cart-total-price">Tổng tiền: {formatCurrency(cartTotal) + "  VNĐ"}</div>
+                                    <div className="cart-total-price">
+                                        Tổng tiền: {formatCurrency(cartTotal) + "  VNĐ "}
+                                        {
+                                            display === 2 && <i id="appendix">(Chưa bao gồm phí thuê địa điểm tổ chức)</i>
+                                        }
+                                    </div>
                                     <Input type="submit" value="Đặt hàng" className="btn btn-success btn-save" />
                                 </Col>
                             </Row>

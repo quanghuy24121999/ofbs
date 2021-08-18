@@ -47,6 +47,7 @@ import adminRestaurantImage from './screens/admin/restaurantImage';
 import adminRestaurantMenu from './screens/admin/restaurantDish';
 import adminRestaurantCombo from './screens/admin/restaurantCombo';
 import adminRestaurantService from './screens/admin/restaurantService';
+import adminRestaurantOrder from './screens/admin/restaurantOrder';
 import adminRestaurantReport from './screens/admin/report';
 import adminUser from './screens/admin/user';
 import adminWallet from './screens/admin/wallet';
@@ -107,6 +108,7 @@ class App extends Component {
               <ProtectedRouteAdmin exact path="/admin/restaurant/menu" component={adminRestaurantMenu} />
               <ProtectedRouteAdmin exact path="/admin/restaurant/combo" component={adminRestaurantCombo} />
               <ProtectedRouteAdmin exact path="/admin/restaurant/service" component={adminRestaurantService} />
+              <ProtectedRouteAdmin exact path="/admin/restaurant/order" component={adminRestaurantOrder} />
               <ProtectedRouteAdmin exact path="/admin/user" component={adminUser} />
               <ProtectedRouteAdmin exact path="/admin/report" component={adminRestaurantReport} />
               <ProtectedRouteAdmin exact path="/admin/wallet" component={adminWallet} />
