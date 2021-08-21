@@ -333,9 +333,9 @@ export default function MyRestaurantOrderItem(props) {
 
     const cancelOrder = () => {
         const check = checkCancelOrder(formatDateCheckRule(orderDetailInfo.organize_date), orderDetailInfo.order_status);
-        if (check === 0) {
+        if (check === 0 && orderDetailInfo.order_status === 'pending') {
             outOfDateOrder();
-        } else {
+        } else if (orderDetailInfo.order_status === 'preparing') {
             api.post('/users/login', {
                 phoneLogin: currentUser,
                 password: password

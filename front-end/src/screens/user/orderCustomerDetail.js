@@ -215,9 +215,9 @@ export default class orderCustomerDetail extends Component {
         const { orderDetailInfo, password, restaurantInfo } = this.state;
         const check = this.checkCancelOrder(formatDateCheckRule(orderDetailInfo.organize_date), orderDetailInfo.order_status);
 
-        if (check === 0) {
+        if (check === 0 && orderDetailInfo.order_status === 'pending') {
             this.cancelPendingOrder();
-        } else {
+        } else if (orderDetailInfo.order_status === 'preparing') {
             api.post('/users/login', {
                 phoneLogin: currentUser,
                 password: password
