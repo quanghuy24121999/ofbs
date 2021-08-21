@@ -313,7 +313,7 @@ export default class userProfile extends Component {
             }).then(res => {
                 window.location.reload();
             }).catch(err => {
-                Notify('Tải ảnh lên không thành công', 'error', 'top-right');
+                document.getElementById('error-form4').style.display = "block";
             })
         } else {
             api.post(url + `/images/update?imageId=${imageId}`,
@@ -321,7 +321,7 @@ export default class userProfile extends Component {
             }).then(res => {
                 window.location.reload();
             }).catch(err => {
-                Notify('Tải ảnh lên không thành công', 'error', 'top-right');
+                document.getElementById('error-form4').style.display = "block";
             })
         }
     }
@@ -418,7 +418,7 @@ export default class userProfile extends Component {
                                 >
                                     <option value={true}>Nam</option>
                                     <option value={false}>Nữ</option>
-                                    <option value="">Khác</option>
+                                    {/* <option value="">Khác</option> */}
                                 </Input>
 
                                 <Label for="dateOfBirth"><b>Ngày sinh </b></Label>
