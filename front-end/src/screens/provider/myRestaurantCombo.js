@@ -109,7 +109,7 @@ export default class myRestaurantCombo extends Component {
         }).then(res => {
             this.receivedData();
         }).catch(err => {
-            document.getElementById('error-form4').style.display = "block";
+            Notify('Tải ảnh lên không thành công', 'error', 'top-right');
         })
     }
 

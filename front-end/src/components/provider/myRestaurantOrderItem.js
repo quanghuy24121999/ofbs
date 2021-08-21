@@ -111,7 +111,7 @@ export default function MyRestaurantOrderItem(props) {
                                             "fromToUser": user,
                                             "balanceChange": parseFloat(-(orderDetailInfo.total_amount * 0.1)),
                                             "currentBalance": parseFloat(admin.balance) - (parseFloat(orderDetailInfo.total_amount * 0.1)),
-                                            "description": "Hoàn tiền đơn hàng " + orderDetailInfo.order_code + " cho nhà hàng",
+                                            "description": "Hoàn tiền đơn hàng " + orderDetailInfo.order_code + " cho khách hàng",
                                             "paymentType": {
                                                 "name": "refund"
                                             }
@@ -333,9 +333,9 @@ export default function MyRestaurantOrderItem(props) {
 
     const cancelOrder = () => {
         const check = checkCancelOrder(formatDateCheckRule(orderDetailInfo.organize_date), orderDetailInfo.order_status);
-        if (check === 0) {
+        if (check === 0 && orderDetailInfo.order_status === 'pending') {
             outOfDateOrder();
-        } else {
+        } else if (orderDetailInfo.order_status === 'preparing') {
             api.post('/users/login', {
                 phoneLogin: currentUser,
                 password: password

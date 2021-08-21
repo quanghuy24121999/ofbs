@@ -330,7 +330,7 @@ export default class registerPromotion extends Component {
                     // window.location.reload();
                 }).catch(err => {
                     Notify('Không thể tải ảnh lên, vui lòng chọn một ảnh khác', 'error', 'top-right');
-                    // document.getElementById('error-form4').style.display = "block";
+                    // Notify('Tải ảnh lên không thành công', 'error', 'top-right');
                 })
             })
     }
