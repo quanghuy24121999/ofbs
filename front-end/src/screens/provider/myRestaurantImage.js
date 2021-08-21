@@ -13,6 +13,7 @@ import { FaTrashAlt, FaRegPlusSquare } from 'react-icons/fa';
 import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
 import Messenger from '../../components/common/messenger';
+import { Notify } from '../../common/notify';
 
 let restaurantId = '';
 export default class myRestaurantImage extends Component {
@@ -69,7 +70,7 @@ export default class myRestaurantImage extends Component {
             this.toggle1();
             this.setState({ imageUploads: [] })
         }).catch(err => {
-            document.getElementById('error-form4').style.display = "block";
+            Notify('Tải ảnh lên không thành công', 'error', 'top-right');
         })
     }
 

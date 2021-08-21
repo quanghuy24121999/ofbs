@@ -852,10 +852,6 @@ label {
 
 /*================================================ CART ================================================*/
 
-.cart-modal {
-  max-width: 75%;
-}
-
 .cart-option {
   display: flex;
   flex-direction: column;
@@ -3369,6 +3365,10 @@ a {
     display: flex;
     justify-content: center;
   }
+
+  .cart-modal {
+    max-width: 80%;
+  }
 }
 
 @media only screen and (min-width: 1200px) {
@@ -3399,6 +3399,10 @@ a {
   #admin-user-content,
   #admin-wallet-content {
     margin-top: 20px !important;
+  }
+
+  .cart-modal {
+    max-width: 75%;
   }
 }
 

@@ -81,7 +81,7 @@ export default function MyRestaurantServiceItem(props) {
                 }).then(res => {
                     // window.location.reload();
                 }).catch(err => {
-                    document.getElementById('error-form4').style.display = "block";
+                    Notify('Tải ảnh lên không thành công', 'error', 'top-right');
                 })
             } else {
                 api.post(url + `/images/update?imageId=${imageId}`,
@@ -89,7 +89,7 @@ export default function MyRestaurantServiceItem(props) {
                 }).then(res => {
                     // window.location.reload();
                 }).catch(err => {
-                    document.getElementById('error-form4').style.display = "block";
+                    Notify('Tải ảnh lên không thành công', 'error', 'top-right');
                 })
             }
         }

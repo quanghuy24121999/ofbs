@@ -111,7 +111,7 @@ export default function MyRestaurantOrderItem(props) {
                                             "fromToUser": user,
                                             "balanceChange": parseFloat(-(orderDetailInfo.total_amount * 0.1)),
                                             "currentBalance": parseFloat(admin.balance) - (parseFloat(orderDetailInfo.total_amount * 0.1)),
-                                            "description": "Hoàn tiền đơn hàng " + orderDetailInfo.order_code + " cho nhà hàng",
+                                            "description": "Hoàn tiền đơn hàng " + orderDetailInfo.order_code + " cho khách hàng",
                                             "paymentType": {
                                                 "name": "refund"
                                             }

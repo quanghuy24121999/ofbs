@@ -13,7 +13,7 @@ import TopMenu from '../../components/common/topMenu';
 import Footer from '../../components/common/footer';
 
 import imageUser from '../../images/default-avatar-user.png';
-import { formatDate, formatDateCheckRule, formatDateForInput } from '../../common/formatDate';
+import { formatDate, formatDateCheckRule } from '../../common/formatDate';
 import { Notify } from '../../common/notify';
 import { validateEmail, validateEmpty, validatePassword, validatePhoneNumber, validateUsername } from '../../common/validate';
 import Messenger from '../../components/common/messenger';
@@ -313,7 +313,7 @@ export default class userProfile extends Component {
             }).then(res => {
                 window.location.reload();
             }).catch(err => {
-                document.getElementById('error-form4').style.display = "block";
+                Notify('Tải ảnh lên không thành công', 'error', 'top-right');
             })
         } else {
             api.post(url + `/images/update?imageId=${imageId}`,
@@ -321,7 +321,7 @@ export default class userProfile extends Component {
             }).then(res => {
                 window.location.reload();
             }).catch(err => {
-                document.getElementById('error-form4').style.display = "block";
+                Notify('Tải ảnh lên không thành công', 'error', 'top-right');
             })
         }
     }
