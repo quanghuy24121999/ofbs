@@ -51,7 +51,7 @@ export default function OrderItem(props) {
                     setRestaurantInfo(res.data[0]);
                     setOrderDetailInfo(res.data[0]);
                     setListOrderDetails(res.data);
-                    api.get(`/users/findByPhoneNumber/${res.data[0].phone_number}`)
+                    api.get(`/users/findByPhoneNumber/${res.data[0].customer_phone_number}`)
                         .then(res => {
                             setCustomerName(res.data.name);
                         })
@@ -94,7 +94,6 @@ export default function OrderItem(props) {
                                         <hr />
                                         <div className="od-info-code"><b>Mã số đơn hàng: </b>{orderDetailInfo.order_code}</div>
                                         <div className="od-info-name"><b>Tên khách hàng: </b>{customerName}</div>
-                                        <div className="od-info-phone"><b>Số điện thoại: </b>{orderDetailInfo.phone_number}</div>
                                         <div className="od-info-type"><b>Loại bàn: </b>{orderDetailInfo.table_type}</div>
                                         <div className="od-info-guest-number"><b>Số lượng khách: </b>{orderDetailInfo.number_of_guests}</div>
                                         <div className="od-info-order-date"><b>Thời gian đặt: </b>{formatDate(orderDetailInfo.order_date)}</div>
@@ -114,7 +113,9 @@ export default function OrderItem(props) {
                                             <b>Số điện thoại nhà hàng: </b>{orderDetailInfo.restaurant_phone_number}
                                         </div>
                                         <div>
-                                            <b>Số điện thoại khách hàng: </b>{orderDetailInfo.customer_phone_number}
+                                            <b>Số điện thoại khách hàng: </b>{
+                                                "0" + orderDetailInfo.customer_phone_number.substr(3, orderDetailInfo.customer_phone_number.length)
+                                            }
                                         </div>
                                         <div className="od-info-note"><b>Ghi chú: </b>{orderDetailInfo.note}</div>
                                         <div className="od-info-status"><b>Trạng thái: </b>{orderStatus}</div>
