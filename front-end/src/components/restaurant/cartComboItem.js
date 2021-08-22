@@ -32,7 +32,7 @@ export default function CartComboItem(props) {
 
     useEffect(() => {
         if (quantity === 0) {
-            setQuantity(quantity + 1);
+            setQuantity(item.quantity);
         }
     }, [quantity]);
 
@@ -96,7 +96,10 @@ export default function CartComboItem(props) {
                         <Button className="btn-add" onClick={() => { increse() }} color="success">
                             +
                         </Button>
-                        <Button onClick={() => removeItem(item.id)} color="danger">Xoá</Button>
+                        <Button onClick={() => {
+                            removeItem(item.id);
+                            setQuantity(0);
+                        }} color="danger">Xoá</Button>
                     </div>
                 </div>)
             }
