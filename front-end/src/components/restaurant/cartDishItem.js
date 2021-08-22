@@ -29,9 +29,11 @@ export default function CartDishItem(props) {
         setQuantity(parseInt(customerQuantity));
     }, [customerQuantity]);
 
-    // useEffect(() => {
-    //     setQuantity(quantity);
-    // }, [quantity]);
+    useEffect(() => {
+        if (quantity === 0) {
+            setQuantity(quantity + 1);
+        }
+    }, [quantity]);
 
     const onChangeQuantity = () => {
         const e = document.getElementById('input-quantity-' + item.image_dish_id);
