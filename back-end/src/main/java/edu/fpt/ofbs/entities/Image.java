@@ -20,7 +20,6 @@ import lombok.Setter;
 
 @Data
 @NoArgsConstructor
-//@AllArgsConstructor
 @Getter
 @Setter
 @Entity(name = "image")
@@ -36,34 +35,6 @@ public class Image {
 
 	@Lob
 	private byte[] value;
-
-//	@OneToOne
-//	@JoinColumn(name = "user_id", referencedColumnName = "id")
-//	private User user;
-//
-//	@OneToOne
-//	@JoinColumn(name = "dish_id", referencedColumnName = "id")
-//	private Dish dish;
-//
-//	@OneToOne
-//	@JoinColumn(name = "service_id", referencedColumnName = "id")
-//	private Service service;
-//
-//	@OneToOne
-//	@JoinColumn(name = "combo_id", referencedColumnName = "id")
-//	private Combo combo;
-//
-//	@ManyToOne
-//	@JoinColumn(name = "restaurant_id", referencedColumnName = "id")
-//	private Restaurant restaurant;
-//
-//	@OneToOne
-//	@JoinColumn(name = "promotion_id", referencedColumnName = "id")
-//	private Promotion promotion;
-//
-//	@OneToOne
-//	@JoinColumn(name = "type_id", referencedColumnName = "id")
-//	private ImageType imageType;
 	
 	@Column(name = "user_id")
 	private String userId;

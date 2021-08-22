@@ -46,13 +46,6 @@ public class DishController {
 		return ResponseEntity.status(HttpStatus.OK).body(dishes);
 	}
 
-//	@GetMapping("/searchDishes")
-//	public ResponseEntity<?> searchDishesByName(@PathParam("restaurantId") long restaurantId,
-//			@PathParam("name") String name) {
-//		List<IDishDTO> dishes = dishService.searchDishesByName(restaurantId, name);
-//		return ResponseEntity.status(HttpStatus.OK).body(dishes);
-//	}
-
 	@GetMapping("/getDishesById")
 	public ResponseEntity<?> getDishById(@PathParam("dishId") long dishId) {
 		Dish dish = dishService.getDishById(dishId);

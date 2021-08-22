@@ -41,10 +41,6 @@ public class DishServiceImpl implements DishService{
 		return dishRepository.getDishesByRestaurantId(restaurantId, categoryId, dishName, statusId);
 	}
 	
-//	public List<IDishDTO> searchDishesByName(long restaurantId, String dishName){
-//		return dishRepository.searchDishesByName(restaurantId, dishName);
-//	}
-	
 	@Override
 	public Dish getDishById(long id) {
 		return dishRepository.findById(id).get();
