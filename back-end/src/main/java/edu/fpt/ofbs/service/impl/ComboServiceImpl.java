@@ -42,4 +42,9 @@ public class ComboServiceImpl implements ComboService{
 		long statusId = statusService.findStatusByName("banned").getId();
 		comboRepository.updateStatus(statusId, comboId);
 	}
+
+	@Override
+	public int checkCombo(long comboId) {
+		return comboRepository.checkCombo(comboId);
+	}
 }
