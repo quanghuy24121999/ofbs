@@ -61,4 +61,10 @@ public class ComboController {
 					.body(new ResponseMessage("Update status fail !"));
 		}
 	}
+	
+	@GetMapping("/checkCombo")
+	public ResponseEntity<?> checkCombo(@PathParam("comboId") long comboId) {
+		int checkCombo = comboService.checkCombo(comboId);
+		return ResponseEntity.status(HttpStatus.OK).body(checkCombo);
+	}
 }

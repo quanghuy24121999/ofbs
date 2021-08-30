@@ -13,4 +13,6 @@ public interface ComboService {
 	void saveCombo(Combo combo);
 	
 	void updateStatus(long comboId);
+	
+	int checkCombo(long comboId);
 }

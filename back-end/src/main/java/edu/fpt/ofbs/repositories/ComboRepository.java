@@ -18,4 +18,7 @@ public interface ComboRepository extends JpaRepository<Combo, Long>{
 	@Modifying
 	@Query(value = "UPDATE combos SET status_id = ?1 WHERE id = ?2", nativeQuery = true)
 	void updateStatus(long statusId, long comboId);
+	
+	@Query(value = "exec sp_checkCombo ?1", nativeQuery = true)
+	int checkCombo(long comboId);
 }
