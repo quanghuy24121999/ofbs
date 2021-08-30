@@ -810,6 +810,7 @@ export default function Cart(props) {
                                 </Col>
                                 {/* <hr></hr> */}
                                 <Col lg="6" md="12" sm="12">
+                                    <h5>Số lượng bàn: {calNumTable(customerQuantity, typeTable)}</h5>
                                     <h4>Món ăn</h4>
                                     {
                                         items.map((item, index) => {
