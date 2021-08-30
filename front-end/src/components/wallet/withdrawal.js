@@ -34,74 +34,111 @@ export default function Withdrawal() {
         }
     }
 
+    const checkWithdrawalPending = () => {
+        let currentUser = localStorage.getItem("currentUser");
+        api.get(`/users/findByPhoneNumber/${currentUser}`)
+            .then(res => {
+                const currentUser = res.data;
+                api.get(`/payment/history?userId=${currentUser.id}&paymentCode=&status=pending&fromDate=&toDate=&paymentType=withdrawal`, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                })
+                    .then(res => {
+                        if (res.data.length === 0) {
+
+                        }
+                    })
+            });
+    }
+
     const withdrawal = () => {
         let description = '';
-        if (active === 0) {
-            description = 'Rút tiền ví FBS - Tiền mặt';
-            api.get(`/users/findByPhoneNumber/${localStorage.getItem("currentUser")}`)
-                .then(res => {
-                    const currentUser = res.data;
-                    if (parseFloat(currentUser.balance) >= money) {
-                        api.post(`/payment/save`,
-                            {
-                                "user": currentUser,
-                                "fromToUser": currentUser,
-                                "balanceChange": parseFloat(money * -1),
-                                "currentBalance": parseFloat(currentUser.balance) - parseFloat(money),
-                                "description": description,
-                                "paymentType": {
-                                    "name": "withdrawal"
-                                }
-                            },
-                            {
-                                headers: {
-                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
-                                }
+
+        let currentUser = localStorage.getItem("currentUser");
+        api.get(`/users/findByPhoneNumber/${currentUser}`)
+            .then(res => {
+                const currentUser = res.data;
+                api.get(`/payment/history?userId=${currentUser.id}&paymentCode=&status=pending&fromDate=&toDate=&paymentType=withdrawal`, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                })
+                    .then(res => {
+                        if (res.data.length === 0) {
+                            if (active === 0) {
+                                description = 'Rút tiền ví FBS - Tiền mặt';
+                                api.get(`/users/findByPhoneNumber/${localStorage.getItem("currentUser")}`)
+                                    .then(res => {
+                                        const currentUser = res.data;
+                                        if (parseFloat(currentUser.balance) >= money) {
+                                            api.post(`/payment/save`,
+                                                {
+                                                    "user": currentUser,
+                                                    "fromToUser": currentUser,
+                                                    "balanceChange": parseFloat(money * -1),
+                                                    "currentBalance": parseFloat(currentUser.balance) - parseFloat(money),
+                                                    "description": description,
+                                                    "paymentType": {
+                                                        "name": "withdrawal"
+                                                    }
+                                                },
+                                                {
+                                                    headers: {
+                                                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                    }
+                                                }
+                                            ).then(res => {
+                                                Notify('Yêu cầu rút tiền của bạn đã được gửi lên hệ thống, chúng tôi sẽ xem xét và xử lý sớm nhất',
+                                                    'success', 'top-right'
+                                                );
+                                                setMoney('');
+                                                toggle();
+                                            })
+                                        } else {
+                                            Notify('Số dư trong ví của bạn không đủ', 'error', 'top-right');
+                                        }
+                                    })
+                            } else if (active === 1) {
+                                description = 'Rút tiền ví FBS - Chuyển khoản ngân hàng. Thông tin tài khoản: ' + content;
+                                api.get(`/users/findByPhoneNumber/${localStorage.getItem("currentUser")}`)
+                                    .then(res => {
+                                        const currentUser = res.data;
+                                        if (parseFloat(currentUser.balance) >= money) {
+                                            api.post(`/payment/save`,
+                                                {
+                                                    "user": currentUser,
+                                                    "fromToUser": currentUser,
+                                                    "balanceChange": parseFloat(money * -1),
+                                                    "currentBalance": parseFloat(currentUser.balance) - parseFloat(money),
+                                                    "description": description,
+                                                    "paymentType": {
+                                                        "name": "withdrawal"
+                                                    }
+                                                },
+                                                {
+                                                    headers: {
+                                                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                    }
+                                                }
+                                            ).then(res => {
+                                                Notify('Yêu cầu rút tiền của bạn đã được gửi lên hệ thống, chúng tôi sẽ xem xét và xử lý sớm nhất',
+                                                    'success', 'top-right'
+                                                );
+                                                toggle();
+                                            })
+                                        } else {
+                                            Notify('Số dư trong ví của bạn không đủ', 'error', 'top-right');
+                                        }
+                                    })
                             }
-                        ).then(res => {
-                            Notify('Yêu cầu rút tiền của bạn đã được gửi lên hệ thống, chúng tôi sẽ xem xét và xử lý sớm nhất',
-                                'success', 'top-right'
-                            );
+                        } else {
+                            toggle();
                             setMoney('');
-                            toggle();
-                        })
-                    } else {
-                        Notify('Số dư trong ví của bạn không đủ', 'error', 'top-right');
-                    }
-                })
-        } else if (active === 1) {
-            description = 'Rút tiền ví FBS - Chuyển khoản ngân hàng. Thông tin tài khoản: ' + content;
-            api.get(`/users/findByPhoneNumber/${localStorage.getItem("currentUser")}`)
-                .then(res => {
-                    const currentUser = res.data;
-                    if (parseFloat(currentUser.balance) >= money) {
-                        api.post(`/payment/save`,
-                            {
-                                "user": currentUser,
-                                "fromToUser": currentUser,
-                                "balanceChange": parseFloat(money * -1),
-                                "currentBalance": parseFloat(currentUser.balance) - parseFloat(money),
-                                "description": description,
-                                "paymentType": {
-                                    "name": "withdrawal"
-                                }
-                            },
-                            {
-                                headers: {
-                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
-                                }
-                            }
-                        ).then(res => {
-                            Notify('Yêu cầu rút tiền của bạn đã được gửi lên hệ thống, chúng tôi sẽ xem xét và xử lý sớm nhất',
-                                'success', 'top-right'
-                            );
-                            toggle();
-                        })
-                    } else {
-                        Notify('Số dư trong ví của bạn không đủ', 'error', 'top-right');
-                    }
-                })
-        }
+                            Notify('Yêu cầu rút tiền trước đó của bạn chưa được xử lý', 'error', 'top-right');
+                        }
+                    })
+            });
     }
 
     return (
