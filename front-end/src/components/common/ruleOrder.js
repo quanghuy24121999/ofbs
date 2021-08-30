@@ -13,10 +13,10 @@ export default function RuleOrder() {
             </div>
             <div>
                 <ul>
-                    <li>Khi hủy <span className="rule-des"> trước  7 ngày </span>, hoàn <span className="rule-des"> 100% </span>tiền cọc</li>
-                    <li>Khi hủy <span className="rule-des"> trước  5 ngày </span>, hoàn <span className="rule-des"> 70% </span>tiền cọc</li>
-                    <li>Khi hủy <span className="rule-des"> trước  3 ngày </span>, hoàn <span className="rule-des"> 50% </span>tiền cọc</li>
-                    <li>Khi hủy <span className="rule-des"> sau  3 ngày </span>, hoàn <span className="rule-des"> 0% </span>tiền cọc</li>
+                    <li>Khi hủy <span className="rule-des"> trước 7 ngày </span>, hoàn <span className="rule-des"> 100% </span>tiền cọc</li>
+                    <li>Khi hủy <span className="rule-des"> trước 5 ngày </span>, hoàn <span className="rule-des"> 70% </span>tiền cọc</li>
+                    <li>Khi hủy <span className="rule-des"> trước 3 ngày </span>, hoàn <span className="rule-des"> 50% </span>tiền cọc</li>
+                    <li>Khi hủy <span className="rule-des"> sau 3 ngày </span>, hoàn <span className="rule-des"> 0% </span>tiền cọc</li>
                 </ul>
             </div>
         </div>
