@@ -47,6 +47,7 @@ export default function MyRestaurantComboItem(props) {
     const [images, setImages] = useState([]);
     const [categories, setCategories] = useState([]);
     const [dishesPaging, setDishesPaging] = useState([]);
+    const [checkCombo, setCheckCombo] = useState(0);
 
     const [offset, setOffset] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
@@ -71,7 +72,6 @@ export default function MyRestaurantComboItem(props) {
             api.get(`/combos/getComboById?comboId=${combo.combo_id}`)
                 .then(res => {
                     let combo = res.data;
-
                     setComboModal(res.data);
                     setName(combo.name);
                     setPrice(combo.price);
@@ -81,6 +81,10 @@ export default function MyRestaurantComboItem(props) {
             api.get(`/dishes/getDishesByComboId?comboId=${combo.combo_id}`)
                 .then(res => {
                     setDishModal(res.data);
+                })
+            api.get(`/combos/checkCombo?comboId=${combo.combo_id}`)
+                .then(res => {
+                    setCheckCombo(res.data);
                 })
         }
     }
@@ -145,7 +149,7 @@ export default function MyRestaurantComboItem(props) {
                     formData, {
                 }).then(res => {
                     // window.location.reload();
-                }).catch(err => {                                   
+                }).catch(err => {
                     Notify('Tải ảnh lên không thành công', 'error', 'top-right');
                 })
             } else {
@@ -350,7 +354,10 @@ export default function MyRestaurantComboItem(props) {
                                         />
                                     </div>
                                 }
-                                <Input type="submit" value="Lưu" className="btn btn-success btn-save" />
+                                {
+                                    checkCombo === 0 &&
+                                    <Input type="submit" value="Lưu" className="btn btn-success btn-save" />
+                                }
                             </Form>
                         </Col>
                         <Col lg="6" md="6" sm="12">
@@ -368,14 +375,16 @@ export default function MyRestaurantComboItem(props) {
                                         dishesModal && (
                                             dishesModal.map((dish, index) => {
                                                 priceDish = priceDish + parseFloat(dish.price);
-                                                return <DishComboItem key={index} dish={dish} combo={combo} count={index + 1} dishModal={dishesModal} getDishByCombo={getDishByCombo} />
+                                                return <DishComboItem key={index} dish={dish} combo={combo} count={index + 1} dishModal={dishesModal} getDishByCombo={getDishByCombo} checkCombo={checkCombo} />
                                             })
-                                        )                                        
+                                        )
                                     }
                                 </tbody>
                             </Table>
 
-                            <Button color="primary" onClick={toggle1}>Thêm món ăn vào combo</Button>
+                            {
+                                checkCombo === 0 && <Button color="primary" onClick={toggle1}>Thêm món ăn vào combo</Button>
+                            }
                             <h5 className="price-tempt">{'Giá combo tạm tính: ' + formatCurrency(priceDish) + ' VNĐ'}</h5>
                             <Modal isOpen={modal1} toggle={toggle1} className="modal-add-dish-to-combo">
                                 <ModalHeader toggle={toggle1}>Thêm món ăn vào combo</ModalHeader>

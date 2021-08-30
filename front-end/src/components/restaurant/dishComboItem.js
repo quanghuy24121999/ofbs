@@ -6,6 +6,7 @@ import { api } from '../../config/axios';
 export default function DishComboItem(props) {
     const dish = props.dish;
     const combo = props.combo;
+    const checkCombo = props.checkCombo;
     let count = props.count;
 
     const deleteDish = () => {
@@ -26,7 +27,7 @@ export default function DishComboItem(props) {
             <td>{dish.dish_name}</td>
             <td>{dish.category_name}</td>
             {
-                !props.isAdmin && <td>
+                !props.isAdmin && checkCombo === 0 && <td>
                     <Button color="danger" onClick={deleteDish}><FaTrashAlt className="icon-delete" />Xóa</Button>
                 </td>
             }
